@@ -1,7 +1,7 @@
 #include "testApp.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){	
+void testApp::setup(){
 	ofBackground(225, 225, 225);
 	ofSetCircleResolution(80);
     ofSetOrientation(OF_ORIENTATION_90_RIGHT);
