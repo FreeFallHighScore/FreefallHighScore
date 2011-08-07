@@ -85,7 +85,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize playerLayer;
 @synthesize ignoreButton;
 @synthesize submitButton;
-
+@synthesize dropscoreLabelTop;
+@synthesize dropscoreLabelBottom;
+@synthesize dropscoreLabelTime;
 
 - (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 {
@@ -115,9 +117,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [cameraToggleButton release];
     [recordButton release];
     [stillButton release];	
-//	[focusModeLabel release];
+
 	[ignoreButton release];
 	[submitButton release];
+    [dropscoreLabelTop release];
+    [dropscoreLabelBottom release];
+    [dropscoreLabelTime release];
     
     [super dealloc];
 }
@@ -163,29 +168,21 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			
             [self updateButtonStates];
             
-			/*
-            // Create the focus mode UI overlay
-			UILabel *newFocusModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, viewLayer.bounds.size.width - 20, 20)];
-			[newFocusModeLabel setBackgroundColor:[UIColor clearColor]];
-			[newFocusModeLabel setTextColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.50]];
-			AVCaptureFocusMode initialFocusMode = [[[captureManager videoInput] device] focusMode];
-			[newFocusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:initialFocusMode]]];
-			[view addSubview:newFocusModeLabel];
-			[self addObserver:self forKeyPath:@"captureManager.videoInput.device.focusMode" options:NSKeyValueObservingOptionNew context:AVCamFocusModeObserverContext];
-			[self setFocusModeLabel:newFocusModeLabel];
-            [newFocusModeLabel release];
-            */
             
             CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
                                          bounds.origin.y + bounds.size.height/2.0);
             
 
+            fontcolor = [[UIColor colorWithRed:255/255.0 green:220/255.0 blue:20/255.0 alpha:0.70] retain];
             
+            //RECORD BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            recordButton.frame = CGRectMake(0, middle.y-90, bounds.size.width, 100.0);
             recordButton.adjustsImageWhenHighlighted = NO;
-            recordButton.frame = CGRectMake(middle.x-75, middle.y-100, 100.0, 57.0);
-            [recordButton setTitle:@"RECORD" forState:(UIControlStateNormal)];
-            recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            [recordButton setTitle:@"REC.O.RD" forState:(UIControlStateNormal)];
+            recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
+            recordButton.titleLabel.textColor = fontcolor;
+            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
             
             [recordButton addTarget:self
                              action:@selector(manualRecord:) 
@@ -193,11 +190,14 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             [self.view addSubview:recordButton];			
  
+            //SUBMIT BUTTON
             self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            submitButton.frame = CGRectMake(0, middle.y-250, bounds.size.width, 140.0);
             submitButton.adjustsImageWhenHighlighted = NO;
-            submitButton.frame = CGRectMake(middle.x-75, middle.y, 100.0, 57.0);
             [submitButton setTitle:@"SUBMIT" forState:(UIControlStateNormal)];
-            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:50];
+            submitButton.titleLabel.textColor = fontcolor;
+            submitButton.titleLabel.textAlignment = UITextAlignmentCenter;
             
             [submitButton addTarget:self
                              action:@selector(submitLastVideo:) 
@@ -205,21 +205,52 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             [self.view addSubview:submitButton];			
             
+            //DROP AGAIN BUTTON
             self.ignoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
             ignoreButton.adjustsImageWhenHighlighted = NO;
-            ignoreButton.frame = CGRectMake(middle.x-75, middle.y+100, 150.0, 57.0);
-            [ignoreButton setTitle:@"DROP AGAIN" forState:(UIControlStateNormal)];
-            ignoreButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
-            
+            ignoreButton.frame = CGRectMake(0, middle.y+100, bounds.size.width, 140.0);
+            [ignoreButton setTitle:@"DROP..A.GAIN" forState:(UIControlStateNormal)];
+            ignoreButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:40];
+            ignoreButton.titleLabel.textColor = fontcolor;
+            ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
+
             [ignoreButton addTarget:self
                              action:@selector(ignoreLastVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
-            
+
             [self.view addSubview:ignoreButton];
+
+
+			//YOUR SCORE LABEL            
+            dropscoreLabelTop = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-140, bounds.size.width, 140.0)];
+            dropscoreLabelTop.text = @"YOUR.SCORE:";
+            dropscoreLabelTop.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            dropscoreLabelTop.backgroundColor = [UIColor clearColor];
+            dropscoreLabelTop.textColor = fontcolor;
+            dropscoreLabelTop.textAlignment = UITextAlignmentCenter;
+
+            [self.view addSubview:dropscoreLabelTop];
+
+            dropscoreLabelTime = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-100, bounds.size.width, 140.0)];
+            dropscoreLabelTime.text = @"2.06s";
+            dropscoreLabelTime.font = [UIFont fontWithName:@"G.B.BOOT" size:75];
+            dropscoreLabelTime.backgroundColor = [UIColor clearColor];
+            dropscoreLabelTime.textColor = fontcolor;
+            dropscoreLabelTime
+            .textAlignment = UITextAlignmentCenter;
+
+            [self.view addSubview:dropscoreLabelTime];
+
+            
 
             self.ignoreButton.hidden = YES;
             self.submitButton.hidden = YES;
 
+            self.dropscoreLabelTop.hidden = YES;
+            self.dropscoreLabelBottom.hidden = YES;
+            self.dropscoreLabelTime.hidden = YES;
+
+            
             // Add a single tap gesture to focus on the point tapped, then lock focus
 			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
 			[singleTap setDelegate:self];
@@ -242,7 +273,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
     freefalling = NO;
     didFall = NO;
-    lowestMagnitude = 1000000;
     longestTimeInFreefall = 0;
     
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
@@ -275,9 +305,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         });
         
         self.recordButton.hidden = NO;
+		self.recordButton.titleLabel.textColor = fontcolor;
+        
         self.submitButton.hidden = YES;
         self.ignoreButton.hidden = YES;
+        self.dropscoreLabelTop.hidden = YES;
+        self.dropscoreLabelBottom.hidden = YES;
+        self.dropscoreLabelTime.hidden = YES;
         
+        longestTimeInFreefall = 0;
         didFall = NO;   
     }
     
@@ -371,7 +407,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
     self.submitButton.hidden = NO;
+    self.submitButton.titleLabel.textColor = fontcolor;
     self.ignoreButton.hidden = NO;
+    self.ignoreButton.titleLabel.textColor = fontcolor;
+    
+    self.dropscoreLabelTop.hidden = NO;
+    self.dropscoreLabelBottom.hidden = NO;
+    self.dropscoreLabelTime.hidden = NO;
+
+    self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
 
 }
 

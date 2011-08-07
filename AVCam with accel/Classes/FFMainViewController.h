@@ -65,7 +65,10 @@
     UIButton* ignoreButton;
     UIButton* submitButton;
     UIButton* recordButton;
-
+    UILabel* dropscoreLabelTop;
+    UILabel* dropscoreLabelBottom;
+    UILabel* dropscoreLabelTime;
+    UIColor* fontcolor;
 }
 
 //camera related stuff
@@ -77,6 +80,10 @@
 @property (nonatomic,retain) UIButton *ignoreButton;
 @property (nonatomic,retain) UIButton *submitButton;
 @property (nonatomic,retain) UIButton *recordButton;
+
+@property (nonatomic,retain) UILabel* dropscoreLabelTop;
+@property (nonatomic,retain) UILabel* dropscoreLabelBottom;
+@property (nonatomic,retain) UILabel* dropscoreLabelTime;
 
 
 //accel related stuff
