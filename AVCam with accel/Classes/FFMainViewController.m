@@ -74,7 +74,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize cameraToggleButton;
 @synthesize recordButton;
 @synthesize stillButton;
-@synthesize focusModeLabel;
+//@synthesize focusModeLabel;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
@@ -84,6 +84,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize  lowestMagnitude;
 @synthesize player;
 @synthesize playerLayer;
+@synthesize doneButton;
 
 - (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 {
@@ -113,8 +114,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [cameraToggleButton release];
     [recordButton release];
     [stillButton release];	
-	[focusModeLabel release];
-	
+//	[focusModeLabel release];
+	[doneButton release];
+    
     [super dealloc];
 }
 
@@ -158,7 +160,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			});
 			
             [self updateButtonStates];
-			
+            
+			/*
             // Create the focus mode UI overlay
 			UILabel *newFocusModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, viewLayer.bounds.size.width - 20, 20)];
 			[newFocusModeLabel setBackgroundColor:[UIColor clearColor]];
@@ -169,6 +172,23 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			[self addObserver:self forKeyPath:@"captureManager.videoInput.device.focusMode" options:NSKeyValueObservingOptionNew context:AVCamFocusModeObserverContext];
 			[self setFocusModeLabel:newFocusModeLabel];
             [newFocusModeLabel release];
+            */
+            
+            CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
+                                         bounds.origin.y + bounds.size.height/2.0);
+            
+
+            self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            doneButton.adjustsImageWhenHighlighted = NO;
+            doneButton.frame = CGRectMake(middle.x, middle.y, 57.0, 57.0);
+            [doneButton setTitle:@"done" forState:(UIControlStateNormal)];
+            doneButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:42.0];
+            
+            [doneButton addTarget:self
+                           action:@selector(doneWithLastVideo:) 
+                 forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:doneButton];			
             
             // Add a single tap gesture to focus on the point tapped, then lock focus
 			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
@@ -220,7 +240,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(!didFall){
         if(freefalling){
             NSTimeInterval currentFreefallTime = -[freefallStartTime timeIntervalSinceNow];
-            //        NSLog(@"----- CURRENT TIME IN FREEFALL %f", currentFreefallTime);
             if(currentFreefallTime > longestTimeInFreefall){
                 longestTimeInFreefall = currentFreefallTime;
             }
@@ -311,7 +330,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     if (context == AVCamFocusModeObserverContext) {
         // Update the focus UI overlay string when the focus mode changes
-		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
+//		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
 	} else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }

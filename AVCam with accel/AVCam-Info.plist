@@ -24,13 +24,13 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>gbb.ttf</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<string>YES</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
-	<key>UIAppFonts</key>
-	<array>
-		<string></string>
-	</array>
 </dict>
 </plist>

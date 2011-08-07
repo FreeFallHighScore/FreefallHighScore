@@ -61,6 +61,7 @@
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
     NSInteger timesLooped;
+    UIButton* doneButton;
 }
 
 //camera related stuff
@@ -70,7 +71,8 @@
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *cameraToggleButton;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *recordButton;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *stillButton;
-@property (nonatomic,retain) IBOutlet UILabel *focusModeLabel;
+@property (nonatomic,retain) UIButton *doneButton;
+@property (nonatomic,retain) UIButton *submitButton;
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
@@ -84,6 +86,7 @@
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
+- (void)doneWithVideo:(id)sender;
 
 #pragma mark Toolbar Actions
 - (IBAction)toggleRecording:(id)sender;
