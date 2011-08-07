@@ -272,6 +272,11 @@
     [[self recorder] stopRecording];
 }
 
+- (NSURL*) outputFileURL
+{
+ 	return [self recorder].outputFileURL;   
+}
+
 - (void) captureStillImage
 {
     AVCaptureConnection *stillImageConnection = [AVCamUtilities connectionWithMediaType:AVMediaTypeVideo fromConnections:[[self stillImageOutput] connections]];

@@ -82,6 +82,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize longestTimeInFreefall;
 @synthesize freefallStartTime;
 @synthesize  lowestMagnitude;
+@synthesize player;
+@synthesize playerLayer;
 
 - (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 {
@@ -146,7 +148,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
 			
 			[viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
-			
+
 			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
             [newCaptureVideoPreviewLayer release];
 			
@@ -189,6 +191,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //accelerometer stuff
     filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
     freefalling = NO;
+    didFall = NO;
     lowestMagnitude = 1000000;
     longestTimeInFreefall = 0;
     
@@ -225,17 +228,47 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         }
     }
     
-    if(!freefalling && accelMagnitude < .2){
-        self.freefallStartTime = [NSDate date];
-        freefalling = YES;
-    }
-    else if(freefalling && accelMagnitude >= .2){
-        freefalling = NO;
+    if(!didFall){
+        if(!freefalling && accelMagnitude < .2){
+            if(framesInFreefall++ > 10){
+                self.freefallStartTime = [NSDate date];
+                freefalling = YES;
+                [[self captureManager] startRecording];            
+                framesOutOfFreefall = 0;
+            }
+        }
+        else if(freefalling && accelMagnitude >= .2){
+            if(framesOutOfFreefall++ > 10){
+	            freefalling = NO;
+                [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
+            }
+        }
     }
     
-    if(freefalling){
-        NSLog(@"Current longest fall time %f, lowest mag %f, current mag %f", longestTimeInFreefall,lowestMagnitude, accelMagnitude);
-    }
+//    if(freefalling){
+//	  	NSLog(@"Current longest fall time %f, lowest mag %f, current mag %f", longestTimeInFreefall,lowestMagnitude, accelMagnitude);
+//    }
+    
+}
+
+- (void)finishRecordingAfterFall
+{
+    didFall = YES;
+    [[self captureManager] stopRecording];
+	
+   	self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
+	self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+    
+    [self.player play];
+    
+    UIView *view = [self videoPreviewView];
+    CALayer *viewLayer = [view layer];
+    
+    CGRect bounds = [view bounds];
+    [self.playerLayer setFrame:bounds];
+ 
+    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

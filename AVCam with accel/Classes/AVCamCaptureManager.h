@@ -64,6 +64,7 @@
 @property (nonatomic,assign) id deviceDisconnectedObserver;
 @property (nonatomic,assign) UIBackgroundTaskIdentifier backgroundRecordingID;
 @property (nonatomic,assign) id <AVCamCaptureManagerDelegate> delegate;
+@property (nonatomic,readonly) NSURL* outputFileURL;
 
 - (BOOL) setupSession;
 - (void) startRecording;

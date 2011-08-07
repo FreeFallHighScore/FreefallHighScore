@@ -47,7 +47,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter;
+@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer;
 
 @interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAccelerometerDelegate> {
 	AccelerometerFilter *filter;
@@ -55,6 +55,11 @@
     NSTimeInterval longestTimeInFreefall;
     NSDate* freefallStartTime; 
     CGFloat lowestMagnitude;
+    NSInteger framesInFreefall;
+    NSInteger framesOutOfFreefall;
+    BOOL didFall;
+    AVPlayer* player;
+    AVPlayerLayer* playerLayer;
 }
 
 //camera related stuff
@@ -72,6 +77,10 @@
 @property (nonatomic,readwrite) NSTimeInterval longestTimeInFreefall;
 @property (nonatomic,retain) NSDate* freefallStartTime;
 @property (nonatomic,readwrite) CGFloat lowestMagnitude;
+
+//playback stuff
+@property (nonatomic, retain) AVPlayer* player;
+@property (nonatomic, retain) AVPlayerLayer* playerLayer;
 
 #pragma mark Toolbar Actions
 - (IBAction)toggleRecording:(id)sender;
