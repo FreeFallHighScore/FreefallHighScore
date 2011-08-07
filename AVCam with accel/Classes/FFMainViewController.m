@@ -74,17 +74,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize cameraToggleButton;
 @synthesize recordButton;
 @synthesize stillButton;
-//@synthesize focusModeLabel;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
 @synthesize freefalling;
 @synthesize longestTimeInFreefall;
 @synthesize freefallStartTime;
-@synthesize  lowestMagnitude;
+@synthesize lowestMagnitude;
 @synthesize player;
 @synthesize playerLayer;
-@synthesize doneButton;
+@synthesize ignoreButton;
+@synthesize submitButton;
+
 
 - (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 {
@@ -115,7 +116,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [recordButton release];
     [stillButton release];	
 //	[focusModeLabel release];
-	[doneButton release];
+	[ignoreButton release];
+	[submitButton release];
     
     [super dealloc];
 }
@@ -178,18 +180,43 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                          bounds.origin.y + bounds.size.height/2.0);
             
 
-            self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            doneButton.adjustsImageWhenHighlighted = NO;
-            doneButton.frame = CGRectMake(middle.x, middle.y, 57.0, 57.0);
-            [doneButton setTitle:@"done" forState:(UIControlStateNormal)];
-            doneButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:42.0];
             
-            [doneButton addTarget:self
-                           action:@selector(doneWithLastVideo:) 
-                 forControlEvents:UIControlEventTouchUpInside];
+            self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            submitButton.adjustsImageWhenHighlighted = NO;
+            submitButton.frame = CGRectMake(middle.x-75, middle.y-100, 100.0, 57.0);
+            [submitButton setTitle:@"RECORD" forState:(UIControlStateNormal)];
+            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
             
-            [self.view addSubview:doneButton];			
+            [submitButton addTarget:self
+                             action:@selector(manualRecord:) 
+                   forControlEvents:UIControlEventTouchUpInside];
             
+            [self.view addSubview:submitButton];			
+ 
+            self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            submitButton.adjustsImageWhenHighlighted = NO;
+            submitButton.frame = CGRectMake(middle.x-75, middle.y, 100.0, 57.0);
+            [submitButton setTitle:@"SUBMIT" forState:(UIControlStateNormal)];
+            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            
+            [submitButton addTarget:self
+                             action:@selector(submitLastVideo:) 
+                   forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:submitButton];			
+            
+            self.ignoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            ignoreButton.adjustsImageWhenHighlighted = NO;
+            ignoreButton.frame = CGRectMake(middle.x-75, middle.y+100, 150.0, 57.0);
+            [ignoreButton setTitle:@"DROP AGAIN" forState:(UIControlStateNormal)];
+            ignoreButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            
+            [ignoreButton addTarget:self
+                             action:@selector(ignoreLastVideo:) 
+                   forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:ignoreButton];
+
             // Add a single tap gesture to focus on the point tapped, then lock focus
 			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
 			[singleTap setDelegate:self];
@@ -221,6 +248,43 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [super viewDidLoad];
 }
 
+
+- (void)submitLastVideo:(id)sender
+{
+    [self ignoreLastVideo:sender];
+}
+
+- (void)ignoreLastVideo:(id)sender
+{
+    if(didFall){
+        [self.playerLayer removeFromSuperlayer];
+        self.playerLayer = nil;
+        self.player = nil;
+        timesLooped = 0;
+        
+        UIView *view = [self videoPreviewView];
+        CALayer *viewLayer = [view layer];
+        [viewLayer setMasksToBounds:YES];        
+        [viewLayer insertSublayer:captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[[self captureManager] session] startRunning];
+        });
+        
+        didFall = NO;   
+    }
+    
+}
+
+- (void)manualRecord:(id)sender
+{
+    if(!recording && !didFall){   
+    	[[self captureManager] startRecording];
+        recording = YES;
+    }
+
+}
+
 // UIAccelerometerDelegate method, called when the device accelerates.
 -(void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
@@ -249,7 +313,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             if(framesInFreefall++ > 10){
                 self.freefallStartTime = [NSDate date];
                 freefalling = YES;
-                [[self captureManager] startRecording];            
+				[self manualRecord:nil];
                 framesOutOfFreefall = 0;
             }
         }
@@ -270,8 +334,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)finishRecordingAfterFall
 {
     didFall = YES;
+   	recording = NO;
     [[self captureManager] stopRecording];
-	
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[[self captureManager] session] stopRunning];
     });
@@ -300,6 +365,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification
 {
+    AVPlayerItem *p = [notification object];
+    [p seekToTime:kCMTimeZero];        
+
+    /*
     if(timesLooped < 10){
         AVPlayerItem *p = [notification object];
         [p seekToTime:kCMTimeZero];        
@@ -323,6 +392,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
         didFall = NO;
     }
+     */
     
 }
 

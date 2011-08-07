@@ -52,6 +52,7 @@
 @interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAccelerometerDelegate> {
 	AccelerometerFilter *filter;
     BOOL freefalling;
+    BOOL recording;
     NSTimeInterval longestTimeInFreefall;
     NSDate* freefallStartTime; 
     CGFloat lowestMagnitude;
@@ -61,7 +62,10 @@
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
     NSInteger timesLooped;
-    UIButton* doneButton;
+    UIButton* ignoreButton;
+    UIButton* submitButton;
+    UIButton* recordButton;
+
 }
 
 //camera related stuff
@@ -69,10 +73,11 @@
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *cameraToggleButton;
-@property (nonatomic,retain) IBOutlet UIBarButtonItem *recordButton;
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *stillButton;
-@property (nonatomic,retain) UIButton *doneButton;
+@property (nonatomic,retain) UIButton *ignoreButton;
 @property (nonatomic,retain) UIButton *submitButton;
+@property (nonatomic,retain) UIButton *recordButton;
+
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
@@ -86,7 +91,9 @@
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
-- (void)doneWithVideo:(id)sender;
+- (void)submitLastVideo:(id)sender;
+- (void)ignoreLastVideo:(id)sender;
+- (void)manualRecord:(id)sender;
 
 #pragma mark Toolbar Actions
 - (IBAction)toggleRecording:(id)sender;
