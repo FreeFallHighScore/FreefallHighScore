@@ -125,7 +125,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)viewDidLoad
 {
     [[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
-    [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+    //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
     [[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
     
 	if ([self captureManager] == nil) {
@@ -181,17 +181,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
 
             
-            self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            submitButton.adjustsImageWhenHighlighted = NO;
-            submitButton.frame = CGRectMake(middle.x-75, middle.y-100, 100.0, 57.0);
-            [submitButton setTitle:@"RECORD" forState:(UIControlStateNormal)];
-            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
+            self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            recordButton.adjustsImageWhenHighlighted = NO;
+            recordButton.frame = CGRectMake(middle.x-75, middle.y-100, 100.0, 57.0);
+            [recordButton setTitle:@"RECORD" forState:(UIControlStateNormal)];
+            recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
             
-            [submitButton addTarget:self
+            [recordButton addTarget:self
                              action:@selector(manualRecord:) 
                    forControlEvents:UIControlEventTouchUpInside];
             
-            [self.view addSubview:submitButton];			
+            [self.view addSubview:recordButton];			
  
             self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
             submitButton.adjustsImageWhenHighlighted = NO;
@@ -216,6 +216,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                    forControlEvents:UIControlEventTouchUpInside];
             
             [self.view addSubview:ignoreButton];
+
+            self.ignoreButton.hidden = YES;
+            self.submitButton.hidden = YES;
 
             // Add a single tap gesture to focus on the point tapped, then lock focus
 			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
@@ -271,6 +274,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [[[self captureManager] session] startRunning];
         });
         
+        self.recordButton.hidden = NO;
+        self.submitButton.hidden = YES;
+        self.ignoreButton.hidden = YES;
+        
         didFall = NO;   
     }
     
@@ -281,6 +288,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(!recording && !didFall){   
     	[[self captureManager] startRecording];
         recording = YES;
+        NSLog(@"RECORDING");
+		self.recordButton.hidden = YES;
     }
 
 }
@@ -361,6 +370,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
  
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
+    self.submitButton.hidden = NO;
+    self.ignoreButton.hidden = NO;
+
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification
@@ -419,11 +431,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (IBAction)toggleRecording:(id)sender
 {
     // Start recording if there isn't a recording running. Stop recording if there is.
-    [[self recordButton] setEnabled:NO];
-    if (![[[self captureManager] recorder] isRecording])
-        [[self captureManager] startRecording];
-    else
-        [[self captureManager] stopRecording];
+//    [[self recordButton] setEnabled:NO];
+//    if (![[[self captureManager] recorder] isRecording])
+//        [[self captureManager] startRecording];
+//    else
+//        [[self captureManager] stopRecording];
 }
 
 - (IBAction)captureStillImage:(id)sender
@@ -555,18 +567,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             if (cameraCount < 1) {
                 [[self stillButton] setEnabled:NO];
                 
-                if (micCount < 1)
-                    [[self recordButton] setEnabled:NO];
-                else
-                    [[self recordButton] setEnabled:YES];
+//                if (micCount < 1)
+//                    [[self recordButton] setEnabled:NO];
+//                else
+//                    [[self recordButton] setEnabled:YES];
             } else {
-                [[self stillButton] setEnabled:YES];
-                [[self recordButton] setEnabled:YES];
+//                [[self stillButton] setEnabled:YES];
+//                [[self recordButton] setEnabled:YES];
             }
         } else {
             [[self cameraToggleButton] setEnabled:YES];
             [[self stillButton] setEnabled:YES];
-            [[self recordButton] setEnabled:YES];
+//            [[self recordButton] setEnabled:YES];
         }
     });
 }
@@ -591,16 +603,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager
 {
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        [[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
-        [[self recordButton] setEnabled:YES];
+//        [[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
+//        [[self recordButton] setEnabled:YES];
     });
 }
 
 - (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager
 {
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
-        [[self recordButton] setEnabled:YES];
+//        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+//        [[self recordButton] setEnabled:YES];
     });
 }
 
