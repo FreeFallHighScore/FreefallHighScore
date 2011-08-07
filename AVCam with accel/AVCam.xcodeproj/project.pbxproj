@@ -18,6 +18,7 @@
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
 		DAB5606413EE2DB400D5EB63 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DAB5606313EE2DB400D5EB63 /* Default.png */; };
 		DAB5606713EE2FD300D5EB63 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DAB5606613EE2FD300D5EB63 /* Default@2x.png */; };
+		DAB5606913EE31A000D5EB63 /* gbb__.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAB5606813EE31A000D5EB63 /* gbb__.ttf */; };
 		E942F1DE1165049400F16C8C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E942F1DD1165049400F16C8C /* MediaPlayer.framework */; };
 		E94DFFBE116FE043009B726B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94DFFBD116FE043009B726B /* MobileCoreServices.framework */; };
 		E9515F6511ECFEB40043913F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9515F6411ECFEB40043913F /* ImageIO.framework */; };
@@ -49,6 +50,7 @@
 		DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		DAB5606313EE2DB400D5EB63 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		DAB5606613EE2FD300D5EB63 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		DAB5606813EE31A000D5EB63 /* gbb__.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gbb__.ttf; sourceTree = "<group>"; };
 		E942F1DD1165049400F16C8C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E94DFFBD116FE043009B726B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E9515F6411ECFEB40043913F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -137,6 +139,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DAB5606813EE31A000D5EB63 /* gbb__.ttf */,
 				E96FB2121316DF8C006ADCE0 /* Localizable.strings */,
 				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
@@ -217,6 +220,7 @@
 				E96FB2131316DF8C006ADCE0 /* Localizable.strings in Resources */,
 				DAB5606413EE2DB400D5EB63 /* Default.png in Resources */,
 				DAB5606713EE2FD300D5EB63 /* Default@2x.png in Resources */,
+				DAB5606913EE31A000D5EB63 /* gbb__.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

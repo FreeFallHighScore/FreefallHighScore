@@ -30,7 +30,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string></string>
+		<string>gbb_.ttf</string>
 	</array>
 </dict>
 </plist>
