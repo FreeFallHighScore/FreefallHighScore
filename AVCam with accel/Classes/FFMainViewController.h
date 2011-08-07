@@ -60,6 +60,7 @@
     BOOL didFall;
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
+    NSInteger timesLooped;
 }
 
 //camera related stuff
@@ -81,6 +82,8 @@
 //playback stuff
 @property (nonatomic, retain) AVPlayer* player;
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification;
 
 #pragma mark Toolbar Actions
 - (IBAction)toggleRecording:(id)sender;

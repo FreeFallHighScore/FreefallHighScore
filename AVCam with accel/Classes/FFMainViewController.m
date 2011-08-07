@@ -216,19 +216,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     CGFloat accelMagnitude = sqrtf(acceleration.x*acceleration.x + 
                                    acceleration.y*acceleration.y + 
                                    acceleration.z*acceleration.z);
-    if(accelMagnitude < lowestMagnitude){
-        lowestMagnitude =  accelMagnitude;
-    }
-    
-    if(freefalling){
-        NSTimeInterval currentFreefallTime = -[freefallStartTime timeIntervalSinceNow];
-//        NSLog(@"----- CURRENT TIME IN FREEFALL %f", currentFreefallTime);
-        if(currentFreefallTime > longestTimeInFreefall){
-            longestTimeInFreefall = currentFreefallTime;
-        }
-    }
     
     if(!didFall){
+        if(freefalling){
+            NSTimeInterval currentFreefallTime = -[freefallStartTime timeIntervalSinceNow];
+            //        NSLog(@"----- CURRENT TIME IN FREEFALL %f", currentFreefallTime);
+            if(currentFreefallTime > longestTimeInFreefall){
+                longestTimeInFreefall = currentFreefallTime;
+            }
+        }
+        
         if(!freefalling && accelMagnitude < .2){
             if(framesInFreefall++ > 10){
                 self.freefallStartTime = [NSDate date];
@@ -256,9 +253,20 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     didFall = YES;
     [[self captureManager] stopRecording];
 	
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[[self captureManager] session] stopRunning];
+    });
+    
    	self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
 	self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
     
+    self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.player currentItem]];
+
     [self.player play];
     
     UIView *view = [self videoPreviewView];
@@ -269,6 +277,34 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
  
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification
+{
+    if(timesLooped < 10){
+        AVPlayerItem *p = [notification object];
+        [p seekToTime:kCMTimeZero];        
+        timesLooped++;
+        
+    }
+    else {
+	    [self.playerLayer removeFromSuperlayer];
+        self.playerLayer = nil;
+        self.player = nil;
+        timesLooped = 0;
+        
+        UIView *view = [self videoPreviewView];
+        CALayer *viewLayer = [view layer];
+        [viewLayer setMasksToBounds:YES];        
+        [viewLayer insertSublayer:captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[[self captureManager] session] startRunning];
+        });
+        
+        didFall = NO;
+    }
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
