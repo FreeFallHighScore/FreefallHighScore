@@ -145,6 +145,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			CGRect bounds = [view bounds];
 			[newCaptureVideoPreviewLayer setFrame:bounds];
 			
+            NSLog(@"Preview bounds %f %f %f %f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+
 			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
 				[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
 			}
@@ -159,6 +161,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 				[[[self captureManager] session] startRunning];
+                CGSize cameraSize = [self.captureManager cameraSize];
+                NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
 			});
 			
 //            [self updateButtonStates];
@@ -264,6 +268,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
     
+
     [super viewDidLoad];
 }
 
@@ -338,10 +343,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         didFall = NO;
         longestTimeInFreefall = 0;
         
-        [self updateButtonStates];
-        
-        longestTimeInFreefall = 0;
-        didFall = NO;   
+        [self updateButtonStates];        
     }
     
 }
@@ -357,8 +359,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)finishRecordingAfterFall
 {
+    didFall = YES;
+    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        didFall = YES;
         recording = NO;
         [[self captureManager] stopRecording];
         
@@ -368,8 +371,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
         self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
-        
         self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+
+
+
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(playerItemDidReachEnd:)
@@ -379,11 +384,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [self.player play];
         
         UIView *view = [self videoPreviewView];
-        CALayer *viewLayer = [view layer];
+        CALayer *viewLayer = [view layer];        
         
-        CGRect bounds = [view bounds];
+        //CGRect bounds = [view bounds];
+        CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
+        
         [self.playerLayer setFrame:bounds];
-     
+        
         [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
         
         self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
@@ -571,6 +578,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                                   otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        
     });
 }
 

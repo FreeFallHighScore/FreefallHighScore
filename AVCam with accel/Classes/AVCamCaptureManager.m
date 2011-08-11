@@ -265,6 +265,7 @@
     
     [self removeFile:[[self recorder] outputFileURL]];
     [[self recorder] startRecordingWithOrientation:orientation];
+    
 }
 
 - (void) stopRecording
@@ -355,6 +356,32 @@ bail:
     return success;
 }
 
+- (CGSize)cameraSize
+{
+    if(videoInput == nil){
+        return CGSizeZero;
+    }
+    
+    NSArray *ports = [videoInput ports];
+    AVCaptureInputPort *usePort = nil;
+    for ( AVCaptureInputPort *port in ports )
+    {
+        if ( usePort == nil || [port.mediaType isEqualToString:AVMediaTypeVideo] )
+        {
+            usePort = port;
+        }
+    }
+    
+    if ( usePort == nil ) return CGSizeZero;
+    
+    CMFormatDescriptionRef format = [usePort formatDescription];
+    CMVideoDimensions dim = CMVideoFormatDescriptionGetDimensions(format);
+    
+    CGSize cameraSize = CGSizeMake(dim.width, dim.height);
+    
+    return cameraSize;
+}
+
 
 #pragma mark Device Counts
 - (NSUInteger) cameraCount
@@ -422,11 +449,11 @@ bail:
 	else if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown)
 		orientation = AVCaptureVideoOrientationPortraitUpsideDown;
 	
-	// AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
-	else if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
-		orientation = AVCaptureVideoOrientationLandscapeRight;
-	else if (deviceOrientation == UIDeviceOrientationLandscapeRight)
-		orientation = AVCaptureVideoOrientationLandscapeLeft;
+//	// AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
+//	if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
+//		orientation = AVCaptureVideoOrientationLandscapeRight;
+//	else if (deviceOrientation == UIDeviceOrientationLandscapeRight)
+//		orientation = AVCaptureVideoOrientationLandscapeLeft;
 	
 	// Ignore device orientations for which there is no corresponding still image orientation (e.g. UIDeviceOrientationFaceUp)
 }
