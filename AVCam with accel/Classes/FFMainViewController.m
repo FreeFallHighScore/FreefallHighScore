@@ -60,8 +60,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 @interface FFMainViewController (InternalMethods)
 - (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
-- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
-- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
+//- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
+//- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
 - (void)updateButtonStates;
 @end
 
@@ -71,9 +71,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @implementation FFMainViewController
 
 @synthesize captureManager;
-@synthesize cameraToggleButton;
-@synthesize recordButton;
-@synthesize stillButton;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
@@ -83,30 +80,31 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize lowestMagnitude;
 @synthesize player;
 @synthesize playerLayer;
+@synthesize recordButton;
 @synthesize ignoreButton;
 @synthesize submitButton;
 @synthesize dropscoreLabelTop;
 @synthesize dropscoreLabelBottom;
 @synthesize dropscoreLabelTime;
 
-- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
-{
-	NSString *focusString = @"";
-	
-	switch (focusMode) {
-		case AVCaptureFocusModeLocked:
-			focusString = @"locked";
-			break;
-		case AVCaptureFocusModeAutoFocus:
-			focusString = @"auto";
-			break;
-		case AVCaptureFocusModeContinuousAutoFocus:
-			focusString = @"continuous";
-			break;
-	}
-	
-	return focusString;
-}
+//- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
+//{
+//	NSString *focusString = @"";
+//	
+//	switch (focusMode) {
+//		case AVCaptureFocusModeLocked:
+//			focusString = @"locked";
+//			break;
+//		case AVCaptureFocusModeAutoFocus:
+//			focusString = @"auto";
+//			break;
+//		case AVCaptureFocusModeContinuousAutoFocus:
+//			focusString = @"continuous";
+//			break;
+//	}
+//	
+//	return focusString;
+//}
 
 - (void)dealloc
 {
@@ -114,9 +112,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 	[captureManager release];
     [videoPreviewView release];
 	[captureVideoPreviewLayer release];
-    [cameraToggleButton release];
     [recordButton release];
-    [stillButton release];	
 
 	[ignoreButton release];
 	[submitButton release];
@@ -124,14 +120,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [dropscoreLabelBottom release];
     [dropscoreLabelTime release];
     
+    [filter release];
+    
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
-    [[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
-    //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
-    [[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
     
 	if ([self captureManager] == nil) {
 		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
@@ -166,7 +161,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 				[[[self captureManager] session] startRunning];
 			});
 			
-            [self updateButtonStates];
+//            [self updateButtonStates];
             
             
             CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
@@ -236,36 +231,27 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             dropscoreLabelTime.font = [UIFont fontWithName:@"G.B.BOOT" size:75];
             dropscoreLabelTime.backgroundColor = [UIColor clearColor];
             dropscoreLabelTime.textColor = fontcolor;
-            dropscoreLabelTime
-            .textAlignment = UITextAlignmentCenter;
+            dropscoreLabelTime.textAlignment = UITextAlignmentCenter;
 
             [self.view addSubview:dropscoreLabelTime];
 
-            
-
-            self.ignoreButton.hidden = YES;
-            self.submitButton.hidden = YES;
-
-            self.dropscoreLabelTop.hidden = YES;
-            self.dropscoreLabelBottom.hidden = YES;
-            self.dropscoreLabelTime.hidden = YES;
-
-            
+            [self updateButtonStates];
+                        
             // Add a single tap gesture to focus on the point tapped, then lock focus
-			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
-			[singleTap setDelegate:self];
-			[singleTap setNumberOfTapsRequired:1];
-			[view addGestureRecognizer:singleTap];
+//			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
+//			[singleTap setDelegate:self];
+//			[singleTap setNumberOfTapsRequired:1];
+//			[view addGestureRecognizer:singleTap];
 			
             // Add a double tap gesture to reset the focus mode to continuous auto focus
-			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
-			[doubleTap setDelegate:self];
-			[doubleTap setNumberOfTapsRequired:2];
-			[singleTap requireGestureRecognizerToFail:doubleTap];
-			[view addGestureRecognizer:doubleTap];
-			
-			[doubleTap release];
-			[singleTap release];
+//			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
+//			[doubleTap setDelegate:self];
+//			[doubleTap setNumberOfTapsRequired:2];
+//			[singleTap requireGestureRecognizerToFail:doubleTap];
+//			[view addGestureRecognizer:doubleTap];
+//			
+//			[doubleTap release];
+//			[singleTap release];
 		}		
 	}
 		
@@ -281,62 +267,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [super viewDidLoad];
 }
 
-
-- (void)submitLastVideo:(id)sender
-{
-    [self ignoreLastVideo:sender];
-}
-
-- (void)ignoreLastVideo:(id)sender
-{
-    if(didFall){
-        [self.playerLayer removeFromSuperlayer];
-        self.playerLayer = nil;
-        self.player = nil;
-        timesLooped = 0;
-        
-        UIView *view = [self videoPreviewView];
-        CALayer *viewLayer = [view layer];
-        [viewLayer setMasksToBounds:YES];        
-        [viewLayer insertSublayer:captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[[self captureManager] session] startRunning];
-        });
-        
-        self.recordButton.hidden = NO;
-		self.recordButton.titleLabel.textColor = fontcolor;
-        
-        self.submitButton.hidden = YES;
-        self.ignoreButton.hidden = YES;
-        self.dropscoreLabelTop.hidden = YES;
-        self.dropscoreLabelBottom.hidden = YES;
-        self.dropscoreLabelTime.hidden = YES;
-        
-        longestTimeInFreefall = 0;
-        didFall = NO;   
-    }
-    
-}
-
-- (void)manualRecord:(id)sender
-{
-    if(!recording && !didFall){   
-    	[[self captureManager] startRecording];
-        recording = YES;
-        NSLog(@"RECORDING");
-		self.recordButton.hidden = YES;
-    }
-
-}
-
 // UIAccelerometerDelegate method, called when the device accelerates.
 -(void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
 	// Update the accelerometer graph view
     [filter addAcceleration:acceleration];
     
-    //check if we are freefall
     
     //NSLog(@"Accelerometer data is %f %f %f", filter.x, filter.y, filter.z);
     
@@ -354,6 +290,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             }
         }
         
+        //check if we are freefall
         if(!freefalling && accelMagnitude < .2){
             if(framesInFreefall++ > 10){
                 self.freefallStartTime = [NSDate date];
@@ -369,70 +306,22 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             }
         }
     }
-    
-//    if(freefalling){
-//	  	NSLog(@"Current longest fall time %f, lowest mag %f, current mag %f", longestTimeInFreefall,lowestMagnitude, accelMagnitude);
-//    }
-    
 }
 
-- (void)finishRecordingAfterFall
+- (void)submitLastVideo:(id)sender
 {
-    didFall = YES;
-   	recording = NO;
-    [[self captureManager] stopRecording];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[[self captureManager] session] stopRunning];
-    });
-    
-   	self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
-	self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
-    
-    self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playerItemDidReachEnd:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:[self.player currentItem]];
-
-    [self.player play];
-    
-    UIView *view = [self videoPreviewView];
-    CALayer *viewLayer = [view layer];
-    
-    CGRect bounds = [view bounds];
-    [self.playerLayer setFrame:bounds];
- 
-    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
-
-    self.submitButton.hidden = NO;
-    self.submitButton.titleLabel.textColor = fontcolor;
-    self.ignoreButton.hidden = NO;
-    self.ignoreButton.titleLabel.textColor = fontcolor;
-    
-    self.dropscoreLabelTop.hidden = NO;
-    self.dropscoreLabelBottom.hidden = NO;
-    self.dropscoreLabelTime.hidden = NO;
-
-    self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
-
+    [self ignoreLastVideo:sender];
 }
 
-- (void)playerItemDidReachEnd:(NSNotification *)notification
+- (void)ignoreLastVideo:(id)sender
 {
-    AVPlayerItem *p = [notification object];
-    [p seekToTime:kCMTimeZero];        
 
-    /*
-    if(timesLooped < 10){
-        AVPlayerItem *p = [notification object];
-        [p seekToTime:kCMTimeZero];        
-        timesLooped++;
+    if(didFall){
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:[self.player currentItem]];
         
-    }
-    else {
-	    [self.playerLayer removeFromSuperlayer];
+        [self.playerLayer removeFromSuperlayer];
         self.playerLayer = nil;
         self.player = nil;
         timesLooped = 0;
@@ -447,62 +336,91 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         });
         
         didFall = NO;
+        longestTimeInFreefall = 0;
+        
+        [self updateButtonStates];
+        
+        longestTimeInFreefall = 0;
+        didFall = NO;   
     }
-     */
     
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)manualRecord:(id)sender
 {
-    if (context == AVCamFocusModeObserverContext) {
-        // Update the focus UI overlay string when the focus mode changes
-//		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
-	} else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    if(!recording && !didFall){   
+    	[[self captureManager] startRecording];
+        recording = YES;
+        [self updateButtonStates];
     }
 }
 
-#pragma mark Toolbar Actions
-- (IBAction)toggleCamera:(id)sender
+- (void)finishRecordingAfterFall
 {
-    // Toggle between cameras when there is more than one
-    [[self captureManager] toggleCamera];
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        didFall = YES;
+        recording = NO;
+        [[self captureManager] stopRecording];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[[self captureManager] session] stopRunning];
+        });
+        
+        self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+        
+        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(playerItemDidReachEnd:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:[self.player currentItem]];
+
+        [self.player play];
+        
+        UIView *view = [self videoPreviewView];
+        CALayer *viewLayer = [view layer];
+        
+        CGRect bounds = [view bounds];
+        [self.playerLayer setFrame:bounds];
+     
+        [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+        
+        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
+        [self updateButtonStates];
+    });    
     
-    // Do an initial focus
-    [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
+
 }
 
-- (IBAction)toggleRecording:(id)sender
+- (void)playerItemDidReachEnd:(NSNotification *)notification
 {
-    // Start recording if there isn't a recording running. Stop recording if there is.
-//    [[self recordButton] setEnabled:NO];
-//    if (![[[self captureManager] recorder] isRecording])
-//        [[self captureManager] startRecording];
-//    else
-//        [[self captureManager] stopRecording];
+    //LOOP
+    AVPlayerItem *p = [notification object];
+    [p seekToTime:kCMTimeZero];
+    timesLooped++;
+    [self updateButtonStates];
 }
 
-- (IBAction)captureStillImage:(id)sender
-{
-    // Capture a still image
-    [[self stillButton] setEnabled:NO];
-    [[self captureManager] captureStillImage];
-    
-    // Flash the screen white and fade it out to give UI feedback that a still image was taken
-    UIView *flashView = [[UIView alloc] initWithFrame:[[self videoPreviewView] frame]];
-    [flashView setBackgroundColor:[UIColor whiteColor]];
-    [[[self view] window] addSubview:flashView];
-    
-    [UIView animateWithDuration:.4f
-                     animations:^{
-                         [flashView setAlpha:0.f];
-                     }
-                     completion:^(BOOL finished){
-                         [flashView removeFromSuperview];
-                         [flashView release];
-                     }
-     ];
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    if (context == AVCamFocusModeObserverContext) {
+//        // Update the focus UI overlay string when the focus mode changes
+////		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
+//	} else {
+//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+//    }
+//}
+
+//#pragma mark Toolbar Actions
+//- (IBAction)toggleCamera:(id)sender
+//{
+//    // Toggle between cameras when there is more than one
+//    [[self captureManager] toggleCamera];
+//    
+//    // Do an initial focus
+//    [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
+//}
 
 @end
 
@@ -581,51 +499,63 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     return pointOfInterest;
 }
 
-// Auto focus at a particular point. The focus mode will change to locked once the auto focus happens.
-- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer
-{
-    if ([[[captureManager videoInput] device] isFocusPointOfInterestSupported]) {
-        CGPoint tapPoint = [gestureRecognizer locationInView:[self videoPreviewView]];
-        CGPoint convertedFocusPoint = [self convertToPointOfInterestFromViewCoordinates:tapPoint];
-        [captureManager autoFocusAtPoint:convertedFocusPoint];
-    }
-}
-
-// Change to continuous auto focus. The camera will constantly focus at the point choosen.
-- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer
-{
-    if ([[[captureManager videoInput] device] isFocusPointOfInterestSupported])
-        [captureManager continuousFocusAtPoint:CGPointMake(.5f, .5f)];
-}
 
 // Update button states based on the number of available cameras and mics
 - (void)updateButtonStates
-{
-	NSUInteger cameraCount = [[self captureManager] cameraCount];
-	NSUInteger micCount = [[self captureManager] micCount];
-    
+{    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        if (cameraCount < 2) {
-            [[self cameraToggleButton] setEnabled:NO]; 
+        //if we're recording hide everything
+        if(recording){
+            self.recordButton.hidden = YES;
+            self.recordButton.enabled = NO;
             
-            if (cameraCount < 1) {
-                [[self stillButton] setEnabled:NO];
-                
-//                if (micCount < 1)
-//                    [[self recordButton] setEnabled:NO];
-//                else
-//                    [[self recordButton] setEnabled:YES];
-            } else {
-//                [[self stillButton] setEnabled:YES];
-//                [[self recordButton] setEnabled:YES];
-            }
-        } else {
-            [[self cameraToggleButton] setEnabled:YES];
-            [[self stillButton] setEnabled:YES];
-//            [[self recordButton] setEnabled:YES];
+            self.submitButton.hidden = YES;
+            self.submitButton.enabled = NO;
+            self.ignoreButton.hidden = YES;
+            self.ignoreButton.enabled = NO;
+            
+            self.dropscoreLabelTop.hidden = YES;
+            self.dropscoreLabelBottom.hidden = YES;
+            self.dropscoreLabelTime.hidden = YES;
+
         }
+        //if we are waiting, just show record
+        else if(!didFall && !freefalling){
+            self.recordButton.hidden = NO;
+            self.recordButton.enabled = YES;
+
+            self.submitButton.hidden = YES;
+            self.submitButton.enabled = NO;
+            self.ignoreButton.hidden = YES;
+            self.ignoreButton.enabled = NO;
+
+            self.dropscoreLabelTop.hidden = YES;
+            self.dropscoreLabelBottom.hidden = YES;
+            self.dropscoreLabelTime.hidden = YES;
+
+        }
+        //if we fell and playback has gone a few times, show the submit/ignore
+        else if(didFall && timesLooped > 0){
+            self.recordButton.hidden = YES;
+            self.recordButton.enabled = NO;
+            
+            self.submitButton.hidden = NO;
+            self.submitButton.enabled = YES;
+            self.ignoreButton.hidden = NO;
+            self.ignoreButton.enabled = YES;
+            
+            self.dropscoreLabelTop.hidden = NO;
+            self.dropscoreLabelBottom.hidden = NO;
+            self.dropscoreLabelTime.hidden = NO;
+        }
+        
+        //need to reset font colors on buttons all the time they get lost
+		self.recordButton.titleLabel.textColor = fontcolor;
+        self.submitButton.titleLabel.textColor = fontcolor;    
+        self.ignoreButton.titleLabel.textColor = fontcolor;
     });
 }
+
 
 @end
 
@@ -646,30 +576,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager
 {
-    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+//    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
 //        [[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
 //        [[self recordButton] setEnabled:YES];
-    });
+//    });
 }
 
 - (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager
 {
-    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+//    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
 //        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
 //        [[self recordButton] setEnabled:YES];
-    });
+//    });
 }
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager
 {
-    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        [[self stillButton] setEnabled:YES];
-    });
+//    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+//        [[self stillButton] setEnabled:YES];
+//    });
 }
 
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager
 {
-	[self updateButtonStates];
+//	[self updateButtonStates];
 }
 
 @end
