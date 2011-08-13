@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C8059DC13F6ED0A00771D53 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C8059DB13F6ED0A00771D53 /* AssetsLibrary.framework */; };
 		A633493B13F6CAB8006A31E6 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493413F6CAB8006A31E6 /* GTMOAuth2Authentication.m */; };
 		A633493C13F6CAB8006A31E6 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493613F6CAB8006A31E6 /* GTMOAuth2SignIn.m */; };
 		A633493D13F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C8059DB13F6ED0A00771D53 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		A633493313F6CAB8006A31E6 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
 		A633493413F6CAB8006A31E6 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
 		A633493513F6CAB8006A31E6 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C8059DC13F6ED0A00771D53 /* AssetsLibrary.framework in Frameworks */,
 				A664722913F4698D00037EE3 /* Security.framework in Frameworks */,
 				A664722713F4697D00037EE3 /* SystemConfiguration.framework in Frameworks */,
 				A66471EA13F4681900037EE3 /* UIKit.framework in Frameworks */,
@@ -418,6 +421,7 @@
 		A66471DA13F4681900037EE3 = {
 			isa = PBXGroup;
 			children = (
+				5C8059DB13F6ED0A00771D53 /* AssetsLibrary.framework */,
 				A633494013F6DE58006A31E6 /* Resources */,
 				A633493013F6CAB8006A31E6 /* GDataIncludes */,
 				A664725413F473CE00037EE3 /* GDataLib */,

@@ -9,6 +9,7 @@
 #import "GDataYoutubeUploadTestViewController.h"
 #import "GTMOAuth2Authentication.h"
 #import "GTMOAuth2ViewControllerTouch.h"
+#import "GDataEntryYouTubeUpload.h"
 
 @implementation GDataYoutubeUploadTestViewController
 
@@ -16,6 +17,12 @@
 @synthesize clientID;
 @synthesize clientSecret;
 @synthesize developerKey;
+@synthesize authorizeButton;
+@synthesize uploadButton;
+@synthesize logoutButton;
+@synthesize authorizedUserLabel;
+@synthesize uploadProgressView;
+@synthesize uploadTicket;
 
 - (void)dealloc
 {
@@ -32,11 +39,16 @@
 
 #pragma mark - View lifecycle
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    //[authorizeButton setHidden:YES];
+    //[uploadButton setHidden:YES];
+    //[[self authorizedUserLabel] setText:@""];
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    NSLog(@"view loaded...");
-    
     //load keys
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSString *finalPath = [path stringByAppendingPathComponent:@"secret_developerkeys.plist"];
@@ -46,23 +58,29 @@
     self.clientID = [keydict objectForKey:@"kClientID"];
     self.clientSecret = [keydict objectForKey:@"kClientSecret"];
     self.developerKey = [keydict objectForKey:@"kDeveloperKey"];
-    NSLog(@"secrets: %@", keydict );
     
     GTMOAuth2Authentication *auth;
     auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
                                                               clientID:clientID
                                                           clientSecret:clientSecret];
     
-    NSLog(@"Auth object? %d Can Authorize? %d", auth, [auth canAuthorize]);
+    [uploadProgressView setProgress:0.0];
     
-    if ([auth canAuthorize]){
-        NSLog(@"Authenticated as: %@, verified: %@", [auth userEmail], [auth userEmailIsVerified]);
+    if ([auth canAuthorize]) {
+        [authorizedUserLabel setText:[auth userEmail]];
+        [authorizedUserLabel setHidden:NO];
+        [uploadButton setHidden:NO];
+        [logoutButton setHidden:NO];
+        [authorizeButton setHidden:YES];
+    } else {
+        [authorizeButton setHidden:NO];
+        [logoutButton setHidden:YES];
+        [uploadButton setHidden:YES];
     }
     [[self youTubeService] setAuthorizer:auth];
     
     [super viewDidLoad];
 }
-
 
 - (GDataServiceGoogleYouTube *)youTubeService {
     
@@ -81,10 +99,162 @@
     return service;
 }
 
+- (void)getVideoAsset
+{
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    
+    NSURL *fileUrl = [NSURL URLWithString:@"assets-library://asset/asset.MOV?id=1000000711&ext=MOV"];
+    
+    [library assetForURL:fileUrl
+             resultBlock:^(ALAsset *asset) {
+                 NSAssert(asset != nil, @"Asset shouldn't be nil");
+                 [self startUpload:asset];
+             }
+            failureBlock:^(NSError *error) {
+                NSLog(@"ERROR: %@", error);
+            }];
+
+}
+
+-(void)startUpload:(ALAsset*)asset
+{
+    NSURL* assetUrl = [[asset defaultRepresentation] url];
+    NSLog(@"Asset found: %@", asset);
+    NSLog(@"Asset url: %@", assetUrl);
+
+    GDataServiceGoogleYouTube *service = [self youTubeService];
+
+    NSString *filename = @"asset.MOV";
+    NSString *mimeType = @"video/mp4";
+//    NSString *filename = [path lastPathComponent];
+    
+    NSURL *url = [GDataServiceGoogleYouTube youTubeUploadURLForUserID:kGDataServiceDefaultUser];
+    
+    // Media data
+    NSString *titleStr = @"Testing: title";
+    GDataMediaTitle *title = [GDataMediaTitle textConstructWithString:titleStr];
+    
+    NSString *descStr = @"Testing: description";
+    GDataMediaDescription *desc = [GDataMediaDescription textConstructWithString:descStr];
+    
+    NSString *categoryStr = @"Sports";
+    GDataMediaCategory *category = [GDataMediaCategory mediaCategoryWithString:categoryStr];
+    [category setScheme:kGDataSchemeYouTubeCategory];
+    
+    GDataYouTubeMediaGroup *mediaGroup = [GDataYouTubeMediaGroup mediaGroup];
+    [mediaGroup setMediaTitle:title];
+    [mediaGroup setMediaDescription:desc];
+    [mediaGroup addMediaCategory:category];
+    
+    //NSString *mimeType = [GDataUtilities MIMETypeForFileAtPath:assetUrl
+    //                                           defaultMIMEType:@"video/mov"];
+
+    ALAssetRepresentation* assetRepresentation = [asset defaultRepresentation];
+    Byte *buf = malloc([assetRepresentation size]);  // will be freed automatically when associated NSData is deallocated
+    NSError *err = nil;
+    NSUInteger bytes = [assetRepresentation getBytes:buf fromOffset:0LL 
+                              length:[assetRepresentation size] error:&err];
+    
+    NSData* videoData;
+    if (err || bytes == 0) {
+        // Are err and bytes == 0 redundant? Doc says 0 return means 
+        // error occurred which presumably means NSError is returned.
+        
+        NSLog(@"error from getBytes: %@", err);
+        videoData = nil;
+        return;
+    } 
+    videoData = [NSData dataWithBytesNoCopy:buf length:[assetRepresentation size] 
+                               freeWhenDone:YES];  // YES means free malloc'ed buf that backs this when deallocated
+    
+    // create the upload entry with the mediaGroup and the file data
+    GDataEntryYouTubeUpload *entry = [GDataEntryYouTubeUpload entry];
+    
+    [entry setNamespaces:[GDataYouTubeConstants youTubeNamespaces]];
+    
+    [entry setMediaGroup:mediaGroup];
+    [entry setUploadMIMEType:mimeType];
+    [entry setUploadSlug:filename];
+//    [entry setUploadFileHandle:fileHandle];
+    [entry setUploadData:videoData];
+    
+    
+    SEL progressSel = @selector(ticket:hasDeliveredByteCount:ofTotalByteCount:);
+    [service setServiceUploadProgressSelector:progressSel];
+    
+    // YouTube's upload URL is not yet https; we need to explicitly set the
+    // authorizer to allow authorizing an http URL
+    [[service authorizer] setShouldAuthorizeAllRequests:YES];
+    
+    GDataServiceTicket *ticket;
+    ticket = [service fetchEntryByInsertingEntry:entry
+                                      forFeedURL:url
+                                        delegate:self
+                               didFinishSelector:@selector(uploadTicket:finishedWithEntry:error:)];
+    
+    [self setUploadTicket:ticket];
+}
+
+// progress callback
+- (void)ticket:(GDataServiceTicket *)ticket hasDeliveredByteCount:(unsigned long long)numberOfBytesRead ofTotalByteCount:(unsigned long long)dataLength {
+    
+    float progress = (float)numberOfBytesRead/(float)dataLength;
+    [uploadProgressView setProgress:progress];
+}
+
+// upload callback
+- (void)uploadTicket:(GDataServiceTicket *)ticket
+   finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
+               error:(NSError *)error {
+    if (error == nil) {
+        UIAlertView* alertView = nil; 
+        @try { 
+            alertView = [[UIAlertView alloc] initWithTitle:@"Success!"
+                                                   message:@"Your video has been uploaded successfully!"
+                                                  delegate:self cancelButtonTitle:@"OK"
+                                         otherButtonTitles:nil]; 
+            [alertView show]; 
+        } @finally { 
+            if (alertView)
+                [alertView release]; 
+        }
+    } else {
+        UIAlertView* alertView = nil; 
+        @try { 
+            alertView = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                   message:@"Your video was not uploaded."
+                                                  delegate:self cancelButtonTitle:@"OK"
+                                         otherButtonTitles:nil]; 
+            [alertView show]; 
+        } @finally { 
+            if (alertView)
+                [alertView release]; 
+        }
+        
+    }
+    
+    [uploadProgressView setProgress:0.0];
+    [self setUploadTicket:nil];
+}
+
 - (IBAction) upload:(id)sender
 {
-    NSString *scope = @"https://gdata.youtube.com/feeds/"; //[GDataServiceGoogleYouTube authorizationScope];
-    NSLog(@"scope: %@", scope);
+    [self getVideoAsset];
+}
+
+- (IBAction) logout:(id)sender
+{
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
+    [authorizeButton setHidden:NO];
+    [logoutButton setHidden:YES];
+    [uploadButton setHidden:YES];
+    [authorizedUserLabel setText:@""];
+    
+}
+
+- (IBAction) authorize:(id)sender
+{
+    NSString *scope = [GDataServiceGoogleYouTube authorizationScope];
     
     GTMOAuth2ViewControllerTouch *viewController;
     viewController = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
@@ -97,27 +267,39 @@
     [viewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [viewController setModalPresentationStyle:UIModalPresentationFormSheet];
     [self presentModalViewController:(UIViewController*)viewController animated:YES];
-
-    
-//    [[self navigationController] pushViewController:controller
-//                                           animated:YES];
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth
                  error:(NSError *)error {
+
     if (error != nil) {
         // Authentication failed
-        NSLog(@"failed, auth: %@", auth);
-        NSLog(@"failed, can authenticate? %d, auth: %@", [auth canAuthorize], auth);
-//        [textView setText:[NSString stringWithFormat:@"failed, can authenticate? %d, error: %@",
-//                           [authentication canAuthorize],
-//                           error]];
+        [authorizedUserLabel setText:@""];
+
+        UIAlertView* alertView = nil; 
+        @try { 
+            alertView = [[UIAlertView alloc] initWithTitle:@"Failure Authenticating"
+                                                   message:@"You might want to wait a bit before pressing 'Allow Access'."
+                                                  delegate:self cancelButtonTitle:@"OK"
+                                         otherButtonTitles:nil]; 
+            [alertView show]; 
+        } @finally { 
+            if (alertView)
+                [alertView release]; 
+        }
     } else {
         // Authentication succeeded
-        NSLog(@"succeeded, auth: %@", auth);
-        //[self setAuthentication:auth];
-//        [textView setText:[NSString stringWithFormat:@"succeeded, auth: %@", auth]];
+        [authorizedUserLabel setText:[auth userEmail]];
+        [uploadButton setHidden:NO];
+        [uploadButton setEnabled:YES];
+        [logoutButton setHidden:NO];
+        [logoutButton setEnabled:YES];
+        [authorizeButton setHidden:YES];
+        [authorizeButton setEnabled:NO];
+        
+        // Store authorization
+        [[self youTubeService] setAuthorizer:auth];
     }
     
     [self dismissModalViewControllerAnimated:YES];
