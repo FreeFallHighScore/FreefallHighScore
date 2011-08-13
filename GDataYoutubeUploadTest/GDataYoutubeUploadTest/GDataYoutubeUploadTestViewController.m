@@ -40,6 +40,9 @@
     
     NSLog(@"Auth object? %d Can Authorize? %d", auth, [auth canAuthorize]);
     
+    if ([auth canAuthorize]){
+        NSLog(@"Authenticated as: %@, verified: %@", [auth userEmail], [auth userEmailIsVerified]);
+    }
     [[self youTubeService] setAuthorizer:auth];
     
     [super viewDidLoad];
@@ -91,7 +94,7 @@
     if (error != nil) {
         // Authentication failed
         NSLog(@"failed, auth: %@", auth);
-        NSLog(@"failed, can authenticate? %d, error: %@", [auth canAuthorize], error);
+        NSLog(@"failed, can authenticate? %d, auth: %@", [auth canAuthorize], auth);
 //        [textView setText:[NSString stringWithFormat:@"failed, can authenticate? %d, error: %@",
 //                           [authentication canAuthorize],
 //                           error]];
