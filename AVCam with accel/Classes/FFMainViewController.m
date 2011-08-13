@@ -429,6 +429,37 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //    [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
 //}
 
+
+- (void)hideButton:(UIButton *)button{
+    [button setHidden:YES];
+    [button setEnabled:NO];
+}
+
+- (void)showButton:(UIButton *)button {
+    [button setHidden:NO];
+    [button setEnabled:YES];
+}
+
+- (void)hideLabel:(UILabel *)label {
+    [label setHidden:YES];
+}
+
+- (void)showLabel:(UILabel *)label {
+    [label setHidden:NO];
+}
+
+- (void)hideLabels {
+    [self hideLabel:self.dropscoreLabelTop];
+    [self hideLabel:self.dropscoreLabelBottom];
+    [self hideLabel:self.dropscoreLabelTime];
+}
+
+- (void)showLabels {    
+    [self showLabel:self.dropscoreLabelTop];
+    [self showLabel:self.dropscoreLabelBottom];
+    [self showLabel:self.dropscoreLabelTime];
+}
+
 @end
 
 @implementation FFMainViewController (InternalMethods)
@@ -506,54 +537,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     return pointOfInterest;
 }
 
-
 // Update button states based on the number of available cameras and mics
 - (void)updateButtonStates
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         //if we're recording hide everything
         if(recording){
-            self.recordButton.hidden = YES;
-            self.recordButton.enabled = NO;
-            
-            self.submitButton.hidden = YES;
-            self.submitButton.enabled = NO;
-            self.ignoreButton.hidden = YES;
-            self.ignoreButton.enabled = NO;
-            
-            self.dropscoreLabelTop.hidden = YES;
-            self.dropscoreLabelBottom.hidden = YES;
-            self.dropscoreLabelTime.hidden = YES;
-
+            [self hideButton:self.recordButton];
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];            
+            [self hideLabels];
         }
         //if we are waiting, just show record
         else if(!didFall && !freefalling){
-            self.recordButton.hidden = NO;
-            self.recordButton.enabled = YES;
-
-            self.submitButton.hidden = YES;
-            self.submitButton.enabled = NO;
-            self.ignoreButton.hidden = YES;
-            self.ignoreButton.enabled = NO;
-
-            self.dropscoreLabelTop.hidden = YES;
-            self.dropscoreLabelBottom.hidden = YES;
-            self.dropscoreLabelTime.hidden = YES;
-
+            [self showButton:self.recordButton];
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];
+            [self hideLabels];
         }
         //if we fell and playback has gone a few times, show the submit/ignore
         else if(didFall && timesLooped > 0){
-            self.recordButton.hidden = YES;
-            self.recordButton.enabled = NO;
-            
-            self.submitButton.hidden = NO;
-            self.submitButton.enabled = YES;
-            self.ignoreButton.hidden = NO;
-            self.ignoreButton.enabled = YES;
-            
-            self.dropscoreLabelTop.hidden = NO;
-            self.dropscoreLabelBottom.hidden = NO;
-            self.dropscoreLabelTime.hidden = NO;
+            [self hideButton:self.recordButton];
+            [self showButton:self.submitButton];
+            [self showButton:self.ignoreButton];
+            [self showLabels];
         }
         
         //need to reset font colors on buttons all the time they get lost
@@ -562,7 +569,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         self.ignoreButton.titleLabel.textColor = fontcolor;
     });
 }
-
 
 @end
 

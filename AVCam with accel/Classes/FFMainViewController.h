@@ -99,6 +99,13 @@
 - (void)ignoreLastVideo:(id)sender;
 - (void)manualRecord:(id)sender;
 
+- (void)hideButton:(UIButton *)button;
+- (void)showButton:(UIButton *)button;
+- (void)hideLabel:(UILabel *)label;
+- (void)showLabel:(UILabel *)label;
+- (void)hideLabels;
+- (void)showLabels;
+
 //#pragma mark Toolbar Actions
 //- (IBAction)toggleRecording:(id)sender;
 //- (IBAction)captureStillImage:(id)sender;
