@@ -19,6 +19,7 @@
 @synthesize developerKey;
 @synthesize authorizeButton;
 @synthesize uploadButton;
+@synthesize stopUploadButton;
 @synthesize logoutButton;
 @synthesize authorizedUserLabel;
 @synthesize uploadProgressView;
@@ -66,17 +67,23 @@
     
     [uploadProgressView setProgress:0.0];
     
-    if ([auth canAuthorize]) {
+    if ([auth canAuthorize])
+    {
         [authorizedUserLabel setText:[auth userEmail]];
         [authorizedUserLabel setHidden:NO];
         [uploadButton setHidden:NO];
         [logoutButton setHidden:NO];
         [authorizeButton setHidden:YES];
-    } else {
+    }
+    else
+    {
         [authorizeButton setHidden:NO];
         [logoutButton setHidden:YES];
         [uploadButton setHidden:YES];
     }
+    [uploadProgressView setHidden:YES];
+    [stopUploadButton setHidden:YES];
+    
     [[self youTubeService] setAuthorizer:auth];
     
     [super viewDidLoad];
@@ -118,6 +125,8 @@
 
 -(void)startUpload:(ALAsset*)asset
 {
+    [GTMHTTPUploadFetcher setLoggingEnabled:YES];
+     
     NSURL* assetUrl = [[asset defaultRepresentation] url];
     NSLog(@"Asset found: %@", asset);
     NSLog(@"Asset url: %@", assetUrl);
@@ -126,7 +135,6 @@
 
     NSString *filename = @"asset.MOV";
     NSString *mimeType = @"video/mp4";
-//    NSString *filename = [path lastPathComponent];
     
     NSURL *url = [GDataServiceGoogleYouTube youTubeUploadURLForUserID:kGDataServiceDefaultUser];
     
@@ -141,14 +149,30 @@
     GDataMediaCategory *category = [GDataMediaCategory mediaCategoryWithString:categoryStr];
     [category setScheme:kGDataSchemeYouTubeCategory];
     
+    // Developer tags
+    NSString* devTagSchemeUrl = @"http://gdata.youtube.com/schemas/2007/developertags.cat";
+    
+//    GDataMediaCategory *devTagFFHS = [GDataMediaCategory mediaCategoryWithString:@"freefallhighscore"];
+    GDataCategory *devTagFFHS = [GDataCategory categoryWithScheme:devTagSchemeUrl term:@"freefallhighscore"];
+    [devTagFFHS setScheme:devTagSchemeUrl];
+    NSLog(@"Developer Tag? %@", devTagFFHS);
+    
+//    GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:@"d:0.234"];
+    GDataCategory *devTagDuration = [GDataCategory categoryWithScheme:devTagSchemeUrl term:@"d:0.234"];
+    [devTagDuration setScheme:devTagSchemeUrl];
+    NSLog(@"Developer Tag? %@", devTagDuration);
+
+    NSString *keywordsStr = @"FreeFallHighScore";
+    GDataMediaKeywords *keywords = [GDataMediaKeywords keywordsWithString:keywordsStr];
+    
     GDataYouTubeMediaGroup *mediaGroup = [GDataYouTubeMediaGroup mediaGroup];
     [mediaGroup setMediaTitle:title];
     [mediaGroup setMediaDescription:desc];
-    [mediaGroup addMediaCategory:category];
-    
-    //NSString *mimeType = [GDataUtilities MIMETypeForFileAtPath:assetUrl
-    //                                           defaultMIMEType:@"video/mov"];
+    [mediaGroup addMediaCategory:category];    
+    [mediaGroup setMediaKeywords:keywords];
+    [mediaGroup setIsPrivate:NO]; // CHANGE!
 
+    // Asset stuff
     ALAssetRepresentation* assetRepresentation = [asset defaultRepresentation];
     Byte *buf = malloc([assetRepresentation size]);  // will be freed automatically when associated NSData is deallocated
     NSError *err = nil;
@@ -157,9 +181,6 @@
     
     NSData* videoData;
     if (err || bytes == 0) {
-        // Are err and bytes == 0 redundant? Doc says 0 return means 
-        // error occurred which presumably means NSError is returned.
-        
         NSLog(@"error from getBytes: %@", err);
         videoData = nil;
         return;
@@ -170,15 +191,21 @@
     // create the upload entry with the mediaGroup and the file data
     GDataEntryYouTubeUpload *entry = [GDataEntryYouTubeUpload entry];
     
-    [entry setNamespaces:[GDataYouTubeConstants youTubeNamespaces]];
-    
+    [entry setNamespaces:[GDataYouTubeConstants youTubeNamespaces]];    
     [entry setMediaGroup:mediaGroup];
     [entry setUploadMIMEType:mimeType];
     [entry setUploadSlug:filename];
-//    [entry setUploadFileHandle:fileHandle];
     [entry setUploadData:videoData];
     
-    
+    // Set dev tags
+    [entry addCategory:devTagFFHS];
+    [entry addCategory:devTagDuration];
+
+    // UI Updates
+    [uploadProgressView setHidden:NO];
+    [stopUploadButton setHidden:NO];
+    [uploadButton setHidden:YES];
+
     SEL progressSel = @selector(ticket:hasDeliveredByteCount:ofTotalByteCount:);
     [service setServiceUploadProgressSelector:progressSel];
     
@@ -196,44 +223,43 @@
 }
 
 // progress callback
-- (void)ticket:(GDataServiceTicket *)ticket hasDeliveredByteCount:(unsigned long long)numberOfBytesRead ofTotalByteCount:(unsigned long long)dataLength {
-    
+- (void)ticket:(GDataServiceTicket *)ticket hasDeliveredByteCount:(unsigned long long)numberOfBytesRead ofTotalByteCount:(unsigned long long)dataLength
+{    
     float progress = (float)numberOfBytesRead/(float)dataLength;
     [uploadProgressView setProgress:progress];
+}
+
+- (void)showAlert:(NSString*)title withMessage:(NSString*)message
+{
+    UIAlertView* alertView = nil; 
+    @try { 
+        alertView = [[UIAlertView alloc] initWithTitle:title
+                                               message:message
+                                              delegate:self cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil]; 
+        [alertView show]; 
+    } @finally { 
+        if (alertView)
+            [alertView release]; 
+    }
 }
 
 // upload callback
 - (void)uploadTicket:(GDataServiceTicket *)ticket
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
-               error:(NSError *)error {
-    if (error == nil) {
-        UIAlertView* alertView = nil; 
-        @try { 
-            alertView = [[UIAlertView alloc] initWithTitle:@"Success!"
-                                                   message:@"Your video has been uploaded successfully!"
-                                                  delegate:self cancelButtonTitle:@"OK"
-                                         otherButtonTitles:nil]; 
-            [alertView show]; 
-        } @finally { 
-            if (alertView)
-                [alertView release]; 
-        }
-    } else {
-        UIAlertView* alertView = nil; 
-        @try { 
-            alertView = [[UIAlertView alloc] initWithTitle:@"Failure"
-                                                   message:@"Your video was not uploaded."
-                                                  delegate:self cancelButtonTitle:@"OK"
-                                         otherButtonTitles:nil]; 
-            [alertView show]; 
-        } @finally { 
-            if (alertView)
-                [alertView release]; 
-        }
-        
-    }
+               error:(NSError *)error
+{
+    if (error == nil)
+        [self showAlert:@"Success!" withMessage:@"Your video has been uploaded successfully!"];
+    else
+        [self showAlert:@"Failure" withMessage:@"Your video was not uploaded."];
     
     [uploadProgressView setProgress:0.0];
+    [uploadProgressView setHidden:YES];
+    
+    [stopUploadButton setHidden:YES];
+    [uploadButton setHidden:NO];
+
     [self setUploadTicket:nil];
 }
 
@@ -276,18 +302,8 @@
     if (error != nil) {
         // Authentication failed
         [authorizedUserLabel setText:@""];
-
-        UIAlertView* alertView = nil; 
-        @try { 
-            alertView = [[UIAlertView alloc] initWithTitle:@"Failure Authenticating"
-                                                   message:@"You might want to wait a bit before pressing 'Allow Access'."
-                                                  delegate:self cancelButtonTitle:@"OK"
-                                         otherButtonTitles:nil]; 
-            [alertView show]; 
-        } @finally { 
-            if (alertView)
-                [alertView release]; 
-        }
+        [self showAlert:@"Failure Authenticating" withMessage:@"You might want to wait a bit before pressing 'Allow Access'."];
+        [self authorize:nil];
     } else {
         // Authentication succeeded
         [authorizedUserLabel setText:[auth userEmail]];
@@ -305,80 +321,16 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-/*
-- (void) GDataLoginDialogSucceeded: (GDataLoginDialog *) loginDialogauthenticatedWithUserInfo: (GDataOAuthAuthentication*) authInfo
+- (IBAction)stopUpload:(id)sender {
+    [uploadTicket cancelTicket];
+    [self setUploadTicket:nil];
     
-    NSString *devKey = YOUTUBE_DEVELOPER_KEY;
-    mService = [[GDataServiceGoogleYouTube alloc] init];
-    [mService setShouldCacheDatedData:YES];
-    [mService setServiceShouldFollowNextLinks:YES];
-    [mService setServiceUploadChunkSize:500000];
-    [mService setYouTubeDeveloperKey:devKey];
+    [uploadProgressView setProgress:0.0];
+    [uploadProgressView setHidden:YES];
     
-    if (mAuthObject)
-    {
-        [mService setAuthorizer: mAuthObject];
-    }
-    [mService setUserCredentialsWithUsername:nil password:nil];
-    
-    Code snippet for uploading:
-        
-        GDataServiceGoogleYouTube *service = [self youtubeService];
-    NSURL *url = [GDataServiceGoogleYouTube
-                  youTubeUploadURLForUserID:kGDataServiceDefaultUser];
-    
-    // load the file data
-    NSString *path = [mDelegate mediaPath];
-    NSString *filename = [path lastPathComponent];
-    
-    // gather all the metadata needed for the mediaGroup
-    NSString *titleStr = [mUploadInfo objectForKey:kTitle];
-    GDataMediaTitle *title = [GDataMediaTitle
-                              textConstructWithString:titleStr];
-    
-    NSString *categoryStr = @"Entertainment";
-    GDataMediaCategory *category = [GDataMediaCategory
-                                    mediaCategoryWithString:categoryStr];
-    [category setScheme:kGDataSchemeYouTubeCategory];
-    
-    NSString *descStr = [mUploadInfo objectForKey:kDescription];
-    GDataMediaDescription *desc = [GDataMediaDescription
-                                   textConstructWithString:descStr];
-    
-    GDataYouTubeMediaGroup *mediaGroup = [GDataYouTubeMediaGroup
-                                          mediaGroup];
-    [mediaGroup setMediaTitle:title];
-    [mediaGroup setMediaDescription:desc];
-    [mediaGroup addMediaCategory:category];
-    
-    NSString *mimeType = [GDataUtilities MIMETypeForFileAtPath:path
-                                               defaultMIMEType:@"video/mov"];
-    
-    NSFileHandle *bigFileHandle = [NSFileHandle
-                                   fileHandleForReadingAtPath:path];
-    
-    // create the upload entry with the mediaGroup and the file data
-    GDataEntryYouTubeUpload *entry = [GDataEntryYouTubeUpload entry];
-    
-    [entry setNamespaces:[GDataYouTubeConstants youTubeNamespaces]];
-    
-    [entry setMediaGroup:mediaGroup];
-    [entry setUploadMIMEType:mimeType];
-    [entry setUploadSlug:filename];
-    [entry setUploadFileHandle:bigFileHandle];
-    
-    SEL progressSel =
-    @selector(ticket:hasDeliveredByteCount:ofTotalByteCount:);
-    [service setServiceUploadProgressSelector:progressSel];
-    
-    mTicket = [service fetchEntryByInsertingEntry:entry
-                                       forFeedURL:url
-                                         delegate:self
-               
-                                didFinishSelector:@selector(uploadTicket:finishedWithEntry:error:)];
-    [mTicket retain];     
+    [stopUploadButton setHidden:YES];
+    [uploadButton setHidden:NO];
 }
-*/
 
 - (void)viewDidUnload
 {

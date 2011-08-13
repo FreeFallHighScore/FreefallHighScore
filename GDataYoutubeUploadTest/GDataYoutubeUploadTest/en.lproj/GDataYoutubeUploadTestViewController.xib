@@ -118,13 +118,35 @@
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="548422728"/>
 					</object>
+					<object class="IBUIButton" id="503135964">
+						<reference key="NSNextResponder" ref="774585933"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{99, 20}, {74, 37}}</string>
+						<reference key="NSSuperview" ref="774585933"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="695600374"/>
+						<string key="NSReuseIdentifierKey">_NS:222</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<reference key="IBUIFont" ref="281859225"/>
+						<int key="IBUIButtonType">1</int>
+						<string key="IBUINormalTitle">stop</string>
+						<reference key="IBUIHighlightedTitleColor" ref="787831894"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="548422728"/>
+					</object>
 					<object class="IBUILabel" id="503318348">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 65}, {280, 21}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="503135964"/>
 						<string key="NSReuseIdentifierKey">_NS:311</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -145,12 +167,13 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 					</object>
-					<object class="IBUIProgressView" id="36987921">
+					<object class="IBUIProgressView" id="695600374">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{181, 34}, {119, 9}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:659</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -247,9 +270,26 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">uploadProgressView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="36987921"/>
+						<reference key="destination" ref="695600374"/>
 					</object>
 					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">stopUpload:</string>
+						<reference key="source" ref="503135964"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">stopUploadButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="503135964"/>
+					</object>
+					<int key="connectionID">26</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -281,7 +321,8 @@
 							<reference ref="1068936597"/>
 							<reference ref="38527878"/>
 							<reference ref="503318348"/>
-							<reference ref="36987921"/>
+							<reference ref="695600374"/>
+							<reference ref="503135964"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -307,7 +348,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">21</int>
-						<reference key="object" ref="36987921"/>
+						<reference key="object" ref="695600374"/>
+						<reference key="parent" ref="774585933"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">23</int>
+						<reference key="object" ref="503135964"/>
 						<reference key="parent" ref="774585933"/>
 					</object>
 				</object>
@@ -324,6 +370,7 @@
 					<string>11.IBPluginDependency</string>
 					<string>17.IBPluginDependency</string>
 					<string>21.IBPluginDependency</string>
+					<string>23.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
@@ -332,6 +379,7 @@
 					<string>GDataYoutubeUploadTestViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -353,7 +401,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">22</int>
+			<int key="maxID">26</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -367,10 +415,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>authorize:</string>
 							<string>logout:</string>
+							<string>stopUpload:</string>
 							<string>upload:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -382,6 +432,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>authorize:</string>
 							<string>logout:</string>
+							<string>stopUpload:</string>
 							<string>upload:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -392,6 +443,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">logout:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">stopUpload:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -407,6 +462,7 @@
 							<string>authorizeButton</string>
 							<string>authorizedUserLabel</string>
 							<string>logoutButton</string>
+							<string>stopUploadButton</string>
 							<string>uploadButton</string>
 							<string>uploadProgressView</string>
 						</object>
@@ -414,6 +470,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>UILabel</string>
+							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIProgressView</string>
@@ -426,6 +483,7 @@
 							<string>authorizeButton</string>
 							<string>authorizedUserLabel</string>
 							<string>logoutButton</string>
+							<string>stopUploadButton</string>
 							<string>uploadButton</string>
 							<string>uploadProgressView</string>
 						</object>
@@ -441,6 +499,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">logoutButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">stopUploadButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">

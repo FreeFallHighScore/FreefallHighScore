@@ -21,6 +21,7 @@
     NSString* developerKey;
     
     UIButton* uploadButton;
+    UIButton* stopUploadButton;
     UIButton* authorizeButton;
     UIButton* logoutButton;
     UILabel* authorizedUserLabel;
@@ -37,6 +38,7 @@
 @property(nonatomic,retain) GDataServiceTicket *uploadTicket;
 
 @property(nonatomic,retain) IBOutlet UIButton* uploadButton;
+@property(nonatomic,retain) IBOutlet UIButton* stopUploadButton;
 @property(nonatomic,retain) IBOutlet UIButton* authorizeButton;
 @property(nonatomic,retain) IBOutlet UIButton* logoutButton;
 @property(nonatomic,retain) IBOutlet UILabel* authorizedUserLabel;
@@ -48,9 +50,12 @@
 - (IBAction)authorize:(id)sender;
 - (IBAction)upload:(id)sender;
 - (IBAction)logout:(id)sender;
+- (IBAction)stopUpload:(id)sender;
 
 - (void)getVideoAsset;
 - (void)startUpload:(ALAsset*)asset;
+
+- (void)showAlert:(NSString*)title withMessage:(NSString*)message;
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth
