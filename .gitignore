@@ -22,3 +22,5 @@ apps/*/*/obj
 
 #mac files
 .DS_Store
+
+secret_developerkeys.plist

@@ -9,18 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "GDataYouTube.h"
 
-//TODO put in private plist
-#define kKeychainItemName @"OAuth: YouTube FreeFallHighScore"
-#define kClientID         @"1045440843497.apps.googleusercontent.com"
-#define kClientSecret     @"Nz6Ytrwzqr5tnD_E8-QzJ4Sh"
-#define kDeveloperKey     @"AI39si7H3MXz-tQpyTjyqa5BnHlNVqVWB9YAubils0HqAbETSafztzK1-_nGM5pg5Lv9xcATljHho5VCEP40lnm-kjWRvVNxZQ"
-
 @class GTMOAuth2ViewControllerTouch;
 @class GTMOAuth2Authentication;
 
 @interface GDataYoutubeUploadTestViewController : UIViewController {
     GDataServiceGoogleYouTube* mService;
+    NSString* keychainItemName;
+    NSString* clientID;
+    NSString* clientSecret;
+    NSString* developerKey;
 }
+
+@property(nonatomic,retain) NSString* keychainItemName;
+@property(nonatomic,retain) NSString* clientID;
+@property(nonatomic,retain) NSString* clientSecret;
+@property(nonatomic,retain) NSString* developerKey;
 
 - (GDataServiceGoogleYouTube *)youTubeService;
 

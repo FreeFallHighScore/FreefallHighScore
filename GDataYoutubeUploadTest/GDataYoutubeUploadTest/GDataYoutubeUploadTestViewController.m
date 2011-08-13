@@ -12,6 +12,11 @@
 
 @implementation GDataYoutubeUploadTestViewController
 
+@synthesize keychainItemName;
+@synthesize clientID;
+@synthesize clientSecret;
+@synthesize developerKey;
+
 - (void)dealloc
 {
     [super dealloc];
@@ -32,11 +37,21 @@
 {
     NSLog(@"view loaded...");
     
+    //load keys
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSString *finalPath = [path stringByAppendingPathComponent:@"secret_developerkeys.plist"];
+    NSDictionary *keydict = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+    
+    self.keychainItemName = [keydict objectForKey:@"kKeychainItemName"];
+    self.clientID = [keydict objectForKey:@"kClientID"];
+    self.clientSecret = [keydict objectForKey:@"kClientSecret"];
+    self.developerKey = [keydict objectForKey:@"kDeveloperKey"];
+    NSLog(@"secrets: %@", keydict );
     
     GTMOAuth2Authentication *auth;
-    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
-                                                              clientID:kClientID
-                                                          clientSecret:kClientSecret];
+    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
+                                                              clientID:clientID
+                                                          clientSecret:clientSecret];
     
     NSLog(@"Auth object? %d Can Authorize? %d", auth, [auth canAuthorize]);
     
@@ -58,7 +73,7 @@
         [service setIsServiceRetryEnabled:YES];
     }
     
-    [service setYouTubeDeveloperKey:kDeveloperKey];
+    [service setYouTubeDeveloperKey:developerKey];
     
     return service;
 }
@@ -70,9 +85,9 @@
     
     GTMOAuth2ViewControllerTouch *viewController;
     viewController = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
-                                                                 clientID:kClientID
-                                                             clientSecret:kClientSecret
-                                                         keychainItemName:kKeychainItemName
+                                                                 clientID:clientID
+                                                             clientSecret:clientSecret
+                                                         keychainItemName:keychainItemName
                                                                  delegate:self
                                                          finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
     

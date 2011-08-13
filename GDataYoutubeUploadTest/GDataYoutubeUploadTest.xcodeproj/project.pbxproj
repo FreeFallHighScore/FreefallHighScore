@@ -11,6 +11,7 @@
 		A633493C13F6CAB8006A31E6 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493613F6CAB8006A31E6 /* GTMOAuth2SignIn.m */; };
 		A633493D13F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */; };
 		A633493E13F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A633493913F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib */; };
+		A633494213F6DE58006A31E6 /* secret_developerkeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A633494113F6DE58006A31E6 /* secret_developerkeys.plist */; };
 		A66471EA13F4681900037EE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471E913F4681900037EE3 /* UIKit.framework */; };
 		A66471EC13F4681900037EE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471EB13F4681900037EE3 /* Foundation.framework */; };
 		A66471EE13F4681900037EE3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471ED13F4681900037EE3 /* CoreGraphics.framework */; };
@@ -33,6 +34,7 @@
 		A633493713F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
 		A633493913F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		A633494113F6DE58006A31E6 /* secret_developerkeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = secret_developerkeys.plist; sourceTree = "<group>"; };
 		A66471E513F4681900037EE3 /* GDataYoutubeUploadTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GDataYoutubeUploadTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A66471E913F4681900037EE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A66471EB13F4681900037EE3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -405,9 +407,18 @@
 			path = GDataIncludes;
 			sourceTree = "<group>";
 		};
+		A633494013F6DE58006A31E6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A633494113F6DE58006A31E6 /* secret_developerkeys.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A66471DA13F4681900037EE3 = {
 			isa = PBXGroup;
 			children = (
+				A633494013F6DE58006A31E6 /* Resources */,
 				A633493013F6CAB8006A31E6 /* GDataIncludes */,
 				A664725413F473CE00037EE3 /* GDataLib */,
 				A66471EF13F4681900037EE3 /* GDataYoutubeUploadTest */,
@@ -850,6 +861,7 @@
 				A66471FD13F4681900037EE3 /* MainWindow.xib in Resources */,
 				A664720313F4681900037EE3 /* GDataYoutubeUploadTestViewController.xib in Resources */,
 				A633493E13F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib in Resources */,
+				A633494213F6DE58006A31E6 /* secret_developerkeys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
