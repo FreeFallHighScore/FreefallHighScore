@@ -86,6 +86,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize dropscoreLabelTop;
 @synthesize dropscoreLabelBottom;
 @synthesize dropscoreLabelTime;
+@synthesize trackLoc;
+
 
 //- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 //{
@@ -267,6 +269,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
+    
+    
+    // location stuff
+    TrackLocation *trackLoc = [[TrackLocation alloc] init];
+    [trackLoc setupLocation];
     
 
     [super viewDidLoad];

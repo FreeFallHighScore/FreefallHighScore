@@ -46,10 +46,13 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "TrackLocation.h"
 
-@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer;
+@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer, TrackLocation;
 
-@interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAccelerometerDelegate> {
+@interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,
+UIAccelerometerDelegate,CLLocationManagerDelegate> {
 	AccelerometerFilter *filter;
     BOOL freefalling;
     BOOL recording;
@@ -68,6 +71,8 @@
     UILabel* dropscoreLabelBottom;
     UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
+    TrackLocation *trackLoc;
+
 }
 
 //camera related stuff
@@ -105,6 +110,11 @@
 - (void)showLabel:(UILabel *)label;
 - (void)hideLabels;
 - (void)showLabels;
+
+// location stuff
+@property (nonatomic,retain) TrackLocation *trackLoc;
+//@property (nonatomic, retain) CLLocationManager *locationManager;
+
 
 //#pragma mark Toolbar Actions
 //- (IBAction)toggleRecording:(id)sender;
