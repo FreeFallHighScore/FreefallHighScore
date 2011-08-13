@@ -7,6 +7,8 @@
 //
 
 #import "GDataYoutubeUploadTestViewController.h"
+#import "GTMOAuth2Authentication.h"
+#import "GTMOAuth2ViewControllerTouch.h"
 
 @implementation GDataYoutubeUploadTestViewController
 
@@ -25,17 +27,82 @@
 
 #pragma mark - View lifecycle
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    NSLog(@"view loaded...");
+    
+    
+    GTMOAuth2Authentication *auth;
+    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName
+                                                              clientID:kClientID
+                                                          clientSecret:kClientSecret];
+    
+    NSLog(@"Auth object? %d Can Authorize? %d", auth, [auth canAuthorize]);
+    
+    [[self youTubeService] setAuthorizer:auth];
+    
     [super viewDidLoad];
 }
-*/
 
-- (IBAction) upload
+
+- (GDataServiceGoogleYouTube *)youTubeService {
+    
+    static GDataServiceGoogleYouTube* service = nil;
+    
+    if (!service) {
+        service = [[GDataServiceGoogleYouTube alloc] init];
+        
+        [service setShouldCacheResponseData:YES];
+        [service setServiceShouldFollowNextLinks:YES];
+        [service setIsServiceRetryEnabled:YES];
+    }
+    
+    [service setYouTubeDeveloperKey:kDeveloperKey];
+    
+    return service;
+}
+
+- (IBAction) upload:(id)sender
 {
+    NSString *scope = @"https://gdata.youtube.com/feeds/"; //[GDataServiceGoogleYouTube authorizationScope];
+    NSLog(@"scope: %@", scope);
+    
+    GTMOAuth2ViewControllerTouch *viewController;
+    viewController = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+                                                                 clientID:kClientID
+                                                             clientSecret:kClientSecret
+                                                         keychainItemName:kKeychainItemName
+                                                                 delegate:self
+                                                         finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+    
+    [viewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [viewController setModalPresentationStyle:UIModalPresentationFormSheet];
+    [self presentModalViewController:(UIViewController*)viewController animated:YES];
 
+    
+//    [[self navigationController] pushViewController:controller
+//                                           animated:YES];
+}
+
+- (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
+      finishedWithAuth:(GTMOAuth2Authentication *)auth
+                 error:(NSError *)error {
+    if (error != nil) {
+        // Authentication failed
+        NSLog(@"failed, auth: %@", auth);
+        NSLog(@"failed, can authenticate? %d, error: %@", [auth canAuthorize], error);
+//        [textView setText:[NSString stringWithFormat:@"failed, can authenticate? %d, error: %@",
+//                           [authentication canAuthorize],
+//                           error]];
+    } else {
+        // Authentication succeeded
+        NSLog(@"succeeded, auth: %@", auth);
+        //[self setAuthentication:auth];
+//        [textView setText:[NSString stringWithFormat:@"succeeded, auth: %@", auth]];
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 /*

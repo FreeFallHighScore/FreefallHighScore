@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A633493B13F6CAB8006A31E6 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493413F6CAB8006A31E6 /* GTMOAuth2Authentication.m */; };
+		A633493C13F6CAB8006A31E6 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493613F6CAB8006A31E6 /* GTMOAuth2SignIn.m */; };
+		A633493D13F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */; };
+		A633493E13F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A633493913F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib */; };
 		A66471EA13F4681900037EE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471E913F4681900037EE3 /* UIKit.framework */; };
 		A66471EC13F4681900037EE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471EB13F4681900037EE3 /* Foundation.framework */; };
 		A66471EE13F4681900037EE3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66471ED13F4681900037EE3 /* CoreGraphics.framework */; };
@@ -22,6 +26,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A633493313F6CAB8006A31E6 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		A633493413F6CAB8006A31E6 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		A633493513F6CAB8006A31E6 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		A633493613F6CAB8006A31E6 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		A633493713F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
+		A633493913F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
 		A66471E513F4681900037EE3 /* GDataYoutubeUploadTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GDataYoutubeUploadTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A66471E913F4681900037EE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A66471EB13F4681900037EE3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -380,9 +391,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A633493013F6CAB8006A31E6 /* GDataIncludes */ = {
+			isa = PBXGroup;
+			children = (
+				A633493313F6CAB8006A31E6 /* GTMOAuth2Authentication.h */,
+				A633493413F6CAB8006A31E6 /* GTMOAuth2Authentication.m */,
+				A633493513F6CAB8006A31E6 /* GTMOAuth2SignIn.h */,
+				A633493613F6CAB8006A31E6 /* GTMOAuth2SignIn.m */,
+				A633493713F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.h */,
+				A633493813F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m */,
+				A633493913F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib */,
+			);
+			path = GDataIncludes;
+			sourceTree = "<group>";
+		};
 		A66471DA13F4681900037EE3 = {
 			isa = PBXGroup;
 			children = (
+				A633493013F6CAB8006A31E6 /* GDataIncludes */,
 				A664725413F473CE00037EE3 /* GDataLib */,
 				A66471EF13F4681900037EE3 /* GDataYoutubeUploadTest */,
 				A66471E813F4681900037EE3 /* Frameworks */,
@@ -823,6 +849,7 @@
 				A66471F413F4681900037EE3 /* InfoPlist.strings in Resources */,
 				A66471FD13F4681900037EE3 /* MainWindow.xib in Resources */,
 				A664720313F4681900037EE3 /* GDataYoutubeUploadTestViewController.xib in Resources */,
+				A633493E13F6CAB8006A31E6 /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,6 +863,9 @@
 				A66471F713F4681900037EE3 /* main.m in Sources */,
 				A66471FA13F4681900037EE3 /* GDataYoutubeUploadTestAppDelegate.m in Sources */,
 				A664720013F4681900037EE3 /* GDataYoutubeUploadTestViewController.m in Sources */,
+				A633493B13F6CAB8006A31E6 /* GTMOAuth2Authentication.m in Sources */,
+				A633493C13F6CAB8006A31E6 /* GTMOAuth2SignIn.m in Sources */,
+				A633493D13F6CAB8006A31E6 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
