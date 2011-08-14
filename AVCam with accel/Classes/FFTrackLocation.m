@@ -20,7 +20,6 @@
 	 didUpdateToLocation:(CLLocation *)newLocation
 			fromLocation:(CLLocation *)oldLocation
 {
-	//if(plateShown) return;
 	
     // test that the horizontal accuracy does not indicate an invalid measurement
     if (newLocation.horizontalAccuracy < 0){
@@ -49,7 +48,7 @@
 {
     #if !(TARGET_IPHONE_SIMULATOR)
         self.locationManager = [[[CLLocationManager alloc] init] autorelease];
-        if (self.locationManager.locationServicesEnabled == NO) {
+        if ([CLLocationManager locationServicesEnabled] == NO) {
             [self performSelector:@selector(locationTimeout) withObject:nil afterDelay:1.5f];
         }
         else{

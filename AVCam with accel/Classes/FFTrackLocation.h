@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 
-@interface FFTrackLocation : NSObject {
+@interface FFTrackLocation : NSObject<CLLocationManagerDelegate> {
     CLLocationManager *locationManager;
 	CLLocation* location;
 }

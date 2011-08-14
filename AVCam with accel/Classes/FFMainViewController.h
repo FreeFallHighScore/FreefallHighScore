@@ -48,7 +48,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer, FFTrackLocation;
+@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer, AccelerometerFilter, AVPlayer, AVPlayerLayer, FFTrackLocation;
 
 @interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,
 UIAccelerometerDelegate,CLLocationManagerDelegate> {
