@@ -25,8 +25,12 @@
 @property (nonatomic, retain) AVVideoComposition *videoComposition;
 @property (nonatomic, retain) id<FFVideoOverlayDelegate> delegate;
 @property (nonatomic, retain) AVAssetExportSession* session;
+
+//NSArray of accelerometer data
+//Time of freefall start, time of freefall end
+
 //building comp
-- (BOOL) createVideoOverlay:(AVAsset*)sourceAsset;
+- (BOOL) createVideoOverlay:(AVAsset*)sourceAsset; //add more parameters
 - (CALayer *)buildHighscoreOverlay:(CGSize)videoSize;
 - (void)buildPassThroughVideoComposition:(AVMutableVideoComposition *)videoComposition forComposition:(AVMutableComposition *)composition;
 

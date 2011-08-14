@@ -489,6 +489,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void) overlayComplete:(NSURL*)assetURL
 {
     NSLog(@"overlay complete!! %@", assetURL);
+
+    
+    self.player = [AVPlayer playerWithURL:assetURL];
+    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+    self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.player currentItem]];
+    
+    [self.player play];
+    
+    UIView *view = [self videoPreviewView];
+    CALayer *viewLayer = [view layer];        
+    
+    //CGRect bounds = [view bounds];
+    CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
+    
+    [self.playerLayer setFrame:bounds];
+    
+    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+
 }
 
 @end
@@ -643,31 +667,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             NSLog(@"assetURL is %@", assetForOverlay.URL);
             [self.videoOverlay createVideoOverlay:self.assetForOverlay];
         }];
-        
-        
-        //in the meantime play the normal asset
-        self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
-        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
-        
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerItemDidReachEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:[self.player currentItem]];
-        
-        [self.player play];
-        
-        UIView *view = [self videoPreviewView];
-        CALayer *viewLayer = [view layer];        
-        
-        //CGRect bounds = [view bounds];
-        CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
-        
-        [self.playerLayer setFrame:bounds];
-        
-        [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
-        
+                
         self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
         [self updateButtonStates];
     });

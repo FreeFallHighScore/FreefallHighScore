@@ -53,65 +53,6 @@ static CGImageRef createStarImage(CGFloat radius)
 	return image;
 }
 
-
-- (BOOL) createVideoOverlay:(AVAsset*)sourceAsset
-{
-    CALayer *animatedOverlay = nil;
-    
-    CGSize videoSize = [sourceAsset naturalSize];
-    
-    AVMutableComposition *composition = [AVMutableComposition composition];
-    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
-    
-	AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-	AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-
-    CMTimeRange duration = CMTimeRangeMake(kCMTimeZero, [sourceAsset duration]);
-    
-    AVAssetTrack *clipVideoTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-    [compositionVideoTrack insertTimeRange:duration ofTrack:clipVideoTrack atTime:kCMTimeZero error:nil];
-    
-    AVAssetTrack *clipAudioTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-    [compositionAudioTrack insertTimeRange:duration ofTrack:clipAudioTrack atTime:kCMTimeZero error:nil];
-
-    animatedOverlay = [self buildHighscoreOverlay:videoSize];
-
-    CALayer *parentLayer = [CALayer layer];
-    CALayer *videoLayer = [CALayer layer];
-    parentLayer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
-    videoLayer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
-    [parentLayer addSublayer:videoLayer];
-    [parentLayer addSublayer:animatedOverlay];
-    
-    [self buildPassThroughVideoComposition:videoComposition forComposition:composition];
-    videoComposition.animationTool = [AVVideoCompositionCoreAnimationTool videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:parentLayer];
-
-    videoComposition.frameDuration = CMTimeMake(1, 30); // 30 fps
-    videoComposition.renderSize = videoSize;
-
-    NSLog(@"beginning overlay export video size is %f %f", videoSize.width, videoSize.height);
-    
-    //retain the objects
-    self.composition = composition;
-    self.videoComposition = videoComposition;
-    
-    [self beginExport];    
-    return YES;
-}
-
-- (void) buildPassThroughVideoComposition:(AVMutableVideoComposition *)videoComposition forComposition:(AVMutableComposition *)composition
-{
-	// Make a "pass through video track" video composition.
-	AVMutableVideoCompositionInstruction *passThroughInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-	passThroughInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [composition duration]);
-	
-	AVAssetTrack *videoTrack = [[composition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-	AVMutableVideoCompositionLayerInstruction *passThroughLayer = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
-	
-	passThroughInstruction.layerInstructions = [NSArray arrayWithObject:passThroughLayer];
-	videoComposition.instructions = [NSArray arrayWithObject:passThroughInstruction];
-}
-
 - (CALayer *)buildHighscoreOverlay:(CGSize)videoSize
 {
 	// Create a layer for the overall title animation.
@@ -173,6 +114,65 @@ static CGImageRef createStarImage(CGFloat radius)
 	[animatedTitleLayer addAnimation:fadeAnimation forKey:nil];
 	
 	return animatedTitleLayer;
+}
+
+
+- (BOOL) createVideoOverlay:(AVAsset*)sourceAsset
+{
+    CALayer *animatedOverlay = nil;
+    
+    CGSize videoSize = [sourceAsset naturalSize];
+    
+    AVMutableComposition *composition = [AVMutableComposition composition];
+    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
+    
+	AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+	AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+
+    CMTimeRange duration = CMTimeRangeMake(kCMTimeZero, [sourceAsset duration]);
+    
+    AVAssetTrack *clipVideoTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    [compositionVideoTrack insertTimeRange:duration ofTrack:clipVideoTrack atTime:kCMTimeZero error:nil];
+    
+    AVAssetTrack *clipAudioTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
+    [compositionAudioTrack insertTimeRange:duration ofTrack:clipAudioTrack atTime:kCMTimeZero error:nil];
+
+    animatedOverlay = [self buildHighscoreOverlay:videoSize];
+
+    CALayer *parentLayer = [CALayer layer];
+    CALayer *videoLayer = [CALayer layer];
+    parentLayer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
+    videoLayer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
+    [parentLayer addSublayer:videoLayer];
+    [parentLayer addSublayer:animatedOverlay];
+    
+    [self buildPassThroughVideoComposition:videoComposition forComposition:composition];
+    videoComposition.animationTool = [AVVideoCompositionCoreAnimationTool videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:parentLayer];
+
+    videoComposition.frameDuration = CMTimeMake(1, 30); // 30 fps
+    videoComposition.renderSize = videoSize;
+
+    NSLog(@"beginning overlay export video size is %f %f", videoSize.width, videoSize.height);
+    
+    //retain the objects
+    self.composition = composition;
+    self.videoComposition = videoComposition;
+    
+    [self beginExport];    
+    return YES;
+}
+
+- (void) buildPassThroughVideoComposition:(AVMutableVideoComposition *)videoComposition forComposition:(AVMutableComposition *)composition
+{
+	// Make a "pass through video track" video composition.
+	AVMutableVideoCompositionInstruction *passThroughInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+	passThroughInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [composition duration]);
+	
+	AVAssetTrack *videoTrack = [[composition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+	AVMutableVideoCompositionLayerInstruction *passThroughLayer = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+	
+	passThroughInstruction.layerInstructions = [NSArray arrayWithObject:passThroughLayer];
+	videoComposition.instructions = [NSArray arrayWithObject:passThroughInstruction];
 }
 
 - (AVAssetExportSession*)assetExportSessionWithPreset:(NSString*)presetName
