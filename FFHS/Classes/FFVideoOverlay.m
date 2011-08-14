@@ -44,9 +44,9 @@ static CGImageRef createStarImage(CGFloat radius)
 	}
 	CGContextClosePath(context);
 	
-	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0);
-	CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-	CGContextDrawPath(context, kCGPathFillStroke);
+	CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, 1.0);
+	//CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
+	CGContextDrawPath(context, kCGPathFill);
 	CGColorSpaceRelease(colorspace);
 	image = CGBitmapContextCreateImage(context);
 	CGContextRelease(context);
@@ -60,7 +60,8 @@ static CGImageRef createStarImage(CGFloat radius)
 	
 	// Create a layer for the text of the title.
 	CATextLayer *titleLayer = [CATextLayer layer];
-	titleLayer.string = @"title text";
+	//titleLayer.string = @"title text";
+    titleLayer.string = [NSString stringWithFormat:@"%.03fs", fallstart];
 	titleLayer.font = @"Helvetica";
 	titleLayer.fontSize = videoSize.height / 6;
 	//?? titleLayer.shadowOpacity = 0.5;
@@ -73,45 +74,48 @@ static CGImageRef createStarImage(CGFloat radius)
 	// Create a layer that contains a ring of stars.
 	CALayer *ringOfStarsLayer = [CALayer layer];
     
-	NSInteger starCount = 9, s;
+	NSInteger starCount = 3, s;
 	CGFloat starRadius = videoSize.height / 10;
 	CGFloat ringRadius = videoSize.height * 0.8 / 2;
 	CGImageRef starImage = createStarImage(starRadius);
-	for (s = 0; s < starCount; s++) {
+	
 		CALayer *starLayer = [CALayer layer];
 		CGFloat angle = s * 2 * M_PI / starCount;
 		starLayer.bounds = CGRectMake(0, 0, 2 * starRadius, 2 * starRadius);
 		starLayer.position = CGPointMake(ringRadius * cos(angle), ringRadius * sin(angle));
 		starLayer.contents = (id)starImage;
 		[ringOfStarsLayer addSublayer:starLayer];
-	}
+	
 	CGImageRelease(starImage);
 	
-	// Rotate the ring of stars.
-	CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-	rotationAnimation.repeatCount = 1e100; // forever
-	rotationAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-	rotationAnimation.toValue = [NSNumber numberWithFloat:2 * M_PI];
-	rotationAnimation.duration = 10.0; // repeat every 10 seconds
-	rotationAnimation.additive = YES;
+	// Move the ring of stars.
+	CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
+	//rotationAnimation.repeatCount = 10; 
+	rotationAnimation.fromValue = [NSNumber numberWithFloat:videoSize.height];
+	rotationAnimation.toValue = [NSNumber numberWithFloat:0.0];// NSNumber numberWithFloat:0.0
+	rotationAnimation.duration = fallend-fallstart; // repeat every 10 seconds
+	//rotationAnimation.additive = YES;
 	rotationAnimation.removedOnCompletion = NO;
-	rotationAnimation.beginTime = 1e-100; // CoreAnimation automatically replaces zero beginTime with CACurrentMediaTime().  The constant AVCoreAnimationBeginTimeAtZero is also available.
+	rotationAnimation.beginTime = fallstart;
+   
+   // rotationAnimation.timeOffset = fallstart;
+    // CoreAnimation automatically replaces zero beginTime with CACurrentMediaTime().  The constant AVCoreAnimationBeginTimeAtZero is also available.
 	[ringOfStarsLayer addAnimation:rotationAnimation forKey:nil];
 	
 	// Add the ring of stars to the overall layer.
-	animatedTitleLayer.position = CGPointMake(videoSize.width / 2.0, videoSize.height / 2.0);
+	animatedTitleLayer.position = CGPointMake(videoSize.width / 2.0, 0);
 	[animatedTitleLayer addSublayer:ringOfStarsLayer];
 	
 	// Animate the opacity of the overall layer so that it fades out from 3 sec to 4 sec.
-	CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-	fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-	fadeAnimation.toValue = [NSNumber numberWithFloat:0.0];
-	fadeAnimation.additive = NO;
-	fadeAnimation.removedOnCompletion = NO;
-	fadeAnimation.beginTime = 10.0;
-	fadeAnimation.duration = 2.0;
-	fadeAnimation.fillMode = kCAFillModeBoth;
-	[animatedTitleLayer addAnimation:fadeAnimation forKey:nil];
+	//CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+	//fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+	//fadeAnimation.toValue = [NSNumber numberWithFloat:0.0];
+	//fadeAnimation.additive = NO;
+	//fadeAnimation.removedOnCompletion = NO;
+	//fadeAnimation.beginTime = 0.5;
+	//fadeAnimation.duration = 2.0;
+	//fadeAnimation.fillMode = kCAFillModeBoth;
+	//[animatedTitleLayer addAnimation:fadeAnimation forKey:nil];
 	
 	return animatedTitleLayer;
 }
@@ -122,6 +126,9 @@ static CGImageRef createStarImage(CGFloat radius)
                            fallEnded:(NSTimeInterval)fallEndedTime
                    accelerometerData:(NSArray*)accelData
 {
+    
+    fallstart = fallStartTime;
+    fallend= fallEndedTime;
     
     NSLog(@"creating overlay with start time %f end time %f and %d accel samples", fallStartTime, fallEndedTime, [accelData count]);
     
@@ -134,6 +141,7 @@ static CGImageRef createStarImage(CGFloat radius)
 	AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
 	AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
 
+    //CMTimeRange duration = CMTimeRangeMake(kCMTimeZero, [sourceAsset duration]);
     CMTimeRange duration = CMTimeRangeMake(kCMTimeZero, [sourceAsset duration]);
     
     AVAssetTrack *clipVideoTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];

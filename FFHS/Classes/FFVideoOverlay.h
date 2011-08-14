@@ -20,6 +20,8 @@
     AVAssetExportSession* _session;
     BOOL _exporting;
     id<FFVideoOverlayDelegate> _delegate; 
+    NSTimeInterval fallstart;
+    NSTimeInterval fallend;
 }
 
 
