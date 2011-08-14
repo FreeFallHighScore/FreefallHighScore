@@ -47,9 +47,8 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "TrackLocation.h"
 
-@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer, TrackLocation;
+@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer,AccelerometerFilter, AVPlayer, AVPlayerLayer, FFTrackLocation;
 
 @interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,
 UIAccelerometerDelegate,CLLocationManagerDelegate> {
@@ -71,7 +70,7 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
     UILabel* dropscoreLabelBottom;
     UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
-    TrackLocation *trackLoc;
+    FFTrackLocation *trackLoc;
 
 }
 
@@ -114,7 +113,7 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
 - (void)showLabels;
 
 // location stuff
-@property (nonatomic,retain) TrackLocation *trackLoc;
+@property (nonatomic,retain) FFTrackLocation *trackLoc;
 //@property (nonatomic, retain) CLLocationManager *locationManager;
 
 

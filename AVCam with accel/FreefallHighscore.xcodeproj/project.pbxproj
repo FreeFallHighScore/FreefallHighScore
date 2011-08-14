@@ -16,6 +16,8 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* FFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */; };
 		A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */; };
+		A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFTrackLocation.m */; };
+		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291C13EF2402006BC687 /* app_icon2.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
@@ -51,6 +53,9 @@
 		8D1107310486CEB800E47090 /* FreefallHighscore-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FreefallHighscore-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFVideoOverlay.h; sourceTree = "<group>"; };
 		A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFVideoOverlay.m; sourceTree = "<group>"; };
+		A66F16F313F8263900B92C7C /* FFTrackLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTrackLocation.h; sourceTree = "<group>"; };
+		A66F16F413F8263A00B92C7C /* FFTrackLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTrackLocation.m; sourceTree = "<group>"; };
+		A66F16F813F8266A00B92C7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DA7A291C13EF2402006BC687 /* app_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon2.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
@@ -78,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -110,6 +116,8 @@
 				26D26A44130341DA00D8C94B /* AVCamUtilities.m */,
 				A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */,
 				A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */,
+				A66F16F313F8263900B92C7C /* FFTrackLocation.h */,
+				A66F16F413F8263A00B92C7C /* FFTrackLocation.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -162,6 +170,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A66F16F813F8266A00B92C7C /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
@@ -251,6 +260,7 @@
 				26D26A45130341DA00D8C94B /* AVCamUtilities.m in Sources */,
 				DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */,
 				A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */,
+				A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

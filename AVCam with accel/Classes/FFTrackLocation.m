@@ -6,19 +6,15 @@
 //  Copyright 2011 NYU. All rights reserved.
 //
 
-#import "TrackLocation.h"
+#import "FFTrackLocation.h"
 
 #define LOCATION_TIMEOUT 7
 
 
-@implementation TrackLocation
+@implementation FFTrackLocation
 
 @synthesize locationManager;
 @synthesize location;
-
-
-
-
 
 - (void) locationManager:(CLLocationManager *)manager
 	 didUpdateToLocation:(CLLocation *)newLocation
@@ -64,16 +60,13 @@
         }
         
     #else
-        
         [self performSelector:@selector(locationTimeout) withObject:nil afterDelay:1.5f];
-        
-#endif
+    #endif
 }
 
 - (void) locationTimeout
 {
 	[self.locationManager stopUpdatingLocation];
-	//[self selectPlate:NO];			
 }
 
 @end

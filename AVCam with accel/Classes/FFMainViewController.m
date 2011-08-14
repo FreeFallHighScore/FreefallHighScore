@@ -49,6 +49,7 @@
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "AccelerometerFilter.h"
+#import "FFTrackLocation.h"
 #import <AVFoundation/AVFoundation.h>
 
 #define kUpdateFrequency	60.0
@@ -187,8 +188,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             NSLog(@"number of times: %i the app has been launched", launchCount);
             
-            if ( launchCount == 1 )
-            {
+            if ( launchCount == 1 ){
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
                 self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -205,14 +205,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 
 
             }
-            if ( launchCount == 2 )
-            {
+            
+            if ( launchCount == 2 ){
                 NSLog(@"this is the SECOND launch of the damn app");
                 
             }
 
-            
-            
             
             //RECORD BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -310,7 +308,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     
     // location stuff
-    TrackLocation *trackLoc = [[TrackLocation alloc] init];
+    trackLoc = [[FFTrackLocation alloc] init];
     [trackLoc setupLocation];
     
 

@@ -10,12 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 
 
-@interface TrackLocation : NSObject {
-    
+@interface FFTrackLocation : NSObject {
     CLLocationManager *locationManager;
 	CLLocation* location;
-    
-    
 }
 
 @property(nonatomic, retain) CLLocationManager *locationManager;  
