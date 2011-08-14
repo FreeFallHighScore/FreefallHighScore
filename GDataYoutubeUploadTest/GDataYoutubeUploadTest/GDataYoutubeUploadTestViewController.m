@@ -281,22 +281,32 @@
     // Developer tags
     NSString* devTagSchemeUrl = @"http://gdata.youtube.com/schemas/2007/developertags.cat";
     
-    //    GDataMediaCategory *devTagFFHS = [GDataMediaCategory mediaCategoryWithString:@"freefallhighscore"];
-    GDataCategory *devTagFFHS = [GDataCategory categoryWithScheme:devTagSchemeUrl term:@"freefallhighscore"];
-    GDataMediaCategory *devTagFFHSM = [GDataMediaCategory mediaCategoryWithString:@"freefallhighscore"];
-    [devTagFFHSM setScheme:devTagSchemeUrl];
+    // FreeFallHighScore
+    NSString *devTagFFHSStr = @"freefallhighscore";
+    GDataMediaCategory *devTagFFHS = [GDataMediaCategory mediaCategoryWithString:devTagFFHSStr];
+    [devTagFFHS setScheme:devTagSchemeUrl];
     
-    //    GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:@"d:0.234"];
-    GDataCategory *devTagDuration = [GDataCategory categoryWithScheme:devTagSchemeUrl term:@"d:0.234"];
-    GDataMediaCategory *devTagDurationM = [GDataMediaCategory mediaCategoryWithString:@"d:0.23"];
-    [devTagDurationM setScheme:devTagSchemeUrl];
-
-    [mediaGroup addMediaCategory:devTagFFHSM];
-    [mediaGroup addMediaCategory:devTagDurationM];
+    // Duration
+    NSString *devTagDurationStr = @"dur:234"; // Store duration in milliseconds?
+    GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:devTagDurationStr];
+    [devTagDuration setScheme:devTagSchemeUrl];
     
-    [entry addCategory:devTagFFHS];
-    [entry addCategory:devTagDuration];
+    // Location
+    NSString *devTagLocationString = @"loc:+40.714945-73.936432";
+    GDataMediaCategory *devTagLocation = [GDataMediaCategory mediaCategoryWithString:devTagLocationString];
+    [devTagLocation setScheme:devTagSchemeUrl];
     
+    // Device
+    NSString *devTagDeviceString = @"dev:iphone:3";
+    GDataMediaCategory *devTagDevice = [GDataMediaCategory mediaCategoryWithString:devTagDeviceString];
+    [devTagDevice setScheme:devTagSchemeUrl];
+        
+    // Add them
+    [mediaGroup addMediaCategory:devTagFFHS];
+    [mediaGroup addMediaCategory:devTagDuration];
+    [mediaGroup addMediaCategory:devTagLocation];
+    [mediaGroup addMediaCategory:devTagDevice];
+        
     // UI Updates
     [uploadProgressView setHidden:NO];
     [stopUploadButton setHidden:NO];
