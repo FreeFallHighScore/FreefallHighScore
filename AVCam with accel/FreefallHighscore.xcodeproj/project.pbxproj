@@ -133,8 +133,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				DA7A291C13EF2402006BC687 /* app_icon2.png */,
-				DA7A291913EF2384006BC687 /* app_icon.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -156,6 +154,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DA7A291C13EF2402006BC687 /* app_icon2.png */,
+				DA7A291913EF2384006BC687 /* app_icon.png */,
 				E7B32F2013EE31BB00A76421 /* gbb.ttf */,
 				E7B32F1C13EE319F00A76421 /* Default.png */,
 				E7B32F1D13EE319F00A76421 /* Default@2x.png */,

@@ -44,13 +44,14 @@
  Copyright (C) 2011 Apple Inc. All Rights Reserved.
  
  */
+#import <AVFoundation/AVFoundation.h>
 
 #import "FFMainViewController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "AccelerometerFilter.h"
 #import "FFTrackLocation.h"
-#import <AVFoundation/AVFoundation.h>
+#import "FFVideoOverlay.h"
 
 #define kUpdateFrequency	60.0
 
@@ -81,6 +82,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize lowestMagnitude;
 @synthesize player;
 @synthesize playerLayer;
+@synthesize assetForOverlay;
 @synthesize recordButton;
 @synthesize ignoreButton;
 @synthesize submitButton;
@@ -89,7 +91,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize dropscoreLabelTime;
 @synthesize trackLoc;
 @synthesize loginButton;
-
+@synthesize videoOverlay;
 
 //- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 //{
@@ -311,7 +313,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     trackLoc = [[FFTrackLocation alloc] init];
     [trackLoc setupLocation];
     
-
+    videoOverlay = [[FFVideoOverlay alloc] init];
+    videoOverlay.delegate = self;
+    
     [super viewDidLoad];
 }
 
@@ -410,34 +414,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[[self captureManager] session] stopRunning];
-        });
-        
-        self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
-        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
-        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
-
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerItemDidReachEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:[self.player currentItem]];
-
-        [self.player play];
-        
-        UIView *view = [self videoPreviewView];
-        CALayer *viewLayer = [view layer];        
-        
-        //CGRect bounds = [view bounds];
-        CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
-        
-        [self.playerLayer setFrame:bounds];
-        
-        [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
-        
-        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
-        [self updateButtonStates];
+        });        
     });    
-    
 
 }
 
@@ -471,34 +449,46 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //}
 
 
-- (void)hideButton:(UIButton *)button{
+- (void)hideButton:(UIButton *)button
+{
     [button setHidden:YES];
     [button setEnabled:NO];
 }
 
-- (void)showButton:(UIButton *)button {
+- (void)showButton:(UIButton *)button 
+{
     [button setHidden:NO];
     [button setEnabled:YES];
 }
 
-- (void)hideLabel:(UILabel *)label {
+- (void)hideLabel:(UILabel *)label
+{
     [label setHidden:YES];
 }
 
-- (void)showLabel:(UILabel *)label {
+- (void)showLabel:(UILabel *)label
+{
     [label setHidden:NO];
 }
 
-- (void)hideLabels {
+- (void)hideLabels
+{
     [self hideLabel:self.dropscoreLabelTop];
     [self hideLabel:self.dropscoreLabelBottom];
     [self hideLabel:self.dropscoreLabelTime];
 }
 
-- (void)showLabels {    
+- (void)showLabels 
+{ 
     [self showLabel:self.dropscoreLabelTop];
     [self showLabel:self.dropscoreLabelBottom];
     [self showLabel:self.dropscoreLabelTime];
+}
+
+
+- (void) overlayComplete:(NSURL*)assetURL
+{
+    NSLog(@"overlay complete!! %@", assetURL);
 }
 
 @end
@@ -637,12 +627,50 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //    });
 }
 
-- (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager
+- (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
-//    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-//        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
-//        [[self recordButton] setEnabled:YES];
-//    });
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        ///create an overlay assetf
+        NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
+                                                                 forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+//        self.assetForOverlay = [AVURLAsset URLAssetWithURL:[self captureManager].outputFileURL 
+//                                                   options:assetOptions];
+        
+        self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
+                                                   options:assetOptions];
+        
+        [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
+            NSLog(@"assetURL is %@", assetForOverlay.URL);
+            [self.videoOverlay createVideoOverlay:self.assetForOverlay];
+        }];
+        
+        
+        //in the meantime play the normal asset
+        self.player = [AVPlayer playerWithURL:[self captureManager].outputFileURL];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(playerItemDidReachEnd:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:[self.player currentItem]];
+        
+        [self.player play];
+        
+        UIView *view = [self videoPreviewView];
+        CALayer *viewLayer = [view layer];        
+        
+        //CGRect bounds = [view bounds];
+        CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
+        
+        [self.playerLayer setFrame:bounds];
+        
+        [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+        
+        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
+        [self updateButtonStates];
+    });
 }
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager

@@ -13,6 +13,8 @@
 @implementation FFVideoOverlay
 @synthesize composition = _composition;
 @synthesize videoComposition =_videoComposition;
+@synthesize session = _session;
+@synthesize delegate = _delegate;
 
 static CGImageRef createStarImage(CGFloat radius)
 {
@@ -87,6 +89,13 @@ static CGImageRef createStarImage(CGFloat radius)
     videoComposition.frameDuration = CMTimeMake(1, 30); // 30 fps
     videoComposition.renderSize = videoSize;
 
+    NSLog(@"beginning overlay export video size is %f %f", videoSize.width, videoSize.height);
+    
+    //retain the objects
+    self.composition = composition;
+    self.videoComposition = videoComposition;
+    
+    [self beginExport];    
     return YES;
 }
 
@@ -168,16 +177,16 @@ static CGImageRef createStarImage(CGFloat radius)
 
 - (AVAssetExportSession*)assetExportSessionWithPreset:(NSString*)presetName
 {
-	AVAssetExportSession *session = [[AVAssetExportSession alloc] initWithAsset:self.composition presetName:presetName];
+	AVAssetExportSession *session = [AVAssetExportSession exportSessionWithAsset:self.composition presetName:presetName];
 	session.videoComposition = self.videoComposition;
 //	session.audioMix = self.audioMix;
-	return [session autorelease];
+	return session;
 }
 
 #pragma mark -
 #pragma mark Export
 
-- (void)beginExport
+- (void) beginExport
 {
 	_exporting = YES;
 //	_showSavedVideoToAssestsLibrary = NO;
@@ -189,7 +198,7 @@ static CGImageRef createStarImage(CGFloat radius)
 //	[self updateCell:cell forRowAtIndexPath:exportCellIndexPath];
 	
 //	[self.editor buildCompositionObjectsForPlayback:NO];
-	AVAssetExportSession *session = [self assetExportSessionWithPreset:AVAssetExportPresetHighestQuality];
+	self.session = [self assetExportSessionWithPreset:AVAssetExportPresetHighestQuality];
     
 	NSString *filePath = nil;
 	NSUInteger count = 0;
@@ -201,17 +210,20 @@ static CGImageRef createStarImage(CGFloat radius)
 		count++;
 	} while([[NSFileManager defaultManager] fileExistsAtPath:filePath]);      
 	
-	session.outputURL = [NSURL fileURLWithPath:filePath];
-	session.outputFileType = AVFileTypeQuickTimeMovie;
+    NSLog(@"Found temp file path %@", filePath);
+    
+	self.session.outputURL = [NSURL fileURLWithPath:filePath];
+	self.session.outputFileType = AVFileTypeQuickTimeMovie;
 	
-	[session exportAsynchronouslyWithCompletionHandler:^{
+	[self.session exportAsynchronouslyWithCompletionHandler:^(void){
+        NSLog(@"Export handler finished");
          dispatch_async(dispatch_get_main_queue(), ^{
-             [self exportDidFinish:session];
+             [self exportDidFinish:self.session];
          });
      }];
 	
-	NSArray *modes = [[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil];
-	[self performSelector:@selector(updateProgress:) withObject:session afterDelay:0.5 inModes:modes];
+	NSArray *modes = [[[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil] autorelease];
+	[self performSelector:@selector(updateProgress:) withObject:self.session afterDelay:0.5 inModes:modes];
 }
 
 - (void)updateProgress:(AVAssetExportSession*)session
@@ -225,12 +237,17 @@ static CGImageRef createStarImage(CGFloat radius)
 		NSArray *modes = [[[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil] autorelease];
 		[self performSelector:@selector(updateProgress:) withObject:session afterDelay:0.5 inModes:modes];
 	}
+    else{
+        NSLog(@"EXPORT STATUS OFF %d", session.status);
+    }
 }
 
-- (void)exportDidFinish:(AVAssetExportSession*)session
+- (void) exportDidFinish:(AVAssetExportSession*)session
 {
 	NSURL *outputURL = session.outputURL;
 	
+    NSLog(@"Export did finsish to URL %@", session.outputURL);
+    
 	_exporting = NO;
 //	NSIndexPath *exportCellIndexPath = [NSIndexPath indexPathForRow:2 inSection:kProjectSection];
 //	ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];
@@ -255,6 +272,9 @@ static CGImageRef createStarImage(CGFloat radius)
 											}
 											else {
                                                 NSLog(@"EXPORT SUCCESS");
+                                                if(self.delegate != nil){
+                                                    [self.delegate overlayComplete:outputURL];
+                                                }
 //												_showSavedVideoToAssestsLibrary = YES;
 //												ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];
 //												[cell setDetailTextLabelHidden:NO animated:YES];

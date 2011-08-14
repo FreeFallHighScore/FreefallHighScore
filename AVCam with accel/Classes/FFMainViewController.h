@@ -47,12 +47,20 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "FFVideoOverlay.h"
 
-@class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer, AccelerometerFilter, AVPlayer, AVPlayerLayer, FFTrackLocation;
+@class AVCamCaptureManager;
+@class AVCamPreviewView;
+@class AVCaptureVideoPreviewLayer;
+@class AVPlayer;
+@class AVPlayerLayer;
+@class AccelerometerFilter;
+@class FFTrackLocation;
 
-@interface FFMainViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,
-UIAccelerometerDelegate,CLLocationManagerDelegate> {
+
+@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate> {
 	AccelerometerFilter *filter;
+    
     BOOL freefalling;
     BOOL recording;
     NSTimeInterval longestTimeInFreefall;
@@ -60,8 +68,7 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
     NSInteger framesInFreefall;
     NSInteger framesOutOfFreefall;
     BOOL didFall;
-    AVPlayer* player;
-    AVPlayerLayer* playerLayer;
+    
     NSInteger timesLooped;
     UIButton* ignoreButton;
     UIButton* submitButton;
@@ -70,7 +77,12 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
     UILabel* dropscoreLabelBottom;
     UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
+    
     FFTrackLocation *trackLoc;
+    FFVideoOverlay* videoOverlay;
+    AVURLAsset* assetForOverlay;
+    AVPlayer* player;
+    AVPlayerLayer* playerLayer;
 
 }
 
@@ -99,12 +111,21 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
 //playback stuff
 @property (nonatomic, retain) AVPlayer* player;
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
+@property (nonatomic, retain) AVURLAsset* assetForOverlay;
+@property (nonatomic, retain) FFVideoOverlay* videoOverlay;
+//location stuff
+@property (nonatomic,retain) FFTrackLocation *trackLoc;
+
+
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
 - (void)submitLastVideo:(id)sender;
 - (void)ignoreLastVideo:(id)sender;
 - (void)manualRecord:(id)sender;
 
+- (void) overlayComplete:(NSURL*)assetURL;
+
+//TODO: make private
 - (void)hideButton:(UIButton *)button;
 - (void)showButton:(UIButton *)button;
 - (void)hideLabel:(UILabel *)label;
@@ -112,15 +133,6 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
 - (void)hideLabels;
 - (void)showLabels;
 
-// location stuff
-@property (nonatomic,retain) FFTrackLocation *trackLoc;
-//@property (nonatomic, retain) CLLocationManager *locationManager;
-
-
-//#pragma mark Toolbar Actions
-//- (IBAction)toggleRecording:(id)sender;
-//- (IBAction)captureStillImage:(id)sender;
-//- (IBAction)toggleCamera:(id)sender;
 
 @end
 

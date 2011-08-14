@@ -41,7 +41,6 @@
 		didFailWithError:(NSError *)error
 {
 	[manager stopUpdatingLocation];
-	//[self selectPlate:NO];	
 }
 
 - (void) setupLocation

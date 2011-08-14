@@ -552,7 +552,7 @@ bail:
 		}		
 
 		if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:)]) {
-			[[self delegate] captureManagerRecordingFinished:self];
+			[[self delegate] captureManagerRecordingFinished:self toURL:outputFileURL];
 		}
 	}
 	else {	
@@ -569,8 +569,9 @@ bail:
 											[[UIApplication sharedApplication] endBackgroundTask:[self backgroundRecordingID]];
 										}
 										
-										if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:)]) {
-											[[self delegate] captureManagerRecordingFinished:self];
+										if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:toURL:)]) {
+                                            NSLog(@"DELEGATE CALLBABACK saved asset file url is %@", assetURL);
+											[[self delegate] captureManagerRecordingFinished:self toURL:assetURL];
 										}
 									}];
 		[library release];
