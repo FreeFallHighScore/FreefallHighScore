@@ -19,6 +19,8 @@
 		A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFTrackLocation.m */; };
 		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
 		A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */; };
+		A66F18D313F8778100B92C7C /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18D213F8778100B92C7C /* FlipsideViewController.m */; };
+		A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18D413F877AB00B92C7C /* FlipsideView.xib */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291C13EF2402006BC687 /* app_icon2.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
@@ -59,6 +61,9 @@
 		A66F16F813F8266A00B92C7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAccelerometerSample.h; sourceTree = "<group>"; };
 		A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAccelerometerSample.m; sourceTree = "<group>"; };
+		A66F18D113F8778100B92C7C /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
+		A66F18D213F8778100B92C7C /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
+		A66F18D413F877AB00B92C7C /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView.xib; path = Resources/FlipsideView.xib; sourceTree = "<group>"; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DA7A291C13EF2402006BC687 /* app_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon2.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
@@ -107,6 +112,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A66F18D113F8778100B92C7C /* FlipsideViewController.h */,
+				A66F18D213F8778100B92C7C /* FlipsideViewController.m */,
 				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
 				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
 				28D7ACF60DDB3853001CB0EB /* FFMainViewController.h */,
@@ -166,6 +173,7 @@
 				E7B32F1D13EE319F00A76421 /* Default@2x.png */,
 				E96FB2121316DF8C006ADCE0 /* Localizable.strings */,
 				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
+				A66F18D413F877AB00B92C7C /* FlipsideView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* FreefallHighscore-Info.plist */,
 			);
@@ -248,6 +256,7 @@
 				E7B32F2113EE31BB00A76421 /* gbb.ttf in Resources */,
 				DA7A291A13EF2384006BC687 /* app_icon.png in Resources */,
 				DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */,
+				A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +276,7 @@
 				A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */,
 				A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */,
 				A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */,
+				A66F18D313F8778100B92C7C /* FlipsideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

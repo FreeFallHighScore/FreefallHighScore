@@ -48,6 +48,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "FFVideoOverlay.h"
+#import "FlipsideViewController.h"
 
 @class AVCamCaptureManager;
 @class AVCamPreviewView;
@@ -58,7 +59,7 @@
 @class FFTrackLocation;
 
 
-@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate> {
+@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FlipsideViewControllerDelegate> {
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
     
@@ -123,7 +124,7 @@
 //location stuff
 @property (nonatomic,retain) FFTrackLocation *trackLoc;
 
-
+- (IBAction)showInfo:(id)sender;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
 - (void)submitLastVideo:(id)sender;
