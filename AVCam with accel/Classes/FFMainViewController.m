@@ -52,6 +52,7 @@
 #import "AccelerometerFilter.h"
 #import "FFTrackLocation.h"
 #import "FFVideoOverlay.h"
+#import "FFAccelerometerSample.h"
 
 #define kUpdateFrequency	60.0
 
@@ -79,7 +80,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize freefalling;
 @synthesize longestTimeInFreefall;
 @synthesize freefallStartTime;
-@synthesize lowestMagnitude;
+@synthesize freefallEndTime;
 @synthesize player;
 @synthesize playerLayer;
 @synthesize assetForOverlay;
@@ -92,29 +93,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize trackLoc;
 @synthesize loginButton;
 @synthesize videoOverlay;
+@synthesize acceleromterData;
+@synthesize recordStartTime;
 
-//- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
-//{
-//	NSString *focusString = @"";
-//	
-//	switch (focusMode) {
-//		case AVCaptureFocusModeLocked:
-//			focusString = @"locked";
-//			break;
-//		case AVCaptureFocusModeAutoFocus:
-//			focusString = @"auto";
-//			break;
-//		case AVCaptureFocusModeContinuousAutoFocus:
-//			focusString = @"continuous";
-//			break;
-//	}
-//	
-//	return focusString;
-//}
 
 - (void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"captureManager.videoInput.device.focusMode"];
 	[captureManager release];
     [videoPreviewView release];
 	[captureVideoPreviewLayer release];
@@ -170,8 +154,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 CGSize cameraSize = [self.captureManager cameraSize];
                 NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
 			});
-			
-//            [self updateButtonStates];
             
             
             CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
@@ -335,6 +317,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                    acceleration.z*acceleration.z);
     
     if(!didFall){
+        
+        if(recording){
+            FFAccelerometerSample* newSample = [FFAccelerometerSample sample];
+            newSample.time = [[NSDate date] timeIntervalSinceDate:self.recordStartTime];
+            newSample.x = acceleration.x;
+            newSample.y = acceleration.y;
+            newSample.z = acceleration.z;
+            newSample.magnitude = accelMagnitude;
+            [acceleromterData addObject:newSample];
+        }
+        
         if(freefalling){
             NSTimeInterval currentFreefallTime = -[freefallStartTime timeIntervalSinceNow];
             if(currentFreefallTime > longestTimeInFreefall){
@@ -345,15 +338,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         //check if we are freefall
         if(!freefalling && accelMagnitude < .2){
             if(framesInFreefall++ > 10){
-                self.freefallStartTime = [NSDate date];
                 freefalling = YES;
 				[self manualRecord:nil];
                 framesOutOfFreefall = 0;
+                self.freefallStartTime = [NSDate date];
             }
         }
         else if(freefalling && accelMagnitude >= .2){
             if(framesOutOfFreefall++ > 10){
 	            freefalling = NO;
+                self.freefallEndTime = [NSDate date];
                 [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
             }
         }
@@ -400,6 +394,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(!recording && !didFall){   
     	[[self captureManager] startRecording];
         recording = YES;
+        self.recordStartTime = [NSDate date];
+        self.acceleromterData = [NSMutableArray arrayWithCapacity:200];
         [self updateButtonStates];
     }
 }
@@ -513,6 +509,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
+    [self updateButtonStates];     
 }
 
 @end
@@ -657,19 +654,20 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         ///create an overlay assetf
         NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
                                                                  forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-//        self.assetForOverlay = [AVURLAsset URLAssetWithURL:[self captureManager].outputFileURL 
-//                                                   options:assetOptions];
         
         self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
                                                    options:assetOptions];
         
         [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
             NSLog(@"assetURL is %@", assetForOverlay.URL);
-            [self.videoOverlay createVideoOverlay:self.assetForOverlay];
+            [self.videoOverlay createVideoOverlayWithAsset:self.assetForOverlay
+                                               fallStarted:[self.freefallStartTime timeIntervalSinceDate:self.recordStartTime]
+                                                 fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
+                                         accelerometerData:self.acceleromterData];
         }];
                 
         self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
-        [self updateButtonStates];
+
     });
 }
 

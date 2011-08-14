@@ -60,11 +60,14 @@
 
 @interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate> {
 	AccelerometerFilter *filter;
+    NSMutableArray* accelerometerData;
     
     BOOL freefalling;
     BOOL recording;
     NSTimeInterval longestTimeInFreefall;
     NSDate* freefallStartTime; 
+    NSDate* freefallEndTime; 
+
     NSInteger framesInFreefall;
     NSInteger framesOutOfFreefall;
     BOOL didFall;
@@ -78,6 +81,7 @@
     UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
     
+    NSDate* recordStartTime;
     FFTrackLocation *trackLoc;
     FFVideoOverlay* videoOverlay;
     AVURLAsset* assetForOverlay;
@@ -103,16 +107,19 @@
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
+@property (nonatomic, retain) NSMutableArray* acceleromterData;
 @property (nonatomic,readwrite) BOOL freefalling;
 @property (nonatomic,readwrite) NSTimeInterval longestTimeInFreefall;
 @property (nonatomic,retain) NSDate* freefallStartTime;
-@property (nonatomic,readwrite) CGFloat lowestMagnitude;
+@property (nonatomic,retain) NSDate* freefallEndTime;
+
 
 //playback stuff
 @property (nonatomic, retain) AVPlayer* player;
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
 @property (nonatomic, retain) AVURLAsset* assetForOverlay;
 @property (nonatomic, retain) FFVideoOverlay* videoOverlay;
+@property (nonatomic, retain) NSDate* recordStartTime;
 //location stuff
 @property (nonatomic,retain) FFTrackLocation *trackLoc;
 
@@ -132,7 +139,6 @@
 - (void)showLabel:(UILabel *)label;
 - (void)hideLabels;
 - (void)showLabels;
-
 
 @end
 

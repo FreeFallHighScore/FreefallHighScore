@@ -18,6 +18,7 @@
 		A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */; };
 		A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFTrackLocation.m */; };
 		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
+		A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291C13EF2402006BC687 /* app_icon2.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
@@ -56,6 +57,8 @@
 		A66F16F313F8263900B92C7C /* FFTrackLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTrackLocation.h; sourceTree = "<group>"; };
 		A66F16F413F8263A00B92C7C /* FFTrackLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTrackLocation.m; sourceTree = "<group>"; };
 		A66F16F813F8266A00B92C7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAccelerometerSample.h; sourceTree = "<group>"; };
+		A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAccelerometerSample.m; sourceTree = "<group>"; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DA7A291C13EF2402006BC687 /* app_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon2.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */,
 				A66F16F313F8263900B92C7C /* FFTrackLocation.h */,
 				A66F16F413F8263A00B92C7C /* FFTrackLocation.m */,
+				A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */,
+				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 				DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */,
 				A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */,
 				A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */,
+				A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

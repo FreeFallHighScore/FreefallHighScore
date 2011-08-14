@@ -117,10 +117,15 @@ static CGImageRef createStarImage(CGFloat radius)
 }
 
 
-- (BOOL) createVideoOverlay:(AVAsset*)sourceAsset
+- (BOOL) createVideoOverlayWithAsset:(AVAsset*)sourceAsset 
+                         fallStarted:(NSTimeInterval)fallStartTime
+                           fallEnded:(NSTimeInterval)fallEndedTime
+                   accelerometerData:(NSArray*)accelData
 {
-    CALayer *animatedOverlay = nil;
     
+    NSLog(@"creating overlay with start time %f end time %f and %d accel samples", fallStartTime, fallEndedTime, [accelData count]);
+    
+    CALayer *animatedOverlay = nil;
     CGSize videoSize = [sourceAsset naturalSize];
     
     AVMutableComposition *composition = [AVMutableComposition composition];
@@ -146,7 +151,15 @@ static CGImageRef createStarImage(CGFloat radius)
     [parentLayer addSublayer:videoLayer];
     [parentLayer addSublayer:animatedOverlay];
     
-    [self buildPassThroughVideoComposition:videoComposition forComposition:composition];
+	// Make a "pass through video track" video composition.
+	AVMutableVideoCompositionInstruction *passThroughInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+	passThroughInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [composition duration]);
+	
+	AVAssetTrack *videoTrack = [[composition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+	AVMutableVideoCompositionLayerInstruction *passThroughLayer = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+	
+	passThroughInstruction.layerInstructions = [NSArray arrayWithObject:passThroughLayer];
+	videoComposition.instructions = [NSArray arrayWithObject:passThroughInstruction];
     videoComposition.animationTool = [AVVideoCompositionCoreAnimationTool videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:parentLayer];
 
     videoComposition.frameDuration = CMTimeMake(1, 30); // 30 fps
@@ -160,19 +173,6 @@ static CGImageRef createStarImage(CGFloat radius)
     
     [self beginExport];    
     return YES;
-}
-
-- (void) buildPassThroughVideoComposition:(AVMutableVideoComposition *)videoComposition forComposition:(AVMutableComposition *)composition
-{
-	// Make a "pass through video track" video composition.
-	AVMutableVideoCompositionInstruction *passThroughInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-	passThroughInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [composition duration]);
-	
-	AVAssetTrack *videoTrack = [[composition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-	AVMutableVideoCompositionLayerInstruction *passThroughLayer = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
-	
-	passThroughInstruction.layerInstructions = [NSArray arrayWithObject:passThroughLayer];
-	videoComposition.instructions = [NSArray arrayWithObject:passThroughInstruction];
 }
 
 - (AVAssetExportSession*)assetExportSessionWithPreset:(NSString*)presetName
