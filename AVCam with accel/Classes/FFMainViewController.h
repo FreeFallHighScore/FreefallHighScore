@@ -87,6 +87,8 @@ UIAccelerometerDelegate,CLLocationManagerDelegate> {
 @property (nonatomic,retain) UILabel* dropscoreLabelBottom;
 @property (nonatomic,retain) UILabel* dropscoreLabelTime;
 
+//you tube stuff
+@property (nonatomic,retain) UIButton *loginButton;
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
