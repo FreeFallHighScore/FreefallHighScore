@@ -373,8 +373,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
         self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
 
-
-
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(playerItemDidReachEnd:)
