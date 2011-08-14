@@ -86,6 +86,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize dropscoreLabelTop;
 @synthesize dropscoreLabelBottom;
 @synthesize dropscoreLabelTime;
+@synthesize trackLoc;
+@synthesize loginButton;
+
 
 //- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 //{
@@ -173,6 +176,43 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
 
             fontcolor = [[UIColor colorWithRed:255/255.0 green:220/255.0 blue:20/255.0 alpha:0.70] retain];
+        
+            NSUserDefaults      *padFactoids;
+            int                 launchCount;
+            
+            padFactoids = [NSUserDefaults standardUserDefaults];
+            launchCount = [padFactoids integerForKey:@"launchCount" ] + 1;
+            [padFactoids setInteger:launchCount forKey:@"launchCount"];
+            [padFactoids synchronize];
+            
+            NSLog(@"number of times: %i the app has been launched", launchCount);
+            
+            if ( launchCount == 1 )
+            {
+                NSLog(@"this is the FIRST LAUNCH of the app");
+                //LOG IN BUTTON
+                self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                loginButton.frame = CGRectMake(0, middle.y-160, bounds.size.width, 100.0);
+                loginButton.adjustsImageWhenHighlighted = NO;
+                [loginButton setTitle:@"LOG IN" forState:(UIControlStateNormal)];
+                loginButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
+                loginButton.titleLabel.textColor = fontcolor;
+                loginButton.titleLabel.textAlignment = UITextAlignmentCenter;
+                
+                
+                
+                [self.view addSubview:loginButton];
+                
+
+            }
+            if ( launchCount == 2 )
+            {
+                NSLog(@"this is the SECOND launch of the damn app");
+                
+            }
+
+            
+            
             
             //RECORD BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -267,6 +307,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
+    
+    
+    // location stuff
+    TrackLocation *trackLoc = [[TrackLocation alloc] init];
+    [trackLoc setupLocation];
     
 
     [super viewDidLoad];
