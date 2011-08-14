@@ -44,25 +44,23 @@
 @property(nonatomic,retain) IBOutlet UILabel* authorizedUserLabel;
 @property(nonatomic,retain) IBOutlet UIProgressView* uploadProgressView;
 
+- (void)showAlert:(NSString*)title withMessage:(NSString*)message;
 
 - (GDataServiceGoogleYouTube *)youTubeService;
 
 - (IBAction)authorize:(id)sender;
-- (IBAction)upload:(id)sender;
-- (IBAction)logout:(id)sender;
-- (IBAction)stopUpload:(id)sender;
-
-- (void)getVideoAsset;
-- (void)startUpload:(ALAsset*)asset;
-
-- (void)showAlert:(NSString*)title withMessage:(NSString*)message;
-
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth
                  error:(NSError *)error;
+- (IBAction)upload:(id)sender;
+
+- (IBAction)logout:(id)sender;
+- (void)startUpload:(ALAsset*)asset;
+- (IBAction)stopUpload:(id)sender;
+
+- (void)getVideoAsset;
 
 - (void)ticket:(GDataServiceTicket *)ticket hasDeliveredByteCount:(unsigned long long)numberOfBytesRead ofTotalByteCount:(unsigned long long)dataLength;
-
 - (void)uploadTicket:(GDataServiceTicket *)ticket
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
                error:(NSError *)error;
