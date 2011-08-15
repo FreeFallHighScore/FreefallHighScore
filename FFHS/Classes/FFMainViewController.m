@@ -98,7 +98,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
 @synthesize freefalling;
-@synthesize longestTimeInFreefall;
+@synthesize freefallDuration;
 @synthesize freefallStartTime;
 @synthesize freefallEndTime;
 @synthesize player;
@@ -111,12 +111,20 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize dropscoreLabelBottom;
 @synthesize dropscoreLabelTime;
 @synthesize trackLoc;
-@synthesize loginButton;
+@synthesize introLoginButton;
 @synthesize videoOverlay;
 @synthesize acceleromterData;
 @synthesize recordStartTime;
 @synthesize uploader;
 @synthesize currentDropAssetURL;
+@synthesize submitView;
+@synthesize videoTitle;
+@synthesize videoStory;
+@synthesize cancelSubmitButton;
+@synthesize loginButton;
+@synthesize uploadProgressView;
+@synthesize uploadProgressBar;
+
 
 - (void)dealloc
 {
@@ -138,6 +146,22 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)viewDidLoad
 {
+ 
+    if(uploader == nil){
+        uploader = [[FFYoutubeUploader alloc] init];
+        uploader.delegate = self;
+    }
+    
+    // location stuff
+    if(trackLoc == nil){
+        trackLoc = [[FFTrackLocation alloc] init];
+        [trackLoc setupLocation];
+    }
+    
+    if(videoOverlay == nil){
+        videoOverlay = [[FFVideoOverlay alloc] init];
+        videoOverlay.delegate = self;
+    }
     
 	if (self.captureManager == nil) {
 		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
@@ -196,13 +220,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             if ( launchCount == 1 ){
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
-                self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                loginButton.frame = CGRectMake(0, middle.y-160, bounds.size.width, 100.0);
-                loginButton.adjustsImageWhenHighlighted = NO;
-                [loginButton setTitle:@"LOG IN" forState:(UIControlStateNormal)];
-                loginButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
-                loginButton.titleLabel.textColor = fontcolor;
-                loginButton.titleLabel.textAlignment = UITextAlignmentCenter;
+                self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                introLoginButton.frame = CGRectMake(0, middle.y-160, bounds.size.width, 100.0);
+                introLoginButton.adjustsImageWhenHighlighted = NO;
+                [introLoginButton setTitle:@"LOG IN" forState:(UIControlStateNormal)];
+                introLoginButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
+                introLoginButton.titleLabel.textColor = fontcolor;
+                introLoginButton.titleLabel.textAlignment = UITextAlignmentCenter;
+                
+                [introLoginButton addTarget:self.uploader 
+                                     action:@selector(login:) 
+                           forControlEvents:UIControlEventTouchUpInside];
                 
                 [self.view addSubview:loginButton];
             }
@@ -238,7 +266,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             submitButton.titleLabel.textAlignment = UITextAlignmentCenter;
             
             [submitButton addTarget:self
-                             action:@selector(submitLastVideo:) 
+                             action:@selector(submitCurrentVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
             
             [self.view addSubview:submitButton];			
@@ -253,7 +281,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
 
             [ignoreButton addTarget:self
-                             action:@selector(ignoreLastVideo:) 
+                             action:@selector(discardCurrentVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
 
             [self.view addSubview:ignoreButton];
@@ -298,30 +326,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 		}		
 	}
     
-    //accelerometer stuff
-    //filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
-//    freefalling = NO;
-//    didFall = NO;
-//    longestTimeInFreefall = 0;
-    
+    //accelerometer stuff    
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
-    
-    if(uploader == nil){
-        uploader = [[FFYoutubeUploader alloc] init];
-        uploader.delegate = self;
-    }
-    
-    // location stuff
-    if(trackLoc == nil){
-        trackLoc = [[FFTrackLocation alloc] init];
-        [trackLoc setupLocation];
-    }
-    
-    if(videoOverlay == nil){
-        videoOverlay = [[FFVideoOverlay alloc] init];
-        videoOverlay.delegate = self;
-    }
+    //filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
     
     [super viewDidLoad];
 }
@@ -390,10 +398,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         }
         
         if(freefalling){
-            NSTimeInterval currentFreefallTime = -[freefallStartTime timeIntervalSinceNow];
-            if(currentFreefallTime > longestTimeInFreefall){
-                longestTimeInFreefall = currentFreefallTime;
-            }
+           freefallDuration = -[freefallStartTime timeIntervalSinceNow];
         }
         
         //check if we are freefall
@@ -415,19 +420,136 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     }
 }
 
-- (void)submitLastVideo:(id)sender
+- (void)submitCurrentVideo:(id)sender
 {
-    //TODO: show log in screen
-    if(!self.uploader.loggedIn){
-        [self.uploader login:self];
+    if (self.submitView == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"SubmitView" owner:self options:nil];
+        
+        if(self.uploader.loggedIn){
+            self.submitButton.titleLabel.text = self.uploader.accountName;
+        }
+        else{
+            self.submitButton.titleLabel.text = @"Log in";
+        }
     }
     
-    NSLog(@"Staring upload with URL %@", self.currentDropAssetURL);
+    //TODO animate showing view
+    /*
+    //animate the view on
+    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
+    CGRect keyboardRect = [aValue CGRectValue];
+    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
-    [self.uploader startUploadWithURL:self.currentDropAssetURL];
+    CGFloat keyboardTop = keyboardRect.origin.y;
+    CGRect newTextViewFrame = self.view.bounds;
+    newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y;
+    
+    // Get the duration of the animation.
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:animationDuration];
+    
+    textView.frame = newTextViewFrame;
+    
+    [UIView commitAnimations];
+     */
+    
+    [self.videoPreviewView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+    showingSubmitView = YES;
+    [self updateButtonStates];
 }
 
-- (void)ignoreLastVideo:(id)sender
+- (void) textFieldShouldReturn:(UITextField*)field
+{
+    if(field == self.videoTitle){
+        [self.videoStory becomeFirstResponder];
+    }
+    else if(field == self.videoStory){
+        if([self.videoTitle.text isEqualToString:@""]){
+            [self.videoTitle becomeFirstResponder];    
+        }
+        if([self.videoStory.text isEqualToString:@""]){
+            //do nothing...
+        }
+        else {
+            [self completeSubmit];
+        }
+    }
+}
+
+- (void) completeSubmit
+{
+    if(!self.uploader.loggedIn){
+        NSLog(@"ERRROR - Somehow trying to submit when not logged in!");
+        return;
+    }
+    
+    NSLog(@"Starting upload with URL %@", self.currentDropAssetURL);
+
+    self.uploader.location = trackLoc.location;
+    self.uploader.fallDuration = freefallDuration; 
+    self.uploader.videoTitle = self.videoTitle.text;
+    self.uploader.videoDescription = self.videoStory.text;
+
+    //show progress bar view...
+    [self showUploadProgress];
+
+    [self.uploader startUploadWithURL:self.currentDropAssetURL];
+    
+    [self.videoTitle resignFirstResponder];
+    [self.videoStory resignFirstResponder];
+    
+    self.loginButton.enabled = NO;
+    self.videoTitle.enabled = NO;
+    self.videoStory.enabled = NO;
+    
+}
+
+- (IBAction)login:(id)sender
+{
+    [self.uploader login:sender];
+}
+
+- (IBAction)cancelSubmit:(id)sender
+{
+    if(self.uploader.uploading){
+        [self.uploader cancelUpload:sender];
+        self.loginButton.enabled = YES;
+        self.videoTitle.enabled = YES;
+        self.videoStory.enabled = YES;
+    }
+    else {
+        [self removeSubmitView];
+    }
+}
+
+- (void) removeSubmitView
+{
+    [self.submitView removeFromSuperview];
+    self.submitView = nil;
+    showingSubmitView = false;
+    [self updateButtonStates];
+}
+
+- (void) showUploadProgress
+{
+    if (self.uploadProgressView == nil) {
+         //TODO animate
+        [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
+        [self.uploadProgressView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+
+    }
+    self.uploadProgressBar.progress = 0;
+
+}
+
+//This is called when the user is done with the video
+//either ignore it after a fall, or after it's been submitted
+- (void)discardCurrentVideo:(id)sender
 {
 
     if(didFall){
@@ -450,9 +572,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         });
         
         didFall = NO;
-        longestTimeInFreefall = 0;
+        freefallDuration = 0;
         
-        [self updateButtonStates];        
+        [self updateButtonStates];
+        
+        //TODO delete assets from library
     }
     
 }
@@ -481,15 +605,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         });        
     });    
 
-}
-
-- (void)playerItemDidReachEnd:(NSNotification *)notification
-{
-    //LOOP
-    AVPlayerItem *p = [notification object];
-    [p seekToTime:kCMTimeZero];
-    timesLooped++;
-    [self updateButtonStates];
 }
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -524,12 +639,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
     
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playerItemDidReachEnd:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
+    //TODO: fix orientation...
     [self.player play];
     
     UIView *view = [self videoPreviewView];
@@ -537,12 +652,21 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     //CGRect bounds = [view bounds];
     CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
-    
+    //CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
     [self.playerLayer setFrame:bounds];
     
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
     [self updateButtonStates];     
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification
+{
+    //LOOP
+    AVPlayerItem *p = [notification object];
+    [p seekToTime:kCMTimeZero];
+    timesLooped++;
+    [self updateButtonStates];
 }
 
 @end
@@ -626,8 +750,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)updateButtonStates
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        //if we're recording hide everything
-        if(recording){
+        if(showingSubmitView){
+            [self hideButton:self.recordButton];
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];            
+            [self showLabels];
+        }
+        else if(recording){
             [self hideButton:self.recordButton];
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];            
@@ -735,7 +864,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                          accelerometerData:self.acceleromterData];
         }];
                 
-        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", longestTimeInFreefall];
+        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration   ];
 
     });
 }
@@ -757,28 +886,54 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @implementation FFMainViewController (FFYoutubeUploaderDelegate)
 
 - (void) userDidSignIn:(NSString*)userName
-{  
+{ 
+    if(showingSubmitView){
+        self.submitButton.titleLabel.text = userName;
+    }
     NSLog(@"user signed in %@", userName);
 }
 
 - (void) userDidSignOut
 {
     NSLog(@"user signed out");    
+    if(showingSubmitView){
+        self.submitButton.titleLabel.text = @"Login";
+    }
 }
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {
+    if(self.uploadProgressBar == nil){
+        NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
+    }
+    
+    self.uploadProgressBar.progress = 0;
     NSLog(@"uploaded to %f", progress);  
 }
 
 - (void) uploadCompleted
 {
+    if(!showingSubmitView){
+        NSLog(@"ERROR somehow an upload was completed while we were not showing the submit view");
+        return;
+    }
+    
+    [self removeSubmitView];
+    [self discardCurrentVideo:self];
+    
     NSLog(@"upload completed!");     
 }
 
 - (void) uploadFailedWithError:(NSError*)error
 {
+    if(!showingSubmitView){
+        NSLog(@"ERROR somehow an upload FAILED while we were not showing the submit view");
+        return;
+    }
+
     NSLog(@"upload failed :( ");
+    
+    [self cancelSubmit:self];
 }
 
 @end

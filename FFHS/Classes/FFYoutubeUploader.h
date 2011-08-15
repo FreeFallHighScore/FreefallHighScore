@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GDataYouTube.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <CoreLocation/CoreLocation.h>
 
 @protocol FFYoutubeUploaderDelegate <NSObject>
 @optional
@@ -33,10 +34,13 @@
     id<FFYoutubeUploaderDelegate> _delegate;
     GDataServiceTicket *uploadTicket;
     
-    NSString* duration;
-    NSString* location;
-    NSString* deviceType;
+    NSString* videoTitle;
+    NSString* videoDescription;
+    NSTimeInterval fallDuration;
+    CLLocation* location;
 }
+
+@property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
@@ -45,7 +49,6 @@
 @property (nonatomic,retain) NSString* clientSecret;
 @property (nonatomic,retain) NSString* developerKey;
 
-@property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) NSString* accountName; //returns nil if not logged in
@@ -53,9 +56,12 @@
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
 
-@property (nonatomic, retain) NSString* duration;
-@property (nonatomic, retain) NSString* location;
-@property (nonatomic, retain) NSString* deviceType;
+//VIDEO PROPERTIES:
+@property (nonatomic, retain) NSString* videoTitle;
+@property (nonatomic, retain) NSString* videoDescription;
+@property (nonatomic, readwrite) NSTimeInterval fallDuration;
+
+@property (nonatomic, assign) CLLocation* location;
 
 - (GDataServiceGoogleYouTube *)youTubeService;
 

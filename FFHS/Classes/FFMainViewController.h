@@ -60,17 +60,16 @@
 @class FFTrackLocation;
 @class FFYoutubeUploader;
 
-@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,
-                                                    UIAccelerometerDelegate,
-                                                    CLLocationManagerDelegate, 
-                                                    FFVideoOverlayDelegate, 
-                                                    FFFlipsideViewControllerDelegate> {
+@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate> {
+    
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
     
     BOOL freefalling;
     BOOL recording;
-    NSTimeInterval longestTimeInFreefall;
+
+                                                    
+    NSTimeInterval freefallDuration;
     NSDate* freefallStartTime; 
     NSDate* freefallEndTime; 
 
@@ -79,12 +78,12 @@
     BOOL didFall;
     
     NSInteger timesLooped;
-    UIButton* ignoreButton;
-    UIButton* submitButton;
-    UIButton* recordButton;
-    UILabel* dropscoreLabelTop;
-    UILabel* dropscoreLabelBottom;
-    UILabel* dropscoreLabelTime;
+//    UIButton* ignoreButton;
+//    UIButton* submitButton;
+//    UIButton* recordButton;
+//    UILabel* dropscoreLabelTop;
+//    UILabel* dropscoreLabelBottom;
+//    UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
     
     NSDate* recordStartTime;
@@ -94,8 +93,14 @@
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
     
+    BOOL showingSubmitView;
+    UIView* submitView;
+//    UITextField* videoTitle;
+//    UITextField* videoStory;
+    
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
+
 }
 
 //camera related stuff
@@ -111,13 +116,13 @@
 @property (nonatomic,retain) UILabel* dropscoreLabelTime;
 
 //you tube stuff
-@property (nonatomic,retain) UIButton *loginButton;
+@property (nonatomic,retain) UIButton *introLoginButton;
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
-@property (nonatomic, retain) NSMutableArray* acceleromterData;
+@property (nonatomic,retain) NSMutableArray* acceleromterData;
 @property (nonatomic,readwrite) BOOL freefalling;
-@property (nonatomic,readwrite) NSTimeInterval longestTimeInFreefall;
+@property (nonatomic,readwrite) NSTimeInterval freefallDuration;
 @property (nonatomic,retain) NSDate* freefallStartTime;
 @property (nonatomic,retain) NSDate* freefallEndTime;
 
@@ -135,16 +140,36 @@
 //uploading stuff
 @property (nonatomic,retain) FFYoutubeUploader* uploader;
 
+@property (nonatomic,assign) IBOutlet UIView* submitView;
+@property (nonatomic,assign) IBOutlet UITextField* videoTitle;
+@property (nonatomic,assign) IBOutlet UITextField* videoStory;
+@property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;
+@property (nonatomic,assign) IBOutlet UIButton* loginButton;
+
+
+@property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
+@property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
 
 - (IBAction) showInfo:(id)sender;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
-- (void)submitLastVideo:(id)sender;
-- (void)ignoreLastVideo:(id)sender;
+- (void)submitCurrentVideo:(id)sender;
+- (void)discardCurrentVideo:(id)sender;
 - (void)manualRecord:(id)sender;
 
 - (void) overlayComplete:(NSURL*)assetURL;
 
+- (void) completeSubmit;
+- (void) removeSubmitView;
+- (void) showUploadProgress;
+
+
+- (void) textFieldShouldReturn:(UITextField*)field;
+
+//forwards to youtube sender
+- (IBAction)login:(id)sender;
+
+- (IBAction)cancelSubmit:(id)sender;
 
 @end
 

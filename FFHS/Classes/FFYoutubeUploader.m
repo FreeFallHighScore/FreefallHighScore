@@ -21,9 +21,10 @@
 @synthesize uploadProgress = progess;
 @synthesize toplevelController;
 @synthesize delegate = _delegate;
-@synthesize duration;
+@synthesize videoTitle;
+@synthesize videoDescription;
+@synthesize fallDuration;
 @synthesize location;
-@synthesize deviceType;
 
 - (id) init
 {
@@ -89,10 +90,12 @@
 
 - (IBAction) login:(id)sender
 {
-    if(self.loggedIn){
-        NSLog(@"ERROR -- trying to login when already logged in!");
-        return;
-    }
+    //We want to use this function for switching users as well!
+//    if(self.loggedIn){
+//        NSLog(@"ERROR -- trying to login when already logged in!");
+//        return;
+//    }
+    
     NSString *scope = [GDataServiceGoogleYouTube authorizationScope];
     
     GTMOAuth2ViewControllerTouch *viewController;
@@ -240,17 +243,21 @@
     [devTagFFHS setScheme:devTagSchemeUrl];
     
     // Duration
-    NSString *devTagDurationStr = @"dur:234"; // Store duration in milliseconds?
+    NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%0.6f", fallDuration]; 
     GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:devTagDurationStr];
     [devTagDuration setScheme:devTagSchemeUrl];
     
     // Location
-    NSString *devTagLocationString = @"loc:+40.714945-73.936432";
-    GDataMediaCategory *devTagLocation = [GDataMediaCategory mediaCategoryWithString:devTagLocationString];
-    [devTagLocation setScheme:devTagSchemeUrl];
+    GDataMediaCategory *devTagLocation;
+    NSString* devTagLocationString = @"(location unavailable)";
+    if(location != nil){
+        devTagLocationString = [NSString stringWithFormat: @"loc:%+.6f,%+.6f\n", location.coordinate.latitude, location.coordinate.longitude];
+        devTagLocation = [GDataMediaCategory mediaCategoryWithString:devTagLocationString];
+        [devTagLocation setScheme:devTagSchemeUrl];
+    }
     
     // Device
-    NSString *devTagDeviceString = @"dev:iphone:3";
+    NSString *devTagDeviceString = [NSString stringWithFormat: @"m:%@,s:%@,v:%@", [UIDevice currentDevice].model, [UIDevice currentDevice].systemName, [UIDevice currentDevice].systemVersion];
     GDataMediaCategory *devTagDevice = [GDataMediaCategory mediaCategoryWithString:devTagDeviceString];
     [devTagDevice setScheme:devTagSchemeUrl];
     
