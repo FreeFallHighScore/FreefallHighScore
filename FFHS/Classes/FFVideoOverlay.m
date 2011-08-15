@@ -273,7 +273,7 @@ static CGImageRef createStarImage(CGFloat radius)
 											else {
                                                 NSLog(@"EXPORT SUCCESS");
                                                 if(self.delegate != nil){
-                                                    [self.delegate overlayComplete:outputURL];
+                                                    [self.delegate overlayComplete:assetURL];
                                                 }
 //												_showSavedVideoToAssestsLibrary = YES;
 //												ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];

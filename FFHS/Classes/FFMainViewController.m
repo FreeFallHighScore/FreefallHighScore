@@ -53,6 +53,7 @@
 #import "FFTrackLocation.h"
 #import "FFVideoOverlay.h"
 #import "FFAccelerometerSample.h"
+#import "FFYoutubeUploader.h"
 
 #define kUpdateFrequency	60.0
 
@@ -65,10 +66,29 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
 //- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
 //- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
-- (void)updateButtonStates;
+- (void) updateButtonStates;
+- (void)hideButton:(UIButton *)button;
+- (void)showButton:(UIButton *)button;
+- (void)hideLabel:(UILabel *)label;
+- (void)showLabel:(UILabel *)label;
+- (void)hideLabels;
+- (void)showLabels;
+
 @end
 
 @interface FFMainViewController (AVCamCaptureManagerDelegate) <AVCamCaptureManagerDelegate>
+- (void)captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error;
+- (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
+- (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
+- (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
+@end
+
+@interface FFMainViewController (FFYoutubeUploaderDelegate) <FFYoutubeUploaderDelegate>
+- (void) userDidSignIn:(NSString*)userName;
+- (void) userDidSignOut;
+- (void) uploadReachedProgess:(CGFloat)progress;
+- (void) uploadCompleted;
+- (void) uploadFailedWithError:(NSError*)error;
 @end
 
 @implementation FFMainViewController
@@ -95,7 +115,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize videoOverlay;
 @synthesize acceleromterData;
 @synthesize recordStartTime;
-
+@synthesize uploader;
+@synthesize currentDropAssetURL;
 
 - (void)dealloc
 {
@@ -110,7 +131,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [dropscoreLabelBottom release];
     [dropscoreLabelTime release];
     
-    [filter release];
+//    [filter release];
     
     [super dealloc];
 }
@@ -118,7 +139,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)viewDidLoad
 {
     
-	if ([self captureManager] == nil) {
+	if (self.captureManager == nil) {
 		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
 		[self setCaptureManager:manager];
 		[manager release];
@@ -183,11 +204,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 loginButton.titleLabel.textColor = fontcolor;
                 loginButton.titleLabel.textAlignment = UITextAlignmentCenter;
                 
-                
-                
                 [self.view addSubview:loginButton];
-                
-
             }
             
             if ( launchCount == 2 ){
@@ -280,43 +297,54 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //			[singleTap release];
 		}		
 	}
-		
+    
     //accelerometer stuff
-    filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
-    freefalling = NO;
-    didFall = NO;
-    longestTimeInFreefall = 0;
+    //filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
+//    freefalling = NO;
+//    didFall = NO;
+//    longestTimeInFreefall = 0;
     
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
     
+    if(uploader == nil){
+        uploader = [[FFYoutubeUploader alloc] init];
+        uploader.delegate = self;
+    }
     
     // location stuff
-    trackLoc = [[FFTrackLocation alloc] init];
-    [trackLoc setupLocation];
+    if(trackLoc == nil){
+        trackLoc = [[FFTrackLocation alloc] init];
+        [trackLoc setupLocation];
+    }
     
-    videoOverlay = [[FFVideoOverlay alloc] init];
-    videoOverlay.delegate = self;
+    if(videoOverlay == nil){
+        videoOverlay = [[FFVideoOverlay alloc] init];
+        videoOverlay.delegate = self;
+    }
     
     [super viewDidLoad];
 }
 
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
+- (void)flipsideViewControllerDidFinish:(FFFlipsideViewController *)controller
 {
     [self dismissModalViewControllerAnimated:YES];
+    self.uploader.toplevelController = self;
 }
 
 - (IBAction)showInfo:(id)sender
 {    
-    FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+    FFFlipsideViewController *controller = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     controller.delegate = self;
+    controller.uploader = uploader;
     
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:controller animated:YES];
     
+    self.uploader.toplevelController = controller;
+    
     [controller release];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -335,10 +363,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 }
 
 // UIAccelerometerDelegate method, called when the device accelerates.
--(void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+- (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
 	// Update the accelerometer graph view
-    [filter addAcceleration:acceleration];
+    //[filter addAcceleration:acceleration];
     
     
     //NSLog(@"Accelerometer data is %f %f %f", filter.x, filter.y, filter.z);
@@ -389,7 +417,14 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)submitLastVideo:(id)sender
 {
-    [self ignoreLastVideo:sender];
+    //TODO: show log in screen
+    if(!self.uploader.loggedIn){
+        [self.uploader login:self];
+    }
+    
+    NSLog(@"Staring upload with URL %@", self.currentDropAssetURL);
+    
+    [self.uploader startUploadWithURL:self.currentDropAssetURL];
 }
 
 - (void)ignoreLastVideo:(id)sender
@@ -478,48 +513,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //}
 
 
-- (void)hideButton:(UIButton *)button
-{
-    [button setHidden:YES];
-    [button setEnabled:NO];
-}
-
-- (void)showButton:(UIButton *)button 
-{
-    [button setHidden:NO];
-    [button setEnabled:YES];
-}
-
-- (void)hideLabel:(UILabel *)label
-{
-    [label setHidden:YES];
-}
-
-- (void)showLabel:(UILabel *)label
-{
-    [label setHidden:NO];
-}
-
-- (void)hideLabels
-{
-    [self hideLabel:self.dropscoreLabelTop];
-    [self hideLabel:self.dropscoreLabelBottom];
-    [self hideLabel:self.dropscoreLabelTime];
-}
-
-- (void)showLabels 
-{ 
-    [self showLabel:self.dropscoreLabelTop];
-    [self showLabel:self.dropscoreLabelBottom];
-    [self showLabel:self.dropscoreLabelTime];
-}
 
 
 - (void) overlayComplete:(NSURL*)assetURL
 {
     NSLog(@"overlay complete!! %@", assetURL);
 
-    
+    self.currentDropAssetURL = assetURL;
     self.player = [AVPlayer playerWithURL:assetURL];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
@@ -655,6 +655,42 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     });
 }
 
+- (void)hideButton:(UIButton *)button
+{
+    [button setHidden:YES];
+    [button setEnabled:NO];
+}
+
+- (void)showButton:(UIButton *)button 
+{
+    [button setHidden:NO];
+    [button setEnabled:YES];
+}
+
+- (void)hideLabel:(UILabel *)label
+{
+    [label setHidden:YES];
+}
+
+- (void)showLabel:(UILabel *)label
+{
+    [label setHidden:NO];
+}
+
+- (void)hideLabels
+{
+    [self hideLabel:self.dropscoreLabelTop];
+    [self hideLabel:self.dropscoreLabelBottom];
+    [self hideLabel:self.dropscoreLabelTime];
+}
+
+- (void)showLabels 
+{ 
+    [self showLabel:self.dropscoreLabelTop];
+    [self showLabel:self.dropscoreLabelBottom];
+    [self showLabel:self.dropscoreLabelTime];
+}
+
 @end
 
 @implementation FFMainViewController (AVCamCaptureManagerDelegate)
@@ -714,6 +750,35 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager
 {
 //	[self updateButtonStates];
+}
+
+@end
+
+@implementation FFMainViewController (FFYoutubeUploaderDelegate)
+
+- (void) userDidSignIn:(NSString*)userName
+{  
+    NSLog(@"user signed in %@", userName);
+}
+
+- (void) userDidSignOut
+{
+    NSLog(@"user signed out");    
+}
+
+- (void) uploadReachedProgess:(CGFloat)progress
+{
+    NSLog(@"uploaded to %f", progress);  
+}
+
+- (void) uploadCompleted
+{
+    NSLog(@"upload completed!");     
+}
+
+- (void) uploadFailedWithError:(NSError*)error
+{
+    NSLog(@"upload failed :( ");
 }
 
 @end

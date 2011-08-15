@@ -48,7 +48,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "FFVideoOverlay.h"
-#import "FlipsideViewController.h"
+#import "FFFlipsideViewController.h"
+
 
 @class AVCamCaptureManager;
 @class AVCamPreviewView;
@@ -57,9 +58,13 @@
 @class AVPlayerLayer;
 @class AccelerometerFilter;
 @class FFTrackLocation;
+@class FFYoutubeUploader;
 
-
-@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FlipsideViewControllerDelegate> {
+@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,
+                                                    UIAccelerometerDelegate,
+                                                    CLLocationManagerDelegate, 
+                                                    FFVideoOverlayDelegate, 
+                                                    FFFlipsideViewControllerDelegate> {
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
     
@@ -88,7 +93,9 @@
     AVURLAsset* assetForOverlay;
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
-
+    
+    NSURL* currentDropAssetURL;
+    FFYoutubeUploader* uploader;
 }
 
 //camera related stuff
@@ -114,17 +121,21 @@
 @property (nonatomic,retain) NSDate* freefallStartTime;
 @property (nonatomic,retain) NSDate* freefallEndTime;
 
-
 //playback stuff
+@property (nonatomic, retain) NSDate* recordStartTime;
 @property (nonatomic, retain) AVPlayer* player;
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
 @property (nonatomic, retain) AVURLAsset* assetForOverlay;
 @property (nonatomic, retain) FFVideoOverlay* videoOverlay;
-@property (nonatomic, retain) NSDate* recordStartTime;
+@property (nonatomic, retain) NSURL* currentDropAssetURL;
+
 //location stuff
 @property (nonatomic,retain) FFTrackLocation *trackLoc;
 
-- (IBAction)showInfo:(id)sender;
+@property (nonatomic,retain) FFYoutubeUploader* uploader;
+
+
+- (IBAction) showInfo:(id)sender;
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification;
 - (void)submitLastVideo:(id)sender;
@@ -133,13 +144,6 @@
 
 - (void) overlayComplete:(NSURL*)assetURL;
 
-//TODO: make private
-- (void)hideButton:(UIButton *)button;
-- (void)showButton:(UIButton *)button;
-- (void)hideLabel:(UILabel *)label;
-- (void)showLabel:(UILabel *)label;
-- (void)hideLabels;
-- (void)showLabels;
 
 @end
 

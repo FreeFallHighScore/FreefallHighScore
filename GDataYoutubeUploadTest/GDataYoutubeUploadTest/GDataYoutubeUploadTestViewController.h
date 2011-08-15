@@ -49,6 +49,7 @@
 - (GDataServiceGoogleYouTube *)youTubeService;
 
 - (IBAction)authorize:(id)sender;
+
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth
                  error:(NSError *)error;
