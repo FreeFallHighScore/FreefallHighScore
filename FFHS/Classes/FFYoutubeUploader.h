@@ -32,6 +32,10 @@
     CGFloat progress;
     id<FFYoutubeUploaderDelegate> _delegate;
     GDataServiceTicket *uploadTicket;
+    
+    NSString* duration;
+    NSString* location;
+    NSString* deviceType;
 }
 
 @property (nonatomic,assign) UIViewController* toplevelController;
@@ -48,6 +52,10 @@
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
+
+@property (nonatomic, retain) NSString* duration;
+@property (nonatomic, retain) NSString* location;
+@property (nonatomic, retain) NSString* deviceType;
 
 - (GDataServiceGoogleYouTube *)youTubeService;
 

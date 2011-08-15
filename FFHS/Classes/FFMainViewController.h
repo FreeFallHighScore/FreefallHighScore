@@ -132,6 +132,7 @@
 //location stuff
 @property (nonatomic,retain) FFTrackLocation *trackLoc;
 
+//uploading stuff
 @property (nonatomic,retain) FFYoutubeUploader* uploader;
 
 

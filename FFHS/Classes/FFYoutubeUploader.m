@@ -21,6 +21,9 @@
 @synthesize uploadProgress = progess;
 @synthesize toplevelController;
 @synthesize delegate = _delegate;
+@synthesize duration;
+@synthesize location;
+@synthesize deviceType;
 
 - (id) init
 {
@@ -165,8 +168,8 @@
         return;
     }
     
-    [GTMHTTPUploadFetcher setLoggingEnabled:YES];
-    [GTMHTTPFetcher setLoggingEnabled:YES];
+    //[GTMHTTPUploadFetcher setLoggingEnabled:YES];
+    //[GTMHTTPFetcher setLoggingEnabled:YES];
     
     NSURL* assetURL = [[asset defaultRepresentation] url];
 
@@ -200,7 +203,7 @@
     [mediaGroup setMediaDescription:desc];
     [mediaGroup addMediaCategory:category];    
     [mediaGroup setMediaKeywords:keywords];
-    [mediaGroup setIsPrivate:NO]; // CHANGE! jg: why?
+    [mediaGroup setIsPrivate:NO];
     
     // Asset stuff
     ALAssetRepresentation* assetRepresentation = [asset defaultRepresentation];
