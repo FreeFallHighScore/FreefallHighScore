@@ -94,7 +94,7 @@
     AVPlayerLayer* playerLayer;
     
     BOOL showingSubmitView;
-    UIView* submitView;
+//    UIView* submitView;
 //    UITextField* videoTitle;
 //    UITextField* videoStory;
     
@@ -161,6 +161,7 @@
 
 - (void) completeSubmit;
 - (void) removeSubmitView;
+- (void) removeUploadProgressView;
 - (void) showUploadProgress;
 
 

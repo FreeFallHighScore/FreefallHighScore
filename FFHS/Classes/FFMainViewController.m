@@ -423,14 +423,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)submitCurrentVideo:(id)sender
 {
     if (self.submitView == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"SubmitView" owner:self options:nil];
-        
-        if(self.uploader.loggedIn){
-            self.submitButton.titleLabel.text = self.uploader.accountName;
-        }
-        else{
-            self.submitButton.titleLabel.text = @"Log in";
-        }
+        [[NSBundle mainBundle] loadNibNamed:@"SubmitView" owner:self options:nil];        
     }
     
     //TODO animate showing view
@@ -459,6 +452,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
      */
     
     [self.videoPreviewView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+    
+    NSLog(@"logged in? %d user name %@", self.uploader.loggedIn, self.uploader.accountName);
+    
+    if(self.uploader.loggedIn){
+        self.submitButton.titleLabel.text = self.uploader.accountName;
+    }
+    else{
+        self.submitButton.titleLabel.text = @"Log in";
+    }
+        
     showingSubmitView = YES;
     [self updateButtonStates];
 }
@@ -535,13 +538,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [self updateButtonStates];
 }
 
+- (void) removeUploadProgressView
+{
+    [self.uploadProgressView removeFromSuperview];
+    self.uploadProgressView = nil;    
+}
+
 - (void) showUploadProgress
 {
     if (self.uploadProgressView == nil) {
          //TODO animate
         [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
-        [self.uploadProgressView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-
+        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
     }
     self.uploadProgressBar.progress = 0;
 
@@ -906,8 +914,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(self.uploadProgressBar == nil){
         NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
     }
-    
-    self.uploadProgressBar.progress = 0;
+    else{
+        self.uploadProgressBar.progress = 0;
+    }
+
     NSLog(@"uploaded to %f", progress);  
 }
 
@@ -919,6 +929,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     }
     
     [self removeSubmitView];
+    [self removeUploadProgressView];
     [self discardCurrentVideo:self];
     
     NSLog(@"upload completed!");     

@@ -46,9 +46,10 @@
                                                                      clientID:clientID
                                                                  clientSecret:clientSecret];
         
-        if([auth canAuthorize]){
+        [[self youTubeService] setAuthorizer:auth];
+        
+        if(self.loggedIn){
             NSLog(@"Authorized SUCCESS on start up!!");
-            [[self youTubeService] setAuthorizer:auth];
         }
         else{
             NSLog(@"Authorized FAILED on start up.");
