@@ -57,6 +57,7 @@
 
 - (IBAction)login:(id)sender
 {
+    NSLog(@"logging in");
     [self.uploader login:sender];
 }
 

@@ -11,6 +11,10 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GDataEntryYouTubeUpload.h"
 
+//add cancel sign in
+
+@end
+
 @implementation FFYoutubeUploader
 
 @synthesize keychainItemName;
@@ -25,6 +29,8 @@
 @synthesize videoDescription;
 @synthesize fallDuration;
 @synthesize location;
+@synthesize cancelView;
+@synthesize loginView;
 
 - (id) init
 {
@@ -97,10 +103,13 @@
 //        return;
 //    }
     
+    [self showAlert:@"LOGIN"
+        withMessage:[NSString stringWithFormat:@"toplevel %@", self.toplevelController] ];
+     
     NSString *scope = [GDataServiceGoogleYouTube authorizationScope];
     
-    GTMOAuth2ViewControllerTouch *viewController;
-    viewController = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+    //GTMOAuth2ViewControllerTouch *viewController;
+    self.loginView = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
                                                                  clientID:clientID
                                                              clientSecret:clientSecret
                                                          keychainItemName:keychainItemName
@@ -108,9 +117,30 @@
                                                          finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 
     //[viewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [viewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-    [viewController setModalPresentationStyle:UIModalPresentationFormSheet];
-    [self.toplevelController presentModalViewController:(UIViewController*)viewController animated:YES];
+    
+    //add signin canceler;
+    
+    [[NSBundle mainBundle] loadNibNamed:@"CancelSigninAccessory" owner:self options:nil];
+    UIView* authView = [self.loginView view];
+    [authView insertSubview:self.cancelView aboveSubview:[[authView subviews] objectAtIndex:0]];
+    
+    CGRect authViewFrame = [authView frame];
+    CGRect cancelViewFrame = [self.cancelView frame];
+    self.cancelView.frame = CGRectMake(0, authViewFrame.size.height-cancelViewFrame.size.height, cancelViewFrame.size.width, cancelViewFrame.size.height);
+    
+    [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self.toplevelController presentModalViewController:(UIViewController*)self.loginView animated:YES];
+
+}
+
+- (IBAction) cancelSignin:(id)sender
+{
+    [self.loginView cancelSigningIn];
+    [self.toplevelController dismissModalViewControllerAnimated:YES];
+    self.loginView = nil;
+    [self.cancelView removeFromSuperview];
+    self.cancelView = nil;
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
@@ -119,19 +149,10 @@
 {
     
     if (error != nil) {
-        // Authentication failed
-//        [authorizedUserLabel setText:@""];
         NSLog(@"login error %@", [error description]);
-        [self showAlert:@"Failure Authenticating" withMessage:@"You might want to wait a bit before pressing 'Allow Access'."];
+        [self showAlert:@"Failure Authenticating" 
+            withMessage:@"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'."];
     } else {
-        // Authentication succeeded
-//        [authorizedUserLabel setText:[auth userEmail]];
-//        [uploadButton setHidden:NO];
-//        [uploadButton setEnabled:YES];
-//        [logoutButton setHidden:NO];
-//        [logoutButton setEnabled:YES];
-//        [authorizeButton setHidden:YES];
-//        [authorizeButton setEnabled:NO];
         
         // Store authorization
         [[self youTubeService] setAuthorizer:auth];
@@ -187,13 +208,10 @@
     NSURL *url = [GDataServiceGoogleYouTube youTubeUploadURLForUserID:kGDataServiceDefaultUser];
     
     // Media data
-    //TODO: generate title
-    NSString *titleStr = @"Testing: title";
-    GDataMediaTitle *title = [GDataMediaTitle textConstructWithString:titleStr];
+    GDataMediaTitle *title = [GDataMediaTitle textConstructWithString:self.videoTitle];
     
     //TODO: generate description
-    NSString *descStr = @"Testing: description";
-    GDataMediaDescription *desc = [GDataMediaDescription textConstructWithString:descStr];
+    GDataMediaDescription *desc = [GDataMediaDescription textConstructWithString:self.videoDescription];
 
     NSString *categoryStr = @"Sports";
     GDataMediaCategory *category = [GDataMediaCategory mediaCategoryWithString:categoryStr];
@@ -242,31 +260,36 @@
     NSString *devTagFFHSStr = @"freefallhighscore";
     GDataMediaCategory *devTagFFHS = [GDataMediaCategory mediaCategoryWithString:devTagFFHSStr];
     [devTagFFHS setScheme:devTagSchemeUrl];
-    
+    [mediaGroup addMediaCategory:devTagFFHS];
+
     // Duration
-    NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%0.6f", fallDuration]; 
+    NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%d", (NSInteger)fallDuration*1000]; 
     GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:devTagDurationStr];
     [devTagDuration setScheme:devTagSchemeUrl];
-    
+    [mediaGroup addMediaCategory:devTagDuration];
+
     // Location
-    GDataMediaCategory *devTagLocation;
-    NSString* devTagLocationString = @"(location unavailable)";
     if(location != nil){
-        devTagLocationString = [NSString stringWithFormat: @"loc:%+.6f,%+.6f\n", location.coordinate.latitude, location.coordinate.longitude];
-        devTagLocation = [GDataMediaCategory mediaCategoryWithString:devTagLocationString];
-        [devTagLocation setScheme:devTagSchemeUrl];
+        GDataMediaCategory *devTagLatitude, *devTagLongitude;
+        NSString* devTagLatString, *devTagLonString;
+        devTagLatString = [NSString stringWithFormat: @"lat:%+.6f", location.coordinate.latitude];
+        devTagLonString = [NSString stringWithFormat: @"lon:%+.6f", location.coordinate.longitude];
+        
+        devTagLatitude  = [GDataMediaCategory mediaCategoryWithString:devTagLatString];
+        devTagLongitude = [GDataMediaCategory mediaCategoryWithString:devTagLonString];
+        [devTagLatitude setScheme:devTagSchemeUrl];
+        [devTagLongitude setScheme:devTagSchemeUrl];
+        
+        [mediaGroup addMediaCategory:devTagLatitude];
+        [mediaGroup addMediaCategory:devTagLongitude];
     }
     
     // Device
-    NSString *devTagDeviceString = [NSString stringWithFormat: @"m:%@,s:%@,v:%@", [UIDevice currentDevice].model, [UIDevice currentDevice].systemName, [UIDevice currentDevice].systemVersion];
+    NSString *devTagDeviceString = [NSString stringWithFormat: @"mak:%@,sys:%@,ver:%@", [UIDevice currentDevice].model, [UIDevice currentDevice].systemName, [UIDevice currentDevice].systemVersion];
     GDataMediaCategory *devTagDevice = [GDataMediaCategory mediaCategoryWithString:devTagDeviceString];
     [devTagDevice setScheme:devTagSchemeUrl];
-    
-    // Add them
-    [mediaGroup addMediaCategory:devTagFFHS];
-    [mediaGroup addMediaCategory:devTagDuration];
-    [mediaGroup addMediaCategory:devTagLocation];
     [mediaGroup addMediaCategory:devTagDevice];
+    
     
     // UI Updates
 //    [uploadProgressView setHidden:NO];

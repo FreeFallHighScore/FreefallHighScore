@@ -20,6 +20,7 @@
 - (void) uploadFailedWithError:(NSError*)error;
 @end
 
+
 @class GTMOAuth2ViewControllerTouch;
 @class GTMOAuth2Authentication;
 
@@ -41,7 +42,7 @@
 }
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
-
+@property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
 @property (nonatomic,retain) NSString* keychainItemName;
@@ -49,7 +50,7 @@
 @property (nonatomic,retain) NSString* clientSecret;
 @property (nonatomic,retain) NSString* developerKey;
 
-
+@property (nonatomic, assign) IBOutlet UIView* cancelView;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) NSString* accountName; //returns nil if not logged in
 
@@ -64,6 +65,8 @@
 @property (nonatomic, assign) CLLocation* location;
 
 - (GDataServiceGoogleYouTube *)youTubeService;
+
+- (IBAction) cancelSignin:(id)sender;
 
 - (IBAction)login:(id)sender;
 - (IBAction)logout:(id)sender;
@@ -84,4 +87,7 @@
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
                error:(NSError *)error;
 
+
 @end
+
+

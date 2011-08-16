@@ -150,6 +150,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(uploader == nil){
         uploader = [[FFYoutubeUploader alloc] init];
         uploader.delegate = self;
+        self.uploader.toplevelController = self;
     }
     
     // location stuff
@@ -426,6 +427,25 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [[NSBundle mainBundle] loadNibNamed:@"SubmitView" owner:self options:nil];        
     }
     
+    NSLog(@"logged in? %d user name %@ ", self.uploader.loggedIn, self.uploader.accountName);
+    
+    if(self.uploader.loggedIn){
+        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
+        [self.loginButton setTitle:self.uploader.accountName 
+                          //forState:(UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
+                          forState:UIControlStateNormal];
+        [self.loginButton setTitle:self.uploader.accountName 
+                          forState:UIControlStateDisabled];
+
+    }
+    else {
+        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
+        [self.loginButton setTitle:@"Log in"
+                          forState:(UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
+    }    
+    
+    [self.player pause];
+    
     //TODO animate showing view
     /*
     //animate the view on
@@ -452,18 +472,27 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
      */
     
     [self.videoPreviewView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-    
-    NSLog(@"logged in? %d user name %@", self.uploader.loggedIn, self.uploader.accountName);
-    
-    if(self.uploader.loggedIn){
-        self.submitButton.titleLabel.text = self.uploader.accountName;
-    }
-    else{
-        self.submitButton.titleLabel.text = @"Log in";
-    }
-        
+            
+    [self.videoTitle becomeFirstResponder];
+
     showingSubmitView = YES;
     [self updateButtonStates];
+}
+
+
+- (void) showUploadProgress
+{
+    if (self.uploadProgressView == nil) {
+        //TODO animate
+        [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
+        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+        CGSize progressViewSize = self.uploadProgressView.frame.size;
+        CGSize videoViewSize = self.videoPreviewView.frame.size;
+        CGRect newFrame = CGRectMake(0, videoViewSize.height-progressViewSize.height, progressViewSize.width, progressViewSize.height);
+        self.uploadProgressView.frame = newFrame;
+    }
+    self.uploadProgressBar.progress = 0;
+    
 }
 
 - (void) textFieldShouldReturn:(UITextField*)field
@@ -487,7 +516,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void) completeSubmit
 {
     if(!self.uploader.loggedIn){
-        NSLog(@"ERRROR - Somehow trying to submit when not logged in!");
+        NSLog(@"ERROR - Somehow trying to submit when not logged in!");
         return;
     }
     
@@ -520,12 +549,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (IBAction)cancelSubmit:(id)sender
 {
     if(self.uploader.uploading){
+        NSLog(@"Cancelling upload!");
         [self.uploader cancelUpload:sender];
         self.loginButton.enabled = YES;
         self.videoTitle.enabled = YES;
         self.videoStory.enabled = YES;
+        [self removeUploadProgressView];
     }
     else {
+         NSLog(@"Removing view!");
         [self removeSubmitView];
     }
 }
@@ -542,17 +574,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     [self.uploadProgressView removeFromSuperview];
     self.uploadProgressView = nil;    
-}
-
-- (void) showUploadProgress
-{
-    if (self.uploadProgressView == nil) {
-         //TODO animate
-        [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
-        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-    }
-    self.uploadProgressBar.progress = 0;
-
 }
 
 //This is called when the user is done with the video
@@ -634,8 +655,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //    // Do an initial focus
 //    [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
 //}
-
-
 
 
 - (void) overlayComplete:(NSURL*)assetURL
@@ -872,7 +891,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                          accelerometerData:self.acceleromterData];
         }];
                 
-        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration   ];
+        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
 
     });
 }
@@ -896,16 +915,20 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void) userDidSignIn:(NSString*)userName
 { 
     if(showingSubmitView){
-        self.submitButton.titleLabel.text = userName;
+        [self.loginButton setTitle:userName
+                          forState:UIControlStateNormal];
+        [self.loginButton setTitle:userName
+                          forState:UIControlStateDisabled];
     }
-    NSLog(@"user signed in %@", userName);
+    
 }
 
 - (void) userDidSignOut
 {
     NSLog(@"user signed out");    
     if(showingSubmitView){
-        self.submitButton.titleLabel.text = @"Login";
+        [self.loginButton setTitle:@"Log in"
+                          forState:  (UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
     }
 }
 
@@ -915,7 +938,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
     }
     else{
-        self.uploadProgressBar.progress = 0;
+        self.uploadProgressBar.progress = progress;
     }
 
     NSLog(@"uploaded to %f", progress);  
