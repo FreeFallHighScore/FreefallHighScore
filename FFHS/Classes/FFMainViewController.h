@@ -78,12 +78,6 @@
     BOOL didFall;
     
     NSInteger timesLooped;
-//    UIButton* ignoreButton;
-//    UIButton* submitButton;
-//    UIButton* recordButton;
-//    UILabel* dropscoreLabelTop;
-//    UILabel* dropscoreLabelBottom;
-//    UILabel* dropscoreLabelTime;
     UIColor* fontcolor;
     
     NSDate* recordStartTime;
@@ -94,9 +88,6 @@
     AVPlayerLayer* playerLayer;
     
     BOOL showingSubmitView;
-//    UIView* submitView;
-//    UITextField* videoTitle;
-//    UITextField* videoStory;
     
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
@@ -110,6 +101,7 @@
 @property (nonatomic,retain) UIButton *ignoreButton;
 @property (nonatomic,retain) UIButton *submitButton;
 @property (nonatomic,retain) UIButton *recordButton;
+@property (nonatomic,retain) IBOutlet UIButton *infoButton;
 
 @property (nonatomic,retain) UILabel* dropscoreLabelTop;
 @property (nonatomic,retain) UILabel* dropscoreLabelBottom;

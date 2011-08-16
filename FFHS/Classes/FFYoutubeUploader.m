@@ -103,8 +103,8 @@
 //        return;
 //    }
     
-    [self showAlert:@"LOGIN"
-        withMessage:[NSString stringWithFormat:@"toplevel %@", self.toplevelController] ];
+//    [self showAlert:@"LOGIN"
+//        withMessage:[NSString stringWithFormat:@"toplevel %@", self.toplevelController] ];
      
     NSString *scope = [GDataServiceGoogleYouTube authorizationScope];
     

@@ -55,7 +55,7 @@
 #import "FFAccelerometerSample.h"
 #import "FFYoutubeUploader.h"
 
-#define kUpdateFrequency	60.0
+#define kUpdateFrequency	120.0
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
@@ -104,12 +104,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize player;
 @synthesize playerLayer;
 @synthesize assetForOverlay;
+
 @synthesize recordButton;
 @synthesize ignoreButton;
 @synthesize submitButton;
+@synthesize infoButton;
+
 @synthesize dropscoreLabelTop;
 @synthesize dropscoreLabelBottom;
 @synthesize dropscoreLabelTime;
+
 @synthesize trackLoc;
 @synthesize introLoginButton;
 @synthesize videoOverlay;
@@ -133,6 +137,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 	[captureVideoPreviewLayer release];
     [recordButton release];
 
+    [introLoginButton release];
 	[ignoreButton release];
 	[submitButton release];
     [dropscoreLabelTop release];
@@ -140,6 +145,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [dropscoreLabelTime release];
     
 //    [filter release];
+    NSLog(@"releasing view");
     
     [super dealloc];
 }
@@ -147,30 +153,33 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)viewDidLoad
 {
  
-    if(uploader == nil){
-        uploader = [[FFYoutubeUploader alloc] init];
-        uploader.delegate = self;
+    NSLog(@"view did load G");
+    
+    if(self.uploader == nil){
+        self.uploader = [[FFYoutubeUploader alloc] init];
+        self.uploader.delegate = self;
         self.uploader.toplevelController = self;
+        [uploader release];
     }
     
     // location stuff
-    if(trackLoc == nil){
-        trackLoc = [[FFTrackLocation alloc] init];
-        [trackLoc setupLocation];
+    if(self.trackLoc == nil){
+        self.trackLoc = [[FFTrackLocation alloc] init];
+        [self.trackLoc setupLocation];
+        [trackLoc release];
     }
     
-    if(videoOverlay == nil){
-        videoOverlay = [[FFVideoOverlay alloc] init];
-        videoOverlay.delegate = self;
+    if(self.videoOverlay == nil){
+        self.videoOverlay = [[FFVideoOverlay alloc] init];
+        self.videoOverlay.delegate = self;
+        [videoOverlay release];
     }
     
 	if (self.captureManager == nil) {
-		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
-		[self setCaptureManager:manager];
-		[manager release];
+		self.captureManager = [[AVCamCaptureManager alloc] init];
+		self.captureManager.delegate = self;
+		[captureManager release];
 		
-		[[self captureManager] setDelegate:self];
-
 		if ([[self captureManager] setupSession]) {
             // Create video preview layer and add it to the UI
 			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
@@ -337,6 +346,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)flipsideViewControllerDidFinish:(FFFlipsideViewController *)controller
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[[self captureManager] session] startRunning];
+    });        
+
     [self dismissModalViewControllerAnimated:YES];
     self.uploader.toplevelController = self;
 }
@@ -353,6 +366,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     self.uploader.toplevelController = controller;
     
     [controller release];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[[self captureManager] session] stopRunning];
+    });        
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -432,7 +450,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
         [self.loginButton setTitle:self.uploader.accountName 
-                          //forState:(UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
                           forState:UIControlStateNormal];
         [self.loginButton setTitle:self.uploader.accountName 
                           forState:UIControlStateDisabled];
@@ -441,7 +458,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     else {
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
         [self.loginButton setTitle:@"Log in"
-                          forState:(UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
+                          forState:UIControlStateNormal];
     }    
     
     [self.player pause];
@@ -555,6 +572,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         self.videoTitle.enabled = YES;
         self.videoStory.enabled = YES;
         [self removeUploadProgressView];
+        [self.videoTitle becomeFirstResponder];
     }
     else {
          NSLog(@"Removing view!");
@@ -781,24 +799,29 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [self hideButton:self.recordButton];
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];            
+            [self hideButton:self.infoButton];
             [self showLabels];
         }
         else if(recording){
             [self hideButton:self.recordButton];
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];            
+            [self hideButton:self.infoButton];            
             [self hideLabels];
         }
         //if we are waiting, just show record
         else if(!didFall && !freefalling){
             [self showButton:self.recordButton];
+            [self showButton:self.infoButton];            
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];
+            
             [self hideLabels];
         }
         //if we fell and playback has gone a few times, show the submit/ignore
         else if(didFall && timesLooped > 0){
             [self hideButton:self.recordButton];
+            [self hideButton:self.infoButton];
             [self showButton:self.submitButton];
             [self showButton:self.ignoreButton];
             [self showLabels];
