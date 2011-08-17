@@ -1,19 +1,24 @@
 //
-//  FlipsideViewController.m
-//  FFHS
+//  FFFlipsideInstructionsController.m
+//  FreefallHighscore
 //
-//  Created by James George on 8/14/11.
+//  Created by James George on 8/17/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "FFFlipsideViewController.h"
-#import "FFYoutubeUploader.h"
+#import "FFFlipsideInstructionsController.h"
 
-@implementation FFFlipsideViewController
 
-@synthesize delegate=_delegate;
-@synthesize uploader;
-@synthesize tabBarController;
+@implementation FFFlipsideInstructionsController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)dealloc
 {
@@ -25,7 +30,7 @@
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc. that aren't in use.
+    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -33,8 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
-    [self.view addSubview: self.tabBarController.view];
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -49,19 +53,5 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-#pragma mark - Actions
-
-- (IBAction)done:(id)sender
-{
-    [self.delegate flipsideViewControllerDidFinish:self];
-}
-
-- (IBAction)login:(id)sender
-{
-    NSLog(@"logging in");
-    [self.uploader login:sender];
-}
-
 
 @end

@@ -359,7 +359,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     FFFlipsideViewController *controller = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     controller.delegate = self;
     controller.uploader = uploader;
-    
+
+
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:controller animated:YES];
     

@@ -11,9 +11,11 @@
 @protocol FFFlipsideViewControllerDelegate;
 @class FFYoutubeUploader;
 
-@interface FFFlipsideViewController : UIViewController {
+@interface FFFlipsideViewController : UIViewController<UITabBarControllerDelegate> {
     FFYoutubeUploader* uploader; //weak reference
 }
+
+@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
 @property (nonatomic, assign) id <FFFlipsideViewControllerDelegate> delegate;
 @property (nonatomic, assign) FFYoutubeUploader* uploader;

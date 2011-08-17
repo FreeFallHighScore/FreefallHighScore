@@ -31,6 +31,12 @@
 		A6C27E2113F988CD0001999F /* SubmitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E2013F988CD0001999F /* SubmitView.xib */; };
 		A6C27E2313F9BC160001999F /* UploadProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E2213F9BC160001999F /* UploadProgress.xib */; };
 		A6C27E2513FB0DA80001999F /* CancelSigninAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */; };
+		A6C27E6F13FC26990001999F /* FFFlipsideHighscoresController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */; };
+		A6C27E7013FC26990001999F /* FFFlipsideHighscoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */; };
+		A6C27E7413FC26DD0001999F /* FFFlipsideInstructionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */; };
+		A6C27E7513FC26DD0001999F /* FFFlipsideInstructionsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */; };
+		A6C27E7913FC27430001999F /* FFFlipsideMyDropsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */; };
+		A6C27E7A13FC27430001999F /* FFFlipsideMyDropsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */; };
 		A6E8F61113F87A660022AB39 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61013F87A660022AB39 /* Security.framework */; };
 		A6E8F61313F87A6B0022AB39 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
@@ -412,6 +418,15 @@
 		A6C27E2013F988CD0001999F /* SubmitView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubmitView.xib; sourceTree = "<group>"; };
 		A6C27E2213F9BC160001999F /* UploadProgress.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadProgress.xib; sourceTree = "<group>"; };
 		A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelSigninAccessory.xib; sourceTree = "<group>"; };
+		A6C27E6C13FC26990001999F /* FFFlipsideHighscoresController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideHighscoresController.h; path = ../FFFlipsideHighscoresController.h; sourceTree = "<group>"; };
+		A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideHighscoresController.m; path = ../FFFlipsideHighscoresController.m; sourceTree = "<group>"; };
+		A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideHighscoresController.xib; sourceTree = "<group>"; };
+		A6C27E7113FC26DD0001999F /* FFFlipsideInstructionsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideInstructionsController.h; path = ../FFFlipsideInstructionsController.h; sourceTree = "<group>"; };
+		A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideInstructionsController.m; path = ../FFFlipsideInstructionsController.m; sourceTree = "<group>"; };
+		A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideInstructionsController.xib; sourceTree = "<group>"; };
+		A6C27E7613FC27430001999F /* FFFlipsideMyDropsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideMyDropsController.h; path = ../FFFlipsideMyDropsController.h; sourceTree = "<group>"; };
+		A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideMyDropsController.m; path = ../FFFlipsideMyDropsController.m; sourceTree = "<group>"; };
+		A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideMyDropsController.xib; sourceTree = "<group>"; };
 		A6E8F61013F87A660022AB39 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
@@ -467,24 +482,9 @@
 			children = (
 				28D7ACF60DDB3853001CB0EB /* FFMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */,
-				A66F18D113F8778100B92C7C /* FFFlipsideViewController.h */,
-				A66F18D213F8778100B92C7C /* FFFlipsideViewController.m */,
-				E9A3542A116A7C4300CB935D /* AVCamCaptureManager.h */,
-				E9A3542B116A7C4300CB935D /* AVCamCaptureManager.m */,
-				E98345E011CBEA4800496D2B /* AVCamRecorder.h */,
-				E98345DF11CBEA4800496D2B /* AVCamRecorder.m */,
-				26D26A43130341DA00D8C94B /* AVCamUtilities.h */,
-				26D26A44130341DA00D8C94B /* AVCamUtilities.m */,
-				A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */,
-				A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */,
-				A66F16F313F8263900B92C7C /* FFTrackLocation.h */,
-				A66F16F413F8263A00B92C7C /* FFTrackLocation.m */,
-				A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */,
-				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
-				A66F18DF13F879CB00B92C7C /* FFYoutubeUploader.h */,
-				A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */,
-				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
-				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
+				A6C27E6613FC24AC0001999F /* Utilities */,
+				A6C27E6513FC23F00001999F /* Camera Controllers */,
+				A6C27E6413FC23BD0001999F /* Flipside ViewControllers */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -500,8 +500,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				A66F18EA13F87A1B00B92C7C /* GDataIncludes */,
-				A66F18F213F87A1B00B92C7C /* GDataLib */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -516,6 +514,8 @@
 			children = (
 				32CA4F630368D1EE00C91783 /* FreefallHighscore_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				A66F18EA13F87A1B00B92C7C /* GDataIncludes */,
+				A66F18F213F87A1B00B92C7C /* GDataLib */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -531,12 +531,7 @@
 				E7B32F1C13EE319F00A76421 /* Default.png */,
 				E7B32F1D13EE319F00A76421 /* Default@2x.png */,
 				E96FB2121316DF8C006ADCE0 /* Localizable.strings */,
-				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
-				A66F18D413F877AB00B92C7C /* FlipsideView.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				A6C27E2013F988CD0001999F /* SubmitView.xib */,
-				A6C27E2213F9BC160001999F /* UploadProgress.xib */,
-				A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */,
+				A6C27E6213FC22D30001999F /* xibs */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -914,6 +909,83 @@
 			path = Headers;
 			sourceTree = "<group>";
 		};
+		A6C27E6113FC22CA0001999F /* Flipside */ = {
+			isa = PBXGroup;
+			children = (
+				A66F18D413F877AB00B92C7C /* FlipsideView.xib */,
+				A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */,
+				A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */,
+				A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */,
+			);
+			name = Flipside;
+			sourceTree = "<group>";
+		};
+		A6C27E6213FC22D30001999F /* xibs */ = {
+			isa = PBXGroup;
+			children = (
+				A6C27E6313FC22E10001999F /* Frontside */,
+				A6C27E6113FC22CA0001999F /* Flipside */,
+			);
+			name = xibs;
+			sourceTree = "<group>";
+		};
+		A6C27E6313FC22E10001999F /* Frontside */ = {
+			isa = PBXGroup;
+			children = (
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
+				A6C27E2013F988CD0001999F /* SubmitView.xib */,
+				A6C27E2213F9BC160001999F /* UploadProgress.xib */,
+				A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */,
+			);
+			name = Frontside;
+			sourceTree = "<group>";
+		};
+		A6C27E6413FC23BD0001999F /* Flipside ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A66F18D113F8778100B92C7C /* FFFlipsideViewController.h */,
+				A66F18D213F8778100B92C7C /* FFFlipsideViewController.m */,
+				A6C27E6C13FC26990001999F /* FFFlipsideHighscoresController.h */,
+				A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */,
+				A6C27E7113FC26DD0001999F /* FFFlipsideInstructionsController.h */,
+				A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */,
+				A6C27E7613FC27430001999F /* FFFlipsideMyDropsController.h */,
+				A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */,
+			);
+			name = "Flipside ViewControllers";
+			sourceTree = "<group>";
+		};
+		A6C27E6513FC23F00001999F /* Camera Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E9A3542A116A7C4300CB935D /* AVCamCaptureManager.h */,
+				E9A3542B116A7C4300CB935D /* AVCamCaptureManager.m */,
+				E98345E011CBEA4800496D2B /* AVCamRecorder.h */,
+				E98345DF11CBEA4800496D2B /* AVCamRecorder.m */,
+				26D26A43130341DA00D8C94B /* AVCamUtilities.h */,
+				26D26A44130341DA00D8C94B /* AVCamUtilities.m */,
+				A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */,
+				A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */,
+			);
+			name = "Camera Controllers";
+			sourceTree = "<group>";
+		};
+		A6C27E6613FC24AC0001999F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A66F16F313F8263900B92C7C /* FFTrackLocation.h */,
+				A66F16F413F8263A00B92C7C /* FFTrackLocation.m */,
+				A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */,
+				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
+				A66F18DF13F879CB00B92C7C /* FFYoutubeUploader.h */,
+				A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */,
+				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
+				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -977,6 +1049,9 @@
 				A6C27E2113F988CD0001999F /* SubmitView.xib in Resources */,
 				A6C27E2313F9BC160001999F /* UploadProgress.xib in Resources */,
 				A6C27E2513FB0DA80001999F /* CancelSigninAccessory.xib in Resources */,
+				A6C27E7013FC26990001999F /* FFFlipsideHighscoresController.xib in Resources */,
+				A6C27E7513FC26DD0001999F /* FFFlipsideInstructionsController.xib in Resources */,
+				A6C27E7A13FC27430001999F /* FFFlipsideMyDropsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,6 +1076,9 @@
 				A66F1A3713F87A1C00B92C7C /* GTMOAuth2Authentication.m in Sources */,
 				A66F1A3813F87A1C00B92C7C /* GTMOAuth2SignIn.m in Sources */,
 				A66F1A3913F87A1C00B92C7C /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				A6C27E6F13FC26990001999F /* FFFlipsideHighscoresController.m in Sources */,
+				A6C27E7413FC26DD0001999F /* FFFlipsideInstructionsController.m in Sources */,
+				A6C27E7913FC27430001999F /* FFFlipsideMyDropsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
