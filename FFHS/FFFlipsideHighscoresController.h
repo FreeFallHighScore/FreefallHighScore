@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FFFlipsideController.h"
 
+@interface FFFlipsideHighscoresController : FFFlipsideController {
 
-@interface FFFlipsideHighscoresController : UIViewController {
-    
 }
+
 
 @end

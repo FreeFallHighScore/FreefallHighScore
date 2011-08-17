@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FFFlipsideController.h"
 
-
-@interface FFFlipsideInstructionsController : UIViewController {
+@interface FFFlipsideInstructionsController : FFFlipsideController {
     
 }
 

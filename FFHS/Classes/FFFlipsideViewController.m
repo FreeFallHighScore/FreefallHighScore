@@ -9,6 +9,10 @@
 #import "FFFlipsideViewController.h"
 #import "FFYoutubeUploader.h"
 
+#import "FFFlipsideHighscoresController.h"
+#import "FFFlipsideMyDropsController.h"
+#import "FFFlipsideInstructionsController.h"
+
 @implementation FFFlipsideViewController
 
 @synthesize delegate=_delegate;
@@ -35,6 +39,10 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
     [self.view addSubview: self.tabBarController.view];
+
+    [[[self.tabBarController viewControllers ]objectAtIndex:0] setFlipsideController:self];
+    [[[self.tabBarController viewControllers ]objectAtIndex:1] setFlipsideController:self];
+    [[[self.tabBarController viewControllers ]objectAtIndex:2] setFlipsideController:self];
 }
 
 - (void)viewDidUnload
