@@ -61,12 +61,17 @@ static CGImageRef createStarImage(CGFloat radius)
 	// Create a layer for the text of the title.
 	CATextLayer *titleLayer = [CATextLayer layer];
 	//titleLayer.string = @"title text";
-    titleLayer.string = [NSString stringWithFormat:@"%.03fs", fallstart];
-	titleLayer.font = @"Helvetica";
+    titleLayer.string = [NSString stringWithFormat:@"%.03fs", fallend - fallstart];
+//	titleLayer.font = @"Helvetica";
+    titleLayer.font = @"G.B.BOOT";
 	titleLayer.fontSize = videoSize.height / 6;
+    
+//    titleLayer.foregroundColor = CGColorCreate(colorSpace, components);
+    
 	//?? titleLayer.shadowOpacity = 0.5;
 	titleLayer.alignmentMode = kCAAlignmentCenter;
 	titleLayer.bounds = CGRectMake(0, 0, videoSize.width, videoSize.height / 6);
+    titleLayer.frame = CGRectMake(0, 0, videoSize.width/2, videoSize.height / 2);
 	
 	// Add it to the overall layer.
 	[animatedTitleLayer addSublayer:titleLayer];
@@ -79,12 +84,12 @@ static CGImageRef createStarImage(CGFloat radius)
 	CGFloat ringRadius = videoSize.height * 0.8 / 2;
 	CGImageRef starImage = createStarImage(starRadius);
 	
-		CALayer *starLayer = [CALayer layer];
-		CGFloat angle = s * 2 * M_PI / starCount;
-		starLayer.bounds = CGRectMake(0, 0, 2 * starRadius, 2 * starRadius);
-		starLayer.position = CGPointMake(ringRadius * cos(angle), ringRadius * sin(angle));
-		starLayer.contents = (id)starImage;
-		[ringOfStarsLayer addSublayer:starLayer];
+    CALayer *starLayer = [CALayer layer];
+    CGFloat angle = s * 2 * M_PI / starCount;
+    starLayer.bounds = CGRectMake(0, 0, 2 * starRadius, 2 * starRadius);
+    starLayer.position = CGPointMake(ringRadius * cos(angle), ringRadius * sin(angle));
+    starLayer.contents = (id)starImage;
+    [ringOfStarsLayer addSublayer:starLayer];
 	
 	CGImageRelease(starImage);
 	
