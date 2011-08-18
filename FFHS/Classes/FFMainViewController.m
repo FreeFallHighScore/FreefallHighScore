@@ -82,6 +82,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error;
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
 - (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
+- (void)captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager;
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
 @end
 
@@ -676,12 +677,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {
     if(recording && !freefalling){
         CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+            recordingTimedOut = YES;
             recording = NO;
-            [[self captureManager] stopRecording];
-            [self updateButtonStates];
-        });    
-
-        //TODO: delete faulty recorded video
+            [[self captureManager] cancelRecording];
+        });
     }
     else{
         NSLog(@"Canceling recording with faulty state. recording? %d freefalling? %d", recording, freefalling);
@@ -947,30 +946,32 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
-    if(didFall){
         
-        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-            ///create an overlay assetf
-            NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
-                                                                     forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-            
-            self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
-                                                       options:assetOptions];
-            
-            [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
-                NSLog(@"assetURL is %@", assetForOverlay.URL);
-                [self.videoOverlay createVideoOverlayWithAsset:self.assetForOverlay
-                                                   fallStarted:[self.freefallStartTime timeIntervalSinceDate:self.recordStartTime]
-                                                     fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
-                                             accelerometerData:self.acceleromterData];
-            }];
-                    
-            self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        
+        ///create an overlay asset
+        NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
+                                                                 forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+        
+        self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
+                                                   options:assetOptions];
+        
+        [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
+            NSLog(@"assetURL is %@", assetForOverlay.URL);
+            [self.videoOverlay createVideoOverlayWithAsset:self.assetForOverlay
+                                               fallStarted:[self.freefallStartTime timeIntervalSinceDate:self.recordStartTime]
+                                                 fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
+                                         accelerometerData:self.acceleromterData];
+        }];
+                
+        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
+    });    
+}
 
-        });
-    }
-    
-    //TODO: otherwise delete the asset!
+- (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager
+{
+    recordingTimedOut = NO;
+    [self updateButtonStates];
 }
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager

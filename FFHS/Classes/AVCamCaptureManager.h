@@ -65,17 +65,19 @@
 @property (nonatomic,assign) UIBackgroundTaskIdentifier backgroundRecordingID;
 @property (nonatomic,assign) id <AVCamCaptureManagerDelegate> delegate;
 @property (nonatomic,readonly) NSURL* outputFileURL;
+@property (nonatomic,readwrite) BOOL recordingCanceled;
 
 - (BOOL) setupSession;
 - (void) startRecording;
 - (void) stopRecording;
+- (void) cancelRecording;
 - (void) captureStillImage;
 - (BOOL) toggleCamera;
 - (NSUInteger) cameraCount;
 - (NSUInteger) micCount;
 - (void) autoFocusAtPoint:(CGPoint)point;
 - (void) continuousFocusAtPoint:(CGPoint)point;
-- (CGSize)cameraSize;
+- (CGSize) cameraSize;
 
 @end
 
@@ -85,6 +87,7 @@
 - (void) captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error;
 - (void) captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
+- (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
 @end

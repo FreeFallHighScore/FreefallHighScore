@@ -80,6 +80,7 @@
 @synthesize recorder;
 @synthesize deviceConnectedObserver;
 @synthesize deviceDisconnectedObserver;
+@synthesize recordingCanceled;
 @synthesize backgroundRecordingID;
 @synthesize delegate;
 
@@ -262,7 +263,7 @@
 		// after the recorded file has been saved.
         [self setBackgroundRecordingID:[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{}]];
     }
-    
+    self.recordingCanceled = NO;
     [self removeFile:[[self recorder] outputFileURL]];
     [[self recorder] startRecordingWithOrientation:orientation];
     
@@ -271,6 +272,13 @@
 - (void) stopRecording
 {
     [[self recorder] stopRecording];
+}
+
+- (void) cancelRecording
+{
+    self.recordingCanceled = YES;
+    [[self recorder] stopRecording];
+    
 }
 
 - (NSURL*) outputFileURL
@@ -494,7 +502,16 @@ bail:
 
 - (NSURL *) tempFileURL
 {
-    return [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), @"output.mov"]];
+    NSString* filePath;
+    NSUInteger count = 0;
+    do {
+        filePath = NSTemporaryDirectory();
+        NSString *numberString = count > 0 ? [NSString stringWithFormat:@"-%i", count] : @"";
+        filePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"Output-%@.mov", numberString]];
+        count++;
+    } while([[NSFileManager defaultManager] fileExistsAtPath:filePath]);      
+
+    return [NSURL fileURLWithPath:filePath];
 }
 
 - (void) removeFile:(NSURL *)fileURL
@@ -556,25 +573,35 @@ bail:
 		}
 	}
 	else {	
-		ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-		[library writeVideoAtPathToSavedPhotosAlbum:outputFileURL
-									completionBlock:^(NSURL *assetURL, NSError *error) {
-										if (error) {
-											if ([[self delegate] respondsToSelector:@selector(captureManager:didFailWithError:)]) {
-												[[self delegate] captureManager:self didFailWithError:error];
-											}											
-										}
-										
-										if ([[UIDevice currentDevice] isMultitaskingSupported]) {
-											[[UIApplication sharedApplication] endBackgroundTask:[self backgroundRecordingID]];
-										}
-										
-										if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:toURL:)]) {
-                                            NSLog(@"DELEGATE CALLBABACK saved asset file url is %@", assetURL);
-											[[self delegate] captureManagerRecordingFinished:self toURL:assetURL];
-										}
-									}];
-		[library release];
+        if(!self.recordingCanceled){
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+            [library writeVideoAtPathToSavedPhotosAlbum:outputFileURL
+                                        completionBlock:^(NSURL *assetURL, NSError *error) {
+                                            if (error) {
+                                                if ([[self delegate] respondsToSelector:@selector(captureManager:didFailWithError:)]) {
+                                                    [[self delegate] captureManager:self didFailWithError:error];
+                                                }											
+                                            }
+                                            
+                                            if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+                                                [[UIApplication sharedApplication] endBackgroundTask:[self backgroundRecordingID]];
+                                            }
+                                            
+                                            if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:toURL:)]) {
+                                                NSLog(@"DELEGATE CALLBABACK saved asset file url is %@", assetURL);
+                                                [[self delegate] captureManagerRecordingFinished:self toURL:assetURL];
+                                            }
+                                        }];
+            [library release];
+        
+        }
+        else{
+            if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingCanceled:)]) {
+                NSLog(@"RECORDING CANCELED");
+                [[self delegate] captureManagerRecordingCanceled:self];
+                self.recordingCanceled = NO;
+            }
+        }
 	}
 }
 

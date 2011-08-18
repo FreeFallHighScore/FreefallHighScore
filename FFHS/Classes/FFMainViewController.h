@@ -68,7 +68,7 @@
     
     BOOL freefalling;
     BOOL recording;
-
+    BOOL recordingTimedOut;
                             
     NSTimeInterval freefallDuration;
     NSDate* freefallStartTime; 
