@@ -10,7 +10,9 @@
 #import "FFFlipsideViewController.h"
 
 @implementation FFFlipsideController
+
 @synthesize flipsideController;
+@synthesize loginButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +43,27 @@
 
 - (IBAction)login:(id)sender
 {
-    [self.flipsideController login:sender];    
+    if (loggedIn)
+        [self.flipsideController logout:sender];
+    else
+        [self.flipsideController login:sender];
+    
+    [self refreshLoggedInStatus];
+}
+
+- (void)refreshLoggedInStatus
+{
+    loggedIn = [[[self flipsideController] uploader] loggedIn];
+    NSLog(@"User is logged in: %d", loggedIn);
+    [self toggleLoginButtonText];
+}
+
+- (void)toggleLoginButtonText
+{
+    if (loggedIn)
+        [loginButton setTitle:@"Logout"];
+    else
+        [loginButton setTitle:@"Login"];
 }
 
 #pragma mark - View lifecycle
@@ -53,13 +75,12 @@
 }
 */
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self refreshLoggedInStatus];
 }
-*/
 
 - (void)viewDidUnload
 {

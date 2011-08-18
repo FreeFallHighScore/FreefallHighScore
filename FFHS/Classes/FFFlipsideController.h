@@ -11,10 +11,15 @@
 @class FFFlipsideViewController;
 @interface FFFlipsideController : UIViewController {
     FFFlipsideViewController* flipsideController;
+    UIBarButtonItem* loginButton;
+    BOOL loggedIn;
 }
 @property (nonatomic, assign) FFFlipsideViewController* flipsideController;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* loginButton;
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
+- (void)refreshLoggedInStatus;
+- (void)toggleLoginButtonText;
 
 @end
