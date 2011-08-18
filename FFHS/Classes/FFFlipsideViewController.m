@@ -71,5 +71,10 @@
     [self.uploader login:sender];
 }
 
+- (IBAction)logout:(id)sender
+{
+    NSLog(@"logging out");
+    [self.uploader logout:sender];
+}
 
 @end

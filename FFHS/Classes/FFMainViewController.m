@@ -371,7 +371,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     controller.delegate = self;
     controller.uploader = uploader;
 
-
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:controller animated:YES];
     

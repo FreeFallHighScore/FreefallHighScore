@@ -13,8 +13,6 @@
 
 //add cancel sign in
 
-@end
-
 @implementation FFYoutubeUploader
 
 @synthesize keychainItemName;
@@ -22,7 +20,7 @@
 @synthesize clientSecret;
 @synthesize developerKey;
 @synthesize uploadTicket;
-@synthesize uploadProgress = progess;
+@synthesize uploadProgress = progress;
 @synthesize toplevelController;
 @synthesize delegate = _delegate;
 @synthesize videoTitle;
@@ -263,6 +261,8 @@
     [mediaGroup addMediaCategory:devTagFFHS];
 
     // Duration
+    NSLog(@"Duration of drop: %fs, %dms", fallDuration, (NSInteger)(fallDuration*1000));
+
     NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%d", (NSInteger)(fallDuration*1000)]; 
     GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:devTagDurationStr];
     [devTagDuration setScheme:devTagSchemeUrl];
@@ -271,13 +271,13 @@
     // Location
     if(location != nil){
         GDataMediaCategory *devTagLatitude, *devTagLongitude;
-        NSString* devTagLatString, *devTagLonString;
+        NSString *devTagLatString, *devTagLonString;
         devTagLatString = [NSString stringWithFormat: @"lat:%+.6f", location.coordinate.latitude];
         devTagLonString = [NSString stringWithFormat: @"lon:%+.6f", location.coordinate.longitude];
         
         devTagLatitude  = [GDataMediaCategory mediaCategoryWithString:devTagLatString];
         devTagLongitude = [GDataMediaCategory mediaCategoryWithString:devTagLonString];
-        [devTagLatitude setScheme:devTagSchemeUrl];
+        [devTagLatitude  setScheme:devTagSchemeUrl];
         [devTagLongitude setScheme:devTagSchemeUrl];
         
         [mediaGroup addMediaCategory:devTagLatitude];
