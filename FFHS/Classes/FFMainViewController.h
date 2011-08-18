@@ -59,6 +59,7 @@
 @class AccelerometerFilter;
 @class FFTrackLocation;
 @class FFYoutubeUploader;
+@class FFDropTimerLayer;
 
 @interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate> {
     
@@ -68,11 +69,11 @@
     BOOL freefalling;
     BOOL recording;
 
-                                                    
+                            
     NSTimeInterval freefallDuration;
     NSDate* freefallStartTime; 
     NSDate* freefallEndTime; 
-
+    
     NSInteger framesInFreefall;
     NSInteger framesOutOfFreefall;
     BOOL didFall;
@@ -91,6 +92,7 @@
     
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
+    FFDropTimerLayer* timerLayer;
 
 }
 
@@ -137,17 +139,18 @@
 @property (nonatomic,assign) IBOutlet UITextField* videoStory;
 @property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;
 @property (nonatomic,assign) IBOutlet UIButton* loginButton;
-
+@property (nonatomic,assign) FFDropTimerLayer* timerLayer;
 
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 @property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
 
 - (IBAction) showInfo:(id)sender;
 
-- (void)playerItemDidReachEnd:(NSNotification *)notification;
-- (void)submitCurrentVideo:(id)sender;
-- (void)discardCurrentVideo:(id)sender;
-- (void)manualRecord:(id)sender;
+- (void) playerItemDidReachEnd:(NSNotification *)notification;
+- (void) submitCurrentVideo:(id)sender;
+- (void) discardCurrentVideo:(id)sender;
+- (void) startRecording:(id)sender;
+- (void) cancelRecording; //after time out
 
 - (void) overlayComplete:(NSURL*)assetURL;
 

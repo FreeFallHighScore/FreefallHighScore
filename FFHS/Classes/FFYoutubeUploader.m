@@ -263,7 +263,7 @@
     [mediaGroup addMediaCategory:devTagFFHS];
 
     // Duration
-    NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%d", (NSInteger)fallDuration*1000]; 
+    NSString *devTagDurationStr = [NSString stringWithFormat:@"dur:%d", (NSInteger)(fallDuration*1000)]; 
     GDataMediaCategory *devTagDuration = [GDataMediaCategory mediaCategoryWithString:devTagDurationStr];
     [devTagDuration setScheme:devTagSchemeUrl];
     [mediaGroup addMediaCategory:devTagDuration];

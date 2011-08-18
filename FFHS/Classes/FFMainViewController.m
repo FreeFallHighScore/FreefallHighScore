@@ -54,8 +54,10 @@
 #import "FFVideoOverlay.h"
 #import "FFAccelerometerSample.h"
 #import "FFYoutubeUploader.h"
+#import "FFDropTimerLayer.h"
 
 #define kUpdateFrequency	120.0
+#define kRecordingTimeout 10. 
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
@@ -128,7 +130,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize loginButton;
 @synthesize uploadProgressView;
 @synthesize uploadProgressBar;
-
+@synthesize timerLayer;
 
 - (void)dealloc
 {
@@ -175,6 +177,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [videoOverlay release];
     }
     
+
 	if (self.captureManager == nil) {
 		self.captureManager = [[AVCamCaptureManager alloc] init];
 		self.captureManager.delegate = self;
@@ -261,7 +264,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
             
             [recordButton addTarget:self
-                             action:@selector(manualRecord:) 
+                             action:@selector(startRecording:) 
                    forControlEvents:UIControlEventTouchUpInside];
             
             [self.view addSubview:recordButton];			
@@ -318,6 +321,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
             [self updateButtonStates];
                         
+            //timer layer
+            timerLayer = [FFDropTimerLayer layer];
+            timerLayer.frame = bounds;
+            [[self.view layer] addSublayer:timerLayer];
+                                        
+
+            
             // Add a single tap gesture to focus on the point tapped, then lock focus
 //			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
 //			[singleTap setDelegate:self];
@@ -405,7 +415,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                    acceleration.y*acceleration.y + 
                                    acceleration.z*acceleration.z);
     
+    
+    [timerLayer setNeedsDisplay];
+    
     if(!didFall){
+        
         
         if(recording){
             FFAccelerometerSample* newSample = [FFAccelerometerSample sample];
@@ -415,6 +429,14 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             newSample.z = acceleration.z;
             newSample.magnitude = accelMagnitude;
             [acceleromterData addObject:newSample];
+            if(!freefalling){
+                if(newSample.time > kRecordingTimeout){
+                    NSLog(@"recording timed out!");
+                    [self cancelRecording];
+                }
+                [timerLayer setNeedsDisplay];
+            }
+
         }
         
         if(freefalling){
@@ -425,7 +447,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         if(!freefalling && accelMagnitude < .2){
             if(framesInFreefall++ > 10){
                 freefalling = YES;
-				[self manualRecord:nil];
+                if(recording){
+                    [timerLayer fallStarted];
+                }
+                else {
+                    [self startRecording:nil];
+                }
                 framesOutOfFreefall = 0;
                 self.freefallStartTime = [NSDate date];
             }
@@ -629,14 +656,35 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
 }
 
-- (void)manualRecord:(id)sender
+- (void)startRecording:(id)sender
 {
     if(!recording && !didFall){   
+
     	[[self captureManager] startRecording];
         recording = YES;
         self.recordStartTime = [NSDate date];
         self.acceleromterData = [NSMutableArray arrayWithCapacity:200];
         [self updateButtonStates];
+        
+        if(!freefalling){
+            [timerLayer setTimerWithStartTime:self.recordStartTime forDuration:kRecordingTimeout];
+        }
+    }
+}
+
+- (void) cancelRecording
+{
+    if(recording && !freefalling){
+        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+            recording = NO;
+            [[self captureManager] stopRecording];
+            [self updateButtonStates];
+        });    
+
+        //TODO: delete faulty recorded video
+    }
+    else{
+        NSLog(@"Canceling recording with faulty state. recording? %d freefalling? %d", recording, freefalling);
     }
 }
 
@@ -899,25 +947,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
-    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        ///create an overlay assetf
-        NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
-                                                                 forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    if(didFall){
         
-        self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
-                                                   options:assetOptions];
-        
-        [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
-            NSLog(@"assetURL is %@", assetForOverlay.URL);
-            [self.videoOverlay createVideoOverlayWithAsset:self.assetForOverlay
-                                               fallStarted:[self.freefallStartTime timeIntervalSinceDate:self.recordStartTime]
-                                                 fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
-                                         accelerometerData:self.acceleromterData];
-        }];
-                
-        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
+        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+            ///create an overlay assetf
+            NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
+                                                                     forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+            
+            self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
+                                                       options:assetOptions];
+            
+            [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
+                NSLog(@"assetURL is %@", assetForOverlay.URL);
+                [self.videoOverlay createVideoOverlayWithAsset:self.assetForOverlay
+                                                   fallStarted:[self.freefallStartTime timeIntervalSinceDate:self.recordStartTime]
+                                                     fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
+                                             accelerometerData:self.acceleromterData];
+            }];
+                    
+            self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
 
-    });
+        });
+    }
+    
+    //TODO: otherwise delete the asset!
 }
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager

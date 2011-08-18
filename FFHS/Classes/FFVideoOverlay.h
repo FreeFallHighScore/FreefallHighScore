@@ -14,7 +14,8 @@
 - (void) overlayComplete:(NSURL*)assetURL;
 @end 
 
-@interface FFVideoOverlay : NSObject {
+
+@interface FFVideoOverlay : NSObject{
 	AVComposition *_composition;
 	AVVideoComposition *_videoComposition;
     AVAssetExportSession* _session;
@@ -42,5 +43,8 @@
 - (void) beginExport;
 - (AVAssetExportSession*)assetExportSessionWithPreset:(NSString*)presetName;
 - (void) exportDidFinish:(AVAssetExportSession*)session;
+
+//CA stuff
+- (void)drawLayer:(CALayer *)theLayer inContext:(CGContextRef)theContext;
 
 @end
