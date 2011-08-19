@@ -11,6 +11,7 @@
 
 
 @protocol FFVideoOverlayDelegate<NSObject>
+- (void) overlayReachedPercent:(CGFloat)percentComplete;
 - (void) overlayComplete:(NSURL*)assetURL;
 @end 
 

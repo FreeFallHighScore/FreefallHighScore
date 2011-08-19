@@ -59,7 +59,7 @@
 @class AccelerometerFilter;
 @class FFTrackLocation;
 @class FFYoutubeUploader;
-@class FFDropTimerLayer;
+@class FFWidgetOverlays;
 
 @interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate> {
     
@@ -92,7 +92,7 @@
     
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
-    FFDropTimerLayer* timerLayer;
+    FFWidgetOverlays* widgetOverlayLayer;
 
 }
 
@@ -139,7 +139,7 @@
 @property (nonatomic,assign) IBOutlet UITextField* videoStory;
 @property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;
 @property (nonatomic,assign) IBOutlet UIButton* loginButton;
-@property (nonatomic,assign) FFDropTimerLayer* timerLayer;
+@property (nonatomic,assign) FFWidgetOverlays* widgetOverlayLayer;
 
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 @property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
@@ -152,7 +152,9 @@
 - (void) startRecording:(id)sender;
 - (void) cancelRecording; //after time out
 
+- (void) overlayReachedPercent:(CGFloat)percentComplete;
 - (void) overlayComplete:(NSURL*)assetURL;
+
 
 - (void) completeSubmit;
 - (void) removeSubmitView;

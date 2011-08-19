@@ -240,11 +240,16 @@ static CGImageRef createStarImage(CGFloat radius)
      }];
 	
 	NSArray *modes = [[[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil] autorelease];
-	[self performSelector:@selector(updateProgress:) withObject:self.session afterDelay:0.5 inModes:modes];
+	[self performSelector:@selector(updateProgress:) withObject:self.session afterDelay:1.0/15.0 inModes:modes];
 }
 
 - (void)updateProgress:(AVAssetExportSession*)session
 {
+    if(self.delegate != nil){
+        NSLog(@"Export reached percent %f", session.progress);
+        [self.delegate overlayReachedPercent:session.progress];
+    }
+    
 	if (session.status == AVAssetExportSessionStatusExporting) {
 		//NSIndexPath *exportCellIndexPath = [NSIndexPath indexPathForRow:2 inSection:kProjectSection];
 		//ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];
@@ -290,6 +295,9 @@ static CGImageRef createStarImage(CGFloat radius)
 											else {
                                                 NSLog(@"EXPORT SUCCESS");
                                                 if(self.delegate != nil){
+                                                    //TODO call a new method saying the copy has been done
+                                                    //we need to use that copy for exporting and potentially
+                                                    //going back to videos to export.
                                                     //[self.delegate overlayComplete:assetURL];
                                                 }
 											}

@@ -9,17 +9,28 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface FFDropTimerLayer : CALayer {
+@interface FFWidgetOverlays : CALayer {
+    BOOL drawingTimer;
     NSDate* startTime;
     NSTimeInterval duration;
-    BOOL drawing;
+    
+    BOOL drawingExport;
+    CGFloat exportPercent;
 }
 
 @property (nonatomic, assign) NSDate* startTime;
 
+@property (nonatomic, readwrite) CGFloat exportPercent;
+
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration;
 - (void) fallStarted;
 
+- (void) startDrawingExpot;
+- (void) stopDrawingExport;
+
+- (void) redrawLoop;
+
 - (void) drawInContext:(CGContextRef)theContext;
+
 
 @end

@@ -6,27 +6,37 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "FFDropTimerLayer.h"
+#import "FFWidgetOverlays.h"
 
 
-@implementation FFDropTimerLayer
+@implementation FFWidgetOverlays
 
 @synthesize startTime;
+@synthesize exportPercent;
 
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration
 {
     self.startTime = theStartTime;
     duration = newDuration;
-    drawing = YES;
+    drawingTimer = YES;
+    [self redrawLoop];
 }   
+
+- (void) redrawLoop
+{
+    [self setNeedsDisplay];
+    if(drawingExport || drawingTimer){
+        [self performSelector:@selector(redrawLoop) withObject:nil afterDelay:1.0/30.0];
+    }
+}
 
 - (void)drawInContext:(CGContextRef)theContext
 {
 
-    if(drawing){
+    if(drawingTimer){
         CGFloat percentDone = -[self.startTime timeIntervalSinceNow]/duration;
         if(percentDone > 1.0){
-            drawing = NO;
+            drawingTimer = NO;
             return;
         }
         
@@ -47,9 +57,28 @@
         CGContextAddLineToPoint(theContext, midpoint.x, midpoint.y);
         
         CGContextFillPath(theContext);
-
     }
-    
+    else if(drawingExport){
+        NSLog(@"drawing export with percent %f", exportPercent);
+        CGContextSetFillColorWithColor(theContext, [UIColor colorWithRed:.0 green:0 blue:1.0 alpha:.25].CGColor );    
+        CGContextBeginPath(theContext);
+        CGPoint midpoint = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+        CGContextMoveToPoint(theContext, midpoint.x, midpoint.y);
+        
+        CGFloat radius = 100;
+        CGFloat arcPos = M_PI*2*exportPercent;
+        for(CGFloat i = 0; i < arcPos; i+=.1){
+            CGPoint p = CGPointMake(cos(i-M_PI_2)*radius, sin(i-M_PI_2)*radius);
+            CGContextAddLineToPoint(theContext, midpoint.x+p.x, midpoint.y+p.y);
+        }
+        CGPoint p = CGPointMake(cos(arcPos-M_PI_2)*radius, sin(arcPos-M_PI_2)*radius);
+        CGContextAddLineToPoint(theContext, midpoint.x+p.x, midpoint.y+p.y);
+        
+        CGContextAddLineToPoint(theContext, midpoint.x, midpoint.y);
+        
+        CGContextFillPath(theContext);
+        
+    }
 //    CGContextFillEllipseInRect(theContext, self.bounds);
      
     
@@ -59,7 +88,20 @@
 
 - (void) fallStarted
 {
-    drawing = NO;
+    drawingTimer = NO;
 }
+
+- (void) startDrawingExpot
+{
+    drawingExport = YES;
+    exportPercent = 0.0f;
+    [self redrawLoop];
+}
+
+- (void) stopDrawingExport
+{
+    drawingExport = NO;    
+}
+
 
 @end

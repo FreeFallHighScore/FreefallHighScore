@@ -54,9 +54,9 @@
 #import "FFVideoOverlay.h"
 #import "FFAccelerometerSample.h"
 #import "FFYoutubeUploader.h"
-#import "FFDropTimerLayer.h"
+#import "FFWidgetOverlays.h"
 
-#define kUpdateFrequency	120.0
+#define kUpdateFrequency 120.0
 #define kRecordingTimeout 10. 
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
@@ -132,7 +132,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize loginButton;
 @synthesize uploadProgressView;
 @synthesize uploadProgressBar;
-@synthesize timerLayer;
+@synthesize widgetOverlayLayer;
 
 - (void)dealloc
 {
@@ -324,9 +324,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [self updateButtonStates];
                         
             //timer layer
-            timerLayer = [FFDropTimerLayer layer];
-            timerLayer.frame = bounds;
-            [[self.view layer] addSublayer:timerLayer];
+            widgetOverlayLayer = [FFWidgetOverlays layer];
+            widgetOverlayLayer.frame = bounds;
+            [[self.view layer] addSublayer:widgetOverlayLayer];
                                         
 
             
@@ -417,8 +417,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                    acceleration.z*acceleration.z);
     
     
-    [timerLayer setNeedsDisplay];
-    
     if(!didFall){
         
         
@@ -435,7 +433,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                     NSLog(@"recording timed out!");
                     [self cancelRecording];
                 }
-                [timerLayer setNeedsDisplay];
             }
 
         }
@@ -449,7 +446,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             if(framesInFreefall++ > 10){
                 freefalling = YES;
                 if(recording){
-                    [timerLayer fallStarted];
+                    [widgetOverlayLayer fallStarted];
                 }
                 else {
                     [self startRecording:nil];
@@ -668,7 +665,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [self updateButtonStates];
         
         if(!freefalling){
-            [timerLayer setTimerWithStartTime:self.recordStartTime forDuration:kRecordingTimeout];
+            [widgetOverlayLayer setTimerWithStartTime:self.recordStartTime forDuration:kRecordingTimeout];
         }
     }
 }
@@ -699,7 +696,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [[[self captureManager] session] stopRunning];
         });        
     });    
-
 }
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -723,10 +719,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //}
 
 
+- (void) overlayReachedPercent:(CGFloat)percentComplete
+{
+    widgetOverlayLayer.exportPercent = percentComplete;
+}
+
 - (void) overlayComplete:(NSURL*)assetURL
 {
     NSLog(@"overlay complete!! %@", assetURL);
 
+    [widgetOverlayLayer stopDrawingExport];
+    
     self.currentDropAssetURL = assetURL;
     self.player = [AVPlayer playerWithURL:assetURL];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
@@ -965,6 +968,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         }];
                 
         self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
+        [widgetOverlayLayer startDrawingExpot];
     });
     
     //don't save the asset to the library

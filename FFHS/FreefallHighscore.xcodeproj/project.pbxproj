@@ -39,7 +39,7 @@
 		A6C27E7A13FC27430001999F /* FFFlipsideMyDropsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */; };
 		A6C27E7D13FC4DDE0001999F /* FFFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7C13FC4DDE0001999F /* FFFlipsideController.m */; };
 		A6C27E8013FC5CE50001999F /* FFVideoOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7F13FC5CE40001999F /* FFVideoOverlayLayer.m */; };
-		A6C27E8313FD6FF40001999F /* FFDropTimerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E8213FD6FF40001999F /* FFDropTimerLayer.m */; };
+		A6C27E8313FD6FF40001999F /* FFWidgetOverlays.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */; };
 		A6E8F61113F87A660022AB39 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61013F87A660022AB39 /* Security.framework */; };
 		A6E8F61313F87A6B0022AB39 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
@@ -434,8 +434,8 @@
 		A6C27E7C13FC4DDE0001999F /* FFFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideController.m; sourceTree = "<group>"; };
 		A6C27E7E13FC5CE40001999F /* FFVideoOverlayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFVideoOverlayLayer.h; sourceTree = "<group>"; };
 		A6C27E7F13FC5CE40001999F /* FFVideoOverlayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFVideoOverlayLayer.m; sourceTree = "<group>"; };
-		A6C27E8113FD6FF40001999F /* FFDropTimerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFDropTimerLayer.h; sourceTree = "<group>"; };
-		A6C27E8213FD6FF40001999F /* FFDropTimerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropTimerLayer.m; sourceTree = "<group>"; };
+		A6C27E8113FD6FF40001999F /* FFWidgetOverlays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFWidgetOverlays.h; sourceTree = "<group>"; };
+		A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFWidgetOverlays.m; sourceTree = "<group>"; };
 		A6E8F61013F87A660022AB39 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
@@ -995,8 +995,8 @@
 				A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */,
 				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
 				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
-				A6C27E8113FD6FF40001999F /* FFDropTimerLayer.h */,
-				A6C27E8213FD6FF40001999F /* FFDropTimerLayer.m */,
+				A6C27E8113FD6FF40001999F /* FFWidgetOverlays.h */,
+				A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1096,7 +1096,7 @@
 				A6C27E7913FC27430001999F /* FFFlipsideMyDropsController.m in Sources */,
 				A6C27E7D13FC4DDE0001999F /* FFFlipsideController.m in Sources */,
 				A6C27E8013FC5CE50001999F /* FFVideoOverlayLayer.m in Sources */,
-				A6C27E8313FD6FF40001999F /* FFDropTimerLayer.m in Sources */,
+				A6C27E8313FD6FF40001999F /* FFWidgetOverlays.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
