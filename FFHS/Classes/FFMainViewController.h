@@ -103,7 +103,8 @@
 @property (nonatomic,retain) UIButton *ignoreButton;
 @property (nonatomic,retain) UIButton *submitButton;
 @property (nonatomic,retain) UIButton *recordButton;
-@property (nonatomic,retain) IBOutlet UIButton *infoButton;
+@property (nonatomic,assign) IBOutlet UIButton *infoButton;
+@property (nonatomic,assign) IBOutlet UIImageView* stripeOverlay;
 
 @property (nonatomic,retain) UILabel* dropscoreLabelTop;
 @property (nonatomic,retain) UILabel* dropscoreLabelBottom;

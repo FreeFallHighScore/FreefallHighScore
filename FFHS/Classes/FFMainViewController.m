@@ -113,6 +113,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize ignoreButton;
 @synthesize submitButton;
 @synthesize infoButton;
+@synthesize stripeOverlay;
 
 @synthesize dropscoreLabelTop;
 @synthesize dropscoreLabelBottom;
@@ -203,7 +204,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			
 			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
 			
-			[viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+			[viewLayer insertSublayer:newCaptureVideoPreviewLayer 
+                                below:[[viewLayer sublayers] objectAtIndex:0]];
 
 			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
             [newCaptureVideoPreviewLayer release];
@@ -220,7 +222,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                          bounds.origin.y + bounds.size.height/2.0);
             
 
-            fontcolor = [[UIColor colorWithRed:255/255.0 green:220/255.0 blue:20/255.0 alpha:0.70] retain];
+            fontcolor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] retain];
         
             NSUserDefaults      *padFactoids;
             int                 launchCount;
@@ -232,22 +234,32 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             NSLog(@"number of times: %i the app has been launched", launchCount);
             
-            if ( launchCount == 1 ){
+            if (YES || launchCount == 1 ){
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
                 self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                introLoginButton.frame = CGRectMake(0, middle.y-160, bounds.size.width, 100.0);
                 introLoginButton.adjustsImageWhenHighlighted = NO;
                 [introLoginButton setTitle:@"LOG IN" forState:(UIControlStateNormal)];
-                introLoginButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
-                introLoginButton.titleLabel.textColor = fontcolor;
-                introLoginButton.titleLabel.textAlignment = UITextAlignmentCenter;
+                [introLoginButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+                [introLoginButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 00.0, 0.0, 0.0)];
+                
+                UIImage* introLogIn = [UIImage imageNamed:@"about_button_base"];
+                [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateNormal];
+                [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateHighlighted];
+                
+                introLoginButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
+                [introLoginButton setTitleColor:fontcolor 
+                                   forState:UIControlStateNormal];
+                CGSize introImageSize = [introLogIn size];
+                introLoginButton.frame = CGRectMake(bounds.size.width/2 - introImageSize.width/2 , bounds.size.height*.45, introImageSize.width, introImageSize.height);
+
+
                 
                 [introLoginButton addTarget:self.uploader 
                                      action:@selector(login:) 
                            forControlEvents:UIControlEventTouchUpInside];
                 
-                [self.view addSubview:loginButton];
+                [self.view addSubview:introLoginButton];
             }
             
             if ( launchCount == 2 ){
@@ -256,18 +268,28 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             }
 
             
-            //RECORD BUTTON
+            //DROP BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            recordButton.frame = CGRectMake(0, middle.y-90, bounds.size.width, 100.0);
             recordButton.adjustsImageWhenHighlighted = NO;
-            [recordButton setTitle:@"REC.O.RD" forState:(UIControlStateNormal)];
-            recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
-            recordButton.titleLabel.textColor = fontcolor;
-            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
+            [recordButton setTitle:@"DROP" forState:(UIControlStateNormal)];
+            [recordButton setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
+            [recordButton setTitleEdgeInsets:UIEdgeInsetsMake(15.0, 00.0, 0.0, 0.0)];
+
+            recordButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
             
+            //recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
+            [recordButton setTitleColor:fontcolor 
+                               forState:UIControlStateNormal];
+            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
+            UIImage* dropButtonImage = [UIImage imageNamed:@"drop_button_base"];
+            [recordButton setBackgroundImage:dropButtonImage forState:UIControlStateNormal];
+            [recordButton setBackgroundImage:dropButtonImage forState:UIControlStateHighlighted];
             [recordButton addTarget:self
                              action:@selector(startRecording:) 
                    forControlEvents:UIControlEventTouchUpInside];
+            
+            CGSize imageSize = [dropButtonImage size];
+            recordButton.frame = CGRectMake(bounds.size.width/2 - imageSize.width/2 , bounds.size.height*.6, imageSize.width, imageSize.height);
             
             [self.view addSubview:recordButton];			
  
@@ -291,7 +313,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             ignoreButton.adjustsImageWhenHighlighted = NO;
             ignoreButton.frame = CGRectMake(0, middle.y+100, bounds.size.width, 140.0);
             [ignoreButton setTitle:@"DROP..A.GAIN" forState:(UIControlStateNormal)];
-            ignoreButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:40];
+            ignoreButton.titleLabel.font = [UIFont fontWithName:@"Helvetica Neueu Condensed Bold" size:40];
             ignoreButton.titleLabel.textColor = fontcolor;
             ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
 
@@ -740,7 +762,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
-    //TODO: fix orientation...
+    //TODO: fix orientation...maybe?
     [self.player play];
     
     UIView *view = [self videoPreviewView];
