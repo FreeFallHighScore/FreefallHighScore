@@ -81,7 +81,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @interface FFMainViewController (AVCamCaptureManagerDelegate) <AVCamCaptureManagerDelegate>
 - (void)captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error;
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
-- (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
+- (BOOL)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)temporaryURL;
+- (void)captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
 - (void)captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager;
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
 @end
@@ -943,7 +944,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 //    });
 }
 
-- (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
+- (BOOL) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)temporaryURL
 {
         
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
@@ -952,7 +953,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
                                                                  forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
         
-        self.assetForOverlay = [AVURLAsset URLAssetWithURL:assetURL
+        self.assetForOverlay = [AVURLAsset URLAssetWithURL:temporaryURL
                                                    options:assetOptions];
         
         [self.assetForOverlay loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^(void){
@@ -964,7 +965,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         }];
                 
         self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
-    });    
+    });
+    
+    //don't save the asset to the library
+    return NO;
+}
+
+- (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
+{
+    //unused, we never save the items directly from the camera to the asset library.
 }
 
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager

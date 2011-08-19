@@ -278,7 +278,6 @@
 {
     self.recordingCanceled = YES;
     [[self recorder] stopRecording];
-    
 }
 
 - (NSURL*) outputFileURL
@@ -574,6 +573,14 @@ bail:
 	}
 	else {	
         if(!self.recordingCanceled){
+            if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:toURL:)]) {
+                if(![[self delegate] captureManagerRecordingFinished:self toURL:outputFileURL]){
+                    NSLog(@"DELEGATE refused to save asset to library %@", outputFileURL);
+                    return;
+                }
+            }
+            
+            //assume that if the delegate doesn't opt to cancel out of saved recordings that they want everything to be saved to the asset library
             ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
             [library writeVideoAtPathToSavedPhotosAlbum:outputFileURL
                                         completionBlock:^(NSURL *assetURL, NSError *error) {
@@ -589,7 +596,7 @@ bail:
                                             
                                             if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:toURL:)]) {
                                                 NSLog(@"DELEGATE CALLBABACK saved asset file url is %@", assetURL);
-                                                [[self delegate] captureManagerRecordingFinished:self toURL:assetURL];
+                                                [[self delegate] captureManagerRecordingSaved:self toURL:assetURL];
                                             }
                                         }];
             [library release];

@@ -266,12 +266,12 @@ static CGImageRef createStarImage(CGFloat radius)
     NSLog(@"Export did finsish to URL %@", session.outputURL);
     
 	_exporting = NO;
-//	NSIndexPath *exportCellIndexPath = [NSIndexPath indexPathForRow:2 inSection:kProjectSection];
-//	ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];
-//	cell.progressView.progress = 1.0;
-//	[cell setProgressViewHidden:YES animated:YES];
-//	[self updateCell:cell forRowAtIndexPath:exportCellIndexPath];
 	
+    if(self.delegate != nil){
+        [self.delegate overlayComplete:session.outputURL];
+    }
+ 
+    //then copy
 	ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
 	if ([library videoAtPathIsCompatibleWithSavedPhotosAlbum:outputURL]) {
 		[library writeVideoAtPathToSavedPhotosAlbum:outputURL
@@ -290,17 +290,10 @@ static CGImageRef createStarImage(CGFloat radius)
 											else {
                                                 NSLog(@"EXPORT SUCCESS");
                                                 if(self.delegate != nil){
-                                                    [self.delegate overlayComplete:assetURL];
+                                                    //[self.delegate overlayComplete:assetURL];
                                                 }
-//												_showSavedVideoToAssestsLibrary = YES;
-//												ExportCell *cell = (ExportCell*)[self.tableView cellForRowAtIndexPath:exportCellIndexPath];
-//												[cell setDetailTextLabelHidden:NO animated:YES];
-//												[self updateCell:cell forRowAtIndexPath:exportCellIndexPath];
-//												NSArray *modes = [[[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil] autorelease];
-//												[self performSelector:@selector(hideCameraRollText) withObject:nil afterDelay:5.0 inModes:modes];
 											}
 										});
-										
 									}];
 	}
 	[library release];

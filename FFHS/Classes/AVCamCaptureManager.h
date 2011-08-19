@@ -86,7 +86,10 @@
 @optional
 - (void) captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error;
 - (void) captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager;
-- (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
+//return YES if you want to save this file to the asset library, otherwise it will be overwritten next time you hit record
+- (BOOL) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)temporaryURL;
+//if the delegate returned YES to finished, then this is called when the final asset is saved to the library.
+- (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
