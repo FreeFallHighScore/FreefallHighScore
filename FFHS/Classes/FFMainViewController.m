@@ -66,8 +66,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 @interface FFMainViewController (InternalMethods)
 - (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
-//- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
-//- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
 - (void) updateButtonStates;
 - (void)hideButton:(UIButton *)button;
 - (void)showButton:(UIButton *)button;
@@ -75,6 +73,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)showLabel:(UILabel *)label;
 - (void)hideLabels;
 - (void)showLabels;
+
+- (void)hideOverlay;
+- (void)showOverlay;
 
 @end
 
@@ -112,6 +113,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize recordButton;
 @synthesize ignoreButton;
 @synthesize submitButton;
+@synthesize cancelButton;
 @synthesize infoButton;
 @synthesize stripeOverlay;
 
@@ -221,8 +223,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
                                          bounds.origin.y + bounds.size.height/2.0);
             
-
-            fontcolor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0] retain];
+            fontcolor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] retain];
         
             NSUserDefaults      *padFactoids;
             int                 launchCount;
@@ -251,10 +252,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 [introLoginButton setTitleColor:fontcolor 
                                    forState:UIControlStateNormal];
                 CGSize introImageSize = [introLogIn size];
-                introLoginButton.frame = CGRectMake(bounds.size.width/2 - introImageSize.width/2 , bounds.size.height*.45, introImageSize.width, introImageSize.height);
-
-
-                
+                //introLoginButton.frame = CGRectMake(bounds.size.width/2 - introImageSize.width/2 , bounds.size.height*.45, introImageSize.width, introImageSize.height);
+                introLoginButton.frame = CGRectMake(0, bounds.size.height*.45, introImageSize.width, introImageSize.height);
                 [introLoginButton addTarget:self.uploader 
                                      action:@selector(login:) 
                            forControlEvents:UIControlEventTouchUpInside];
@@ -262,18 +261,13 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 [self.view addSubview:introLoginButton];
             }
             
-            if ( launchCount == 2 ){
-                NSLog(@"this is the SECOND launch of the damn app");
-                
-            }
-
             
             //DROP BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
             recordButton.adjustsImageWhenHighlighted = NO;
             [recordButton setTitle:@"DROP" forState:(UIControlStateNormal)];
             [recordButton setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
-            [recordButton setTitleEdgeInsets:UIEdgeInsetsMake(15.0, 00.0, 0.0, 0.0)];
+            [recordButton setTitleEdgeInsets:UIEdgeInsetsMake(10.0, 00.0, 0.0, 0.0)];
 
             recordButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
             
@@ -289,23 +283,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                    forControlEvents:UIControlEventTouchUpInside];
             
             CGSize imageSize = [dropButtonImage size];
-            recordButton.frame = CGRectMake(bounds.size.width/2 - imageSize.width/2 , bounds.size.height*.6, imageSize.width, imageSize.height);
+            //recordButton.frame = CGRectMake(bounds.size.width/2 - imageSize.width/2 , bounds.size.height*.6, imageSize.width, imageSize.height);
+            recordButton.frame = CGRectMake(0, bounds.size.height*.6, imageSize.width, imageSize.height);
             
             [self.view addSubview:recordButton];			
  
             //SUBMIT BUTTON
             self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            submitButton.frame = CGRectMake(0, middle.y-250, bounds.size.width, 140.0);
             submitButton.adjustsImageWhenHighlighted = NO;
             [submitButton setTitle:@"SUBMIT" forState:(UIControlStateNormal)];
             submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:50];
             submitButton.titleLabel.textColor = fontcolor;
             submitButton.titleLabel.textAlignment = UITextAlignmentCenter;
             
+            UIImage* submitButtonImage = [UIImage imageNamed:@"submit_button_base"];
+            [submitButton setBackgroundImage:submitButtonImage forState:UIControlStateNormal];
+            [submitButton setBackgroundImage:submitButtonImage forState:UIControlStateHighlighted];
+            submitButton.frame = CGRectMake(0, bounds.size.height*.2, submitButtonImage.size.width, submitButtonImage.size.height);
+
             [submitButton addTarget:self
                              action:@selector(submitCurrentVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
             
+            submitButton.hidden =   YES;
+            submitButton.enabled = NO;
             [self.view addSubview:submitButton];			
             
             //DROP AGAIN BUTTON
@@ -313,7 +314,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             ignoreButton.adjustsImageWhenHighlighted = NO;
             ignoreButton.frame = CGRectMake(0, middle.y+100, bounds.size.width, 140.0);
             [ignoreButton setTitle:@"DROP..A.GAIN" forState:(UIControlStateNormal)];
-            ignoreButton.titleLabel.font = [UIFont fontWithName:@"Helvetica Neueu Condensed Bold" size:40];
+            ignoreButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:40];
             ignoreButton.titleLabel.textColor = fontcolor;
             ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
 
@@ -323,6 +324,28 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
             [self.view addSubview:ignoreButton];
 
+            //CANCEL BUTTON!!!
+            self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            cancelButton.adjustsImageWhenHighlighted = NO;
+            [cancelButton setTitle:@"CANCEL" forState:(UIControlStateNormal)];
+            
+            cancelButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
+            [cancelButton setTitleColor:fontcolor 
+                               forState:UIControlStateNormal];
+            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
+            UIImage* cancelButtonImage = [UIImage imageNamed:@"cancel_button_base"];
+            [cancelButton setBackgroundImage:cancelButtonImage forState:UIControlStateNormal];
+            [cancelButton setBackgroundImage:cancelButtonImage forState:UIControlStateHighlighted];
+            [cancelButton addTarget:self
+                             action:@selector(cancelRecording) 
+                   forControlEvents:UIControlEventTouchUpInside];
+            
+            CGSize cancelButtonImageSize = [cancelButtonImage size];
+            cancelButton.frame = CGRectMake(bounds.size.width/2 - cancelButtonImageSize.width/2, bounds.size.height*.8, cancelButtonImageSize.width, cancelButtonImageSize.height);
+            cancelButton.hidden = YES;
+            cancelButton.enabled = NO;
+            [self.view addSubview:cancelButton];			
+            
 
 			//YOUR SCORE LABEL            
             dropscoreLabelTop = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-140, bounds.size.width, 140.0)];
@@ -331,7 +354,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             dropscoreLabelTop.backgroundColor = [UIColor clearColor];
             dropscoreLabelTop.textColor = fontcolor;
             dropscoreLabelTop.textAlignment = UITextAlignmentCenter;
-
             [self.view addSubview:dropscoreLabelTop];
 
             dropscoreLabelTime = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-100, bounds.size.width, 140.0)];
@@ -340,7 +362,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             dropscoreLabelTime.backgroundColor = [UIColor clearColor];
             dropscoreLabelTime.textColor = fontcolor;
             dropscoreLabelTime.textAlignment = UITextAlignmentCenter;
-
             [self.view addSubview:dropscoreLabelTime];
 
             [self updateButtonStates];
@@ -349,8 +370,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             widgetOverlayLayer = [FFWidgetOverlays layer];
             widgetOverlayLayer.frame = bounds;
             [[self.view layer] addSublayer:widgetOverlayLayer];
-                                        
-
             
             // Add a single tap gesture to focus on the point tapped, then lock focus
 //			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
@@ -869,17 +888,25 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         if(showingSubmitView){
+            
             [self hideButton:self.recordButton];
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];            
             [self hideButton:self.infoButton];
+            [self hideButton:self.cancelButton];
+            [self hideButton:self.introLoginButton];
             [self showLabels];
         }
         else if(recording){
             [self hideButton:self.recordButton];
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];            
-            [self hideButton:self.infoButton];            
+            [self hideButton:self.infoButton];
+            [self hideButton:self.introLoginButton];
+            
+            [self hideOverlay];
+            [self showButton:self.cancelButton];
+            
             [self hideLabels];
         }
         //if we are waiting, just show record
@@ -888,13 +915,22 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [self showButton:self.infoButton];            
             [self hideButton:self.submitButton];
             [self hideButton:self.ignoreButton];
+            [self hideButton:self.cancelButton];
+            [self showOverlay];
+            
+            if(firstRun && !self.uploader.loggedIn){
+                [self hideButton:self.introLoginButton];
+            }
             
             [self hideLabels];
         }
         //if we fell and playback has gone a few times, show the submit/ignore
         else if(didFall && timesLooped > 0){
+            
             [self hideButton:self.recordButton];
             [self hideButton:self.infoButton];
+            [self hideButton:self.cancelButton];
+            
             [self showButton:self.submitButton];
             [self showButton:self.ignoreButton];
             [self showLabels];
@@ -904,6 +940,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 		self.recordButton.titleLabel.textColor = fontcolor;
         self.submitButton.titleLabel.textColor = fontcolor;    
         self.ignoreButton.titleLabel.textColor = fontcolor;
+        self.cancelButton.titleLabel.textColor = fontcolor;
     });
 }
 
@@ -941,6 +978,21 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [self showLabel:self.dropscoreLabelTop];
     [self showLabel:self.dropscoreLabelBottom];
     [self showLabel:self.dropscoreLabelTime];
+}
+
+- (void)hideOverlay
+{
+    [UIView animateWithDuration:0.25
+                     animations:^{stripeOverlay.alpha = 0.0;}
+                     completion:^(BOOL finished){ }];
+}
+
+- (void)showOverlay
+{
+    [UIView animateWithDuration:0.25
+                     animations:^{stripeOverlay.alpha = .35;}
+                     completion:^(BOOL finished){ }];
+
 }
 
 @end

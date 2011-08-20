@@ -66,6 +66,7 @@
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
     
+    BOOL firstRun;
     BOOL freefalling;
     BOOL recording;
     BOOL recordingTimedOut;
@@ -93,7 +94,6 @@
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
     FFWidgetOverlays* widgetOverlayLayer;
-
 }
 
 //camera related stuff
@@ -103,6 +103,8 @@
 @property (nonatomic,retain) UIButton *ignoreButton;
 @property (nonatomic,retain) UIButton *submitButton;
 @property (nonatomic,retain) UIButton *recordButton;
+@property (nonatomic,retain) UIButton *cancelButton;
+
 @property (nonatomic,assign) IBOutlet UIButton *infoButton;
 @property (nonatomic,assign) IBOutlet UIImageView* stripeOverlay;
 
