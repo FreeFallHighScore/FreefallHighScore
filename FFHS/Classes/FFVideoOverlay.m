@@ -298,7 +298,7 @@ static CGImageRef createStarImage(CGFloat radius)
                                                     //TODO call a new method saying the copy has been done
                                                     //we need to use that copy for exporting and potentially
                                                     //going back to videos to export.
-                                                    //[self.delegate overlayComplete:assetURL];
+                                                    [self.delegate overlayCopyComplete:assetURL];
                                                 }
 											}
 										});

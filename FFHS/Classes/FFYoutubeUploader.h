@@ -6,10 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 #import "GDataYouTube.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CoreLocation/CoreLocation.h>
+#import "FFUtilities.h"
 
 @protocol FFYoutubeUploaderDelegate <NSObject>
 @optional
@@ -71,7 +73,7 @@
 - (IBAction)login:(id)sender;
 - (IBAction)logout:(id)sender;
 
-- (void)showAlert:(NSString*)title withMessage:(NSString*)message;
+
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth

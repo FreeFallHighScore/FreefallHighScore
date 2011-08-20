@@ -23,9 +23,9 @@
 @property (nonatomic, readwrite) CGFloat exportPercent;
 
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration;
-- (void) fallStarted;
+- (void) removeDropTimer;
 
-- (void) startDrawingExpot;
+- (void) startDrawingExport;
 - (void) stopDrawingExport;
 
 - (void) redrawLoop;

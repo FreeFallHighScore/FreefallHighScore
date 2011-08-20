@@ -148,8 +148,7 @@
     
     if (error != nil) {
         NSLog(@"login error %@", [error description]);
-        [self showAlert:@"Failure Authenticating" 
-            withMessage:@"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'."];
+        ShowAlert(@"Failure Authenticating", @"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'.");
     } else {
         
         // Store authorization
@@ -179,7 +178,7 @@
     [library release];
 }
 
-- (void)startUploadWithAsset:(ALAsset*)asset
+- (void)startUploadWithAsset:(ALAsset*)asset //(AVURLAsset*)
 {
     if(!self.loggedIn){
         NSLog(@"Error -- Trying to start upload without being logged in");
@@ -334,13 +333,13 @@
                 error:(NSError *)error
 {
     if (error == nil){
-        [self showAlert:@"Success!" withMessage:@"Your video has been uploaded successfully!"];
+        ShowAlert(@"Success!", @"Your video has been uploaded successfully!");
         if(self.delegate && [self.delegate respondsToSelector:@selector(uploadCompleted)]){
             [self.delegate uploadCompleted];
         }
     }
     else{
-        [self showAlert:@"Failure" withMessage:@"Your video was not uploaded."];
+        ShowAlert(@"Failure", @"Your video was not uploaded.");
         if(self.delegate && [self.delegate respondsToSelector:@selector(uploadFailedWithError:)]){
             [self.delegate uploadFailedWithError:error];
         }
@@ -386,19 +385,19 @@
 //    [uploadProgressView setProgress:(float)numberOfBytesRead/(float)dataLength];
 }
 
-- (void)showAlert:(NSString*)title withMessage:(NSString*)message
-{
-    UIAlertView* alertView = nil; 
-    @try { 
-        alertView = [[UIAlertView alloc] initWithTitle:title
-                                               message:message
-                                              delegate:self cancelButtonTitle:@"OK"
-                                     otherButtonTitles:nil]; 
-        [alertView show]; 
-    } @finally { 
-        if (alertView)
-            [alertView release]; 
-    }
-}
+//- (void)showAlert:(NSString*)title withMessage:(NSString*)message
+//{
+//    UIAlertView* alertView = nil; 
+//    @try { 
+//        alertView = [[UIAlertView alloc] initWithTitle:title
+//                                               message:message
+//                                              delegate:self cancelButtonTitle:@"OK"
+//                                     otherButtonTitles:nil]; 
+//        [alertView show]; 
+//    } @finally { 
+//        if (alertView)
+//            [alertView release]; 
+//    }
+//}
 
 @end

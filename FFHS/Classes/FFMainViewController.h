@@ -49,7 +49,22 @@
 #import <CoreLocation/CoreLocation.h>
 #import "FFVideoOverlay.h"
 #import "FFFlipsideViewController.h"
+#import "FFUtilities.h"
 
+typedef enum {
+    kFFStateReadyToDrop,
+    kFFStatePreDropRecording,
+    kFFStatePreDropCancelling,
+    kFFStatePreDropCanceled,
+    kFFStateInFreeFall,
+    kFFStateFinishedDropPostroll,
+    kFFStateFinishedDropProcessing,
+    kFFStateFinishedDropVideoPlayback,
+    kFFStateFinishedDropScoreView,
+    kFFStateFinishedDropSubmitView,
+    kFFStateFinishedDropUploading,
+    kFFStateFinishedDropUploadComplete,
+} FFGameState;
 
 @class AVCamCaptureManager;
 @class AVCamPreviewView;
@@ -66,10 +81,11 @@
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
     
-    BOOL firstRun;
-    BOOL freefalling;
-    BOOL recording;
-    BOOL recordingTimedOut;
+    FFGameState state;
+//    BOOL firstRun;
+//    BOOL freefalling;
+//    BOOL recording;
+//    BOOL recordingTimedOut;
                             
     NSTimeInterval freefallDuration;
     NSDate* freefallStartTime; 
@@ -77,7 +93,7 @@
     
     NSInteger framesInFreefall;
     NSInteger framesOutOfFreefall;
-    BOOL didFall;
+//    BOOL didFall;
     
     NSInteger timesLooped;
     UIColor* fontcolor;
@@ -89,8 +105,11 @@
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
     
-    BOOL showingSubmitView;
-    
+    CGRect baseScoreRect;
+    CGRect scoreRectWithSubmitControls;
+//    BOOL showingScoreView;
+//    BOOL showingSubmitControls;
+    BOOL libraryAssetURLReceived;
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
     FFWidgetOverlays* widgetOverlayLayer;
@@ -100,25 +119,24 @@
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
-@property (nonatomic,retain) UIButton *ignoreButton;
-@property (nonatomic,retain) UIButton *submitButton;
-@property (nonatomic,retain) UIButton *recordButton;
-@property (nonatomic,retain) UIButton *cancelButton;
-
+@property (nonatomic,assign) IBOutlet UIButton *dropAgainButton;
+@property (nonatomic,assign) IBOutlet UIButton *submitButton;
+@property (nonatomic,assign) IBOutlet UIButton *dropButton;
+@property (nonatomic,assign) IBOutlet UIButton *cancelDropButton;
+@property (nonatomic,assign) IBOutlet UIButton *introLoginButton;
+@property (nonatomic,assign) IBOutlet UIButton *playVideoButton;
 @property (nonatomic,assign) IBOutlet UIButton *infoButton;
 @property (nonatomic,assign) IBOutlet UIImageView* stripeOverlay;
 
-@property (nonatomic,retain) UILabel* dropscoreLabelTop;
-@property (nonatomic,retain) UILabel* dropscoreLabelBottom;
-@property (nonatomic,retain) UILabel* dropscoreLabelTime;
+@property (nonatomic,assign) IBOutlet UILabel* dropscoreLabel;
+@property (nonatomic,assign) IBOutlet UILabel* dropscoreSayingLabel;
 
 //you tube stuff
-@property (nonatomic,retain) UIButton *introLoginButton;
 
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
 @property (nonatomic,retain) NSMutableArray* acceleromterData;
-@property (nonatomic,readwrite) BOOL freefalling;
+//@property (nonatomic,readwrite) BOOL freefalling;
 @property (nonatomic,readwrite) NSTimeInterval freefallDuration;
 @property (nonatomic,retain) NSDate* freefallStartTime;
 @property (nonatomic,retain) NSDate* freefallEndTime;
@@ -137,7 +155,7 @@
 //uploading stuff
 @property (nonatomic,retain) FFYoutubeUploader* uploader;
 
-@property (nonatomic,assign) IBOutlet UIView* submitView;
+@property (nonatomic,assign) IBOutlet UIView* scoreView;
 @property (nonatomic,assign) IBOutlet UITextField* videoTitle;
 @property (nonatomic,assign) IBOutlet UITextField* videoStory;
 @property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;
@@ -147,17 +165,24 @@
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 @property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
 
+//state abstractors
+
+- (BOOL) listenToAccel;
+- (BOOL) isRecording;
+- (BOOL) hasDropVideo;
+
 - (IBAction) showInfo:(id)sender;
 
 - (void) playerItemDidReachEnd:(NSNotification *)notification;
-- (void) submitCurrentVideo:(id)sender;
-- (void) discardCurrentVideo:(id)sender;
-- (void) startRecording:(id)sender;
-- (void) cancelRecording; //after time out
+- (IBAction) submitCurrentVideo:(id)sender;
+- (IBAction) discardCurrentVideo:(id)sender;
+- (IBAction) prepareToDrop:(id)sender;
+- (IBAction) startRecording:(id)sender;
+- (IBAction) cancelRecording:(id)sender; //after time out
+- (IBAction) playVideo:(id)sender; //after time out
 
 - (void) overlayReachedPercent:(CGFloat)percentComplete;
 - (void) overlayComplete:(NSURL*)assetURL;
-
 
 - (void) completeSubmit;
 - (void) removeSubmitView;
@@ -169,8 +194,8 @@
 
 //forwards to youtube sender
 - (IBAction)login:(id)sender;
-
 - (IBAction)cancelSubmit:(id)sender;
+
 
 @end
 

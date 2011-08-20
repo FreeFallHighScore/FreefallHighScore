@@ -86,12 +86,12 @@
 //    NSLog(@"********************** SUBCLASS DRAW CALL ******************************** !!!");
 }
 
-- (void) fallStarted
+- (void) removeDropTimer
 {
     drawingTimer = NO;
 }
 
-- (void) startDrawingExpot
+- (void) startDrawingExport
 {
     drawingExport = YES;
     exportPercent = 0.0f;

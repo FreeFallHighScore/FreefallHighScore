@@ -57,25 +57,36 @@
 #import "FFWidgetOverlays.h"
 
 #define kUpdateFrequency 120.0
-#define kRecordingTimeout 10. 
+#define kRecordingTimeout 20. 
 
-static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
+
+//static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 @interface FFMainViewController () <UIGestureRecognizerDelegate>
 @end
 
 @interface FFMainViewController (InternalMethods)
 - (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
-- (void) updateButtonStates;
+- (void)updateButtonStates;
 - (void)hideButton:(UIButton *)button;
 - (void)showButton:(UIButton *)button;
 - (void)hideLabel:(UILabel *)label;
 - (void)showLabel:(UILabel *)label;
-- (void)hideLabels;
-- (void)showLabels;
+//- (void)hideLabels;
+//- (void)showLabels;
 
-- (void)hideOverlay;
-- (void)showOverlay;
+- (void)hideStripeOverlay;
+- (void)showStripeOverlay;
+
+- (void) animateScoreViewOn;
+- (void) transitionScoreViewToSubmitMode;
+- (void) transitionScoreViewToScoreMode;
+- (void) transitionScoreViewToUploading;
+- (void) transitionScoreViewToUploadComplete;
+
+- (void)changeState:(FFGameState)newState;
+
+- (NSString*) stateDescription; 
 
 @end
 
@@ -102,7 +113,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
-@synthesize freefalling;
+//@synthesize freefalling;
 @synthesize freefallDuration;
 @synthesize freefallStartTime;
 @synthesize freefallEndTime;
@@ -110,16 +121,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize playerLayer;
 @synthesize assetForOverlay;
 
-@synthesize recordButton;
-@synthesize ignoreButton;
+@synthesize dropButton;
+@synthesize dropAgainButton;
 @synthesize submitButton;
-@synthesize cancelButton;
+@synthesize cancelDropButton;
 @synthesize infoButton;
 @synthesize stripeOverlay;
+@synthesize playVideoButton;
 
-@synthesize dropscoreLabelTop;
-@synthesize dropscoreLabelBottom;
-@synthesize dropscoreLabelTime;
+@synthesize dropscoreLabel;
+@synthesize dropscoreSayingLabel;
 
 @synthesize trackLoc;
 @synthesize introLoginButton;
@@ -128,7 +139,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize recordStartTime;
 @synthesize uploader;
 @synthesize currentDropAssetURL;
-@synthesize submitView;
+@synthesize scoreView;
 @synthesize videoTitle;
 @synthesize videoStory;
 @synthesize cancelSubmitButton;
@@ -142,17 +153,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 	[captureManager release];
     [videoPreviewView release];
 	[captureVideoPreviewLayer release];
-    [recordButton release];
-
-    [introLoginButton release];
-	[ignoreButton release];
-	[submitButton release];
-    [dropscoreLabelTop release];
-    [dropscoreLabelBottom release];
-    [dropscoreLabelTime release];
-    
-//    [filter release];
-    NSLog(@"releasing view");
     
     [super dealloc];
 }
@@ -220,8 +220,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			});
             
             
-            CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
-                                         bounds.origin.y + bounds.size.height/2.0);
+//            CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
+//                                         bounds.origin.y + bounds.size.height/2.0);
             
             fontcolor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] retain];
         
@@ -235,6 +235,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             NSLog(@"number of times: %i the app has been launched", launchCount);
             
+            /*
             if (YES || launchCount == 1 ){
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
@@ -248,7 +249,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateNormal];
                 [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateHighlighted];
                 
-                introLoginButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
+                introLoginButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:30];
                 [introLoginButton setTitleColor:fontcolor 
                                    forState:UIControlStateNormal];
                 CGSize introImageSize = [introLogIn size];
@@ -260,8 +261,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                 
                 [self.view addSubview:introLoginButton];
             }
+            */
             
-            
+            /*
             //DROP BUTTON
             self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
             recordButton.adjustsImageWhenHighlighted = NO;
@@ -269,7 +271,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [recordButton setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
             [recordButton setTitleEdgeInsets:UIEdgeInsetsMake(10.0, 00.0, 0.0, 0.0)];
 
-            recordButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
+            recordButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:30];
             
             //recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
             [recordButton setTitleColor:fontcolor 
@@ -287,7 +289,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             recordButton.frame = CGRectMake(0, bounds.size.height*.6, imageSize.width, imageSize.height);
             
             [self.view addSubview:recordButton];			
- 
+ */
+            
+            /*
             //SUBMIT BUTTON
             self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
             submitButton.adjustsImageWhenHighlighted = NO;
@@ -305,22 +309,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                              action:@selector(submitCurrentVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
             
-            submitButton.hidden =   YES;
+            submitButton.hidden = YES;
             submitButton.enabled = NO;
             [self.view addSubview:submitButton];			
             
             //DROP AGAIN BUTTON
             self.ignoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
             ignoreButton.adjustsImageWhenHighlighted = NO;
-            ignoreButton.frame = CGRectMake(0, middle.y+100, bounds.size.width, 140.0);
-            [ignoreButton setTitle:@"DROP..A.GAIN" forState:(UIControlStateNormal)];
-            ignoreButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:40];
+
+            [ignoreButton setTitle:@"DROP AGAIN" forState:(UIControlStateNormal)];
+            ignoreButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:25];
             ignoreButton.titleLabel.textColor = fontcolor;
             ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
+
+            UIImage* dropAgainButtonImage = [UIImage imageNamed:@"drop_again_button_base"];
+            [ignoreButton setBackgroundImage:dropAgainButtonImage forState:UIControlStateNormal];
+            [ignoreButton setBackgroundImage:dropAgainButtonImage forState:UIControlStateHighlighted];
+            ignoreButton.frame = CGRectMake(0, bounds.size.height*.75, dropAgainButtonImage.size.width, dropAgainButtonImage.size.height);
 
             [ignoreButton addTarget:self
                              action:@selector(discardCurrentVideo:) 
                    forControlEvents:UIControlEventTouchUpInside];
+
+            ignoreButton.hidden = YES;
+            ignoreButton.enabled = NO;
 
             [self.view addSubview:ignoreButton];
 
@@ -329,7 +341,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             cancelButton.adjustsImageWhenHighlighted = NO;
             [cancelButton setTitle:@"CANCEL" forState:(UIControlStateNormal)];
             
-            cancelButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:35];
+            cancelButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:25];
             [cancelButton setTitleColor:fontcolor 
                                forState:UIControlStateNormal];
             recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -341,13 +353,15 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                    forControlEvents:UIControlEventTouchUpInside];
             
             CGSize cancelButtonImageSize = [cancelButtonImage size];
-            cancelButton.frame = CGRectMake(bounds.size.width/2 - cancelButtonImageSize.width/2, bounds.size.height*.8, cancelButtonImageSize.width, cancelButtonImageSize.height);
+            cancelButton.frame = CGRectMake(bounds.size.width - cancelButtonImageSize.width, bounds.size.height*.8, 
+                                            cancelButtonImageSize.width, cancelButtonImageSize.height);
             cancelButton.hidden = YES;
             cancelButton.enabled = NO;
             [self.view addSubview:cancelButton];			
-            
+            */
 
-			//YOUR SCORE LABEL            
+			//YOUR SCORE LABEL     
+            /*
             dropscoreLabelTop = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-140, bounds.size.width, 140.0)];
             dropscoreLabelTop.text = @"YOUR.SCORE:";
             dropscoreLabelTop.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
@@ -363,7 +377,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             dropscoreLabelTime.textColor = fontcolor;
             dropscoreLabelTime.textAlignment = UITextAlignmentCenter;
             [self.view addSubview:dropscoreLabelTime];
-
+            */
+            
             [self updateButtonStates];
                         
             //timer layer
@@ -458,10 +473,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                    acceleration.z*acceleration.z);
     
     
-    if(!didFall){
+    if([self listenToAccel]){
         
-        
-        if(recording){
+        if([self isRecording]){
             FFAccelerometerSample* newSample = [FFAccelerometerSample sample];
             newSample.time = [[NSDate date] timeIntervalSinceDate:self.recordStartTime];
             newSample.x = acceleration.x;
@@ -469,38 +483,45 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             newSample.z = acceleration.z;
             newSample.magnitude = accelMagnitude;
             [acceleromterData addObject:newSample];
-            if(!freefalling){
+            
+            if(state != kFFStateInFreeFall){
                 if(newSample.time > kRecordingTimeout){
                     NSLog(@"recording timed out!");
-                    [self cancelRecording];
+                    [self cancelRecording:nil];
                 }
             }
-
         }
         
-        if(freefalling){
+        if(state == kFFStateInFreeFall){
            freefallDuration = -[freefallStartTime timeIntervalSinceNow];
         }
         
         //check if we are freefall
-        if(!freefalling && accelMagnitude < .2){
-            if(framesInFreefall++ > 10){
-                freefalling = YES;
-                if(recording){
-                    [widgetOverlayLayer fallStarted];
-                }
-                else {
+        if(state != kFFStateInFreeFall){
+            if(accelMagnitude < .2 && framesInFreefall++ > 10){
+                self.freefallStartTime = [NSDate date];
+                
+                //Force recording if we arent already
+                if(![self isRecording]){
                     [self startRecording:nil];
                 }
+                
+                [widgetOverlayLayer removeDropTimer];                
+                [self changeState: kFFStateInFreeFall];
                 framesOutOfFreefall = 0;
-                self.freefallStartTime = [NSDate date];
+            }
+            else{
+//                framesInFreefall = 0;
             }
         }
-        else if(freefalling && accelMagnitude >= .2){
-            if(framesOutOfFreefall++ > 10){
-	            freefalling = NO;
+        else if(state == kFFStateInFreeFall){
+            if(accelMagnitude >= .2 && framesOutOfFreefall++ > 10){
+	            [self changeState:kFFStateFinishedDropPostroll];
                 self.freefallEndTime = [NSDate date];
                 [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
+            }
+            else{
+                //framesOutOfFreefall = 0;
             }
         }
     }
@@ -508,10 +529,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)submitCurrentVideo:(id)sender
 {
-    if (self.submitView == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"SubmitView" owner:self options:nil];        
-    }
-    
+ 
+    [self transitionScoreViewToSubmitMode];
+    /*
     NSLog(@"logged in? %d user name %@ ", self.uploader.loggedIn, self.uploader.accountName);
     
     if(self.uploader.loggedIn){
@@ -529,40 +549,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     }    
     
     [self.player pause];
-    
-    //TODO animate showing view
-    /*
-    //animate the view on
-    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = self.view.bounds;
-    newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y;
-    
-    // Get the duration of the animation.
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    textView.frame = newTextViewFrame;
-    
-    [UIView commitAnimations];
-     */
-    
-    [self.videoPreviewView insertSubview:self.submitView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-            
-    [self.videoTitle becomeFirstResponder];
 
-    showingSubmitView = YES;
+    showingScoreView = YES;
     [self updateButtonStates];
+     */
 }
 
+- (IBAction) playVideo:(id)sender
+{
+    
+}
+ 
 
 - (void) showUploadProgress
 {
@@ -576,7 +573,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         self.uploadProgressView.frame = newFrame;
     }
     self.uploadProgressBar.progress = 0;
-    
 }
 
 - (void) textFieldShouldReturn:(UITextField*)field
@@ -602,6 +598,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     if(!self.uploader.loggedIn){
         NSLog(@"ERROR - Somehow trying to submit when not logged in!");
         return;
+    }
+    
+    if(!libraryAssetURLReceived){
+        NSLog(@"ERROR - haven't received library asset yet!");
+        return;        
     }
     
     NSLog(@"Starting upload with URL %@", self.currentDropAssetURL);
@@ -649,9 +650,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void) removeSubmitView
 {
-    [self.submitView removeFromSuperview];
-    self.submitView = nil;
-    showingSubmitView = false;
+    [self.scoreView removeFromSuperview];
+    self.scoreView = nil;
+//    showingScoreView = false;
     [self updateButtonStates];
 }
 
@@ -666,7 +667,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)discardCurrentVideo:(id)sender
 {
 
-    if(didFall){
+    if([self hasDropVideo]){
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                      name:AVPlayerItemDidPlayToEndTimeNotification
                                                    object:[self.player currentItem]];
@@ -685,52 +686,53 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [[[self captureManager] session] startRunning];
         });
         
-        didFall = NO;
+//        didFall = NO;
         freefallDuration = 0;
         
-        [self updateButtonStates];
+        [self changeState:kFFStateReadyToDrop];
         
         //TODO delete assets from library
     }
     
 }
 
+- (IBAction) prepareToDrop:(id)sender
+{
+    [self startRecording:sender];
+    [self changeState:kFFStatePreDropRecording];
+}
+
 - (void)startRecording:(id)sender
 {
-    if(!recording && !didFall){   
-
+    if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){   
     	[[self captureManager] startRecording];
-        recording = YES;
         self.recordStartTime = [NSDate date];
         self.acceleromterData = [NSMutableArray arrayWithCapacity:200];
-        [self updateButtonStates];
-        
-        if(!freefalling){
-            [widgetOverlayLayer setTimerWithStartTime:self.recordStartTime forDuration:kRecordingTimeout];
-        }
+        [widgetOverlayLayer setTimerWithStartTime:self.recordStartTime forDuration:kRecordingTimeout];
+    }
+    else{
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Started recording with faulty state. %@", [self stateDescription]]);
     }
 }
 
-- (void) cancelRecording
+- (void) cancelRecording:(id)sender
 {
-    if(recording && !freefalling){
+    if(state == kFFStatePreDropRecording){
         CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-            recordingTimedOut = YES;
-            recording = NO;
+            [self changeState: kFFStatePreDropCancelling];
+            [widgetOverlayLayer removeDropTimer];
             [[self captureManager] cancelRecording];
         });
     }
     else{
-        NSLog(@"Canceling recording with faulty state. recording? %d freefalling? %d", recording, freefalling);
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Canceling recording with faulty state. %@", [self stateDescription]] );
     }
 }
 
 - (void)finishRecordingAfterFall
-{
-    didFall = YES;
-    
+{   
+    //tell the recorder to stop, this will result in the recording stopped callback
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        recording = NO;
         [[self captureManager] stopRecording];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -739,6 +741,24 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     });    
 }
 
+- (BOOL) listenToAccel
+{
+    return state == kFFStateReadyToDrop || state == kFFStatePreDropRecording || state == kFFStateInFreeFall;
+}
+
+- (BOOL) isRecording
+{
+    return state == kFFStatePreDropRecording || state == kFFStateInFreeFall || state == kFFStateFinishedDropPostroll;
+}
+
+- (BOOL) hasDropVideo
+{
+    return  state == kFFStateFinishedDropVideoPlayback ||
+            state == kFFStateFinishedDropScoreView ||
+            state == kFFStateFinishedDropSubmitView ||
+            state == kFFStateFinishedDropUploading ||
+            state == kFFStateFinishedDropUploadComplete;
+}
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 //{
 //    if (context == AVCamFocusModeObserverContext) {
@@ -771,7 +791,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
     [widgetOverlayLayer stopDrawingExport];
     
-    self.currentDropAssetURL = assetURL;
     self.player = [AVPlayer playerWithURL:assetURL];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
@@ -792,9 +811,16 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
     [self.playerLayer setFrame:bounds];
     
+    [self animateScoreViewOn];    
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
     [self updateButtonStates];     
+}
+
+- (void) overlayCopyComplete:(NSURL*)assetURL
+{
+    self.currentDropAssetURL = assetURL;   
+    libraryAssetURLReceived = YES;
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification
@@ -887,60 +913,82 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)updateButtonStates
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        if(showingSubmitView){
-            
-            [self hideButton:self.recordButton];
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];            
-            [self hideButton:self.infoButton];
-            [self hideButton:self.cancelButton];
-            [self hideButton:self.introLoginButton];
-            [self showLabels];
-        }
-        else if(recording){
-            [self hideButton:self.recordButton];
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];            
-            [self hideButton:self.infoButton];
-            [self hideButton:self.introLoginButton];
-            
-            [self hideOverlay];
-            [self showButton:self.cancelButton];
-            
-            [self hideLabels];
-        }
-        //if we are waiting, just show record
-        else if(!didFall && !freefalling){
-            [self showButton:self.recordButton];
-            [self showButton:self.infoButton];            
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];
-            [self hideButton:self.cancelButton];
-            [self showOverlay];
-            
-            if(firstRun && !self.uploader.loggedIn){
-                [self hideButton:self.introLoginButton];
-            }
-            
-            [self hideLabels];
-        }
-        //if we fell and playback has gone a few times, show the submit/ignore
-        else if(didFall && timesLooped > 0){
-            
-            [self hideButton:self.recordButton];
-            [self hideButton:self.infoButton];
-            [self hideButton:self.cancelButton];
-            
-            [self showButton:self.submitButton];
-            [self showButton:self.ignoreButton];
-            [self showLabels];
-        }
         
-        //need to reset font colors on buttons all the time they get lost
-		self.recordButton.titleLabel.textColor = fontcolor;
-        self.submitButton.titleLabel.textColor = fontcolor;    
-        self.ignoreButton.titleLabel.textColor = fontcolor;
-        self.cancelButton.titleLabel.textColor = fontcolor;
+        switch (state) {
+            case kFFStateReadyToDrop:
+                [self showButton:self.dropButton];
+                [self showButton:self.infoButton];                
+                
+                [self hideButton:self.dropAgainButton];
+                [self hideButton:self.cancelDropButton];
+                
+                if(self.uploader.loggedIn){
+                    [self hideButton:self.introLoginButton];
+                }
+                else{
+                    [self hideButton:self.introLoginButton];
+                }
+                break;
+            case kFFStatePreDropRecording:
+                [self showButton:self.cancelDropButton];
+                
+                [self hideButton:self.dropButton];
+                [self hideButton:self.infoButton];                
+                [self hideButton:self.introLoginButton];
+                break;
+
+            case kFFStatePreDropCancelling:
+                
+                [self hideButton:self.cancelDropButton];
+                break;
+                
+            case kFFStatePreDropCanceled:
+                
+                [self showButton:self.dropButton];                
+                [self showButton:self.infoButton];
+                
+                [self hideButton:self.introLoginButton];
+                [self hideButton:self.cancelDropButton];
+                break;
+                
+            case kFFStateInFreeFall:
+                
+                [self hideButton:self.dropButton];
+                [self hideButton:self.infoButton];                
+                [self hideButton:self.introLoginButton];
+                [self hideButton:self.cancelDropButton];
+                
+                break;
+                
+            case kFFStateFinishedDropPostroll:
+                break;
+            case kFFStateFinishedDropProcessing:
+                break;
+            case kFFStateFinishedDropVideoPlayback:
+                [self hideButton:self.submitButton];
+                [self hideButton:self.dropAgainButton];
+                [self hideButton:self.playVideoButton];
+                break;
+            case kFFStateFinishedDropScoreView:
+                [self showButton:self.submitButton];
+                [self showButton:self.dropAgainButton];
+                [self showButton:self.playVideoButton];
+                break;                
+            case kFFStateFinishedDropSubmitView:
+                [self hideButton:self.submitButton];
+                [self hideButton:self.dropAgainButton];
+                [self hideButton:self.playVideoButton];
+                break;
+            case kFFStateFinishedDropUploading:
+                [self hideButton:self.submitButton];
+                [self hideButton:self.dropAgainButton];
+                [self hideButton:self.playVideoButton];
+                break;
+            case kFFStateFinishedDropUploadComplete:
+                [self showButton:self.dropAgainButton];
+            default:
+                break;
+        }    
     });
 }
 
@@ -966,36 +1014,173 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [label setHidden:NO];
 }
 
-- (void)hideLabels
+- (void) animateScoreViewOn
 {
-    [self hideLabel:self.dropscoreLabelTop];
-    [self hideLabel:self.dropscoreLabelBottom];
-    [self hideLabel:self.dropscoreLabelTime];
+    if (self.scoreView == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];        
+    }
+    
+    //hide all normal labels
+    self.cancelSubmitButton.alpha = 0.0;
+    self.loginButton.alpha = 0.0;
+    self.videoTitle.alpha = 0.0;
+    self.videoStory.alpha = 0.0;
+
+    scoreRectWithSubmitControls = self.scoreView.frame;
+    baseScoreRect = CGRectMake(scoreRectWithSubmitControls.size.width*.1, 0, 
+                               scoreRectWithSubmitControls.size.width*.8, scoreRectWithSubmitControls.size.height*.6);
+    
+    self.scoreView.frame = CGRectMake(baseScoreRect.origin.x, -baseScoreRect.size.height, 
+                                      baseScoreRect.size.width, baseScoreRect.size.height);
+    
+    self.dropscoreLabel.text = [NSString stringWithFormat:@"SCORE: %.03fs", freefallDuration];   
+    self.dropscoreSayingLabel.text = @"That's it?";
+    self.dropscoreSayingLabel.hidden = NO;
+    self.dropscoreSayingLabel.alpha = 1.0;
+    
+    [self.videoPreviewView insertSubview:self.scoreView 
+                            aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+    
+    [UIView animateWithDuration:1.0
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{ self.scoreView.frame = baseScoreRect; }
+                     completion:^( BOOL finished){ }];
+    
+    //showingScoreView = YES;
+    [self changeState:kFFStateFinishedDropScoreView];
 }
 
-- (void)showLabels 
-{ 
-    [self showLabel:self.dropscoreLabelTop];
-    [self showLabel:self.dropscoreLabelBottom];
-    [self showLabel:self.dropscoreLabelTime];
+- (void) transitionScoreViewToSubmitMode
+{
+    
+    [UIView animateWithDuration:1.0
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{ 
+                         self.scoreView.frame = scoreRectWithSubmitControls; 
+                         self.dropscoreSayingLabel.alpha = 0;
+                         self.cancelSubmitButton.alpha = 1.0;
+                         self.loginButton.alpha = 1.0;
+                         self.videoTitle.alpha = 1.0;
+                         self.videoStory.alpha = 1.0;
+                         
+                     }
+                     completion:^( BOOL finished){ 
+                         
+                         if(self.uploader.loggedIn){
+                             //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
+                             [self.loginButton setTitle:self.uploader.accountName 
+                                               forState:UIControlStateNormal];
+                             [self.loginButton setTitle:self.uploader.accountName 
+                                               forState:UIControlStateDisabled];
+                             
+                         }
+                         else {
+                             //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
+                             [self.loginButton setTitle:@"Log in"
+                                               forState:UIControlStateNormal];
+                         }    
+                         [self.videoTitle becomeFirstResponder];
+
+                     }];
+    
+    [self changeState: kFFStateFinishedDropSubmitView];
 }
 
-- (void)hideOverlay
+- (void) transitionScoreViewToScoreMode
+{
+
+    //TODO: configure animation
+//    [UIView animateWithDuration:1.0
+//                          delay:0
+//                        options: UIViewAnimationCurveEaseOut
+//                     animations:^{ self.scoreView.frame = scoreRectWithSubmitControls; }
+//                     completion:^( BOOL finished){ }];
+
+    
+    [self changeState:kFFStateFinishedDropScoreView];
+    
+    [self updateButtonStates];
+
+}
+
+//- (void) animateScoreViewOff
+//{
+//    
+//}
+
+//- (void)hideLabels
+//{
+//    [self hideLabel:self.dropscoreLabelTop];
+//    [self hideLabel:self.dropscoreLabelBottom];
+//    [self hideLabel:self.dropscoreLabelTime];
+//}
+//
+//- (void)showLabels 
+//{ 
+//    [self showLabel:self.dropscoreLabelTop];
+//    [self showLabel:self.dropscoreLabelBottom];
+//    [self showLabel:self.dropscoreLabelTime];
+//}
+
+- (void) hideStripeOverlay
 {
     [UIView animateWithDuration:0.25
                      animations:^{stripeOverlay.alpha = 0.0;}
                      completion:^(BOOL finished){ }];
 }
 
-- (void)showOverlay
+- (void) showStripeOverlay
 {
     [UIView animateWithDuration:0.25
                      animations:^{stripeOverlay.alpha = .35;}
                      completion:^(BOOL finished){ }];
-
 }
 
-@end
+- (void)changeState:(FFGameState)newState
+{
+    NSString* oldStateString = [self stateDescription];
+    state = newState;
+    [self updateButtonStates];
+    NSLog(@"Switching from state %@ to %@", oldStateString, [self stateDescription]);    
+}
+
+- (NSString*) stateDescription
+{
+    switch (state) {
+        case kFFStateReadyToDrop:
+            return @"Ready to Drop";
+        case kFFStatePreDropRecording:
+            return @"Drop Prerecording";            
+        case kFFStatePreDropCancelling:
+            return @"Drop Cancelling";
+        case kFFStatePreDropCanceled:
+            return @"Drop Canceled";            
+        case kFFStateInFreeFall:
+            return @"Freefalling!";            
+        case kFFStateFinishedDropPostroll:
+            return @"Finished Drop Postroll";            
+        case kFFStateFinishedDropProcessing:
+            return @"Finished Drop Processing Video";            
+        case kFFStateFinishedDropVideoPlayback:
+            return @"Drop Video Playback";            
+        case kFFStateFinishedDropScoreView:
+            return @"Showing Score View";
+        case kFFStateFinishedDropSubmitView:
+            return @"Showing Submit View";
+        case kFFStateFinishedDropUploading:
+            return @"Uploading Video";
+        case kFFStateFinishedDropUploadComplete:
+            return @"Uploading Complete!";
+        default:
+            break;
+    }
+    
+    return @"Invalid State";
+}
+
+@end //INTERNAL METHODS
 
 @implementation FFMainViewController (AVCamCaptureManagerDelegate)
 
@@ -1023,7 +1208,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (BOOL) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)temporaryURL
 {
-        
+    [self changeState: kFFStateFinishedDropProcessing];
+    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         
         ///create an overlay asset
@@ -1040,9 +1226,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                                                  fallEnded:[self.freefallEndTime timeIntervalSinceDate:self.recordStartTime] 
                                          accelerometerData:self.acceleromterData];
         }];
-                
-        self.dropscoreLabelTime.text = [NSString stringWithFormat:@"%.03fs", freefallDuration];
-        [widgetOverlayLayer startDrawingExpot];
+        
+        libraryAssetURLReceived = NO;
+        [widgetOverlayLayer startDrawingExport];
+        
     });
     
     //don't save the asset to the library
@@ -1056,8 +1243,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager
 {
-    recordingTimedOut = NO;
-    [self updateButtonStates];
+    [self changeState:kFFStatePreDropCanceled];
+    
 }
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager
@@ -1078,7 +1265,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void) userDidSignIn:(NSString*)userName
 { 
-    if(showingSubmitView){
+    if(state == kFFStateFinishedDropSubmitView){
         [self.loginButton setTitle:userName
                           forState:UIControlStateNormal];
         [self.loginButton setTitle:userName
@@ -1090,9 +1277,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void) userDidSignOut
 {
     NSLog(@"user signed out");    
-    if(showingSubmitView){
+    if(state == kFFStateFinishedDropSubmitView){
         [self.loginButton setTitle:@"Log in"
-                          forState:  (UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
+                          forState:UIControlStateNormal];
     }
 }
 
@@ -1104,34 +1291,30 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     else{
         self.uploadProgressBar.progress = progress;
     }
-
     NSLog(@"uploaded to %f", progress);  
 }
 
 - (void) uploadCompleted
 {
-    if(!showingSubmitView){
-        NSLog(@"ERROR somehow an upload was completed while we were not showing the submit view");
-        return;
+    if(state == kFFStateFinishedDropUploading){
+        [self removeSubmitView];
+        [self removeUploadProgressView];
+        [self changeState:kFFStateFinishedDropUploadComplete];
+        [self discardCurrentVideo:self];
     }
-    
-    [self removeSubmitView];
-    [self removeUploadProgressView];
-    [self discardCurrentVideo:self];
-    
-    NSLog(@"upload completed!");     
+    else {
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Finished uploading with an invalid state %@", [self stateDescription] ]);
+    }
 }
 
 - (void) uploadFailedWithError:(NSError*)error
 {
-    if(!showingSubmitView){
-        NSLog(@"ERROR somehow an upload FAILED while we were not showing the submit view");
-        return;
+    if(state == kFFStateFinishedDropUploading){
+        [self cancelSubmit:self];
     }
-
-    NSLog(@"upload failed :( ");
-    
-    [self cancelSubmit:self];
+    else{
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Upload failed with invalid state %@", [self stateDescription] ]);
+    }
 }
 
 @end
