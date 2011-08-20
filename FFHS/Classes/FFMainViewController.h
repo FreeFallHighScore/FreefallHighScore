@@ -82,18 +82,13 @@ typedef enum {
     NSMutableArray* accelerometerData;
     
     FFGameState state;
-//    BOOL firstRun;
-//    BOOL freefalling;
-//    BOOL recording;
-//    BOOL recordingTimedOut;
-                            
+    
     NSTimeInterval freefallDuration;
     NSDate* freefallStartTime; 
     NSDate* freefallEndTime; 
     
     NSInteger framesInFreefall;
     NSInteger framesOutOfFreefall;
-//    BOOL didFall;
     
     NSInteger timesLooped;
     UIColor* fontcolor;
@@ -107,8 +102,6 @@ typedef enum {
     
     CGRect baseScoreRect;
     CGRect scoreRectWithSubmitControls;
-//    BOOL showingScoreView;
-//    BOOL showingSubmitControls;
     BOOL libraryAssetURLReceived;
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;

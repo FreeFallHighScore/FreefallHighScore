@@ -560,7 +560,13 @@
 
 - (IBAction) playVideo:(id)sender
 {
-    
+    if(state == kFFStateFinishedDropScoreView){
+        [self.player play];
+        [self changeState:kFFStateFinishedDropVideoPlayback];
+    }
+    else{
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"trying to play video without score view shown. %@", [self stateDescription] ]);
+    }
 }
  
 
@@ -804,7 +810,7 @@
                                                object:[self.player currentItem]];
     
     //TODO: fix orientation...maybe?
-    [self.player play];
+//    [self.player play];
     
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];        
@@ -817,7 +823,7 @@
     [self animateScoreViewOn];    
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
 
-    [self updateButtonStates];     
+
 }
 
 - (void) overlayCopyComplete:(NSURL*)assetURL
@@ -916,59 +922,7 @@
 - (void)updateButtonStates
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        /*
-        if(showingSubmitView){
-            
-            [self hideButton:self.recordButton];
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];            
-            [self hideButton:self.infoButton];
-            [self hideButton:self.cancelButton];
-            [self hideButton:self.introLoginButton];
-            [self showLabels];
-        }
-        else if(recording){
-            [self hideButton:self.recordButton];
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];            
-            [self hideButton:self.infoButton];
-            [self hideButton:self.introLoginButton];
-            
-            [self hideOverlay];
-            [self showButton:self.cancelButton];
-            
-            [self hideLabels];
-        }
-        //if we are waiting, just show record
-        else if(!didFall && !freefalling){
-            
-            [self showButton:self.recordButton];
-            [self showButton:self.infoButton];            
-            [self hideButton:self.submitButton];
-            [self hideButton:self.ignoreButton];
-            [self hideButton:self.cancelButton];
-            [self showOverlay];
-            
-            if(self.uploader.loggedIn)
-                [self hideButton:self.introLoginButton];
-            else
-                [self showButton:self.introLoginButton];
-            
-            [self hideLabels];
-        }
-        //if we fell and playback has gone a few times, show the submit/ignore
-        else if(didFall && timesLooped > 0){
-            
-            [self hideButton:self.recordButton];
-            [self hideButton:self.infoButton];
-            [self hideButton:self.cancelButton];
-            
-            [self showButton:self.submitButton];
-            [self showButton:self.ignoreButton];
-            [self showLabels];
-        }
->>>>>>> d0613fdf6b8365ee3352b105485176f547300f04
-        */
+
         switch (state) {
             case kFFStateReadyToDrop:
                 [self showButton:self.dropButton];
@@ -993,7 +947,7 @@
                 break;
 
             case kFFStatePreDropCancelling:
-                
+                [self showStripeOverlay];
                 [self hideButton:self.cancelDropButton];
                 break;
                 
@@ -1002,7 +956,12 @@
                 [self showButton:self.dropButton];                
                 [self showButton:self.infoButton];
                 
-                [self hideButton:self.introLoginButton];
+                if(self.uploader.loggedIn){
+                    [self hideButton:self.introLoginButton];
+                }
+                else{
+                    [self hideButton:self.introLoginButton];
+                }
                 [self hideButton:self.cancelDropButton];
                 break;
                 
