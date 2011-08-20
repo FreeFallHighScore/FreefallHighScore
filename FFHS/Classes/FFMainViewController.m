@@ -237,6 +237,9 @@
             
             /*
             if (YES || launchCount == 1 ){
+=======
+            if (![uploader loggedIn]){
+>>>>>>> d0613fdf6b8365ee3352b105485176f547300f04
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
                 self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -913,7 +916,59 @@
 - (void)updateButtonStates
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        
+        /*
+        if(showingSubmitView){
+            
+            [self hideButton:self.recordButton];
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];            
+            [self hideButton:self.infoButton];
+            [self hideButton:self.cancelButton];
+            [self hideButton:self.introLoginButton];
+            [self showLabels];
+        }
+        else if(recording){
+            [self hideButton:self.recordButton];
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];            
+            [self hideButton:self.infoButton];
+            [self hideButton:self.introLoginButton];
+            
+            [self hideOverlay];
+            [self showButton:self.cancelButton];
+            
+            [self hideLabels];
+        }
+        //if we are waiting, just show record
+        else if(!didFall && !freefalling){
+            
+            [self showButton:self.recordButton];
+            [self showButton:self.infoButton];            
+            [self hideButton:self.submitButton];
+            [self hideButton:self.ignoreButton];
+            [self hideButton:self.cancelButton];
+            [self showOverlay];
+            
+            if(self.uploader.loggedIn)
+                [self hideButton:self.introLoginButton];
+            else
+                [self showButton:self.introLoginButton];
+            
+            [self hideLabels];
+        }
+        //if we fell and playback has gone a few times, show the submit/ignore
+        else if(didFall && timesLooped > 0){
+            
+            [self hideButton:self.recordButton];
+            [self hideButton:self.infoButton];
+            [self hideButton:self.cancelButton];
+            
+            [self showButton:self.submitButton];
+            [self showButton:self.ignoreButton];
+            [self showLabels];
+        }
+>>>>>>> d0613fdf6b8365ee3352b105485176f547300f04
+        */
         switch (state) {
             case kFFStateReadyToDrop:
                 [self showButton:self.dropButton];
@@ -1271,7 +1326,6 @@
         [self.loginButton setTitle:userName
                           forState:UIControlStateDisabled];
     }
-    
 }
 
 - (void) userDidSignOut
@@ -1281,6 +1335,8 @@
         [self.loginButton setTitle:@"Log in"
                           forState:UIControlStateNormal];
     }
+    
+    [[self uploader] cancelSignin:nil];
 }
 
 - (void) uploadReachedProgess:(CGFloat)progress

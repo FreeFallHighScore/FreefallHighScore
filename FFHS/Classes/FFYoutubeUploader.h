@@ -52,9 +52,9 @@
 @property (nonatomic,retain) NSString* clientSecret;
 @property (nonatomic,retain) NSString* developerKey;
 
-@property (nonatomic, assign) IBOutlet UIView* cancelView;
+@property (nonatomic, assign) IBOutlet UIView* signinView;
 @property (nonatomic, readonly) BOOL loggedIn;
-@property (nonatomic, readonly) NSString* accountName; //returns nil if not logged in
+@property (nonatomic, readonly) NSString* accountName;
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
@@ -69,9 +69,8 @@
 - (GDataServiceGoogleYouTube *)youTubeService;
 
 - (IBAction) cancelSignin:(id)sender;
-
-- (IBAction)login:(id)sender;
-- (IBAction)logout:(id)sender;
+- (IBAction) login:(id)sender;
+- (IBAction) logout:(id)sender;
 
 
 

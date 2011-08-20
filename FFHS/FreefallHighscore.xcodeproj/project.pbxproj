@@ -86,13 +86,13 @@
 		A66F1A3913F87A1C00B92C7C /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18F013F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.m */; };
 		A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18F113F87A1B00B92C7C /* GTMOAuth2ViewTouch.xib */; };
 		A66F1A3B13F87A1C00B92C7C /* libGDataTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */; };
-		A6C27E2513FB0DA80001999F /* CancelSigninAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */; };
+		A6C0BC08140052240005845F /* SigninAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC07140052240005845F /* SigninAccessory.xib */; };
+		A6C0BC0C140052290005845F /* FFFlipsideHighscoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */; };
+		A6C0BC0D140052290005845F /* FFFlipsideInstructionsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */; };
+		A6C0BC0E140052290005845F /* FFFlipsideMyDropsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC0B140052290005845F /* FFFlipsideMyDropsController.xib */; };
 		A6C27E6F13FC26990001999F /* FFFlipsideHighscoresController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */; };
-		A6C27E7013FC26990001999F /* FFFlipsideHighscoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */; };
 		A6C27E7413FC26DD0001999F /* FFFlipsideInstructionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */; };
-		A6C27E7513FC26DD0001999F /* FFFlipsideInstructionsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */; };
 		A6C27E7913FC27430001999F /* FFFlipsideMyDropsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */; };
-		A6C27E7A13FC27430001999F /* FFFlipsideMyDropsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */; };
 		A6C27E7D13FC4DDE0001999F /* FFFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7C13FC4DDE0001999F /* FFFlipsideController.m */; };
 		A6C27E8013FC5CE50001999F /* FFVideoOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7F13FC5CE40001999F /* FFVideoOverlayLayer.m */; };
 		A6C27E8313FD6FF40001999F /* FFWidgetOverlays.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */; };
@@ -533,16 +533,16 @@
 		A66F1A3413F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		A66F1A3513F87A1B00B92C7C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
 		A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDataTouchStaticLib.a; sourceTree = "<group>"; };
-		A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelSigninAccessory.xib; sourceTree = "<group>"; };
+		A6C0BC07140052240005845F /* SigninAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SigninAccessory.xib; path = Resources/SigninAccessory.xib; sourceTree = "<group>"; };
+		A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideHighscoresController.xib; path = Resources/FFFlipsideHighscoresController.xib; sourceTree = "<group>"; };
+		A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideInstructionsController.xib; path = Resources/FFFlipsideInstructionsController.xib; sourceTree = "<group>"; };
+		A6C0BC0B140052290005845F /* FFFlipsideMyDropsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideMyDropsController.xib; path = Resources/FFFlipsideMyDropsController.xib; sourceTree = "<group>"; };
 		A6C27E6C13FC26990001999F /* FFFlipsideHighscoresController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideHighscoresController.h; path = ../FFFlipsideHighscoresController.h; sourceTree = "<group>"; };
 		A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideHighscoresController.m; path = ../FFFlipsideHighscoresController.m; sourceTree = "<group>"; };
-		A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideHighscoresController.xib; sourceTree = "<group>"; };
 		A6C27E7113FC26DD0001999F /* FFFlipsideInstructionsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideInstructionsController.h; path = ../FFFlipsideInstructionsController.h; sourceTree = "<group>"; };
 		A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideInstructionsController.m; path = ../FFFlipsideInstructionsController.m; sourceTree = "<group>"; };
-		A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideInstructionsController.xib; sourceTree = "<group>"; };
 		A6C27E7613FC27430001999F /* FFFlipsideMyDropsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipsideMyDropsController.h; path = ../FFFlipsideMyDropsController.h; sourceTree = "<group>"; };
 		A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipsideMyDropsController.m; path = ../FFFlipsideMyDropsController.m; sourceTree = "<group>"; };
-		A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFFlipsideMyDropsController.xib; sourceTree = "<group>"; };
 		A6C27E7B13FC4DDD0001999F /* FFFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideController.h; sourceTree = "<group>"; };
 		A6C27E7C13FC4DDE0001999F /* FFFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideController.m; sourceTree = "<group>"; };
 		A6C27E7E13FC5CE40001999F /* FFVideoOverlayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFVideoOverlayLayer.h; sourceTree = "<group>"; };
@@ -1100,9 +1100,9 @@
 			isa = PBXGroup;
 			children = (
 				A66F18D413F877AB00B92C7C /* FlipsideView.xib */,
-				A6C27E6E13FC26990001999F /* FFFlipsideHighscoresController.xib */,
-				A6C27E7313FC26DD0001999F /* FFFlipsideInstructionsController.xib */,
-				A6C27E7813FC27430001999F /* FFFlipsideMyDropsController.xib */,
+				A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */,
+				A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */,
+				A6C0BC0B140052290005845F /* FFFlipsideMyDropsController.xib */,
 			);
 			name = Flipside;
 			sourceTree = "<group>";
@@ -1123,7 +1123,7 @@
 				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
 				A60A807113FF362B00879C56 /* ScoreView.xib */,
 				A60A807213FF362B00879C56 /* UploadProgress.xib */,
-				A6C27E2413FB0DA80001999F /* CancelSigninAccessory.xib */,
+				A6C0BC07140052240005845F /* SigninAccessory.xib */,
 			);
 			name = Frontside;
 			sourceTree = "<group>";
@@ -1240,10 +1240,6 @@
 				A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */,
 				A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */,
 				A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */,
-				A6C27E2513FB0DA80001999F /* CancelSigninAccessory.xib in Resources */,
-				A6C27E7013FC26990001999F /* FFFlipsideHighscoresController.xib in Resources */,
-				A6C27E7513FC26DD0001999F /* FFFlipsideInstructionsController.xib in Resources */,
-				A6C27E7A13FC27430001999F /* FFFlipsideMyDropsController.xib in Resources */,
 				A60A807313FF362B00879C56 /* ScoreView.xib in Resources */,
 				A60A807413FF362B00879C56 /* UploadProgress.xib in Resources */,
 				A60A80D81400477500879C56 /* about_button_base.png in Resources */,
@@ -1302,6 +1298,10 @@
 				A60A81171400477500879C56 /* upload_flash@2x.png in Resources */,
 				A60A81181400477500879C56 /* upload_progress_bar.png in Resources */,
 				A60A81191400477500879C56 /* upload_progress_bar@2x.png in Resources */,
+				A6C0BC08140052240005845F /* SigninAccessory.xib in Resources */,
+				A6C0BC0C140052290005845F /* FFFlipsideHighscoresController.xib in Resources */,
+				A6C0BC0D140052290005845F /* FFFlipsideInstructionsController.xib in Resources */,
+				A6C0BC0E140052290005845F /* FFFlipsideMyDropsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
