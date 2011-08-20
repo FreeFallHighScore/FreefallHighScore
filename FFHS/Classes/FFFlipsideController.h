@@ -19,7 +19,6 @@
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
-- (void)refreshLoggedInStatus;
-- (void)toggleLoginButtonText;
+- (void)refreshLoginButton;
 
 @end

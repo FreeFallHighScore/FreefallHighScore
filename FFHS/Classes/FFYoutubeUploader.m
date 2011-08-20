@@ -27,7 +27,7 @@
 @synthesize videoDescription;
 @synthesize fallDuration;
 @synthesize location;
-@synthesize cancelView;
+@synthesize signinView;
 @synthesize loginView;
 
 - (id) init
@@ -91,6 +91,8 @@
     if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignOut)]){
         [self.delegate userDidSignOut];
     }
+    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil &&
+          [[[self youTubeService] authorizer] canAuthorize]);
 }
 
 - (IBAction) login:(id)sender
@@ -118,13 +120,13 @@
     
     //add signin canceler;
     
-    [[NSBundle mainBundle] loadNibNamed:@"CancelSigninAccessory" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
     UIView* authView = [self.loginView view];
-    [authView insertSubview:self.cancelView aboveSubview:[[authView subviews] objectAtIndex:0]];
+    [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
     
     CGRect authViewFrame = [authView frame];
-    CGRect cancelViewFrame = [self.cancelView frame];
-    self.cancelView.frame = CGRectMake(0, authViewFrame.size.height-cancelViewFrame.size.height, cancelViewFrame.size.width, cancelViewFrame.size.height);
+    CGRect signinViewFrame = [self.signinView frame];
+    self.signinView.frame = CGRectMake(0, authViewFrame.size.height-signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
     
     [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
@@ -137,8 +139,8 @@
     [self.loginView cancelSigningIn];
     [self.toplevelController dismissModalViewControllerAnimated:YES];
     self.loginView = nil;
-    [self.cancelView removeFromSuperview];
-    self.cancelView = nil;
+    [self.signinView removeFromSuperview];
+    self.signinView = nil;
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController

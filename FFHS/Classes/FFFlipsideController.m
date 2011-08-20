@@ -43,25 +43,21 @@
 
 - (IBAction)login:(id)sender
 {
-    if (loggedIn)
-        [self.flipsideController logout:sender];
-    else
-        [self.flipsideController login:sender];
-    
-    [self refreshLoggedInStatus];
+    [self.flipsideController login:sender];
 }
 
-- (void)refreshLoggedInStatus
+- (void) refreshLoginButton
 {
     loggedIn = [[[self flipsideController] uploader] loggedIn];
+    
     NSLog(@"User is logged in: %d", loggedIn);
-    [self toggleLoginButtonText];
-}
-
-- (void)toggleLoginButtonText
-{
     if (loggedIn)
-        [loginButton setTitle:@"Logout"];
+    {
+        NSString *accountName = [[[self flipsideController] uploader] accountName];
+        NSLog(@"User logged in: %@", accountName);
+        NSString *userName = (NSString*)[[accountName componentsSeparatedByString:@"@"] objectAtIndex:0];
+        [loginButton setTitle:userName];
+    }
     else
         [loginButton setTitle:@"Login"];
 }
@@ -79,7 +75,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self refreshLoggedInStatus];
+    [self refreshLoginButton];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refreshLoginButton];
 }
 
 - (void)viewDidUnload

@@ -50,12 +50,13 @@
 						<string key="NSFrameSize">{320, 44}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="6893188">
 								<reference key="IBUINavigationBar" ref="16487570"/>
-								<string key="IBUITitle">Highscores</string>
+								<string key="IBUITitle">High Scores</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="39974998">
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									<int key="IBUIStyle">1</int>

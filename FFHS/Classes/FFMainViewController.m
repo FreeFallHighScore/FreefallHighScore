@@ -235,7 +235,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             
             NSLog(@"number of times: %i the app has been launched", launchCount);
             
-            if (YES || launchCount == 1 ){
+            if (![uploader loggedIn]){
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
                 self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -911,6 +911,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         }
         //if we are waiting, just show record
         else if(!didFall && !freefalling){
+            
             [self showButton:self.recordButton];
             [self showButton:self.infoButton];            
             [self hideButton:self.submitButton];
@@ -918,9 +919,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [self hideButton:self.cancelButton];
             [self showOverlay];
             
-            if(firstRun && !self.uploader.loggedIn){
+            if(self.uploader.loggedIn)
                 [self hideButton:self.introLoginButton];
-            }
+            else
+                [self showButton:self.introLoginButton];
             
             [self hideLabels];
         }
@@ -1084,7 +1086,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [self.loginButton setTitle:userName
                           forState:UIControlStateDisabled];
     }
-    
 }
 
 - (void) userDidSignOut
@@ -1094,6 +1095,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [self.loginButton setTitle:@"Log in"
                           forState:  (UIControlStateNormal | UIControlStateHighlighted | UIControlStateDisabled | UIControlStateSelected)];
     }
+    
+    [[self uploader] cancelSignin:nil];
 }
 
 - (void) uploadReachedProgess:(CGFloat)progress
