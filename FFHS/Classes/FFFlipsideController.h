@@ -16,9 +16,13 @@
 }
 @property (nonatomic, assign) FFFlipsideViewController* flipsideController;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* loginButton;
+@property(nonatomic, readwrite) BOOL loggedIn;
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
 - (void)refreshLoginButton;
+
+- (NSString*) shortAccountName; //everything before the @gmail.com
+- (NSString*) fullAccountName; //contains @gmail.com as well
 
 @end

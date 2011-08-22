@@ -12,7 +12,6 @@
 @class FFHighscoresProvider;
 
 @interface FFFlipsideHighscoresController : FFFlipsideController<UITableViewDelegate> {
-    FFHighscoresProvider* scores;
 
 }
 

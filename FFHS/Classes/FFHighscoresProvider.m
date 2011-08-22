@@ -29,21 +29,39 @@
 
 - (void) refreshQuery
 {
-    queryComplete = NO;
-    self.responseData =  [NSMutableData data];
-	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.queryURL]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+    if(self.queryURL != @""){
+        queryComplete = NO;
+        showingLogin = NO;
+        self.responseData =  [NSMutableData data];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.queryURL]];
+        [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+    }
 }
- 
+
+- (void) showLoginCell
+{
+    showingLogin = YES;
+    [tableView reloadData];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(showingLogin){
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"login"];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"login"];
+        }
+        cell.textLabel.text = @"Please login";
+        return cell;
+    }
     
     if(!self.queryComplete && indexPath.row == 0){
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"reloading"];
         if(cell == nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reloading"];
         }
-        cell.textLabel.text = @"Querying Highscores";
+        //TODO: add spinny wheel
+        cell.textLabel.text = @"Querying Highscores...";
         return cell;
     }
     else if(self.queryComplete && indexPath.row < highScores.count) {
@@ -67,18 +85,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!self.queryComplete){ 
+    if(!self.queryComplete || showingLogin){ 
         return 1;
     }
     else {
         return self.highScores.count;
     }
 }
-
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    return [NSArray arrayWithObject:@"Highscores"]; 
-//}
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[self.responseData setLength:0];
@@ -90,6 +103,8 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 
+    //TODO: handle this error with a message
+    
     ShowAlert(@"Request Error", [NSString stringWithFormat:@"failed to receive data with error @%", [error localizedDescription] ]);
 }
 

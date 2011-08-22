@@ -10,7 +10,7 @@
 
 //provides scores for both "my drops" and global high scores
 @interface FFHighscoresProvider : NSObject<UITableViewDataSource> {
-
+    BOOL showingLogin;
 }
 
 @property(nonatomic, assign) UITableView* tableView;
@@ -20,11 +20,10 @@
 @property(nonatomic, readonly) BOOL queryComplete;
 
 - (id) initWithQueryURL:(NSString*)url;
-
 - (void) refreshQuery;
+- (void) showLoginCell;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView;
 
 @end

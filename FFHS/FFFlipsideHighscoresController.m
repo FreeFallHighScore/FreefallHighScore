@@ -16,17 +16,15 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"FFFlipsideHighscoresController -- view did load!");
-
     [super viewDidLoad];
     
     self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.heroku.com/videos.json"];
     self.scores.tableView = tableView;
     [scores refreshQuery];
     tableView.dataSource = self.scores;
-    
 }
 
+                   
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

@@ -13,6 +13,7 @@
 
 @synthesize flipsideController;
 @synthesize loginButton;
+@synthesize loggedIn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,15 +52,23 @@
     loggedIn = [[[self flipsideController] uploader] loggedIn];
     
     NSLog(@"User is logged in: %d", loggedIn);
-    if (loggedIn)
-    {
-        NSString *accountName = [[[self flipsideController] uploader] accountName];
-        NSLog(@"User logged in: %@", accountName);
-        NSString *userName = (NSString*)[[accountName componentsSeparatedByString:@"@"] objectAtIndex:0];
-        [loginButton setTitle:userName];
+    if (loggedIn) {        
+        [loginButton setTitle:[self shortAccountName]];
     }
-    else
+    else{
         [loginButton setTitle:@"Log in"];
+    }
+}
+
+- (NSString*) shortAccountName
+{
+    NSString *accountName = [self fullAccountName];
+    return (NSString*)[[accountName componentsSeparatedByString:@"@"] objectAtIndex:0];
+}
+
+- (NSString*) fullAccountName
+{
+    return [[[self flipsideController] uploader] accountName];
 }
 
 #pragma mark - View lifecycle
