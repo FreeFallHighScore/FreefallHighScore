@@ -59,7 +59,7 @@
         [loginButton setTitle:userName];
     }
     else
-        [loginButton setTitle:@"Login"];
+        [loginButton setTitle:@"Log in"];
 }
 
 #pragma mark - View lifecycle

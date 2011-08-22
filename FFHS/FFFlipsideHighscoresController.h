@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "FFFlipsideController.h"
 
-@interface FFFlipsideHighscoresController : FFFlipsideController {
+@class FFHighscoresProvider;
+
+@interface FFFlipsideHighscoresController : FFFlipsideController<UITableViewDelegate> {
+    FFHighscoresProvider* scores;
 
 }
 
+@property(nonatomic, assign) IBOutlet UITableView* tableView; 
+@property(nonatomic, retain) FFHighscoresProvider* scores;
 
 @end
