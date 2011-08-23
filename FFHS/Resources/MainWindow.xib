@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10K540</string>
+		<string key="IBDocument.SystemVersion">10K549</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
@@ -41,11 +41,11 @@
 				<string key="IBUINibName">AVCamViewController</string>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-					<int key="IBUIInterfaceOrientation">1</int>
-					<int key="interfaceOrientation">1</int>
+					<int key="IBUIInterfaceOrientation">3</int>
+					<int key="interfaceOrientation">3</int>
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				<bool key="IBUIHorizontal">NO</bool>
+				<bool key="IBUIHorizontal">YES</bool>
 			</object>
 			<object class="IBUIWindow" id="117978783">
 				<reference key="NSNextResponder"/>
@@ -157,12 +157,24 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>captureStillImage:</string>
-							<string>toggleCamera:</string>
-							<string>toggleRecording:</string>
+							<string>cancelRecording:</string>
+							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
+							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
+							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -172,22 +184,52 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>captureStillImage:</string>
-							<string>toggleCamera:</string>
-							<string>toggleRecording:</string>
+							<string>cancelRecording:</string>
+							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
+							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
+							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">captureStillImage:</string>
+								<string key="name">cancelRecording:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toggleCamera:</string>
+								<string key="name">cancelSubmit:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toggleRecording:</string>
+								<string key="name">discardCurrentVideo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">login:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">playVideo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">prepareToDrop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showInfo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">startRecording:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">submitCurrentVideo:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -196,52 +238,143 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>cameraToggleButton</string>
-							<string>focusModeLabel</string>
-							<string>recordButton</string>
-							<string>stillButton</string>
+							<string>cancelDropButton</string>
+							<string>cancelSubmitButton</string>
+							<string>dropAgainButton</string>
+							<string>dropButton</string>
+							<string>dropscoreLabel</string>
+							<string>dropscoreSayingLabel</string>
+							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>loginButton</string>
+							<string>playVideoButton</string>
+							<string>scoreView</string>
+							<string>stripeOverlay</string>
+							<string>submitButton</string>
+							<string>uploadProgressBar</string>
+							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
+							<string>videoStory</string>
+							<string>videoTitle</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIBarButtonItem</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>UILabel</string>
-							<string>UIBarButtonItem</string>
-							<string>UIBarButtonItem</string>
+							<string>UILabel</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>UIView</string>
+							<string>UIImageView</string>
+							<string>UIButton</string>
+							<string>UIProgressView</string>
+							<string>UIView</string>
+							<string>UIView</string>
+							<string>UITextField</string>
+							<string>UITextField</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>cameraToggleButton</string>
-							<string>focusModeLabel</string>
-							<string>recordButton</string>
-							<string>stillButton</string>
+							<string>cancelDropButton</string>
+							<string>cancelSubmitButton</string>
+							<string>dropAgainButton</string>
+							<string>dropButton</string>
+							<string>dropscoreLabel</string>
+							<string>dropscoreSayingLabel</string>
+							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>loginButton</string>
+							<string>playVideoButton</string>
+							<string>scoreView</string>
+							<string>stripeOverlay</string>
+							<string>submitButton</string>
+							<string>uploadProgressBar</string>
+							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
+							<string>videoStory</string>
+							<string>videoTitle</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">cameraToggleButton</string>
-								<string key="candidateClassName">UIBarButtonItem</string>
+								<string key="name">cancelDropButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">focusModeLabel</string>
+								<string key="name">cancelSubmitButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropAgainButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropscoreLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">recordButton</string>
-								<string key="candidateClassName">UIBarButtonItem</string>
+								<string key="name">dropscoreSayingLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">stillButton</string>
-								<string key="candidateClassName">UIBarButtonItem</string>
+								<string key="name">infoButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">introLoginButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">loginButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">playVideoButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scoreView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">stripeOverlay</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">submitButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">uploadProgressBar</string>
+								<string key="candidateClassName">UIProgressView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">uploadProgressView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoPreviewView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">videoStory</string>
+								<string key="candidateClassName">UITextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">videoTitle</string>
+								<string key="candidateClassName">UITextField</string>
 							</object>
 						</object>
 					</object>

@@ -157,6 +157,12 @@
     [super dealloc];
 }
 
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft];
+	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+}
+
 - (void)viewDidLoad
 {
  
@@ -196,12 +202,13 @@
 			[viewLayer setMasksToBounds:YES];
 			
 			CGRect bounds = [view bounds];
-			[newCaptureVideoPreviewLayer setFrame:bounds];
+			[newCaptureVideoPreviewLayer setFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.height, bounds.size.width)];
 			
             NSLog(@"Preview bounds %f %f %f %f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 
 			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
-				[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
+				//[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
+                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
 			}
 			
 			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];

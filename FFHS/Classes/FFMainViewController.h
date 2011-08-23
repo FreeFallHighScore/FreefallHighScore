@@ -164,6 +164,8 @@ typedef enum {
 - (BOOL) isRecording;
 - (BOOL) hasDropVideo;
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+
 - (IBAction) showInfo:(id)sender;
 
 - (void) playerItemDidReachEnd:(NSNotification *)notification;

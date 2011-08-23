@@ -28,7 +28,6 @@
 
 	self.location = newLocation;
    
-   
     NSLog(@"latitude %+.6f, longitude %+.6f\n",
           newLocation.coordinate.latitude,
           newLocation.coordinate.longitude);
