@@ -60,8 +60,6 @@
 #define kRecordingTimeout 20. 
 
 
-//static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
-
 @interface FFMainViewController () <UIGestureRecognizerDelegate>
 @end
 
@@ -72,8 +70,6 @@
 - (void)showButton:(UIButton *)button;
 - (void)hideLabel:(UILabel *)label;
 - (void)showLabel:(UILabel *)label;
-//- (void)hideLabels;
-//- (void)showLabels;
 
 - (void)hideStripeOverlay;
 - (void)showStripeOverlay;
@@ -113,7 +109,7 @@
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
 @synthesize filter;
-//@synthesize freefalling;
+
 @synthesize freefallDuration;
 @synthesize freefallStartTime;
 @synthesize freefallEndTime;
@@ -126,8 +122,13 @@
 @synthesize submitButton;
 @synthesize cancelDropButton;
 @synthesize infoButton;
-@synthesize stripeOverlay;
 @synthesize playVideoButton;
+
+@synthesize leftStripeContainer;
+@synthesize bottomStripeContainer;
+@synthesize rightStripeContainer;
+@synthesize whiteTabView;
+@synthesize blackTabView;
 
 @synthesize dropscoreLabel;
 @synthesize dropscoreSayingLabel;
@@ -241,6 +242,9 @@
             [padFactoids synchronize];
             
             NSLog(@"number of times: %i the app has been launched", launchCount);
+            
+            bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.5, bottomStripeContainer.frame.origin.y, 
+                                                     bottomStripeContainer.frame.size.width, bottomStripeContainer.frame.size.height);
             
             /*
             if (YES || launchCount == 1 ){
@@ -946,6 +950,7 @@
                 }
                 break;
             case kFFStatePreDropRecording:
+                [self hideStripeOverlay];
                 [self showButton:self.cancelDropButton];
                 
                 [self hideButton:self.dropButton];
@@ -978,19 +983,21 @@
                 [self hideButton:self.infoButton];                
                 [self hideButton:self.introLoginButton];
                 [self hideButton:self.cancelDropButton];
-                
                 break;
                 
             case kFFStateFinishedDropPostroll:
                 break;
             case kFFStateFinishedDropProcessing:
+                [self showStripeOverlay];
                 break;
             case kFFStateFinishedDropVideoPlayback:
+                [self hideStripeOverlay];
                 [self hideButton:self.submitButton];
                 [self hideButton:self.dropAgainButton];
                 [self hideButton:self.playVideoButton];
                 break;
             case kFFStateFinishedDropScoreView:
+                [self showStripeOverlay];
                 [self showButton:self.submitButton];
                 [self showButton:self.dropAgainButton];
                 [self showButton:self.playVideoButton];
@@ -1148,14 +1155,31 @@
 - (void) hideStripeOverlay
 {
     [UIView animateWithDuration:0.25
-                     animations:^{stripeOverlay.alpha = 0.0;}
+                     animations:^{
+                         leftStripeContainer.alpha = 0.0f;
+                         bottomStripeContainer.alpha = 0.0f;
+                         rightStripeContainer.alpha = 0.0f;
+                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, -whiteTabView.frame.size.height, 
+                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
+                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, 0, 
+                                                                  bottomStripeContainer.frame.size.width, whiteTabView.frame.size.height+bottomStripeContainer.frame.size.height);
+                     }
                      completion:^(BOOL finished){ }];
 }
 
 - (void) showStripeOverlay
 {
     [UIView animateWithDuration:0.25
-                     animations:^{stripeOverlay.alpha = .35;}
+                     animations:^{
+                         leftStripeContainer.alpha = 1.0f;
+                         bottomStripeContainer.alpha = 1.0f;
+                         rightStripeContainer.alpha = 1.0f;
+                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, 0, 
+                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
+                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, whiteTabView.frame.size.height, 
+                                                                  bottomStripeContainer.frame.size.width, 320-whiteTabView.frame.size.height);
+
+                     }
                      completion:^(BOOL finished){ }];
 }
 
