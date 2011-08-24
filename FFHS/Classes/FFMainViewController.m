@@ -87,7 +87,7 @@
 
 - (void) moveWhiteTabToY:(CGFloat)targetY;
 - (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
-
+- (void) revertWhiteTab;
 - (void) populateScoreView;
 - (void) transitionScoreViewToSubmitMode;
 //- (void) transitionScoreViewToScoreMode;
@@ -672,6 +672,14 @@
 
 - (IBAction)cancelSubmit:(id)sender
 {
+    if(state == kFFStateFinishedDropUploading){
+        [self.uploader cancelUpload:sender];
+        [self changeState:kFFStateFinishedDropSubmitView];
+    }
+    else if(state == kFFStateFinishedDropSubmitView){
+        [self changeState:kFFStateFinishedDropScoreView];
+    }
+    /*
     if(self.uploader.uploading){
         NSLog(@"Cancelling upload!");
         [self.uploader cancelUpload:sender];
@@ -685,6 +693,7 @@
          NSLog(@"Removing view!");
         [self removeSubmitView];
     }
+     */
 }
 
 - (void) removeSubmitView
@@ -926,6 +935,8 @@
      
 - (void) resizeWhiteTabToFrame:(CGRect)targetFrame
 {
+    whiteTabCachedRect = whiteTabView.frame;
+    
     whiteTabView.frame = targetFrame;
     
     bottomStripeContainer.frame = CGRectMake(targetFrame.origin.x, targetFrame.size.height, 
@@ -937,6 +948,11 @@
     rightStripeContainer.frame = CGRectMake(targetFrame.origin.x+targetFrame.size.width, 0, 
                                             screenBounds.size.width-targetFrame.origin.x+targetFrame.size.width, screenBounds.size.height);
     
+}
+
+- (void) revertWhiteTab
+{
+    [self resizeWhiteTabToFrame:whiteTabCachedRect];
 }
 
 - (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding
@@ -1111,14 +1127,28 @@
                 
                 break;
             case kFFStateFinishedDropScoreView:
-                [self populateScoreView];
+                if(fromState == kFFStateFinishedDropVideoPlaybackFirstLoop){
+                    [self populateScoreView];
+                }
+                else if(self.scoreView != nil){
+                    [self.videoTitle resignFirstResponder];
+                    [self.videoStory resignFirstResponder];
+                }
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self showStripeOverlay];
-                                     [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                                     self.scoreTextContainer.alpha = 1.0;
+                                     
                                      [self revealElementFromLeft:self.submitButton];
                                      [self revealElementFromLeft:self.playVideoButton];
                                      [self revealElementFromRight:self.deleteDropButton];
+                                     if(self.scoreView != nil){
+                                         [self hideElementToTop:self.scoreView withRoom:0];
+                                         [self revertWhiteTab];
+                                     }
+                                     else{
+                                         [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                                     }
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1159,7 +1189,6 @@
 
 - (void) populateScoreView
 {
-    self.scoreTextContainer.alpha = 1.0;
     self.dropscoreLabel.text = [NSString stringWithFormat:@"SCORE: %.03fs", freefallDuration];   
     self.dropscoreSayingLabel.text = @"That's it?";
     self.dropscoreSayingLabel.hidden = NO;
@@ -1209,9 +1238,10 @@
 {
     
     if (self.scoreView == nil) {
-        [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];        
+        [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];   
+        [self.videoPreviewView insertSubview:self.scoreView 
+                                aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
     }
- 
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
         [self.loginButton setTitle:self.uploader.accountName 
@@ -1227,8 +1257,6 @@
     }    
     [self.videoTitle becomeFirstResponder];
     
-    [self.videoPreviewView insertSubview:self.scoreView 
-                            aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
  
     self.whiteTabLogo.alpha = 0.0;
 }
@@ -1273,43 +1301,13 @@
      bottomStripeContainer.alpha = 0.0f;
      rightStripeContainer.alpha = 0.0f;
     
-//    [UIView animateWithDuration:0.25
-//                     animations:^{
-//                         leftStripeContainer.alpha = 0.0f;
-//                         bottomStripeContainer.alpha = 0.0f;
-//                         rightStripeContainer.alpha = 0.0f;
-//                         dropNowTextContainer.alpha = 1.0f;
-//                         
-//                         CGFloat targetHeight = dropNowTextContainer.frame.size.height;
-//                         CGFloat totalScreenHeight = whiteTabView.frame.size.height+bottomStripeContainer.frame.size.height;
-//                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, -whiteTabView.frame.size.height + targetHeight, 
-//                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
-//                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, targetHeight, 
-//                                                                  bottomStripeContainer.frame.size.width, totalScreenHeight - targetHeight);
-//                     }
-//                     completion:^(BOOL finished){ }];
 }
 
 - (void) showStripeOverlay
 {
     leftStripeContainer.alpha = 1.0f;
     bottomStripeContainer.alpha = 1.0f;
-    rightStripeContainer.alpha = 1.0f;
-    
-//    [UIView animateWithDuration:0.25
-//                     animations:^{
-//                         leftStripeContainer.alpha = 1.0f;
-//                         bottomStripeContainer.alpha = 1.0f;
-//                         rightStripeContainer.alpha = 1.0f;
-//                         dropNowTextContainer.alpha = 0.0f;
-//
-//                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, 0, 
-//                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
-//                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, whiteTabView.frame.size.height, 
-//                                                                  bottomStripeContainer.frame.size.width, 320-whiteTabView.frame.size.height);
-//
-//                     }
-//                     completion:^(BOOL finished){ }];
+    rightStripeContainer.alpha = 1.0f;    
 }
 
 - (void)changeState:(FFGameState)newState

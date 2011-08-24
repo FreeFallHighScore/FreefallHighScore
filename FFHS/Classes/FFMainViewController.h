@@ -104,8 +104,10 @@ typedef enum {
     AVPlayerLayer* playerLayer;
     
     CGRect screenBounds;
+    CGRect whiteTabCachedRect;
     CGRect whiteTabBaseRect;
     CGRect dropBaseRect;    
+    
     //TODO: Get rid of these
     CGRect baseScoreRect;
     CGRect scoreRectWithSubmitControls;
