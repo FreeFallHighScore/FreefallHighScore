@@ -52,10 +52,12 @@
 #import "FFUtilities.h"
 
 typedef enum {
+    kFFStateJustOpened,
     kFFStateReadyToDrop,
     kFFStatePreDropRecording,
     kFFStatePreDropCancelling,
     kFFStatePreDropCanceled,
+    kFFStatePreDropTimedOut, //TODO:: implement a screen for this
     kFFStateInFreeFall,
     kFFStateFinishedDropPostroll,
     kFFStateFinishedDropProcessing,
@@ -100,43 +102,54 @@ typedef enum {
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
     
+    CGRect screenBounds;
+    CGRect whiteTabBaseRect;
+    CGRect dropBaseRect;    
+    //TODO: Get rid of these
     CGRect baseScoreRect;
     CGRect scoreRectWithSubmitControls;
+    
     BOOL libraryAssetURLReceived;
     NSURL* currentDropAssetURL;
     FFYoutubeUploader* uploader;
     FFWidgetOverlays* widgetOverlayLayer;
+
+    BOOL firstLoad;
 }
 
 //camera related stuff
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
-@property (nonatomic,assign) IBOutlet UIButton *dropAgainButton;
 @property (nonatomic,assign) IBOutlet UIButton *submitButton;
 @property (nonatomic,assign) IBOutlet UIButton *dropButton;
 @property (nonatomic,assign) IBOutlet UIButton *cancelDropButton;
+@property (nonatomic,assign) IBOutlet UIButton *deleteDropButton;
+@property (nonatomic,assign) IBOutlet UIButton *retryDropButton;
 @property (nonatomic,assign) IBOutlet UIButton *introLoginButton;
 @property (nonatomic,assign) IBOutlet UIButton *playVideoButton;
 @property (nonatomic,assign) IBOutlet UIButton *infoButton;
+@property (nonatomic,assign) IBOutlet UIButton *whatButton;
 
-//@property (nonatomic,assign) IBOutlet UIImageView* stripeOverlay;
+@property (nonatomic,assign) IBOutlet UIImageView* recordingFlash;
+
 @property (nonatomic,assign) IBOutlet UIView* leftStripeContainer;
 @property (nonatomic,assign) IBOutlet UIView* bottomStripeContainer;
 @property (nonatomic,assign) IBOutlet UIView* rightStripeContainer;
 @property (nonatomic,assign) IBOutlet UIView* whiteTabView;
 @property (nonatomic,assign) IBOutlet UIView* blackTabView;
 
+@property (nonatomic,assign) IBOutlet UIView* dropNowTextContainer;
+
+@property (nonatomic,assign) IBOutlet UIImageView* blackTabLogo;
+@property (nonatomic,assign) IBOutlet UIImageView* whiteTabLogo;
 
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreLabel;
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreSayingLabel;
 
-//you tube stuff
-
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
 @property (nonatomic,retain) NSMutableArray* acceleromterData;
-//@property (nonatomic,readwrite) BOOL freefalling;
 @property (nonatomic,readwrite) NSTimeInterval freefallDuration;
 @property (nonatomic,retain) NSDate* freefallStartTime;
 @property (nonatomic,retain) NSDate* freefallEndTime;
@@ -166,7 +179,6 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
 
 //state abstractors
-
 - (BOOL) listenToAccel;
 - (BOOL) isRecording;
 - (BOOL) hasDropVideo;
@@ -190,7 +202,6 @@ typedef enum {
 - (void) removeSubmitView;
 - (void) removeUploadProgressView;
 - (void) showUploadProgress;
-
 
 - (void) textFieldShouldReturn:(UITextField*)field;
 

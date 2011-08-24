@@ -64,15 +64,27 @@
 @end
 
 @interface FFMainViewController (InternalMethods)
-- (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
-- (void)updateButtonStates;
-- (void)hideButton:(UIButton *)button;
-- (void)showButton:(UIButton *)button;
-- (void)hideLabel:(UILabel *)label;
-- (void)showLabel:(UILabel *)label;
+
+- (void) setupFirstView;
+- (void)updateViewFromState:(FFGameState)fromState toState:(FFGameState)toState;
+
+//- (void)hideButton:(UIButton *)button;
+//- (void)showButton:(UIButton *)button;
+//- (void)hideLabel:(UILabel *)label;
+//- (void)showLabel:(UILabel *)label;
 
 - (void)hideStripeOverlay;
 - (void)showStripeOverlay;
+
+- (void) hideElementOffscreenLeft:(UIView*)element;
+- (void) hideElementOffscreenRight:(UIView*)element;
+- (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding;
+- (void) revealElementFromLeft:(UIView*)element;
+- (void) revealElementFromRight:(UIView*)element;
+- (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos;
+
+- (void) moveWhiteTabToY:(CGFloat)targetY;
+- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
 
 - (void) animateScoreViewOn;
 - (void) transitionScoreViewToSubmitMode;
@@ -118,17 +130,23 @@
 @synthesize assetForOverlay;
 
 @synthesize dropButton;
-@synthesize dropAgainButton;
-@synthesize submitButton;
 @synthesize cancelDropButton;
+@synthesize deleteDropButton;
+@synthesize retryDropButton;
+@synthesize submitButton;
 @synthesize infoButton;
 @synthesize playVideoButton;
+@synthesize whatButton;
+@synthesize recordingFlash;
 
 @synthesize leftStripeContainer;
 @synthesize bottomStripeContainer;
 @synthesize rightStripeContainer;
 @synthesize whiteTabView;
 @synthesize blackTabView;
+@synthesize dropNowTextContainer;
+@synthesize blackTabLogo;
+@synthesize whiteTabLogo;
 
 @synthesize dropscoreLabel;
 @synthesize dropscoreSayingLabel;
@@ -159,14 +177,23 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft];
 	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
 - (void)viewDidLoad
 {
- 
+    //pixel shows up shifted by one for some reason....
+    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.5, bottomStripeContainer.frame.origin.y, 
+                                             bottomStripeContainer.frame.size.width, bottomStripeContainer.frame.size.height);
+
+    UIView *view = [self videoPreviewView];
+    CALayer *viewLayer = [view layer];
+    [viewLayer setMasksToBounds:YES];
+    
+    CGRect bounds = [view bounds];
+
     NSLog(@"view did load G");
     
     if(self.uploader == nil){
@@ -198,11 +225,6 @@
 		if ([[self captureManager] setupSession]) {
             // Create video preview layer and add it to the UI
 			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
-			UIView *view = [self videoPreviewView];
-			CALayer *viewLayer = [view layer];
-			[viewLayer setMasksToBounds:YES];
-			
-			CGRect bounds = [view bounds];
 			[newCaptureVideoPreviewLayer setFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.height, bounds.size.width)];
 			
             NSLog(@"Preview bounds %f %f %f %f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
@@ -227,30 +249,10 @@
                 NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
 			});
             
-            
-//            CGPoint middle = CGPointMake(bounds.origin.x + bounds.size.width/2.0, 
-//                                         bounds.origin.y + bounds.size.height/2.0);
-            
-            fontcolor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] retain];
-        
-            NSUserDefaults      *padFactoids;
-            int                 launchCount;
-            
-            padFactoids = [NSUserDefaults standardUserDefaults];
-            launchCount = [padFactoids integerForKey:@"launchCount" ] + 1;
-            [padFactoids setInteger:launchCount forKey:@"launchCount"];
-            [padFactoids synchronize];
-            
-            NSLog(@"number of times: %i the app has been launched", launchCount);
-            
-            bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.5, bottomStripeContainer.frame.origin.y, 
-                                                     bottomStripeContainer.frame.size.width, bottomStripeContainer.frame.size.height);
-            
             /*
+             fontcolor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] retain];
+
             if (YES || launchCount == 1 ){
-=======
-            if (![uploader loggedIn]){
->>>>>>> d0613fdf6b8365ee3352b105485176f547300f04
                 NSLog(@"this is the FIRST LAUNCH of the app");
                 //LOG IN BUTTON
                 self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -303,7 +305,7 @@
             recordButton.frame = CGRectMake(0, bounds.size.height*.6, imageSize.width, imageSize.height);
             
             [self.view addSubview:recordButton];			
- */
+             */
             
             /*
             //SUBMIT BUTTON
@@ -393,12 +395,9 @@
             [self.view addSubview:dropscoreLabelTime];
             */
             
-            [self updateButtonStates];
+
                         
             //timer layer
-            widgetOverlayLayer = [FFWidgetOverlays layer];
-            widgetOverlayLayer.frame = bounds;
-            [[self.view layer] addSublayer:widgetOverlayLayer];
             
             // Add a single tap gesture to focus on the point tapped, then lock focus
 //			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
@@ -417,6 +416,25 @@
 //			[singleTap release];
 		}		
 	}
+    
+    
+    
+    NSUserDefaults      *defaults;
+    NSInteger           launchCount;
+    
+    defaults = [NSUserDefaults standardUserDefaults];
+    launchCount = [defaults integerForKey:@"launchCount" ] + 1;
+    [defaults setInteger:launchCount forKey:@"launchCount"];
+    [defaults synchronize];
+    
+    screenBounds = bounds;
+    widgetOverlayLayer = [FFWidgetOverlays layer];
+    widgetOverlayLayer.frame = bounds;
+    [[self.view layer] addSublayer:widgetOverlayLayer];
+    
+    NSLog(@"number of times: %i the app has been launched", launchCount);
+    firstLoad = (launchCount == 1);
+    [self setupFirstView];
     
     //accelerometer stuff    
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
@@ -565,7 +583,7 @@
     [self.player pause];
 
     showingScoreView = YES;
-    [self updateButtonStates];
+    [self updateViewState];
      */
 }
 
@@ -673,7 +691,7 @@
     [self.scoreView removeFromSuperview];
     self.scoreView = nil;
 //    showingScoreView = false;
-    [self updateButtonStates];
+//    [self updateViewState];
 }
 
 - (void) removeUploadProgressView
@@ -779,6 +797,7 @@
             state == kFFStateFinishedDropUploading ||
             state == kFFStateFinishedDropUploadComplete;
 }
+
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 //{
 //    if (context == AVCamFocusModeObserverContext) {
@@ -827,7 +846,7 @@
     CALayer *viewLayer = [view layer];        
     
     //CGRect bounds = [view bounds];
-    CGRect bounds = CGRectMake(-20, 0, 360, 480);//fullscreen it
+    CGRect bounds = CGRectMake(-20, 0, 480, 360);//fullscreen it
     //CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
     [self.playerLayer setFrame:bounds];
     
@@ -849,198 +868,281 @@
     AVPlayerItem *p = [notification object];
     [p seekToTime:kCMTimeZero];
     timesLooped++;
-    [self updateButtonStates];
+//    [self updateViewState];
 }
 
 @end
 
 @implementation FFMainViewController (InternalMethods)
 
-// Convert from view coordinates to camera coordinates, where {0,0} represents the top left of the picture area, and {1,1} represents
-// the bottom right in landscape mode with the home button on the right.
-- (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates 
+
+- (void) setupFirstView
 {
-    CGPoint pointOfInterest = CGPointMake(.5f, .5f);
-    CGSize frameSize = [[self videoPreviewView] frame].size;
+    //TODO: play intro animation
+    state = kFFStateJustOpened;
     
-    if ([captureVideoPreviewLayer isMirrored]) {
-        viewCoordinates.x = frameSize.width - viewCoordinates.x;
-    }    
-
-    if ( [[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResize] ) {
-		// Scale, switch x and y, and reverse x
-        pointOfInterest = CGPointMake(viewCoordinates.y / frameSize.height, 1.f - (viewCoordinates.x / frameSize.width));
-    } else {
-        CGRect cleanAperture;
-        for (AVCaptureInputPort *port in [[[self captureManager] videoInput] ports]) {
-            if ([port mediaType] == AVMediaTypeVideo) {
-                cleanAperture = CMVideoFormatDescriptionGetCleanAperture([port formatDescription], YES);
-                CGSize apertureSize = cleanAperture.size;
-                CGPoint point = viewCoordinates;
-
-                CGFloat apertureRatio = apertureSize.height / apertureSize.width;
-                CGFloat viewRatio = frameSize.width / frameSize.height;
-                CGFloat xc = .5f;
-                CGFloat yc = .5f;
-                
-                if ( [[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResizeAspect] ) {
-                    if (viewRatio > apertureRatio) {
-                        CGFloat y2 = frameSize.height;
-                        CGFloat x2 = frameSize.height * apertureRatio;
-                        CGFloat x1 = frameSize.width;
-                        CGFloat blackBar = (x1 - x2) / 2;
-						// If point is inside letterboxed area, do coordinate conversion; otherwise, don't change the default value returned (.5,.5)
-                        if (point.x >= blackBar && point.x <= blackBar + x2) {
-							// Scale (accounting for the letterboxing on the left and right of the video preview), switch x and y, and reverse x
-                            xc = point.y / y2;
-                            yc = 1.f - ((point.x - blackBar) / x2);
-                        }
-                    } else {
-                        CGFloat y2 = frameSize.width / apertureRatio;
-                        CGFloat y1 = frameSize.height;
-                        CGFloat x2 = frameSize.width;
-                        CGFloat blackBar = (y1 - y2) / 2;
-						// If point is inside letterboxed area, do coordinate conversion. Otherwise, don't change the default value returned (.5,.5)
-                        if (point.y >= blackBar && point.y <= blackBar + y2) {
-							// Scale (accounting for the letterboxing on the top and bottom of the video preview), switch x and y, and reverse x
-                            xc = ((point.y - blackBar) / y2);
-                            yc = 1.f - (point.x / x2);
-                        }
-                    }
-                } else if ([[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResizeAspectFill]) {
-					// Scale, switch x and y, and reverse x
-                    if (viewRatio > apertureRatio) {
-                        CGFloat y2 = apertureSize.width * (frameSize.width / apertureSize.height);
-                        xc = (point.y + ((y2 - frameSize.height) / 2.f)) / y2; // Account for cropped height
-                        yc = (frameSize.width - point.x) / frameSize.width;
-                    } else {
-                        CGFloat x2 = apertureSize.height * (frameSize.height / apertureSize.width);
-                        yc = 1.f - ((point.x + ((x2 - frameSize.width) / 2)) / x2); // Account for cropped width
-                        xc = point.y / frameSize.height;
-                    }
-                }
-                
-                pointOfInterest = CGPointMake(xc, yc);
-                break;
-            }
-        }
+    //hide all the buttons off screen
+    [self hideElementOffscreenLeft:self.introLoginButton];
+    [self hideElementOffscreenLeft:self.dropButton];
+    [self hideElementOffscreenLeft:self.whatButton];
+    [self hideElementOffscreenLeft:self.submitButton];
+    [self hideElementOffscreenLeft:self.playVideoButton];
+    [self hideElementOffscreenLeft:self.playVideoButton];
+    
+    [self hideElementOffscreenRight:self.blackTabView];    
+    [self hideElementOffscreenRight:self.cancelDropButton];
+    [self hideElementOffscreenRight:self.deleteDropButton]; 
+    [self hideElementOffscreenRight:self.retryDropButton];    
+    
+    whiteTabBaseRect = self.whiteTabView.frame;
+    dropBaseRect = self.dropButton.frame;
+    
+    [self moveWhiteTabToY:0];
+    
+//    BOOL showRightPanel = NO;
+    if(!self.uploader.loggedIn || firstLoad){
+//        showRightPanel = YES;
+        self.whiteTabLogo.alpha = 0;
+        self.infoButton.alpha = 0;
     }
     
-    return pointOfInterest;
+    [self changeState:kFFStateReadyToDrop];
+    
 }
 
+- (void) moveWhiteTabToY:(CGFloat)targetY
+{
+    whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, targetY-whiteTabView.frame.size.height, 
+                                    whiteTabView.frame.size.width, whiteTabView.frame.size.height);
+    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, targetY, 
+                                             bottomStripeContainer.frame.size.width, screenBounds.size.height-targetY);
+}
+     
+- (void) resizeWhiteTabToFrame:(CGRect)targetFrame
+{
+    //TODO:
+}
+
+- (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding
+{
+    element.frame = CGRectMake(element.frame.origin.x, padding - element.frame.size.height,
+                               element.frame.size.width, element.frame.size.height);
+}
+
+- (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos
+{
+    element.frame = CGRectMake(element.frame.origin.x, yPos,
+                               element.frame.size.width, element.frame.size.height);
+}
+
+- (void) revealElementFromLeft:(UIView*)element
+{
+    element.frame = CGRectMake(0, element.frame.origin.y, 
+                               element.frame.size.width, element.frame.size.height);
+}
+
+- (void) revealElementFromRight:(UIView*)element
+{
+    element.frame = CGRectMake(screenBounds.size.width-element.frame.size.width, element.frame.origin.y, 
+                               element.frame.size.width, element.frame.size.height);    
+}
+
+- (void) hideElementOffscreenLeft:(UIView*)element
+{
+    element.frame = CGRectMake(-element.frame.size.width, element.frame.origin.y, 
+                               element.frame.size.width, element.frame.size.height);
+}
+
+
+- (void) hideElementOffscreenRight:(UIView*)element
+{
+    element.frame = CGRectMake(screenBounds.size.width, element.frame.origin.y, 
+                               element.frame.size.width, element.frame.size.height);
+    
+}
+
+
 // Update button states based on the number of available cameras and mics
-- (void)updateButtonStates
+- (void) updateViewFromState:(FFGameState)fromState toState:(FFGameState)toState
 {    
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
 
-        switch (state) {
+        switch (toState) {
             case kFFStateReadyToDrop:
-                [self showButton:self.dropButton];
-                [self showButton:self.infoButton];                
-                
-                [self hideButton:self.dropAgainButton];
-                [self hideButton:self.cancelDropButton];
-                
-                if(self.uploader.loggedIn){
-                    [self hideButton:self.introLoginButton];
-                }
-                else{
-                    [self hideButton:self.introLoginButton];
-                }
+                [UIView animateWithDuration:.5
+                                 animations: ^{
+                                     BOOL showRightPanel = NO;
+                                     if(firstLoad || !self.uploader.loggedIn){
+                                         [self revealElementFromLeft:self.introLoginButton];
+                                         showRightPanel = YES;
+                                     }
+                                     if(firstLoad){
+                                         [self revealElementFromLeft:self.whatButton];
+                                         showRightPanel = YES;
+                                     }
+                                     if(showRightPanel){
+                                         [self revealElementFromRight:self.blackTabView];
+                                     }
+                                     
+                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];
+                                     [self revealElementFromLeft:self.dropButton];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
                 break;
-            case kFFStatePreDropRecording:
-                [self hideStripeOverlay];
-                [self showButton:self.cancelDropButton];
                 
-                [self hideButton:self.dropButton];
-                [self hideButton:self.infoButton];                
-                [self hideButton:self.introLoginButton];
+            case kFFStatePreDropRecording:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     BOOL showRightPanel = NO;
+                                     if(firstLoad || !self.uploader.loggedIn){
+                                         [self hideElementOffscreenLeft:self.introLoginButton];
+                                     }
+                                     if(firstLoad){
+                                         [self hideElementOffscreenLeft:self.whatButton];
+                                         showRightPanel = YES;
+                                     }
+                                     if(showRightPanel){
+                                         [self hideElementOffscreenRight:self.blackTabView];
+                                     }
+                                     self.infoButton.alpha = 0.;
+                                     [self moveWhiteTabToY:dropNowTextContainer.frame.size.height];
+                                     [self hideElementToTop:self.dropButton withRoom:50]; 
+                                     [self revealElementFromRight:self.cancelDropButton];
+                                     [self hideStripeOverlay];
+
+                                     self.dropNowTextContainer.alpha = 1.0;
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     //TODO: start flasher loops
+                                 }];
+                
                 break;
 
             case kFFStatePreDropCancelling:
-                [self showStripeOverlay];
-                [self hideButton:self.cancelDropButton];
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     BOOL showRightPanel = NO;
+                                     if(firstLoad || !self.uploader.loggedIn){
+                                         [self revealElementFromLeft:self.introLoginButton];
+                                         showRightPanel = YES;
+                                     }
+                                     if(firstLoad){
+                                         [self revealElementFromLeft:self.whatButton];
+                                         showRightPanel = YES;
+                                     }
+                                     else{
+                                        self.infoButton.alpha = 1.;
+                                     }
+                                     
+                                     if(showRightPanel){
+                                         [self revealElementFromRight:self.blackTabView];
+                                     }
+                                     [self showStripeOverlay];
+                                     self.dropNowTextContainer.alpha = 0.0;
+                                 }
+                 
+                                 completion:^(BOOL finished){ 
+
+                                 }];
                 break;
                 
             case kFFStatePreDropCanceled:
+
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self hideElementOffscreenRight:self.cancelDropButton];
+                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
+                                     [self revealElementFromTop:self.dropButton toPosition:dropBaseRect.origin.y];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
                 
-                [self showButton:self.dropButton];                
-                [self showButton:self.infoButton];
-                
-                if(self.uploader.loggedIn){
-                    [self hideButton:self.introLoginButton];
-                }
-                else{
-                    [self hideButton:self.introLoginButton];
-                }
-                [self hideButton:self.cancelDropButton];
                 break;
                 
             case kFFStateInFreeFall:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     self.dropButton.alpha = 0.0;
+                                     [self hideElementOffscreenRight:self.cancelDropButton];
+                                     [self moveWhiteTabToY:0];
+                                     self.dropNowTextContainer.alpha = 0.;
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
                 
-                [self hideButton:self.dropButton];
-                [self hideButton:self.infoButton];                
-                [self hideButton:self.introLoginButton];
-                [self hideButton:self.cancelDropButton];
                 break;
-                
+            case kFFStatePreDropTimedOut:
+                //CURRENTLY UNUSED!
+                break;
             case kFFStateFinishedDropPostroll:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self showStripeOverlay];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
+                
                 break;
             case kFFStateFinishedDropProcessing:
-                [self showStripeOverlay];
+                    
                 break;
             case kFFStateFinishedDropVideoPlayback:
-                [self hideStripeOverlay];
-                [self hideButton:self.submitButton];
-                [self hideButton:self.dropAgainButton];
-                [self hideButton:self.playVideoButton];
+//                [self hideStripeOverlay];
+//                [self hideButton:self.submitButton];
+//                [self hideButton:self.dropAgainButton];
+//                [self hideButton:self.playVideoButton];
                 break;
             case kFFStateFinishedDropScoreView:
-                [self showStripeOverlay];
-                [self showButton:self.submitButton];
-                [self showButton:self.dropAgainButton];
-                [self showButton:self.playVideoButton];
+//                [self showStripeOverlay];
+//                [self showButton:self.submitButton];
+//                [self showButton:self.dropAgainButton];
+//                [self showButton:self.playVideoButton];
                 break;                
             case kFFStateFinishedDropSubmitView:
-                [self hideButton:self.submitButton];
-                [self hideButton:self.dropAgainButton];
-                [self hideButton:self.playVideoButton];
+//                [self hideButton:self.submitButton];
+//                [self hideButton:self.dropAgainButton];
+//                [self hideButton:self.playVideoButton];
                 break;
             case kFFStateFinishedDropUploading:
-                [self hideButton:self.submitButton];
-                [self hideButton:self.dropAgainButton];
-                [self hideButton:self.playVideoButton];
+//                [self hideButton:self.submitButton];
+//                [self hideButton:self.dropAgainButton];
+//                [self hideButton:self.playVideoButton];
                 break;
             case kFFStateFinishedDropUploadComplete:
-                [self showButton:self.dropAgainButton];
+//                [self showButton:self.dropAgainButton];
+//                break;
             default:
                 break;
         }    
     });
 }
 
-- (void)hideButton:(UIButton *)button
-{
-    [button setHidden:YES];
-    [button setEnabled:NO];
-}
-
-- (void)showButton:(UIButton *)button 
-{
-    [button setHidden:NO];
-    [button setEnabled:YES];
-}
-
-- (void)hideLabel:(UILabel *)label
-{
-    [label setHidden:YES];
-}
-
-- (void)showLabel:(UILabel *)label
-{
-    [label setHidden:NO];
-}
+//- (void)hideButton:(UIButton *)button
+//{
+//    [button setHidden:YES];
+//    [button setEnabled:NO];
+//}
+//
+//- (void)showButton:(UIButton *)button 
+//{
+//    [button setHidden:NO];
+//    [button setEnabled:YES];
+//}
+//
+//- (void)hideLabel:(UILabel *)label
+//{
+//    [label setHidden:YES];
+//}
+//
+//- (void)showLabel:(UILabel *)label
+//{
+//    [label setHidden:NO];
+//}
 
 - (void) animateScoreViewOn
 {
@@ -1092,7 +1194,6 @@
                          self.loginButton.alpha = 1.0;
                          self.videoTitle.alpha = 1.0;
                          self.videoStory.alpha = 1.0;
-                         
                      }
                      completion:^( BOOL finished){ 
                          
@@ -1129,8 +1230,6 @@
     
     [self changeState:kFFStateFinishedDropScoreView];
     
-    [self updateButtonStates];
-
 }
 
 //- (void) animateScoreViewOff
@@ -1154,40 +1253,54 @@
 
 - (void) hideStripeOverlay
 {
-    [UIView animateWithDuration:0.25
-                     animations:^{
-                         leftStripeContainer.alpha = 0.0f;
-                         bottomStripeContainer.alpha = 0.0f;
-                         rightStripeContainer.alpha = 0.0f;
-                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, -whiteTabView.frame.size.height, 
-                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
-                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, 0, 
-                                                                  bottomStripeContainer.frame.size.width, whiteTabView.frame.size.height+bottomStripeContainer.frame.size.height);
-                     }
-                     completion:^(BOOL finished){ }];
+     leftStripeContainer.alpha = 0.0f;
+     bottomStripeContainer.alpha = 0.0f;
+     rightStripeContainer.alpha = 0.0f;
+    
+//    [UIView animateWithDuration:0.25
+//                     animations:^{
+//                         leftStripeContainer.alpha = 0.0f;
+//                         bottomStripeContainer.alpha = 0.0f;
+//                         rightStripeContainer.alpha = 0.0f;
+//                         dropNowTextContainer.alpha = 1.0f;
+//                         
+//                         CGFloat targetHeight = dropNowTextContainer.frame.size.height;
+//                         CGFloat totalScreenHeight = whiteTabView.frame.size.height+bottomStripeContainer.frame.size.height;
+//                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, -whiteTabView.frame.size.height + targetHeight, 
+//                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
+//                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, targetHeight, 
+//                                                                  bottomStripeContainer.frame.size.width, totalScreenHeight - targetHeight);
+//                     }
+//                     completion:^(BOOL finished){ }];
 }
 
 - (void) showStripeOverlay
 {
-    [UIView animateWithDuration:0.25
-                     animations:^{
-                         leftStripeContainer.alpha = 1.0f;
-                         bottomStripeContainer.alpha = 1.0f;
-                         rightStripeContainer.alpha = 1.0f;
-                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, 0, 
-                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
-                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, whiteTabView.frame.size.height, 
-                                                                  bottomStripeContainer.frame.size.width, 320-whiteTabView.frame.size.height);
-
-                     }
-                     completion:^(BOOL finished){ }];
+    leftStripeContainer.alpha = 1.0f;
+    bottomStripeContainer.alpha = 1.0f;
+    rightStripeContainer.alpha = 1.0f;
+    
+//    [UIView animateWithDuration:0.25
+//                     animations:^{
+//                         leftStripeContainer.alpha = 1.0f;
+//                         bottomStripeContainer.alpha = 1.0f;
+//                         rightStripeContainer.alpha = 1.0f;
+//                         dropNowTextContainer.alpha = 0.0f;
+//
+//                         whiteTabView.frame = CGRectMake(whiteTabView.frame.origin.x, 0, 
+//                                                         whiteTabView.frame.size.width, whiteTabView.frame.size.height);
+//                         bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, whiteTabView.frame.size.height, 
+//                                                                  bottomStripeContainer.frame.size.width, 320-whiteTabView.frame.size.height);
+//
+//                     }
+//                     completion:^(BOOL finished){ }];
 }
 
 - (void)changeState:(FFGameState)newState
 {
     NSString* oldStateString = [self stateDescription];
+    [self updateViewFromState:state toState:newState];
     state = newState;
-    [self updateButtonStates];
     NSLog(@"Switching from state %@ to %@", oldStateString, [self stateDescription]);    
 }
 
@@ -1301,7 +1414,7 @@
 
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager
 {
-//	[self updateButtonStates];
+//	[self updateViewState];
 }
 
 @end
