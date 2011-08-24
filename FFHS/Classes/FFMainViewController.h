@@ -60,7 +60,8 @@ typedef enum {
     kFFStatePreDropTimedOut, //TODO:: implement a screen for this
     kFFStateInFreeFall,
     kFFStateFinishedDropPostroll,
-    kFFStateFinishedDropProcessing,
+//    kFFStateFinishedDropProcessing,
+    kFFStateFinishedDropVideoPlaybackFirstLoop,
     kFFStateFinishedDropVideoPlayback,
     kFFStateFinishedDropScoreView,
     kFFStateFinishedDropSubmitView,
@@ -140,6 +141,7 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIView* blackTabView;
 
 @property (nonatomic,assign) IBOutlet UIView* dropNowTextContainer;
+@property (nonatomic,assign) IBOutlet UIView* scoreTextContainer;
 
 @property (nonatomic,assign) IBOutlet UIImageView* blackTabLogo;
 @property (nonatomic,assign) IBOutlet UIImageView* whiteTabLogo;

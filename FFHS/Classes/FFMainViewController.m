@@ -71,6 +71,8 @@
 //- (void)hideButton:(UIButton *)button;
 //- (void)showButton:(UIButton *)button;
 //- (void)hideLabel:(UILabel *)label;
+
+
 //- (void)showLabel:(UILabel *)label;
 
 - (void)hideStripeOverlay;
@@ -86,14 +88,13 @@
 - (void) moveWhiteTabToY:(CGFloat)targetY;
 - (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
 
-- (void) animateScoreViewOn;
+- (void) populateScoreView;
 - (void) transitionScoreViewToSubmitMode;
-- (void) transitionScoreViewToScoreMode;
-- (void) transitionScoreViewToUploading;
-- (void) transitionScoreViewToUploadComplete;
+//- (void) transitionScoreViewToScoreMode;
+//- (void) transitionScoreViewToUploading;
+//- (void) transitionScoreViewToUploadComplete;
 
 - (void)changeState:(FFGameState)newState;
-
 - (NSString*) stateDescription; 
 
 @end
@@ -145,6 +146,7 @@
 @synthesize whiteTabView;
 @synthesize blackTabView;
 @synthesize dropNowTextContainer;
+@synthesize scoreTextContainer;
 @synthesize blackTabLogo;
 @synthesize whiteTabLogo;
 
@@ -560,9 +562,8 @@
 }
 
 - (void)submitCurrentVideo:(id)sender
-{
- 
-    [self transitionScoreViewToSubmitMode];
+{ 
+    [self changeState:kFFStateFinishedDropSubmitView];
     /*
     NSLog(@"logged in? %d user name %@ ", self.uploader.loggedIn, self.uploader.accountName);
     
@@ -824,6 +825,7 @@
     widgetOverlayLayer.exportPercent = percentComplete;
 }
 
+//JG NOTE THIS IS NO LONGER USED
 - (void) overlayComplete:(NSURL*)assetURL
 {
     NSLog(@"overlay complete!! %@", assetURL);
@@ -865,10 +867,14 @@
 - (void)playerItemDidReachEnd:(NSNotification *)notification
 {
     //LOOP
-    AVPlayerItem *p = [notification object];
-    [p seekToTime:kCMTimeZero];
-    timesLooped++;
-//    [self updateViewState];
+    if(state == kFFStateFinishedDropVideoPlaybackFirstLoop){
+        [self changeState:kFFStateFinishedDropScoreView];
+    }
+    else {
+        AVPlayerItem *p = [notification object];
+        [p seekToTime:kCMTimeZero];
+        timesLooped++;
+    }    
 }
 
 @end
@@ -920,7 +926,17 @@
      
 - (void) resizeWhiteTabToFrame:(CGRect)targetFrame
 {
-    //TODO:
+    whiteTabView.frame = targetFrame;
+    
+    bottomStripeContainer.frame = CGRectMake(targetFrame.origin.x, targetFrame.size.height, 
+                                             targetFrame.size.width, screenBounds.size.height-targetFrame.size.height);
+    
+    leftStripeContainer.frame = CGRectMake(0, 0, 
+                                           targetFrame.origin.x, screenBounds.size.height);
+    
+    rightStripeContainer.frame = CGRectMake(targetFrame.origin.x+targetFrame.size.width, 0, 
+                                            screenBounds.size.width-targetFrame.origin.x+targetFrame.size.width, screenBounds.size.height);
+    
 }
 
 - (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding
@@ -1081,32 +1097,50 @@
             case kFFStateFinishedDropPostroll:
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     [self showStripeOverlay];
+//                                     [self showStripeOverlay];
                                  }
                                  completion:^(BOOL finished){ 
                                      
                                  }];
                 
                 break;
-            case kFFStateFinishedDropProcessing:
-                    
-                break;
-            case kFFStateFinishedDropVideoPlayback:
-//                [self hideStripeOverlay];
-//                [self hideButton:self.submitButton];
-//                [self hideButton:self.dropAgainButton];
-//                [self hideButton:self.playVideoButton];
+//            case kFFStateFinishedDropProcessing:
+//                    
+//                break;
+            case kFFStateFinishedDropVideoPlaybackFirstLoop:
+                
                 break;
             case kFFStateFinishedDropScoreView:
-//                [self showStripeOverlay];
-//                [self showButton:self.submitButton];
-//                [self showButton:self.dropAgainButton];
-//                [self showButton:self.playVideoButton];
+                [self populateScoreView];
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self showStripeOverlay];
+                                     [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                                     [self revealElementFromLeft:self.submitButton];
+                                     [self revealElementFromLeft:self.playVideoButton];
+                                     [self revealElementFromRight:self.deleteDropButton];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
+                
                 break;                
+            case kFFStateFinishedDropVideoPlayback:
+                break;
             case kFFStateFinishedDropSubmitView:
-//                [self hideButton:self.submitButton];
-//                [self hideButton:self.dropAgainButton];
-//                [self hideButton:self.playVideoButton];
+                [self transitionScoreViewToSubmitMode];
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self resizeWhiteTabToFrame:CGRectMake(0, 0, screenBounds.size.width, self.scoreView.frame.size.height)];
+                                     [self hideElementOffscreenLeft:self.submitButton];
+                                     [self hideElementOffscreenLeft:self.playVideoButton];
+                                     [self hideElementOffscreenRight:self.deleteDropButton];
+                                     self.scoreTextContainer.frame = CGRectMake(0, 0, self.scoreTextContainer.frame.size.width, self.scoreTextContainer.frame.size.height);
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
+                 
                 break;
             case kFFStateFinishedDropUploading:
 //                [self hideButton:self.submitButton];
@@ -1122,28 +1156,17 @@
     });
 }
 
-//- (void)hideButton:(UIButton *)button
-//{
-//    [button setHidden:YES];
-//    [button setEnabled:NO];
-//}
-//
-//- (void)showButton:(UIButton *)button 
-//{
-//    [button setHidden:NO];
-//    [button setEnabled:YES];
-//}
-//
-//- (void)hideLabel:(UILabel *)label
-//{
-//    [label setHidden:YES];
-//}
-//
-//- (void)showLabel:(UILabel *)label
-//{
-//    [label setHidden:NO];
-//}
 
+- (void) populateScoreView
+{
+    self.scoreTextContainer.alpha = 1.0;
+    self.dropscoreLabel.text = [NSString stringWithFormat:@"SCORE: %.03fs", freefallDuration];   
+    self.dropscoreSayingLabel.text = @"That's it?";
+    self.dropscoreSayingLabel.hidden = NO;
+    self.dropscoreSayingLabel.alpha = 1.0;    
+}
+
+/*
 - (void) animateScoreViewOn
 {
     if (self.scoreView == nil) {
@@ -1180,41 +1203,34 @@
     //showingScoreView = YES;
     [self changeState:kFFStateFinishedDropScoreView];
 }
+*/
 
 - (void) transitionScoreViewToSubmitMode
 {
     
-    [UIView animateWithDuration:1.0
-                          delay:0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{ 
-                         self.scoreView.frame = scoreRectWithSubmitControls; 
-                         self.dropscoreSayingLabel.alpha = 0;
-                         self.cancelSubmitButton.alpha = 1.0;
-                         self.loginButton.alpha = 1.0;
-                         self.videoTitle.alpha = 1.0;
-                         self.videoStory.alpha = 1.0;
-                     }
-                     completion:^( BOOL finished){ 
-                         
-                         if(self.uploader.loggedIn){
-                             //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
-                             [self.loginButton setTitle:self.uploader.accountName 
-                                               forState:UIControlStateNormal];
-                             [self.loginButton setTitle:self.uploader.accountName 
-                                               forState:UIControlStateDisabled];
-                             
-                         }
-                         else {
-                             //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
-                             [self.loginButton setTitle:@"Log in"
-                                               forState:UIControlStateNormal];
-                         }    
-                         [self.videoTitle becomeFirstResponder];
-
-                     }];
+    if (self.scoreView == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];        
+    }
+ 
+    if(self.uploader.loggedIn){
+        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
+        [self.loginButton setTitle:self.uploader.accountName 
+                          forState:UIControlStateNormal];
+        [self.loginButton setTitle:self.uploader.accountName 
+                          forState:UIControlStateDisabled];
+        
+    }
+    else {
+        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
+        [self.loginButton setTitle:@"Log in"
+                          forState:UIControlStateNormal];
+    }    
+    [self.videoTitle becomeFirstResponder];
     
-    [self changeState: kFFStateFinishedDropSubmitView];
+    [self.videoPreviewView insertSubview:self.scoreView 
+                            aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+ 
+    self.whiteTabLogo.alpha = 0.0;
 }
 
 - (void) transitionScoreViewToScoreMode
@@ -1319,8 +1335,8 @@
             return @"Freefalling!";            
         case kFFStateFinishedDropPostroll:
             return @"Finished Drop Postroll";            
-        case kFFStateFinishedDropProcessing:
-            return @"Finished Drop Processing Video";            
+//        case kFFStateFinishedDropProcessing:
+//            return @"Finished Drop Processing Video";            
         case kFFStateFinishedDropVideoPlayback:
             return @"Drop Video Playback";            
         case kFFStateFinishedDropScoreView:
@@ -1366,11 +1382,12 @@
 
 - (BOOL) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager toURL:(NSURL*)temporaryURL
 {
-    [self changeState: kFFStateFinishedDropProcessing];
-    
+//    [self changeState: kFFStateFinishedDropProcessing];
+  /*  
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         
         ///create an overlay asset
+        //REMOVED OVERLAY ASSET:
         NSDictionary* assetOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
                                                                  forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
         
@@ -1392,11 +1409,42 @@
     
     //don't save the asset to the library
     return NO;
+   */
+    
+    //tell the phone to save the asset
+    
+    self.player = [AVPlayer playerWithURL:temporaryURL];
+    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+    self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.player currentItem]];
+    
+    //TODO: fix orientation...maybe?
+    //    [self.player play];
+    
+    UIView *view = [self videoPreviewView];
+    CALayer *viewLayer = [view layer];        
+    
+    //CGRect bounds = [view bounds];
+    CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
+    [self.playerLayer setFrame:bounds];
+    
+    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+    
+    [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
+    
+    [self.player play];
+    
+    return YES;
 }
 
 - (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
     //unused, we never save the items directly from the camera to the asset library.
+    NSLog(@"video saved to assets!!");
 }
 
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager

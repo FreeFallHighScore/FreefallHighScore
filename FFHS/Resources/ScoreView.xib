@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>IBUILabel</string>
 			<string>IBUIButton</string>
 			<string>IBUIView</string>
 			<string>IBUITextField</string>
@@ -47,7 +46,7 @@
 					<object class="IBUITextField" id="311796555">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{18, 116}, {282, 31}}</string>
+						<string key="NSFrame">{{20, 67}, {440, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="405698516"/>
@@ -56,7 +55,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
-						<int key="IBUIBorderStyle">3</int>
+						<int key="IBUIBorderStyle">2</int>
 						<string key="IBUIPlaceholder">Give your video a title</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
@@ -81,7 +80,7 @@
 					<object class="IBUITextField" id="405698516">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{18, 155}, {282, 31}}</string>
+						<string key="NSFrame">{{20, 106}, {440, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -90,7 +89,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
-						<int key="IBUIBorderStyle">3</int>
+						<int key="IBUIBorderStyle">2</int>
 						<string key="IBUIPlaceholder">Tell us a little about the drop</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
@@ -113,10 +112,10 @@
 					<object class="IBUIButton" id="530456530">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{18, 71}, {87, 37}}</string>
+						<string key="NSFrame">{{197, 20}, {111, 27}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="552929374"/>
+						<reference key="NSNextKeyView" ref="37738817"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -126,7 +125,6 @@
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Cancel</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="493692851">
 							<int key="NSColorSpace">3</int>
@@ -144,7 +142,7 @@
 					<object class="IBUIButton" id="37738817">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{113, 71}, {187, 37}}</string>
+						<string key="NSFrame">{{316, 20}, {164, 28}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="311796555"/>
@@ -153,7 +151,6 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<reference key="IBUIFont" ref="75667932"/>
-						<int key="IBUIButtonType">1</int>
 						<string key="IBUIDisabledTitle">Log in</string>
 						<string key="IBUINormalTitle">Log in</string>
 						<reference key="IBUIHighlightedTitleColor" ref="493692851"/>
@@ -167,74 +164,20 @@
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="128799527"/>
 					</object>
-					<object class="IBUILabel" id="366451921">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{45, 20}, {228, 43}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="530456530"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">7</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">SCORE</string>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">HelveticaNeue-CondensedBold</string>
-							<double key="NSSize">24</double>
-							<int key="NSfFlags">16</int>
-						</object>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAxIDEAA</bytes>
-							<object class="NSColorSpace" key="NSCustomColorSpace" id="182045205">
-								<int key="NSID">1</int>
-							</object>
-						</object>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
-						<int key="IBUITextAlignment">1</int>
-					</object>
-					<object class="IBUILabel" id="552929374">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{45, 71}, {228, 24}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="37738817"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">7</int>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">saying</string>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">HelveticaNeue-CondensedBold</string>
-							<double key="NSSize">14</double>
-							<int key="NSfFlags">16</int>
-						</object>
-						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAxIDEAA</bytes>
-							<reference key="NSCustomColorSpace" ref="182045205"/>
-						</object>
-						<nil key="IBUIHighlightedColor"/>
-						<int key="IBUIBaselineAdjustment">1</int>
-						<float key="IBUIMinimumFontSize">10</float>
-						<int key="IBUITextAlignment">1</int>
-					</object>
 				</object>
-				<string key="NSFrameSize">{320, 206}</string>
+				<string key="NSFrameSize">{480, 181}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="366451921"/>
+				<reference key="NSNextKeyView" ref="530456530"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MCAwIDAAA</bytes>
+					<bytes key="NSRGB">MCAwIDAgMAA</bytes>
 				</object>
 				<int key="IBUIContentMode">5</int>
+				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+					<int key="IBUIInterfaceOrientation">3</int>
+					<int key="interfaceOrientation">3</int>
+				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 		</object>
@@ -309,22 +252,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">dropscoreLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="366451921"/>
-					</object>
-					<int key="connectionID">28</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">dropscoreSayingLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="552929374"/>
-					</object>
-					<int key="connectionID">29</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">scoreView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="191373211"/>
@@ -346,12 +273,10 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="530456530"/>
 							<reference ref="37738817"/>
+							<reference ref="530456530"/>
 							<reference ref="311796555"/>
 							<reference ref="405698516"/>
-							<reference ref="552929374"/>
-							<reference ref="366451921"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -386,16 +311,6 @@
 						<reference key="object" ref="37738817"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">26</int>
-						<reference key="object" ref="366451921"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">27</int>
-						<reference key="object" ref="552929374"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -409,8 +324,6 @@
 					<string>19.IBPluginDependency</string>
 					<string>20.IBPluginDependency</string>
 					<string>20.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
-					<string>26.IBPluginDependency</string>
-					<string>27.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
 				</object>
@@ -423,8 +336,6 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="3"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -453,12 +364,24 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cancelRecording:</string>
 							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
 							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
 							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -468,14 +391,28 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cancelRecording:</string>
 							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
 							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
 							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
+								<string key="name">cancelRecording:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">cancelSubmit:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">discardCurrentVideo:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -483,7 +420,23 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">playVideo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">prepareToDrop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">showInfo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">startRecording:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">submitCurrentVideo:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -492,57 +445,136 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blackTabLogo</string>
+							<string>blackTabView</string>
+							<string>bottomStripeContainer</string>
+							<string>cancelDropButton</string>
 							<string>cancelSubmitButton</string>
+							<string>deleteDropButton</string>
+							<string>dropButton</string>
+							<string>dropNowTextContainer</string>
 							<string>dropscoreLabel</string>
 							<string>dropscoreSayingLabel</string>
 							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>leftStripeContainer</string>
 							<string>loginButton</string>
+							<string>playVideoButton</string>
+							<string>recordingFlash</string>
+							<string>retryDropButton</string>
+							<string>rightStripeContainer</string>
+							<string>scoreTextContainer</string>
 							<string>scoreView</string>
-							<string>stripeOverlay</string>
+							<string>submitButton</string>
 							<string>uploadProgressBar</string>
 							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
 							<string>videoStory</string>
 							<string>videoTitle</string>
+							<string>whatButton</string>
+							<string>whiteTabLogo</string>
+							<string>whiteTabView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
+							<string>UIView</string>
+							<string>UIView</string>
 							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIView</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>UIImageView</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UIView</string>
+							<string>UIView</string>
+							<string>UIButton</string>
 							<string>UIProgressView</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UITextField</string>
 							<string>UITextField</string>
+							<string>UIButton</string>
+							<string>UIImageView</string>
+							<string>UIView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blackTabLogo</string>
+							<string>blackTabView</string>
+							<string>bottomStripeContainer</string>
+							<string>cancelDropButton</string>
 							<string>cancelSubmitButton</string>
+							<string>deleteDropButton</string>
+							<string>dropButton</string>
+							<string>dropNowTextContainer</string>
 							<string>dropscoreLabel</string>
 							<string>dropscoreSayingLabel</string>
 							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>leftStripeContainer</string>
 							<string>loginButton</string>
+							<string>playVideoButton</string>
+							<string>recordingFlash</string>
+							<string>retryDropButton</string>
+							<string>rightStripeContainer</string>
+							<string>scoreTextContainer</string>
 							<string>scoreView</string>
-							<string>stripeOverlay</string>
+							<string>submitButton</string>
 							<string>uploadProgressBar</string>
 							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
 							<string>videoStory</string>
 							<string>videoTitle</string>
+							<string>whatButton</string>
+							<string>whiteTabLogo</string>
+							<string>whiteTabView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
+								<string key="name">blackTabLogo</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">blackTabView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">bottomStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">cancelDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">cancelSubmitButton</string>
 								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">deleteDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropNowTextContainer</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">dropscoreLabel</string>
@@ -557,16 +589,44 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">introLoginButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">leftStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">loginButton</string>
 								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">playVideoButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">recordingFlash</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">retryDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">rightStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scoreTextContainer</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">scoreView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">stripeOverlay</string>
-								<string key="candidateClassName">UIImageView</string>
+								<string key="name">submitButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">uploadProgressBar</string>
@@ -587,6 +647,18 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoTitle</string>
 								<string key="candidateClassName">UITextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whatButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whiteTabLogo</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whiteTabView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 						</object>
 					</object>

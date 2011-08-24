@@ -101,15 +101,15 @@
 		A6C0BC841403327A0005845F /* Submit_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC801403327A0005845F /* Submit_button_HL@2x.png */; };
 		A6C0BC851403327A0005845F /* Submit_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC811403327A0005845F /* Submit_button.png */; };
 		A6C0BC861403327A0005845F /* Submit_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC821403327A0005845F /* Submit_button@2x.png */; };
-		A6C0BC8B140338760005845F /* Play_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC87140338750005845F /* Play_button_HL.png */; };
-		A6C0BC8C140338760005845F /* Play_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC88140338750005845F /* Play_button_HL@2x.png */; };
-		A6C0BC8D140338760005845F /* Play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC89140338750005845F /* Play_button.png */; };
-		A6C0BC8E140338760005845F /* Play_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC8A140338760005845F /* Play_button@2x.png */; };
 		A6C0BC9114033C5E0005845F /* Logo_black.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC8F14033C5D0005845F /* Logo_black.png */; };
 		A6C0BC9214033C5E0005845F /* Logo_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC9014033C5E0005845F /* Logo_black@2x.png */; };
 		A6C0BC9E14033DD00005845F /* recording_flash_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC9814033DD00005845F /* recording_flash_HL@2x.png */; };
 		A6C0BCA114034E6B0005845F /* recording_flash.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC9F14034E6A0005845F /* recording_flash.png */; };
 		A6C0BCA214034E6B0005845F /* recording_flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BCA014034E6A0005845F /* recording_flash@2x.png */; };
+		A6C0BCA3140487A80005845F /* Play_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC87140338750005845F /* Play_button_HL.png */; };
+		A6C0BCA4140487A80005845F /* Play_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC88140338750005845F /* Play_button_HL@2x.png */; };
+		A6C0BCA5140487A80005845F /* Play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC89140338750005845F /* Play_button.png */; };
+		A6C0BCA6140487A80005845F /* Play_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC8A140338760005845F /* Play_button@2x.png */; };
 		A6C27E6F13FC26990001999F /* FFFlipsideHighscoresController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E6D13FC26990001999F /* FFFlipsideHighscoresController.m */; };
 		A6C27E7413FC26DD0001999F /* FFFlipsideInstructionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7213FC26DD0001999F /* FFFlipsideInstructionsController.m */; };
 		A6C27E7913FC27430001999F /* FFFlipsideMyDropsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E7713FC27430001999F /* FFFlipsideMyDropsController.m */; };
@@ -1327,6 +1327,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C0BCA3140487A80005845F /* Play_button_HL.png in Resources */,
+				A6C0BCA4140487A80005845F /* Play_button_HL@2x.png in Resources */,
+				A6C0BCA5140487A80005845F /* Play_button.png in Resources */,
+				A6C0BCA6140487A80005845F /* Play_button@2x.png in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* AVCamViewController.xib in Resources */,
 				E96FB2131316DF8C006ADCE0 /* Localizable.strings in Resources */,
@@ -1398,10 +1402,6 @@
 				A6C0BC841403327A0005845F /* Submit_button_HL@2x.png in Resources */,
 				A6C0BC851403327A0005845F /* Submit_button.png in Resources */,
 				A6C0BC861403327A0005845F /* Submit_button@2x.png in Resources */,
-				A6C0BC8B140338760005845F /* Play_button_HL.png in Resources */,
-				A6C0BC8C140338760005845F /* Play_button_HL@2x.png in Resources */,
-				A6C0BC8D140338760005845F /* Play_button.png in Resources */,
-				A6C0BC8E140338760005845F /* Play_button@2x.png in Resources */,
 				A6C0BC9114033C5E0005845F /* Logo_black.png in Resources */,
 				A6C0BC9214033C5E0005845F /* Logo_black@2x.png in Resources */,
 				A6C0BC9E14033DD00005845F /* recording_flash_HL@2x.png in Resources */,
