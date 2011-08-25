@@ -837,6 +837,7 @@
 //JG NOTE THIS IS NO LONGER USED
 - (void) overlayComplete:(NSURL*)assetURL
 {
+    /*
     NSLog(@"overlay complete!! %@", assetURL);
 
     [widgetOverlayLayer stopDrawingExport];
@@ -863,7 +864,7 @@
     
     [self animateScoreViewOn];    
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
-
+    */
 
 }
 
@@ -933,6 +934,7 @@
                                              bottomStripeContainer.frame.size.width, screenBounds.size.height-targetY);
 }
      
+/*
 - (void) resizeWhiteTabToFrame:(CGRect)targetFrame
 {
     whiteTabCachedRect = whiteTabView.frame;
@@ -947,13 +949,15 @@
     
     rightStripeContainer.frame = CGRectMake(targetFrame.origin.x+targetFrame.size.width, 0, 
                                             screenBounds.size.width-targetFrame.origin.x+targetFrame.size.width, screenBounds.size.height);
-    
 }
+*/
 
+/*
 - (void) revertWhiteTab
 {
     [self resizeWhiteTabToFrame:whiteTabCachedRect];
 }
+*/
 
 - (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding
 {
@@ -1121,13 +1125,12 @@
                 
                 break;
 //            case kFFStateFinishedDropProcessing:
-//                    
 //                break;
             case kFFStateFinishedDropVideoPlaybackFirstLoop:
                 
                 break;
             case kFFStateFinishedDropScoreView:
-                if(fromState == kFFStateFinishedDropVideoPlaybackFirstLoop){
+                if(self.scoreView == nil){
                     [self populateScoreView];
                 }
                 else if(self.scoreView != nil){
@@ -1136,18 +1139,14 @@
                 }
                 [UIView animateWithDuration:.25
                                  animations: ^{
+                                     [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
                                      [self showStripeOverlay];
                                      self.scoreTextContainer.alpha = 1.0;
-                                     
                                      [self revealElementFromLeft:self.submitButton];
                                      [self revealElementFromLeft:self.playVideoButton];
                                      [self revealElementFromRight:self.deleteDropButton];
                                      if(self.scoreView != nil){
                                          [self hideElementToTop:self.scoreView withRoom:0];
-                                         [self revertWhiteTab];
-                                     }
-                                     else{
-                                         [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
                                      }
                                  }
                                  completion:^(BOOL finished){ 
@@ -1161,11 +1160,12 @@
                 [self transitionScoreViewToSubmitMode];
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     [self resizeWhiteTabToFrame:CGRectMake(0, 0, screenBounds.size.width, self.scoreView.frame.size.height)];
+                                     [self moveWhiteTabToY:0];
                                      [self hideElementOffscreenLeft:self.submitButton];
                                      [self hideElementOffscreenLeft:self.playVideoButton];
                                      [self hideElementOffscreenRight:self.deleteDropButton];
-                                     self.scoreTextContainer.frame = CGRectMake(0, 0, self.scoreTextContainer.frame.size.width, self.scoreTextContainer.frame.size.height);
+                                     [self revealElementFromTop:self.scoreView toPosition:0];
+                                     //self.scoreTextContainer.frame = CGRectMake(0, 0, self.scoreTextContainer.frame.size.width, self.scoreTextContainer.frame.size.height);
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1257,6 +1257,7 @@
     }    
     [self.videoTitle becomeFirstResponder];
     
+    [self hideElementToTop:self.scoreView withRoom:0];
  
     self.whiteTabLogo.alpha = 0.0;
 }
