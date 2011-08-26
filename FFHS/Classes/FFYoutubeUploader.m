@@ -292,7 +292,8 @@
     [mediaGroup addMediaCategory:devTagDevice];
     
     // GMail account
-    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:[self accountName]];
+    NSString *devTagAccountNameString = [NSString stringWithFormat:@"u:%@", [self accountName]];
+    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:devTagAccountNameString];
     [devTagAccountName setScheme:devTagSchemeUrl];
     [mediaGroup addMediaCategory:devTagAccountName];
     
