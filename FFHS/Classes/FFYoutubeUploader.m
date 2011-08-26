@@ -291,6 +291,10 @@
     [devTagDevice setScheme:devTagSchemeUrl];
     [mediaGroup addMediaCategory:devTagDevice];
     
+    // GMail account
+    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:[self accountName]];
+    [devTagAccountName setScheme:devTagSchemeUrl];
+    [mediaGroup addMediaCategory:devTagAccountName];
     
     // UI Updates
 //    [uploadProgressView setHidden:NO];
