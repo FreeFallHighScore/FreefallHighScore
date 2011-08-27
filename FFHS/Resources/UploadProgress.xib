@@ -45,7 +45,7 @@
 					<object class="IBUIProgressView" id="794858269">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 66}, {280, 11}}</string>
+						<string key="NSFrame">{{20, 66}, {440, 11}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -55,7 +55,7 @@
 						<int key="IBUIProgressViewStyle">1</int>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 142}</string>
+				<string key="NSFrameSize">{480, 142}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="794858269"/>
@@ -170,12 +170,24 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cancelRecording:</string>
 							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
 							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
 							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -185,14 +197,28 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cancelRecording:</string>
 							<string>cancelSubmit:</string>
+							<string>discardCurrentVideo:</string>
 							<string>login:</string>
+							<string>playVideo:</string>
+							<string>prepareToDrop:</string>
 							<string>showInfo:</string>
+							<string>startRecording:</string>
+							<string>submitCurrentVideo:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
+								<string key="name">cancelRecording:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">cancelSubmit:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">discardCurrentVideo:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -200,7 +226,23 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">playVideo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">prepareToDrop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">showInfo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">startRecording:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">submitCurrentVideo:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -209,18 +251,59 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blackTabLogo</string>
+							<string>blackTabView</string>
+							<string>bottomStripeContainer</string>
+							<string>cancelDropButton</string>
 							<string>cancelSubmitButton</string>
+							<string>deleteDropButton</string>
+							<string>dropButton</string>
+							<string>dropNowTextContainer</string>
+							<string>dropscoreSayingLabel</string>
+							<string>dropscoreScoreViewLabel</string>
+							<string>dropscoreSubmitViewLabel</string>
+							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>submitView</string>
+							<string>playVideoButton</string>
+							<string>recordingFlash</string>
+							<string>retryDropButton</string>
+							<string>rightStripeContainer</string>
+							<string>scoreTextContainer</string>
+							<string>submitButton</string>
+							<string>submitScoreView</string>
 							<string>uploadProgressBar</string>
 							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
 							<string>videoStory</string>
 							<string>videoTitle</string>
+							<string>whatButton</string>
+							<string>whiteTabLogo</string>
+							<string>whiteTabView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
+							<string>UIView</string>
+							<string>UIView</string>
 							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIImageView</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UIView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIProgressView</string>
@@ -228,33 +311,134 @@
 							<string>UIView</string>
 							<string>UITextField</string>
 							<string>UITextField</string>
+							<string>UIButton</string>
+							<string>UIImageView</string>
+							<string>UIView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blackTabLogo</string>
+							<string>blackTabView</string>
+							<string>bottomStripeContainer</string>
+							<string>cancelDropButton</string>
 							<string>cancelSubmitButton</string>
+							<string>deleteDropButton</string>
+							<string>dropButton</string>
+							<string>dropNowTextContainer</string>
+							<string>dropscoreSayingLabel</string>
+							<string>dropscoreScoreViewLabel</string>
+							<string>dropscoreSubmitViewLabel</string>
+							<string>infoButton</string>
+							<string>introLoginButton</string>
+							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>submitView</string>
+							<string>playVideoButton</string>
+							<string>recordingFlash</string>
+							<string>retryDropButton</string>
+							<string>rightStripeContainer</string>
+							<string>scoreTextContainer</string>
+							<string>submitButton</string>
+							<string>submitScoreView</string>
 							<string>uploadProgressBar</string>
 							<string>uploadProgressView</string>
 							<string>videoPreviewView</string>
 							<string>videoStory</string>
 							<string>videoTitle</string>
+							<string>whatButton</string>
+							<string>whiteTabLogo</string>
+							<string>whiteTabView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
+								<string key="name">blackTabLogo</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">blackTabView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">bottomStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">cancelDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">cancelSubmitButton</string>
 								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">deleteDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropNowTextContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropscoreSayingLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropscoreScoreViewLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dropscoreSubmitViewLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">introLoginButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">leftStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">loginButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">submitView</string>
+								<string key="name">playVideoButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">recordingFlash</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">retryDropButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">rightStripeContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scoreTextContainer</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">submitButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">submitScoreView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -276,6 +460,18 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">videoTitle</string>
 								<string key="candidateClassName">UITextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whatButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whiteTabLogo</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">whiteTabView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 						</object>
 					</object>

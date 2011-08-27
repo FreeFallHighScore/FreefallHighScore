@@ -80,7 +80,7 @@
 - (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos;
 - (void) revealElementFromBottom:(UIView*)element;
 
-//- (void) moveWhiteTabToY:(CGFloat)targetY;
+- (void) moveWhiteTabToY:(CGFloat)targetY;
 //- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
 //- (void) revertWhiteTab;
 - (NSString*) scoreText;
@@ -528,30 +528,35 @@
         
         //check if we are freefall
         if(state != kFFStateInFreeFall){
-            if(accelMagnitude < .2 && framesInFreefall++ > 10){
-                self.freefallStartTime = [NSDate date];
-                
-                //Force recording if we arent already
-                if(![self isRecording]){
-                    [self startRecording:nil];
+            if(accelMagnitude < .3){
+                if(framesInFreefall++ > 10){
+                    self.freefallStartTime = [NSDate date];
+                    
+                    //Force recording if we arent already
+                    if(![self isRecording]){
+                        [self startRecording:nil];
+                    }
+                    
+                    [widgetOverlayLayer removeDropTimer];                
+                    [self changeState: kFFStateInFreeFall];
+                    framesOutOfFreefall = 0;
                 }
-                
-                [widgetOverlayLayer removeDropTimer];                
-                [self changeState: kFFStateInFreeFall];
-                framesOutOfFreefall = 0;
             }
             else{
-//                framesInFreefall = 0;
+                framesInFreefall = 0;
             }
+
         }
         else if(state == kFFStateInFreeFall){
-            if(accelMagnitude >= .2 && framesOutOfFreefall++ > 10){
-	            [self changeState:kFFStateFinishedDropPostroll];
-                self.freefallEndTime = [NSDate date];
-                [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
+            if(accelMagnitude >= .3){
+                if(framesOutOfFreefall++ > 10){
+                    [self changeState:kFFStateFinishedDropPostroll];
+                    self.freefallEndTime = [NSDate date];
+                    [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
+                }
             }
             else{
-                //framesOutOfFreefall = 0;
+                framesOutOfFreefall = 0;
             }
         }
     }
@@ -675,8 +680,6 @@
 {
     [self.submitScoreView removeFromSuperview];
     self.submitScoreView = nil;
-//    showingScoreView = false;
-//    [self updateViewState];
 }
 
 - (void) removeUploadProgressView
@@ -1189,8 +1192,19 @@
 
                 break;
             case kFFStateFinishedDropUploadComplete:
-//                [self showButton:self.dropAgainButton];
-//                break;
+                self.dropscoreScoreViewLabel.text = @"SUCCESS!";
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self hideElementToBottom:self.uploadProgressView withRoom:0];
+                                     [self hideElementToTop:self.submitScoreView withRoom:0];
+                                     [self revealElementFromBottom:self.retryDropButton];
+                                     [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     [self removeSubmitView];
+                                     [self removeUploadProgressView];
+                                 }];
+                break;
             default:
                 break;
         }    
@@ -1299,40 +1313,6 @@
     }
     self.uploadProgressBar.progress = 0;
 }
-
-- (void) transitionScoreViewToScoreMode
-{
-
-    //TODO: configure animation
-//    [UIView animateWithDuration:1.0
-//                          delay:0
-//                        options: UIViewAnimationCurveEaseOut
-//                     animations:^{ self.scoreView.frame = scoreRectWithSubmitControls; }
-//                     completion:^( BOOL finished){ }];
-
-    
-    [self changeState:kFFStateFinishedDropScoreView];
-    
-}
-
-//- (void) animateScoreViewOff
-//{
-//    
-//}
-
-//- (void)hideLabels
-//{
-//    [self hideLabel:self.dropscoreLabelTop];
-//    [self hideLabel:self.dropscoreLabelBottom];
-//    [self hideLabel:self.dropscoreLabelTime];
-//}
-//
-//- (void)showLabels 
-//{ 
-//    [self showLabel:self.dropscoreLabelTop];
-//    [self showLabel:self.dropscoreLabelBottom];
-//    [self showLabel:self.dropscoreLabelTime];
-//}
 
 - (void) hideStripeOverlay
 {
@@ -1543,10 +1523,7 @@
 - (void) uploadCompleted
 {
     if(state == kFFStateFinishedDropUploading){
-        [self removeSubmitView];
-        [self removeUploadProgressView];
         [self changeState:kFFStateFinishedDropUploadComplete];
-        [self discardCurrentVideo:self];
     }
     else {
         ShowAlert(@"State Error", [NSString stringWithFormat:@"Finished uploading with an invalid state %@", [self stateDescription] ]);
