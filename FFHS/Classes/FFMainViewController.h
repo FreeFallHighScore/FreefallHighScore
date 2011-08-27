@@ -148,7 +148,8 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIImageView* blackTabLogo;
 @property (nonatomic,assign) IBOutlet UIImageView* whiteTabLogo;
 
-@property (nonatomic,assign) IBOutlet UILabel* dropscoreLabel;
+@property (nonatomic,assign) IBOutlet UILabel* dropscoreScoreViewLabel;
+@property (nonatomic,assign) IBOutlet UILabel* dropscoreSubmitViewLabel;
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreSayingLabel;
 
 //accel related stuff
@@ -172,7 +173,7 @@ typedef enum {
 //uploading stuff
 @property (nonatomic,retain) FFYoutubeUploader* uploader;
 
-@property (nonatomic,assign) IBOutlet UIView* scoreView;
+@property (nonatomic,assign) IBOutlet UIView* submitScoreView;
 @property (nonatomic,assign) IBOutlet UITextField* videoTitle;
 @property (nonatomic,assign) IBOutlet UITextField* videoStory;
 @property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;

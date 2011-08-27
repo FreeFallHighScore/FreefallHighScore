@@ -68,31 +68,26 @@
 - (void) setupFirstView;
 - (void)updateViewFromState:(FFGameState)fromState toState:(FFGameState)toState;
 
-//- (void)hideButton:(UIButton *)button;
-//- (void)showButton:(UIButton *)button;
-//- (void)hideLabel:(UILabel *)label;
-
-
-//- (void)showLabel:(UILabel *)label;
-
 - (void)hideStripeOverlay;
 - (void)showStripeOverlay;
 
 - (void) hideElementOffscreenLeft:(UIView*)element;
 - (void) hideElementOffscreenRight:(UIView*)element;
 - (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding;
+- (void) hideElementToBottom:(UIView*)element withRoom:(CGFloat)padding;
 - (void) revealElementFromLeft:(UIView*)element;
 - (void) revealElementFromRight:(UIView*)element;
 - (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos;
+- (void) revealElementFromBottom:(UIView*)element;
 
-- (void) moveWhiteTabToY:(CGFloat)targetY;
-- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
-- (void) revertWhiteTab;
-- (void) populateScoreView;
+//- (void) moveWhiteTabToY:(CGFloat)targetY;
+//- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
+//- (void) revertWhiteTab;
+- (NSString*) scoreText;
+- (NSString*) scoreSayingTextLine1;
+- (NSString*) scoreSayingTextLine2;
+
 - (void) transitionScoreViewToSubmitMode;
-//- (void) transitionScoreViewToScoreMode;
-//- (void) transitionScoreViewToUploading;
-//- (void) transitionScoreViewToUploadComplete;
 
 - (void)changeState:(FFGameState)newState;
 - (NSString*) stateDescription; 
@@ -150,7 +145,8 @@
 @synthesize blackTabLogo;
 @synthesize whiteTabLogo;
 
-@synthesize dropscoreLabel;
+@synthesize dropscoreScoreViewLabel;
+@synthesize dropscoreSubmitViewLabel;
 @synthesize dropscoreSayingLabel;
 
 @synthesize trackLoc;
@@ -160,7 +156,7 @@
 @synthesize recordStartTime;
 @synthesize uploader;
 @synthesize currentDropAssetURL;
-@synthesize scoreView;
+@synthesize submitScoreView;
 @synthesize videoTitle;
 @synthesize videoStory;
 @synthesize cancelSubmitButton;
@@ -600,19 +596,6 @@
 }
  
 
-- (void) showUploadProgress
-{
-    if (self.uploadProgressView == nil) {
-        //TODO animate
-        [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
-        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-        CGSize progressViewSize = self.uploadProgressView.frame.size;
-        CGSize videoViewSize = self.videoPreviewView.frame.size;
-        CGRect newFrame = CGRectMake(0, videoViewSize.height-progressViewSize.height, progressViewSize.width, progressViewSize.height);
-        self.uploadProgressView.frame = newFrame;
-    }
-    self.uploadProgressBar.progress = 0;
-}
 
 - (void) textFieldShouldReturn:(UITextField*)field
 {
@@ -646,23 +629,15 @@
     
     NSLog(@"Starting upload with URL %@", self.currentDropAssetURL);
 
+
+    [self changeState:kFFStateFinishedDropUploading];
+    
     self.uploader.location = trackLoc.location;
     self.uploader.fallDuration = freefallDuration; 
     self.uploader.videoTitle = self.videoTitle.text;
     self.uploader.videoDescription = self.videoStory.text;
-
-    //show progress bar view...
-    [self showUploadProgress];
-
     [self.uploader startUploadWithURL:self.currentDropAssetURL];
-    
-    [self.videoTitle resignFirstResponder];
-    [self.videoStory resignFirstResponder];
-    
-    self.loginButton.enabled = NO;
-    self.videoTitle.enabled = NO;
-    self.videoStory.enabled = NO;
-    
+
 }
 
 - (IBAction)login:(id)sender
@@ -698,8 +673,8 @@
 
 - (void) removeSubmitView
 {
-    [self.scoreView removeFromSuperview];
-    self.scoreView = nil;
+    [self.submitScoreView removeFromSuperview];
+    self.submitScoreView = nil;
 //    showingScoreView = false;
 //    [self updateViewState];
 }
@@ -870,8 +845,8 @@
 
 - (void) overlayCopyComplete:(NSURL*)assetURL
 {
-    self.currentDropAssetURL = assetURL;   
-    libraryAssetURLReceived = YES;
+//    self.currentDropAssetURL = assetURL;   
+//    libraryAssetURLReceived = YES;
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification
@@ -965,10 +940,22 @@
                                element.frame.size.width, element.frame.size.height);
 }
 
+- (void) hideElementToBottom:(UIView*)element withRoom:(CGFloat)padding
+{
+    element.frame = CGRectMake(element.frame.origin.x, screenBounds.size.height - padding,
+                               element.frame.size.width, element.frame.size.height);
+}
+
 - (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos
 {
     element.frame = CGRectMake(element.frame.origin.x, yPos,
                                element.frame.size.width, element.frame.size.height);
+}
+
+- (void) revealElementFromBottom:(UIView*)element
+{
+    element.frame = CGRectMake(element.frame.origin.x, screenBounds.size.height - element.frame.size.height,
+                               element.frame.size.width, element.frame.size.height);    
 }
 
 - (void) revealElementFromLeft:(UIView*)element
@@ -1130,10 +1117,9 @@
                 
                 break;
             case kFFStateFinishedDropScoreView:
-                if(self.scoreView == nil){
-                    [self populateScoreView];
-                }
-                else if(self.scoreView != nil){
+                self.dropscoreScoreViewLabel.text = [self scoreText];
+                //TODO populate comment text
+                if(self.submitScoreView != nil){
                     [self.videoTitle resignFirstResponder];
                     [self.videoStory resignFirstResponder];
                 }
@@ -1145,8 +1131,8 @@
                                      [self revealElementFromLeft:self.submitButton];
                                      [self revealElementFromLeft:self.playVideoButton];
                                      [self revealElementFromRight:self.deleteDropButton];
-                                     if(self.scoreView != nil){
-                                         [self hideElementToTop:self.scoreView withRoom:0];
+                                     if(self.submitScoreView != nil){
+                                         [self hideElementToTop:self.submitScoreView withRoom:0];
                                      }
                                  }
                                  completion:^(BOOL finished){ 
@@ -1157,15 +1143,25 @@
             case kFFStateFinishedDropVideoPlayback:
                 break;
             case kFFStateFinishedDropSubmitView:
-                [self transitionScoreViewToSubmitMode];
+                if(fromState == kFFStateFinishedDropScoreView){
+                    [self transitionScoreViewToSubmitMode];
+                }
+                if(fromState == kFFStateFinishedDropUploading){
+                    self.loginButton.enabled = YES;
+                    self.videoTitle.enabled = YES;
+                    self.videoStory.enabled = YES;
+                }                
+                [self.videoTitle becomeFirstResponder];
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self moveWhiteTabToY:0];
                                      [self hideElementOffscreenLeft:self.submitButton];
                                      [self hideElementOffscreenLeft:self.playVideoButton];
                                      [self hideElementOffscreenRight:self.deleteDropButton];
-                                     [self revealElementFromTop:self.scoreView toPosition:0];
-                                     //self.scoreTextContainer.frame = CGRectMake(0, 0, self.scoreTextContainer.frame.size.width, self.scoreTextContainer.frame.size.height);
+                                     [self revealElementFromTop:self.submitScoreView toPosition:0];
+                                     if(self.uploadProgressView != nil){
+                                         [self hideElementToBottom:self.uploadProgressView withRoom:0];
+                                     }
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1173,9 +1169,24 @@
                  
                 break;
             case kFFStateFinishedDropUploading:
-//                [self hideButton:self.submitButton];
-//                [self hideButton:self.dropAgainButton];
-//                [self hideButton:self.playVideoButton];
+                //show progress bar view...
+                [self showUploadProgress];
+                
+                [self.videoTitle resignFirstResponder];
+                [self.videoStory resignFirstResponder];
+                
+                self.loginButton.enabled = NO;
+                self.videoTitle.enabled = NO;
+                self.videoStory.enabled = NO;
+                
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self revealElementFromBottom:self.uploadProgressView];                                     
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
+
                 break;
             case kFFStateFinishedDropUploadComplete:
 //                [self showButton:self.dropAgainButton];
@@ -1187,13 +1198,25 @@
 }
 
 
-- (void) populateScoreView
+- (NSString*) scoreText
 {
-    self.dropscoreLabel.text = [NSString stringWithFormat:@"SCORE: %.03fs", freefallDuration];   
-    self.dropscoreSayingLabel.text = @"That's it?";
-    self.dropscoreSayingLabel.hidden = NO;
-    self.dropscoreSayingLabel.alpha = 1.0;    
+    return [NSString stringWithFormat:@"%.03fs", freefallDuration];
 }
+
+- (NSString*) scoreSayingTextLine1
+{
+    return @"";
+}
+
+- (NSString*) scoreSayingTextLine2
+{
+    return @"";    
+}
+
+//- (void) populateScoreView:(UILabel*)scoreView
+//{
+//    self.dropscoreScoreViewLabel.text = [NSString stringWithFormat:@"SCORE: %.03fs", freefallDuration];   
+//}
 
 /*
 - (void) animateScoreViewOn
@@ -1237,10 +1260,11 @@
 - (void) transitionScoreViewToSubmitMode
 {
     
-    if (self.scoreView == nil) {
+    if (self.submitScoreView == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];   
-        [self.videoPreviewView insertSubview:self.scoreView 
+        [self.videoPreviewView insertSubview:self.submitScoreView 
                                 aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+        self.dropscoreSubmitViewLabel.text = [self scoreText];
     }
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
@@ -1255,11 +1279,25 @@
         [self.loginButton setTitle:@"Log in"
                           forState:UIControlStateNormal];
     }    
-    [self.videoTitle becomeFirstResponder];
     
-    [self hideElementToTop:self.scoreView withRoom:0];
+    [self hideElementToTop:self.submitScoreView withRoom:0];
  
     self.whiteTabLogo.alpha = 0.0;
+}
+
+- (void) showUploadProgress
+{
+    if (self.uploadProgressView == nil) {
+        //TODO animate
+        [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
+        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+        CGSize progressViewSize = self.uploadProgressView.frame.size;
+        CGSize videoViewSize = self.videoPreviewView.frame.size;
+        CGRect newFrame = CGRectMake(0, videoViewSize.height-progressViewSize.height, progressViewSize.width, progressViewSize.height);
+        self.uploadProgressView.frame = newFrame;
+        [self hideElementToBottom:self.uploadProgressView withRoom:0];
+    }
+    self.uploadProgressBar.progress = 0;
 }
 
 - (void) transitionScoreViewToScoreMode
@@ -1301,7 +1339,6 @@
      leftStripeContainer.alpha = 0.0f;
      bottomStripeContainer.alpha = 0.0f;
      rightStripeContainer.alpha = 0.0f;
-    
 }
 
 - (void) showStripeOverlay
@@ -1411,6 +1448,7 @@
    */
     
     //tell the phone to save the asset
+    libraryAssetURLReceived = NO;
     
     self.player = [AVPlayer playerWithURL:temporaryURL];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
@@ -1443,6 +1481,8 @@
 - (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
     //unused, we never save the items directly from the camera to the asset library.
+    self.currentDropAssetURL = assetURL;
+    libraryAssetURLReceived = YES;
     NSLog(@"video saved to assets!!");
 }
 
