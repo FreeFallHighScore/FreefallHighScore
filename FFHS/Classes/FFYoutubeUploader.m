@@ -291,6 +291,11 @@
     [devTagDevice setScheme:devTagSchemeUrl];
     [mediaGroup addMediaCategory:devTagDevice];
     
+    // GMail account
+    NSString *devTagAccountNameString = [NSString stringWithFormat:@"u:%@", [self accountName]];
+    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:devTagAccountNameString];
+    [devTagAccountName setScheme:devTagSchemeUrl];
+    [mediaGroup addMediaCategory:devTagAccountName];
     
     // UI Updates
 //    [uploadProgressView setHidden:NO];
