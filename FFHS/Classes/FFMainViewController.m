@@ -528,8 +528,8 @@
         
         //check if we are freefall
         if(state != kFFStateInFreeFall){
-            if(accelMagnitude < .3){
-                if(framesInFreefall++ > 10){
+            if(accelMagnitude < .2){
+                if(framesInFreefall++ > 5){
                     self.freefallStartTime = [NSDate date];
                     
                     //Force recording if we arent already
@@ -548,8 +548,8 @@
 
         }
         else if(state == kFFStateInFreeFall){
-            if(accelMagnitude >= .3){
-                if(framesOutOfFreefall++ > 10){
+            if(accelMagnitude >= .8){
+                if(framesOutOfFreefall++ > 5){
                     [self changeState:kFFStateFinishedDropPostroll];
                     self.freefallEndTime = [NSDate date];
                     [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
@@ -592,6 +592,7 @@
 - (IBAction) playVideo:(id)sender
 {
     if(state == kFFStateFinishedDropScoreView){
+        [self.player seekToTime:kCMTimeZero];
         [self.player play];
         [self changeState:kFFStateFinishedDropVideoPlayback];
     }
@@ -712,14 +713,16 @@
             [[[self captureManager] session] startRunning];
         });
         
-//        didFall = NO;
         freefallDuration = 0;
         
         [self changeState:kFFStateReadyToDrop];
         
-        //TODO delete assets from library
+        //TODO: delete assets from library
+        
     }
-    
+ 	else{
+    	ShowAlert(@"State Error", [NSString stringWithFormat:@"trying to discard video from an invalid state %@", [self stateDescription] ]);
+    }
 }
 
 - (IBAction) prepareToDrop:(id)sender
@@ -780,9 +783,9 @@
 - (BOOL) hasDropVideo
 {
     return  state == kFFStateFinishedDropVideoPlayback ||
-            state == kFFStateFinishedDropScoreView ||
+            state == kFFStateFinishedDropScoreView  ||
             state == kFFStateFinishedDropSubmitView ||
-            state == kFFStateFinishedDropUploading ||
+            state == kFFStateFinishedDropUploading  ||
             state == kFFStateFinishedDropUploadComplete;
 }
 
@@ -855,14 +858,14 @@
 - (void)playerItemDidReachEnd:(NSNotification *)notification
 {
     //LOOP
-    if(state == kFFStateFinishedDropVideoPlaybackFirstLoop){
-        [self changeState:kFFStateFinishedDropScoreView];
-    }
-    else {
-        AVPlayerItem *p = [notification object];
-        [p seekToTime:kCMTimeZero];
-        timesLooped++;
-    }    
+//    if(state == kFFStateFinishedDropVideoPlaybackFirstLoop){
+    [self changeState:kFFStateFinishedDropScoreView];
+//    }
+//    else {
+//        AVPlayerItem *p = [notification object];
+//        [p seekToTime:kCMTimeZero];
+//        timesLooped++;
+//    }    
 }
 
 @end
@@ -875,6 +878,9 @@
     //TODO: play intro animation
     state = kFFStateJustOpened;
     
+    whiteTabBaseRect = self.whiteTabView.frame;
+    dropBaseRect = self.dropButton.frame;
+
     //hide all the buttons off screen
     [self hideElementOffscreenLeft:self.introLoginButton];
     [self hideElementOffscreenLeft:self.dropButton];
@@ -888,8 +894,6 @@
     [self hideElementOffscreenRight:self.deleteDropButton]; 
     [self hideElementOffscreenRight:self.retryDropButton];    
     
-    whiteTabBaseRect = self.whiteTabView.frame;
-    dropBaseRect = self.dropButton.frame;
     
     [self moveWhiteTabToY:0];
     
@@ -995,6 +999,9 @@
 
         switch (toState) {
             case kFFStateReadyToDrop:
+                self.dropButton.alpha = 1.0;
+                dropButton.frame = dropBaseRect;
+                [self hideElementOffscreenLeft:self.dropButton];
                 [UIView animateWithDuration:.5
                                  animations: ^{
                                      BOOL showRightPanel = NO;
@@ -1010,8 +1017,19 @@
                                          [self revealElementFromRight:self.blackTabView];
                                      }
                                      
+                                     self.whiteTabLogo.alpha = 1.0;
+                                     self.scoreTextContainer.alpha = 0.0;
                                      [self moveWhiteTabToY:whiteTabBaseRect.size.height];
                                      [self revealElementFromLeft:self.dropButton];
+                                     
+                                     if(fromState == kFFStateFinishedDropScoreView){
+                                         [self hideElementOffscreenLeft:self.submitButton];
+                                         [self hideElementOffscreenLeft:self.playVideoButton];
+                                         [self hideElementOffscreenRight:self.deleteDropButton];
+                                     }
+                                     else if(fromState == kFFStateFinishedDropUploadComplete){
+                                         [self hideElementOffscreenRight:self.retryDropButton];
+                                     }
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1023,10 +1041,11 @@
                                  animations: ^{
                                      BOOL showRightPanel = NO;
                                      if(firstLoad || !self.uploader.loggedIn){
-                                         [self hideElementOffscreenLeft:self.introLoginButton];
+                                    	[self hideElementOffscreenLeft:self.introLoginButton];
+                                        showRightPanel = YES;
                                      }
                                      if(firstLoad){
-                                         [self hideElementOffscreenLeft:self.whatButton];
+                                    	 [self hideElementOffscreenLeft:self.whatButton];
                                          showRightPanel = YES;
                                      }
                                      if(showRightPanel){
@@ -1041,6 +1060,7 @@
                                      self.dropNowTextContainer.alpha = 1.0;
                                  }
                                  completion:^(BOOL finished){ 
+                                     
                                      //TODO: start flasher loops
                                  }];
                 
@@ -1144,6 +1164,18 @@
                 
                 break;                
             case kFFStateFinishedDropVideoPlayback:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self moveWhiteTabToY:0];
+                                     [self hideStripeOverlay];
+                                     [self hideElementOffscreenLeft:self.submitButton];
+                                     [self hideElementOffscreenLeft:self.playVideoButton];
+                                     [self hideElementOffscreenRight:self.deleteDropButton];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
+                
                 break;
             case kFFStateFinishedDropSubmitView:
                 if(fromState == kFFStateFinishedDropScoreView){
@@ -1193,12 +1225,15 @@
                 break;
             case kFFStateFinishedDropUploadComplete:
                 self.dropscoreScoreViewLabel.text = @"SUCCESS!";
+                [self.retryDropButton setTitle:@"Try Again" forState:UIControlStateNormal];
+                [self.retryDropButton setTitle:@"Try Again" forState:UIControlStateHighlighted];
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self hideElementToBottom:self.uploadProgressView withRoom:0];
                                      [self hideElementToTop:self.submitScoreView withRoom:0];
-                                     [self revealElementFromBottom:self.retryDropButton];
+                                     [self revealElementFromRight:self.retryDropButton];
                                      [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                                     self.infoButton.alpha = 1.;
                                  }
                                  completion:^(BOOL finished){ 
                                      [self removeSubmitView];
