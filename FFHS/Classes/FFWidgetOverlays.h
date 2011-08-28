@@ -31,6 +31,6 @@
 - (void) redrawLoop;
 
 - (void) drawInContext:(CGContextRef)theContext;
-
+//- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
 
 @end

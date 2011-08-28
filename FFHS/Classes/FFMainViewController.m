@@ -739,15 +739,15 @@
 	
     //create progress wheel
     [widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
-                                            @"progress_wheel_01", //0 outer black ring
-                                            @"progress_wheel_02", //1 white ring
-                                            @"progress_wheel_03", //2 red ring
-                                            @"progress_wheel_04", //3 black tick ring
-                                            @"progress_wheel_05", //4 white ticks
+//                                            @"progress_wheel_01", //0 outer black ring
+                                            @"progress_wheel_02", //0 white ring
+                                            @"progress_wheel_03", //1 red ring
+                                            @"progress_wheel_04", //2 black tick ring
+                                            @"progress_wheel_05", //3 white ticks
 //                                            @"progress_wheel_06", //yellow color that we fill in
-                                            @"progress_wheel_07", //5
-                                            @"progress_wheel_08", //6
-                                            @"progress_wheel_09", //7
+                                            @"progress_wheel_07", //4
+                                            @"progress_wheel_08", //5
+                                            @"progress_wheel_09", //6
                                             nil]];
     
 //    NSArray* images = [NSArray arrayWithObjects:

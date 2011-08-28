@@ -25,7 +25,8 @@
     bool reversed = NO;
     int i = 0;
     for(CALayer* layer in self.spiralLayers){
-        if(i != 1 && i != 7){
+        [layer removeAllAnimations];
+        if(i != 0 && i != 6){
             CABasicAnimation* rotationAnimation;
             rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
             rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0  * ( (reversed) ? -1 : 1) ];
@@ -36,16 +37,17 @@
             [layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];   
             reversed = !reversed;
         }
-        
         i++;
         
         CABasicAnimation* scaleAnimation;
         scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
         scaleAnimation.fromValue = [NSNumber numberWithFloat:0.0];
         scaleAnimation.toValue   = [NSNumber numberWithFloat:1.0];
-        scaleAnimation.duration = 1.25;
+        scaleAnimation.duration = .25;
         scaleAnimation.repeatCount = 0.0;
         scaleAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+        scaleAnimation.removedOnCompletion = NO;
+        scaleAnimation.fillMode = kCAFillModeForwards;        
         [layer addAnimation:scaleAnimation forKey:@"scaleAnimation"];
 
         
@@ -56,9 +58,9 @@
         opacityAnimation.duration = .25;
         opacityAnimation.repeatCount = 0.0;
         opacityAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+        opacityAnimation.removedOnCompletion = NO;
+        opacityAnimation.fillMode = kCAFillModeForwards;        
         [layer addAnimation:opacityAnimation forKey:@"opacityAnimation"];
-        
-        layer.hidden = NO;
     }
 }   
 
@@ -88,7 +90,7 @@
         layer.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
         layer.position = self.axis;
         layer.contents = (id)image.CGImage;
-        layer.hidden = YES;
+        layer.opacity = 0.;
 //        NSLog(@"inserting spiral image with size %f %f %f %f", 
 //              layer.frame.origin.x, layer.frame.origin.y, 
 //              layer.frame.size.width, layer.frame.size.height );
@@ -112,11 +114,11 @@
         
         //CGContextSaveGState(theContext);
         //CGPoint midpoint = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-        CGContextSetFillColorWithColor(theContext, [UIColor colorWithRed:1.0 green:0 blue:0 alpha:.25].CGColor );    
+        CGContextSetFillColorWithColor(theContext, [UIColor colorWithRed:254/255.0 green:205/255.0 blue:8/255.0 alpha:1].CGColor );    
         CGContextBeginPath(theContext);
         CGContextMoveToPoint(theContext, self.axis.x, self.axis.y);
 
-        CGFloat radius = 100;
+        CGFloat radius = 80;
         CGFloat arcPos = M_PI*2*percentDone;
         for(CGFloat i = 0; i < arcPos; i+=.1){
             CGPoint p = CGPointMake(cos(i-M_PI_2)*radius, sin(i-M_PI_2)*radius);
@@ -140,8 +142,41 @@
 - (void) removeDropTimer
 {
     drawingTimer = NO;
+    
+    for(CALayer* layer in self.spiralLayers){
+        [layer removeAnimationForKey:@"scaleAnimation"];
+        CABasicAnimation* scaleAnimation;
+        scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        scaleAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        scaleAnimation.toValue   = [NSNumber numberWithFloat:0.0];
+        scaleAnimation.duration = .25;
+        scaleAnimation.repeatCount = 0.0;
+        scaleAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+        scaleAnimation.removedOnCompletion = NO;
+        scaleAnimation.fillMode = kCAFillModeForwards;
+        [layer addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+        
+        
+        [layer removeAnimationForKey:@"opacityAnimation"];
+        CABasicAnimation* opacityAnimation;
+        opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        opacityAnimation.toValue   = [NSNumber numberWithFloat:0.0];
+        opacityAnimation.duration = .25;
+        opacityAnimation.repeatCount = 0.0;
+        opacityAnimation.removedOnCompletion = NO;
+        opacityAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+        opacityAnimation.fillMode = kCAFillModeForwards;
+        [layer addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    }
 }
 
+//- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+//{
+//    if(){
+//    
+//    }
+//}
 //- (void) startDrawingExport
 //{
 //    drawingExport = YES;
