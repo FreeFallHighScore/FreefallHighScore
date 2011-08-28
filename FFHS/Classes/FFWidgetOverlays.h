@@ -14,24 +14,19 @@
     NSDate* startTime;
     NSTimeInterval duration;
     
-    BOOL drawingExport;
-    CGFloat exportPercent;
+//    BOOL drawingExport;
+//    CGFloat exportPercent;
+
 }
 
-@property (nonatomic, retain) NSMutableArray* spiralImages;
 @property (nonatomic, retain) NSMutableArray* spiralLayers;
-@property (nonatomic, retain) NSArray* spiralFiles;
 @property (nonatomic, assign) NSDate* startTime;
-
-@property (nonatomic, readwrite) CGFloat exportPercent;
+@property (nonatomic, readwrite) CGPoint axis;
 
 - (void) createSpiralImages:(NSArray*)fileNames;
 
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration;
 - (void) removeDropTimer;
-
-- (void) startDrawingExport;
-- (void) stopDrawingExport;
 
 - (void) redrawLoop;
 
