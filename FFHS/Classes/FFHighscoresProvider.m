@@ -44,6 +44,9 @@
     [tableView reloadData];
 }
 
+
+//customize the appereance of table view cells
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(showingLogin){
@@ -68,12 +71,22 @@
             
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"highscore"];
         if(cell == nil){
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"highscore"];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"highscore"];
         }
         
         NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];
         
-        cell.textLabel.text = [NSString stringWithFormat:@" %@:  %.02fs", [score objectForKey:@"author"], [[score objectForKey:@"drop_time"] floatValue]/1000.0];
+        cell.textLabel.text=[NSString stringWithFormat:@" %.02fs",  [[score objectForKey:@"drop_time"] floatValue]/1000.0];
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@" %@", [score objectForKey:@"author"]];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        id path = [NSString stringWithFormat:@" %@", [score objectForKey:@"thumbnail_url"]];
+        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: path]];
+     
+        
+        cell.imageView.image = [UIImage imageWithData: imageData];
 
         return cell;
     }
