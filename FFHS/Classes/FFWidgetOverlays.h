@@ -18,9 +18,14 @@
     CGFloat exportPercent;
 }
 
+@property (nonatomic, retain) NSMutableArray* spiralImages;
+@property (nonatomic, retain) NSMutableArray* spiralLayers;
+@property (nonatomic, retain) NSArray* spiralFiles;
 @property (nonatomic, assign) NSDate* startTime;
 
 @property (nonatomic, readwrite) CGFloat exportPercent;
+
+- (void) createSpiralImages:(NSArray*)fileNames;
 
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration;
 - (void) removeDropTimer;

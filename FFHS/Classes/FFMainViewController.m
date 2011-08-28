@@ -893,19 +893,28 @@
     [self hideElementOffscreenRight:self.cancelDropButton];
     [self hideElementOffscreenRight:self.deleteDropButton]; 
     [self hideElementOffscreenRight:self.retryDropButton];    
-    
-    
+
     [self moveWhiteTabToY:0];
     
-//    BOOL showRightPanel = NO;
     if(!self.uploader.loggedIn || firstLoad){
-//        showRightPanel = YES;
         self.whiteTabLogo.alpha = 0;
         self.infoButton.alpha = 0;
     }
     
     [self changeState:kFFStateReadyToDrop];
-    
+	
+    //create progress wheel
+    [widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
+                                            @"progress_wheel_01",
+                                            @"progress_wheel_02",
+                                            @"progress_wheel_03",
+                                            @"progress_wheel_04",
+                                            @"progress_wheel_05",
+                                            @"progress_wheel_06",
+                                            @"progress_wheel_07",
+                                            @"progress_wheel_08",
+                                            @"progress_wheel_09",
+                                            nil]];
 }
 
 - (void) moveWhiteTabToY:(CGFloat)targetY
