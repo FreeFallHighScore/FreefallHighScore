@@ -83,6 +83,9 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         id path = [NSString stringWithFormat:@" %@", [score objectForKey:@"thumbnail_url"]];
+        NSLog(@"path is  %@", path);
+        
+      // NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: @"http://i54.tinypic.com/9g9anp.jpg"]];
         NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: path]];
      
         
@@ -132,7 +135,7 @@
     
 	for (int i = 0; i < [highScores count]; i++){
         NSDictionary* score = [highScores objectAtIndex:i];
-        NSLog(@"score %d is %f by %@", i, [[score objectForKey:@"drop_time"] floatValue], [score objectForKey:@"author"] );
+       // NSLog(@"score %d is %f by %@", i, [[score objectForKey:@"drop_time"] floatValue], [score objectForKey:@"author"] );
     }
     
     queryComplete = YES;
