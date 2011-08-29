@@ -55,6 +55,7 @@
 #import "FFAccelerometerSample.h"
 #import "FFYoutubeUploader.h"
 #import "FFWidgetOverlays.h"
+#import "FFUploadProgressBar.h"
 
 #define kUpdateFrequency 120.0
 #define kRecordingTimeout 20. 
@@ -81,8 +82,6 @@
 - (void) revealElementFromBottom:(UIView*)element;
 
 - (void) moveWhiteTabToY:(CGFloat)targetY;
-//- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
-//- (void) revertWhiteTab;
 - (NSString*) scoreText;
 - (NSString*) scoreSayingTextLine1;
 - (NSString*) scoreSayingTextLine2;
@@ -176,8 +175,8 @@
 
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft];
-	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight];
+	return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (void)viewDidLoad
@@ -214,7 +213,6 @@
         [videoOverlay release];
     }
     
-
 	if (self.captureManager == nil) {
 		self.captureManager = [[AVCamCaptureManager alloc] init];
 		self.captureManager.delegate = self;
@@ -229,7 +227,8 @@
 
 			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
 				//[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
-                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
+                //[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
+                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeRight];
 			}
 			
 			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
@@ -749,43 +748,7 @@
                                             @"progress_wheel_08", //5
                                             @"progress_wheel_09", //6
                                             nil]];
-    
-//    NSArray* images = [NSArray arrayWithObjects:
-//                                            @"progress_wheel_01",
-//                                            @"progress_wheel_02",
-//                                            @"progress_wheel_03",
-//                                            @"progress_wheel_04",
-//                                            @"progress_wheel_05",
-//                                            @"progress_wheel_06",
-//                                            @"progress_wheel_07",
-//                                            @"progress_wheel_08",
-//                                            @"progress_wheel_09",
-//                       nil];
-    /*
-	for(int i = 0; i < images.count; i++){
-        UIImage* image = [UIImage imageNamed:[images objectAtIndex:i]];
-//    	[self.spiralImages addObject:image];
-        CALayer* layer = [CALayer layer];
-        layer.frame = CGRectMake(image.size.width, image.size.height, image.size.width, image.size.height);
-        layer.bounds = CGRectMake(image.size.width, image.size.height, image.size.width, image.size.height);
-        layer.contents = image.CGImage;
-        layer.backgroundColor = [UIColor colorWithRed:1.0 green:0 blue:1.0 alpha:1.0].CGColor;
-        NSLog(@"inserting spiral image with size %f %f %f %f", 
-              layer.frame.origin.x, layer.frame.origin.y, 
-              layer.frame.size.width, layer.frame.size.height );
-         CABasicAnimation* rotationAnimation;
-         rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-         rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
-         rotationAnimation.duration = 1.0*i;
-         rotationAnimation.cumulative = YES;
-         rotationAnimation.repeatCount = HUGE_VALF; 
-         rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];        
-         [layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];   
-        
-        [self.videoPreviewView.layer addSublayer:layer];
-        //[self.spiralLayers addObject:layer];
-    }
-    */
+
 }
 
 - (void) moveWhiteTabToY:(CGFloat)targetY
@@ -940,13 +903,27 @@
                                      self.dropNowTextContainer.alpha = 1.0;
                                  }
                                  completion:^(BOOL finished){ 
-                                     
                                      //TODO: start flasher loops
                                  }];
                 
                 break;
 
             case kFFStatePreDropCancelling:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self showStripeOverlay];
+                                     self.dropNowTextContainer.alpha = 0.0;
+                                     [self hideElementOffscreenRight:self.cancelDropButton];
+                                    [self moveWhiteTabToY:0];                                    
+                                 }
+                 
+                                 completion:^(BOOL finished){ 
+
+                                 }];
+                break;
+                
+            case kFFStatePreDropCanceled:
+
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      BOOL showRightPanel = NO;
@@ -959,28 +936,15 @@
                                          showRightPanel = YES;
                                      }
                                      else{
-                                        self.infoButton.alpha = 1.;
+                                         self.infoButton.alpha = 1.;
                                      }
                                      
                                      if(showRightPanel){
                                          [self revealElementFromRight:self.blackTabView];
-                                     }
-                                     [self showStripeOverlay];
-                                     self.dropNowTextContainer.alpha = 0.0;
-                                 }
-                 
-                                 completion:^(BOOL finished){ 
+                                     }                                     
 
-                                 }];
-                break;
-                
-            case kFFStatePreDropCanceled:
-
-                [UIView animateWithDuration:.25
-                                 animations: ^{
-                                     [self hideElementOffscreenRight:self.cancelDropButton];
-                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
                                      [self revealElementFromTop:self.dropButton toPosition:dropBaseRect.origin.y];
+                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1007,7 +971,7 @@
             case kFFStateFinishedDropPostroll:
                 [UIView animateWithDuration:.25
                                  animations: ^{
-//                                     [self showStripeOverlay];
+                                     [self showStripeOverlay];
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1075,7 +1039,7 @@
                                      [self hideElementOffscreenRight:self.deleteDropButton];
                                      [self revealElementFromTop:self.submitScoreView toPosition:0];
                                      if(self.uploadProgressView != nil){
-                                         [self hideElementToBottom:self.uploadProgressView withRoom:0];
+                                         self.uploadProgressView.alpha = 0.0;
                                      }
                                  }
                                  completion:^(BOOL finished){ 
@@ -1096,10 +1060,15 @@
                 
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     [self revealElementFromBottom:self.uploadProgressView];                                     
+//                                    self.submitScoreView.frame = CGRectMake(0, 0, 
+//                                                                             baseSubmitScoreViewRect.size.width, 
+//                                                                             baseSubmitScoreViewRect.size.height + self.uploadProgressView.frame.size.height);
+                                     
+                                     self.uploadProgressView.alpha = 1.0;
+                              
                                  }
                                  completion:^(BOOL finished){ 
-                                     
+
                                  }];
 
                 break;
@@ -1191,9 +1160,10 @@
     
     if (self.submitScoreView == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];   
-        [self.videoPreviewView insertSubview:self.submitScoreView 
-                                aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+        [self.view insertSubview:self.submitScoreView 
+                    aboveSubview:[self.view.subviews objectAtIndex:0]];
         self.dropscoreSubmitViewLabel.text = [self scoreText];
+        baseSubmitScoreViewRect = self.submitScoreView.frame;
     }
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
@@ -1217,16 +1187,17 @@
 - (void) showUploadProgress
 {
     if (self.uploadProgressView == nil) {
-        //TODO animate
         [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
-        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-        CGSize progressViewSize = self.uploadProgressView.frame.size;
-        CGSize videoViewSize = self.videoPreviewView.frame.size;
-        CGRect newFrame = CGRectMake(0, videoViewSize.height-progressViewSize.height, progressViewSize.width, progressViewSize.height);
-        self.uploadProgressView.frame = newFrame;
-        [self hideElementToBottom:self.uploadProgressView withRoom:0];
+        NSLog(@"created upload view.  do we have a progress bar? %@ do we have a progress view? %@", self.uploadProgressBar, self.uploadProgressView);
+        [self.view insertSubview:self.uploadProgressView
+                    aboveSubview:[self.view.subviews objectAtIndex:0]];
+        self.uploadProgressView.frame = CGRectMake(0, baseSubmitScoreViewRect.size.height, 
+                                                   self.uploadProgressView.frame.size.width, self.uploadProgressView.frame.size.height);
+        
     }
-    self.uploadProgressBar.progress = 0;
+    
+    self.uploadProgressView.alpha = 0.0;
+    [self.uploadProgressBar startProgress];
 }
 
 - (void) hideStripeOverlay
@@ -1354,14 +1325,22 @@
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
-    //TODO: fix orientation...maybe?
     //    [self.player play];
+    //CGRect bounds = [view bounds];
     
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];        
-    
-    //CGRect bounds = [view bounds];
-    CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
+    CGSize cameraSize = [self.captureManager cameraSize];
+    CGRect bounds;
+    if(cameraSize.width == 1280){
+        //iPhone 4 camera
+        bounds = CGRectMake(-44, 0, 568, 320);
+        
+    }
+    else{
+        bounds = CGRectMake(0, -20, 480, 360);//fullscreen it  
+    }
+  
     [self.playerLayer setFrame:bounds];
     
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
@@ -1426,13 +1405,16 @@
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {
-    if(self.uploadProgressBar == nil){
-        NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
-    }
-    else{
-        self.uploadProgressBar.progress = progress;
-    }
     NSLog(@"uploaded to %f", progress);  
+    
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        if(self.uploadProgressBar == nil){
+            NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
+        }
+        else if([self.uploadProgressBar respondsToSelector:@selector(setProgress:)]){
+            [self.uploadProgressBar setProgress:progress];
+        }
+    });
 }
 
 - (void) uploadCompleted
