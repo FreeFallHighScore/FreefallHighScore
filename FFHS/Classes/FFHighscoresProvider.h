@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class HJObjManager;
 //provides scores for both "my drops" and global high scores
 @interface FFHighscoresProvider : NSObject<UITableViewDataSource> {
     BOOL showingLogin;
+    HJObjManager* imageViewManager;
 }
 
 @property(nonatomic, assign) UITableView* tableView;
@@ -18,6 +21,7 @@
 @property(nonatomic, retain) NSArray* highScores;
 @property(nonatomic, retain) NSString* queryURL;
 @property(nonatomic, readonly) BOOL queryComplete;
+@property(nonatomic, assign) HJObjManager * imageViewManager;
 
 - (id) initWithQueryURL:(NSString*)url;
 - (void) refreshQuery;

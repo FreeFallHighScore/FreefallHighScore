@@ -118,6 +118,15 @@
 		A6C27E8313FD6FF40001999F /* FFWidgetOverlays.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */; };
 		A6E8F61113F87A660022AB39 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61013F87A660022AB39 /* Security.framework */; };
 		A6E8F61313F87A6B0022AB39 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */; };
+		DA1F14EC140C0FCE0076A2E3 /* HJCircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14D9140C0FCE0076A2E3 /* HJCircularBuffer.m */; };
+		DA1F14ED140C0FCE0076A2E3 /* HJManagedImageV.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14DB140C0FCE0076A2E3 /* HJManagedImageV.m */; };
+		DA1F14EE140C0FCE0076A2E3 /* HJMOBigFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14DE140C0FCE0076A2E3 /* HJMOBigFileCache.m */; };
+		DA1F14EF140C0FCE0076A2E3 /* HJMOFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14E0140C0FCE0076A2E3 /* HJMOFileCache.m */; };
+		DA1F14F0140C0FCE0076A2E3 /* HJMOHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14E2140C0FCE0076A2E3 /* HJMOHandler.m */; };
+		DA1F14F1140C0FCE0076A2E3 /* HJMOPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14E4140C0FCE0076A2E3 /* HJMOPolicy.m */; };
+		DA1F14F2140C0FCE0076A2E3 /* HJMOUserBase.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14E7140C0FCE0076A2E3 /* HJMOUserBase.m */; };
+		DA1F14F3140C0FCE0076A2E3 /* HJObjManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14E9140C0FCE0076A2E3 /* HJObjManager.m */; };
+		DA1F14F4140C0FCE0076A2E3 /* HJWeakMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1F14EB140C0FCE0076A2E3 /* HJWeakMutableArray.m */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291C13EF2402006BC687 /* app_icon2.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
@@ -606,6 +615,26 @@
 		A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFWidgetOverlays.m; sourceTree = "<group>"; };
 		A6E8F61013F87A660022AB39 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DA1F14D8140C0FCE0076A2E3 /* HJCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJCircularBuffer.h; sourceTree = "<group>"; };
+		DA1F14D9140C0FCE0076A2E3 /* HJCircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJCircularBuffer.m; sourceTree = "<group>"; };
+		DA1F14DA140C0FCE0076A2E3 /* HJManagedImageV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJManagedImageV.h; sourceTree = "<group>"; };
+		DA1F14DB140C0FCE0076A2E3 /* HJManagedImageV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJManagedImageV.m; sourceTree = "<group>"; };
+		DA1F14DC140C0FCE0076A2E3 /* HJManagedImageVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJManagedImageVDelegate.h; sourceTree = "<group>"; };
+		DA1F14DD140C0FCE0076A2E3 /* HJMOBigFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOBigFileCache.h; sourceTree = "<group>"; };
+		DA1F14DE140C0FCE0076A2E3 /* HJMOBigFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJMOBigFileCache.m; sourceTree = "<group>"; };
+		DA1F14DF140C0FCE0076A2E3 /* HJMOFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOFileCache.h; sourceTree = "<group>"; };
+		DA1F14E0140C0FCE0076A2E3 /* HJMOFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJMOFileCache.m; sourceTree = "<group>"; };
+		DA1F14E1140C0FCE0076A2E3 /* HJMOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOHandler.h; sourceTree = "<group>"; };
+		DA1F14E2140C0FCE0076A2E3 /* HJMOHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJMOHandler.m; sourceTree = "<group>"; };
+		DA1F14E3140C0FCE0076A2E3 /* HJMOPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOPolicy.h; sourceTree = "<group>"; };
+		DA1F14E4140C0FCE0076A2E3 /* HJMOPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJMOPolicy.m; sourceTree = "<group>"; };
+		DA1F14E5140C0FCE0076A2E3 /* HJMOUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOUser.h; sourceTree = "<group>"; };
+		DA1F14E6140C0FCE0076A2E3 /* HJMOUserBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJMOUserBase.h; sourceTree = "<group>"; };
+		DA1F14E7140C0FCE0076A2E3 /* HJMOUserBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJMOUserBase.m; sourceTree = "<group>"; };
+		DA1F14E8140C0FCE0076A2E3 /* HJObjManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJObjManager.h; sourceTree = "<group>"; };
+		DA1F14E9140C0FCE0076A2E3 /* HJObjManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJObjManager.m; sourceTree = "<group>"; };
+		DA1F14EA140C0FCE0076A2E3 /* HJWeakMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJWeakMutableArray.h; sourceTree = "<group>"; };
+		DA1F14EB140C0FCE0076A2E3 /* HJWeakMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJWeakMutableArray.m; sourceTree = "<group>"; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DA7A291C13EF2402006BC687 /* app_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon2.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
@@ -662,6 +691,7 @@
 				A6C27E6613FC24AC0001999F /* Utilities */,
 				A6C27E6513FC23F00001999F /* Camera Controllers */,
 				A6C27E6413FC23BD0001999F /* Flipside ViewControllers */,
+				DA1F14D7140C0FCE0076A2E3 /* HJCacheClasses */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1278,6 +1308,33 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		DA1F14D7140C0FCE0076A2E3 /* HJCacheClasses */ = {
+			isa = PBXGroup;
+			children = (
+				DA1F14D8140C0FCE0076A2E3 /* HJCircularBuffer.h */,
+				DA1F14D9140C0FCE0076A2E3 /* HJCircularBuffer.m */,
+				DA1F14DA140C0FCE0076A2E3 /* HJManagedImageV.h */,
+				DA1F14DB140C0FCE0076A2E3 /* HJManagedImageV.m */,
+				DA1F14DC140C0FCE0076A2E3 /* HJManagedImageVDelegate.h */,
+				DA1F14DD140C0FCE0076A2E3 /* HJMOBigFileCache.h */,
+				DA1F14DE140C0FCE0076A2E3 /* HJMOBigFileCache.m */,
+				DA1F14DF140C0FCE0076A2E3 /* HJMOFileCache.h */,
+				DA1F14E0140C0FCE0076A2E3 /* HJMOFileCache.m */,
+				DA1F14E1140C0FCE0076A2E3 /* HJMOHandler.h */,
+				DA1F14E2140C0FCE0076A2E3 /* HJMOHandler.m */,
+				DA1F14E3140C0FCE0076A2E3 /* HJMOPolicy.h */,
+				DA1F14E4140C0FCE0076A2E3 /* HJMOPolicy.m */,
+				DA1F14E5140C0FCE0076A2E3 /* HJMOUser.h */,
+				DA1F14E6140C0FCE0076A2E3 /* HJMOUserBase.h */,
+				DA1F14E7140C0FCE0076A2E3 /* HJMOUserBase.m */,
+				DA1F14E8140C0FCE0076A2E3 /* HJObjManager.h */,
+				DA1F14E9140C0FCE0076A2E3 /* HJObjManager.m */,
+				DA1F14EA140C0FCE0076A2E3 /* HJWeakMutableArray.h */,
+				DA1F14EB140C0FCE0076A2E3 /* HJWeakMutableArray.m */,
+			);
+			path = HJCacheClasses;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1450,6 +1507,15 @@
 				A6C0BC441402CB4B0005845F /* SBJsonTokeniser.m in Sources */,
 				A6C0BC451402CB4B0005845F /* SBJsonUTF8Stream.m in Sources */,
 				A6C0BC461402CB4B0005845F /* SBJsonWriter.m in Sources */,
+				DA1F14EC140C0FCE0076A2E3 /* HJCircularBuffer.m in Sources */,
+				DA1F14ED140C0FCE0076A2E3 /* HJManagedImageV.m in Sources */,
+				DA1F14EE140C0FCE0076A2E3 /* HJMOBigFileCache.m in Sources */,
+				DA1F14EF140C0FCE0076A2E3 /* HJMOFileCache.m in Sources */,
+				DA1F14F0140C0FCE0076A2E3 /* HJMOHandler.m in Sources */,
+				DA1F14F1140C0FCE0076A2E3 /* HJMOPolicy.m in Sources */,
+				DA1F14F2140C0FCE0076A2E3 /* HJMOUserBase.m in Sources */,
+				DA1F14F3140C0FCE0076A2E3 /* HJObjManager.m in Sources */,
+				DA1F14F4140C0FCE0076A2E3 /* HJWeakMutableArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
