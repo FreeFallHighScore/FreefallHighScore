@@ -55,6 +55,7 @@
 #import "FFAccelerometerSample.h"
 #import "FFYoutubeUploader.h"
 #import "FFWidgetOverlays.h"
+#import "FFUploadProgressBar.h"
 
 #define kUpdateFrequency 120.0
 #define kRecordingTimeout 20. 
@@ -81,8 +82,6 @@
 - (void) revealElementFromBottom:(UIView*)element;
 
 - (void) moveWhiteTabToY:(CGFloat)targetY;
-//- (void) resizeWhiteTabToFrame:(CGRect)targetFrame;
-//- (void) revertWhiteTab;
 - (NSString*) scoreText;
 - (NSString*) scoreSayingTextLine1;
 - (NSString*) scoreSayingTextLine2;
@@ -176,8 +175,8 @@
 
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft];
-	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight];
+	return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (void)viewDidLoad
@@ -214,7 +213,6 @@
         [videoOverlay release];
     }
     
-
 	if (self.captureManager == nil) {
 		self.captureManager = [[AVCamCaptureManager alloc] init];
 		self.captureManager.delegate = self;
@@ -229,7 +227,8 @@
 
 			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
 				//[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
-                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
+                //[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
+                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeRight];
 			}
 			
 			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
@@ -246,177 +245,9 @@
                 CGSize cameraSize = [self.captureManager cameraSize];
                 NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
 			});
-            
-            /*
-             fontcolor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] retain];
-
-            if (YES || launchCount == 1 ){
-                NSLog(@"this is the FIRST LAUNCH of the app");
-                //LOG IN BUTTON
-                self.introLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                introLoginButton.adjustsImageWhenHighlighted = NO;
-                [introLoginButton setTitle:@"LOG IN" forState:(UIControlStateNormal)];
-                [introLoginButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-                [introLoginButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 00.0, 0.0, 0.0)];
-                
-                UIImage* introLogIn = [UIImage imageNamed:@"about_button_base"];
-                [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateNormal];
-                [introLoginButton setBackgroundImage:introLogIn forState:UIControlStateHighlighted];
-                
-                introLoginButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:30];
-                [introLoginButton setTitleColor:fontcolor 
-                                   forState:UIControlStateNormal];
-                CGSize introImageSize = [introLogIn size];
-                //introLoginButton.frame = CGRectMake(bounds.size.width/2 - introImageSize.width/2 , bounds.size.height*.45, introImageSize.width, introImageSize.height);
-                introLoginButton.frame = CGRectMake(0, bounds.size.height*.45, introImageSize.width, introImageSize.height);
-                [introLoginButton addTarget:self.uploader 
-                                     action:@selector(login:) 
-                           forControlEvents:UIControlEventTouchUpInside];
-                
-                [self.view addSubview:introLoginButton];
-            }
-            */
-            
-            /*
-            //DROP BUTTON
-            self.recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            recordButton.adjustsImageWhenHighlighted = NO;
-            [recordButton setTitle:@"DROP" forState:(UIControlStateNormal)];
-            [recordButton setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
-            [recordButton setTitleEdgeInsets:UIEdgeInsetsMake(10.0, 00.0, 0.0, 0.0)];
-
-            recordButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:30];
-            
-            //recordButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:60];
-            [recordButton setTitleColor:fontcolor 
-                               forState:UIControlStateNormal];
-            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
-            UIImage* dropButtonImage = [UIImage imageNamed:@"drop_button_base"];
-            [recordButton setBackgroundImage:dropButtonImage forState:UIControlStateNormal];
-            [recordButton setBackgroundImage:dropButtonImage forState:UIControlStateHighlighted];
-            [recordButton addTarget:self
-                             action:@selector(startRecording:) 
-                   forControlEvents:UIControlEventTouchUpInside];
-            
-            CGSize imageSize = [dropButtonImage size];
-            //recordButton.frame = CGRectMake(bounds.size.width/2 - imageSize.width/2 , bounds.size.height*.6, imageSize.width, imageSize.height);
-            recordButton.frame = CGRectMake(0, bounds.size.height*.6, imageSize.width, imageSize.height);
-            
-            [self.view addSubview:recordButton];			
-             */
-            
-            /*
-            //SUBMIT BUTTON
-            self.submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            submitButton.adjustsImageWhenHighlighted = NO;
-            [submitButton setTitle:@"SUBMIT" forState:(UIControlStateNormal)];
-            submitButton.titleLabel.font = [UIFont fontWithName:@"G.B.BOOT" size:50];
-            submitButton.titleLabel.textColor = fontcolor;
-            submitButton.titleLabel.textAlignment = UITextAlignmentCenter;
-            
-            UIImage* submitButtonImage = [UIImage imageNamed:@"submit_button_base"];
-            [submitButton setBackgroundImage:submitButtonImage forState:UIControlStateNormal];
-            [submitButton setBackgroundImage:submitButtonImage forState:UIControlStateHighlighted];
-            submitButton.frame = CGRectMake(0, bounds.size.height*.2, submitButtonImage.size.width, submitButtonImage.size.height);
-
-            [submitButton addTarget:self
-                             action:@selector(submitCurrentVideo:) 
-                   forControlEvents:UIControlEventTouchUpInside];
-            
-            submitButton.hidden = YES;
-            submitButton.enabled = NO;
-            [self.view addSubview:submitButton];			
-            
-            //DROP AGAIN BUTTON
-            self.ignoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            ignoreButton.adjustsImageWhenHighlighted = NO;
-
-            [ignoreButton setTitle:@"DROP AGAIN" forState:(UIControlStateNormal)];
-            ignoreButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:25];
-            ignoreButton.titleLabel.textColor = fontcolor;
-            ignoreButton.titleLabel.textAlignment = UITextAlignmentCenter;
-
-            UIImage* dropAgainButtonImage = [UIImage imageNamed:@"drop_again_button_base"];
-            [ignoreButton setBackgroundImage:dropAgainButtonImage forState:UIControlStateNormal];
-            [ignoreButton setBackgroundImage:dropAgainButtonImage forState:UIControlStateHighlighted];
-            ignoreButton.frame = CGRectMake(0, bounds.size.height*.75, dropAgainButtonImage.size.width, dropAgainButtonImage.size.height);
-
-            [ignoreButton addTarget:self
-                             action:@selector(discardCurrentVideo:) 
-                   forControlEvents:UIControlEventTouchUpInside];
-
-            ignoreButton.hidden = YES;
-            ignoreButton.enabled = NO;
-
-            [self.view addSubview:ignoreButton];
-
-            //CANCEL BUTTON!!!
-            self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            cancelButton.adjustsImageWhenHighlighted = NO;
-            [cancelButton setTitle:@"CANCEL" forState:(UIControlStateNormal)];
-            
-            cancelButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:25];
-            [cancelButton setTitleColor:fontcolor 
-                               forState:UIControlStateNormal];
-            recordButton.titleLabel.textAlignment = UITextAlignmentCenter;
-            UIImage* cancelButtonImage = [UIImage imageNamed:@"cancel_button_base"];
-            [cancelButton setBackgroundImage:cancelButtonImage forState:UIControlStateNormal];
-            [cancelButton setBackgroundImage:cancelButtonImage forState:UIControlStateHighlighted];
-            [cancelButton addTarget:self
-                             action:@selector(cancelRecording) 
-                   forControlEvents:UIControlEventTouchUpInside];
-            
-            CGSize cancelButtonImageSize = [cancelButtonImage size];
-            cancelButton.frame = CGRectMake(bounds.size.width - cancelButtonImageSize.width, bounds.size.height*.8, 
-                                            cancelButtonImageSize.width, cancelButtonImageSize.height);
-            cancelButton.hidden = YES;
-            cancelButton.enabled = NO;
-            [self.view addSubview:cancelButton];			
-            */
-
-			//YOUR SCORE LABEL     
-            /*
-            dropscoreLabelTop = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-140, bounds.size.width, 140.0)];
-            dropscoreLabelTop.text = @"YOUR.SCORE:";
-            dropscoreLabelTop.font = [UIFont fontWithName:@"G.B.BOOT" size:30];
-            dropscoreLabelTop.backgroundColor = [UIColor clearColor];
-            dropscoreLabelTop.textColor = fontcolor;
-            dropscoreLabelTop.textAlignment = UITextAlignmentCenter;
-            [self.view addSubview:dropscoreLabelTop];
-
-            dropscoreLabelTime = [[UILabel alloc] initWithFrame:CGRectMake(0, middle.y-100, bounds.size.width, 140.0)];
-            dropscoreLabelTime.text = @"2.06s";
-            dropscoreLabelTime.font = [UIFont fontWithName:@"G.B.BOOT" size:75];
-            dropscoreLabelTime.backgroundColor = [UIColor clearColor];
-            dropscoreLabelTime.textColor = fontcolor;
-            dropscoreLabelTime.textAlignment = UITextAlignmentCenter;
-            [self.view addSubview:dropscoreLabelTime];
-            */
-            
-
-                        
-            //timer layer
-            
-            // Add a single tap gesture to focus on the point tapped, then lock focus
-//			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
-//			[singleTap setDelegate:self];
-//			[singleTap setNumberOfTapsRequired:1];
-//			[view addGestureRecognizer:singleTap];
-			
-            // Add a double tap gesture to reset the focus mode to continuous auto focus
-//			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
-//			[doubleTap setDelegate:self];
-//			[doubleTap setNumberOfTapsRequired:2];
-//			[singleTap requireGestureRecognizerToFail:doubleTap];
-//			[view addGestureRecognizer:doubleTap];
-//			
-//			[doubleTap release];
-//			[singleTap release];
 		}		
 	}
-    
-    
-    
+        
     NSUserDefaults      *defaults;
     NSInteger           launchCount;
     
@@ -426,9 +257,11 @@
     [defaults synchronize];
     
     screenBounds = bounds;
-    widgetOverlayLayer = [FFWidgetOverlays layer];
-    widgetOverlayLayer.frame = bounds;
-    [[self.view layer] addSublayer:widgetOverlayLayer];
+    if(widgetOverlayLayer == nil){
+        widgetOverlayLayer = [FFWidgetOverlays layer];
+        widgetOverlayLayer.frame = bounds;
+        [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
+    }
     
     NSLog(@"number of times: %i the app has been launched", launchCount);
     firstLoad = (launchCount == 1);
@@ -812,7 +645,7 @@
 
 - (void) overlayReachedPercent:(CGFloat)percentComplete
 {
-    widgetOverlayLayer.exportPercent = percentComplete;
+//    widgetOverlayLayer.exportPercent = percentComplete;
 }
 
 //JG NOTE THIS IS NO LONGER USED
@@ -905,16 +738,17 @@
 	
     //create progress wheel
     [widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
-                                            @"progress_wheel_01",
-                                            @"progress_wheel_02",
-                                            @"progress_wheel_03",
-                                            @"progress_wheel_04",
-                                            @"progress_wheel_05",
-                                            @"progress_wheel_06",
-                                            @"progress_wheel_07",
-                                            @"progress_wheel_08",
-                                            @"progress_wheel_09",
+//                                            @"progress_wheel_01", //0 outer black ring
+                                            @"progress_wheel_02", //0 white ring
+                                            @"progress_wheel_03", //1 red ring
+                                            @"progress_wheel_04", //2 black tick ring
+                                            @"progress_wheel_05", //3 white ticks
+//                                            @"progress_wheel_06", //yellow color that we fill in
+                                            @"progress_wheel_07", //4
+                                            @"progress_wheel_08", //5
+                                            @"progress_wheel_09", //6
                                             nil]];
+
 }
 
 - (void) moveWhiteTabToY:(CGFloat)targetY
@@ -1069,13 +903,27 @@
                                      self.dropNowTextContainer.alpha = 1.0;
                                  }
                                  completion:^(BOOL finished){ 
-                                     
                                      //TODO: start flasher loops
                                  }];
                 
                 break;
 
             case kFFStatePreDropCancelling:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self showStripeOverlay];
+                                     self.dropNowTextContainer.alpha = 0.0;
+                                     [self hideElementOffscreenRight:self.cancelDropButton];
+                                    [self moveWhiteTabToY:0];                                    
+                                 }
+                 
+                                 completion:^(BOOL finished){ 
+
+                                 }];
+                break;
+                
+            case kFFStatePreDropCanceled:
+
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      BOOL showRightPanel = NO;
@@ -1088,28 +936,15 @@
                                          showRightPanel = YES;
                                      }
                                      else{
-                                        self.infoButton.alpha = 1.;
+                                         self.infoButton.alpha = 1.;
                                      }
                                      
                                      if(showRightPanel){
                                          [self revealElementFromRight:self.blackTabView];
-                                     }
-                                     [self showStripeOverlay];
-                                     self.dropNowTextContainer.alpha = 0.0;
-                                 }
-                 
-                                 completion:^(BOOL finished){ 
+                                     }                                     
 
-                                 }];
-                break;
-                
-            case kFFStatePreDropCanceled:
-
-                [UIView animateWithDuration:.25
-                                 animations: ^{
-                                     [self hideElementOffscreenRight:self.cancelDropButton];
-                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
                                      [self revealElementFromTop:self.dropButton toPosition:dropBaseRect.origin.y];
+                                     [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1136,7 +971,7 @@
             case kFFStateFinishedDropPostroll:
                 [UIView animateWithDuration:.25
                                  animations: ^{
-//                                     [self showStripeOverlay];
+                                     [self showStripeOverlay];
                                  }
                                  completion:^(BOOL finished){ 
                                      
@@ -1204,7 +1039,7 @@
                                      [self hideElementOffscreenRight:self.deleteDropButton];
                                      [self revealElementFromTop:self.submitScoreView toPosition:0];
                                      if(self.uploadProgressView != nil){
-                                         [self hideElementToBottom:self.uploadProgressView withRoom:0];
+                                         self.uploadProgressView.alpha = 0.0;
                                      }
                                  }
                                  completion:^(BOOL finished){ 
@@ -1225,10 +1060,15 @@
                 
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     [self revealElementFromBottom:self.uploadProgressView];                                     
+//                                    self.submitScoreView.frame = CGRectMake(0, 0, 
+//                                                                             baseSubmitScoreViewRect.size.width, 
+//                                                                             baseSubmitScoreViewRect.size.height + self.uploadProgressView.frame.size.height);
+                                     
+                                     self.uploadProgressView.alpha = 1.0;
+                              
                                  }
                                  completion:^(BOOL finished){ 
-                                     
+
                                  }];
 
                 break;
@@ -1320,9 +1160,10 @@
     
     if (self.submitScoreView == nil) {
         [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];   
-        [self.videoPreviewView insertSubview:self.submitScoreView 
-                                aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
+        [self.view insertSubview:self.submitScoreView 
+                    aboveSubview:[self.view.subviews objectAtIndex:0]];
         self.dropscoreSubmitViewLabel.text = [self scoreText];
+        baseSubmitScoreViewRect = self.submitScoreView.frame;
     }
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
@@ -1346,16 +1187,17 @@
 - (void) showUploadProgress
 {
     if (self.uploadProgressView == nil) {
-        //TODO animate
         [[NSBundle mainBundle] loadNibNamed:@"UploadProgress" owner:self options:nil];
-        [self.videoPreviewView insertSubview:self.uploadProgressView aboveSubview:[self.videoPreviewView.subviews objectAtIndex:0]];
-        CGSize progressViewSize = self.uploadProgressView.frame.size;
-        CGSize videoViewSize = self.videoPreviewView.frame.size;
-        CGRect newFrame = CGRectMake(0, videoViewSize.height-progressViewSize.height, progressViewSize.width, progressViewSize.height);
-        self.uploadProgressView.frame = newFrame;
-        [self hideElementToBottom:self.uploadProgressView withRoom:0];
+        NSLog(@"created upload view.  do we have a progress bar? %@ do we have a progress view? %@", self.uploadProgressBar, self.uploadProgressView);
+        [self.view insertSubview:self.uploadProgressView
+                    aboveSubview:[self.view.subviews objectAtIndex:0]];
+        self.uploadProgressView.frame = CGRectMake(0, baseSubmitScoreViewRect.size.height, 
+                                                   self.uploadProgressView.frame.size.width, self.uploadProgressView.frame.size.height);
+        
     }
-    self.uploadProgressBar.progress = 0;
+    
+    self.uploadProgressView.alpha = 0.0;
+    [self.uploadProgressBar startProgress];
 }
 
 - (void) hideStripeOverlay
@@ -1483,14 +1325,22 @@
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
-    //TODO: fix orientation...maybe?
     //    [self.player play];
+    //CGRect bounds = [view bounds];
     
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];        
-    
-    //CGRect bounds = [view bounds];
-    CGRect bounds = CGRectMake(0, -20, 480, 360);//fullscreen it
+    CGSize cameraSize = [self.captureManager cameraSize];
+    CGRect bounds;
+    if(cameraSize.width == 1280){
+        //iPhone 4 camera
+        bounds = CGRectMake(-44, 0, 568, 320);
+        
+    }
+    else{
+        bounds = CGRectMake(0, -20, 480, 360);//fullscreen it  
+    }
+  
     [self.playerLayer setFrame:bounds];
     
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
@@ -1555,13 +1405,16 @@
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {
-    if(self.uploadProgressBar == nil){
-        NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
-    }
-    else{
-        self.uploadProgressBar.progress = progress;
-    }
     NSLog(@"uploaded to %f", progress);  
+    
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        if(self.uploadProgressBar == nil){
+            NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
+        }
+        else if([self.uploadProgressBar respondsToSelector:@selector(setProgress:)]){
+            [self.uploadProgressBar setProgress:progress];
+        }
+    });
 }
 
 - (void) uploadCompleted

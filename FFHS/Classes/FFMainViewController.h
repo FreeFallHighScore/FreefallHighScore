@@ -78,6 +78,7 @@ typedef enum {
 @class FFTrackLocation;
 @class FFYoutubeUploader;
 @class FFWidgetOverlays;
+@class FFUploadProgressBar;
 
 @interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate> {
     
@@ -104,13 +105,10 @@ typedef enum {
     AVPlayerLayer* playerLayer;
     
     CGRect screenBounds;
-    CGRect whiteTabCachedRect;
     CGRect whiteTabBaseRect;
     CGRect dropBaseRect;    
     
-    //TODO: Get rid of these
-    CGRect baseScoreRect;
-    CGRect scoreRectWithSubmitControls;
+    CGRect baseSubmitScoreViewRect;
     
     BOOL libraryAssetURLReceived;
     NSURL* currentDropAssetURL;
@@ -152,6 +150,7 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreSubmitViewLabel;
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreSayingLabel;
 
+@property (nonatomic,retain) IBOutlet FFUploadProgressBar* uploadProgressBar;
 //accel related stuff
 @property (nonatomic,retain) AccelerometerFilter* filter;
 @property (nonatomic,retain) NSMutableArray* acceleromterData;
@@ -181,7 +180,7 @@ typedef enum {
 @property (nonatomic,assign) FFWidgetOverlays* widgetOverlayLayer;
 
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
-@property (nonatomic,assign) IBOutlet UIProgressView* uploadProgressBar;
+
 
 //state abstractors
 - (BOOL) listenToAccel;
