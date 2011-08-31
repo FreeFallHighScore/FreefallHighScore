@@ -844,20 +844,22 @@
             case kFFStateReadyToDrop:
                 self.dropButton.alpha = 1.0;
                 dropButton.frame = dropBaseRect;
+                if(!self.uploader.loggedIn){
+                    self.whiteTabLogo.alpha = 0.f;
+                    self.blackTabLogo.alpha = 1.0f;
+                }
+                else {
+                    self.blackTabLogo.alpha = 0.0f;
+                    self.whiteTabLogo.alpha = 1.0f;
+                }
                 [self hideElementOffscreenLeft:self.dropButton];
                 [UIView animateWithDuration:.5
                                  animations: ^{
-                                     BOOL showRightPanel = NO;
-                                     if(firstLoad || !self.uploader.loggedIn){
+                                     if(!self.uploader.loggedIn){
                                          [self revealElementFromLeft:self.introLoginButton];
-                                         showRightPanel = YES;
-                                     }
-                                     if(firstLoad){
                                          [self revealElementFromLeft:self.whatButton];
-                                         showRightPanel = YES;
-                                     }
-                                     if(showRightPanel){
-                                         [self revealElementFromRight:self.blackTabView];
+                                         [self revealElementFromRight:self.blackTabView];                                         
+                                         
                                      }
                                      
                                      self.whiteTabLogo.alpha = 1.0;
