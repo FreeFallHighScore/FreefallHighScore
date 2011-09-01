@@ -260,6 +260,11 @@
     [defaults setInteger:launchCount forKey:@"launchCount"];
     [defaults synchronize];
     
+    //IB will not set this so for some reason we gotta do it here
+    [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL_"] forState:UIControlStateHighlighted];
+    [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL_"] forState:UIControlStateHighlighted];
+     
+    
     screenBounds = bounds;
     if(widgetOverlayLayer == nil){
         widgetOverlayLayer = [FFWidgetOverlays layer];

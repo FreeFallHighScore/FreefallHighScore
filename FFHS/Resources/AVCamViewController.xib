@@ -556,7 +556,7 @@
 								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
 								<reference key="NSSuperview" ref="197392939"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="863294388"/>
+								<reference key="NSNextKeyView" ref="276104134"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">2</int>
@@ -570,14 +570,14 @@
 								<reference key="IBUIHighlightedTitleColor" ref="267716009"/>
 								<reference key="IBUINormalTitleColor" ref="309174953"/>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="668586189">
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="736338304">
 									<string key="NSClassName">NSImage</string>
 									<string type="base64-UTF8" key="NSResourceName">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
 cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="174023055">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="250424644">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Delete_button_HL_.png</string>
+									<string key="NSResourceName">Delete_button.png</string>
 								</object>
 							</object>
 							<object class="IBUIButton" id="641299292">
@@ -611,7 +611,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 									<string key="NSResourceName">Submit_button.png</string>
 								</object>
 							</object>
-							<object class="IBUIButton" id="863294388">
+							<object class="IBUIButton" id="276104134">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
@@ -625,17 +625,18 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<reference key="IBUIFont" ref="881157047"/>
 								<string key="IBUINormalTitle">CANCEL</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
-								</object>
-								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">2</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
 								</object>
+								<reference key="IBUINormalTitleColor" ref="309174953"/>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<reference key="IBUIHighlightedBackgroundImage" ref="668586189"/>
-								<reference key="IBUISelectedBackgroundImage" ref="668586189"/>
-								<reference key="IBUINormalBackgroundImage" ref="174023055"/>
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string type="base64-UTF8" key="NSResourceName">DURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24ucG5nDURlbGV0ZV9idXR0b25fSEwu
+cG5nA</string>
+								</object>
+								<reference key="IBUISelectedBackgroundImage" ref="736338304"/>
+								<reference key="IBUINormalBackgroundImage" ref="250424644"/>
 							</object>
 							<object class="IBUIButton" id="300609137">
 								<reference key="NSNextResponder" ref="197392939"/>
@@ -985,14 +986,14 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">cancelDropButton</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="863294388"/>
+						<reference key="destination" ref="276104134"/>
 					</object>
 					<int key="connectionID">410</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">cancelRecording:</string>
-						<reference key="source" ref="863294388"/>
+						<reference key="source" ref="276104134"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -1048,7 +1049,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<reference ref="300609137"/>
 							<reference ref="57991006"/>
 							<reference ref="57952183"/>
-							<reference ref="863294388"/>
+							<reference ref="276104134"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">Video View</string>
@@ -1248,7 +1249,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">408</int>
-						<reference key="object" ref="863294388"/>
+						<reference key="object" ref="276104134"/>
 						<reference key="parent" ref="197392939"/>
 						<string key="objectName">Button - CANCEL</string>
 					</object>
@@ -1343,7 +1344,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
+					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{460, 371}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1762,7 +1763,9 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>Delete_button_HL_.png</string>
+				<string type="base64-UTF8">DURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24ucG5nDURlbGV0ZV9idXR0b25fSEwu
+cG5nA</string>
+				<string>Delete_button.png</string>
 				<string type="base64-UTF8">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
 cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>Drop_button.png</string>
@@ -1784,6 +1787,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{16, 16}</string>
 				<string>{176, 43}</string>
 				<string>{16, 16}</string>
 				<string>{224, 104}</string>
