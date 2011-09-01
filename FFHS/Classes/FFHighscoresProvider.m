@@ -9,6 +9,11 @@
 #import "FFHighscoresProvider.h"
 #import "FFUtilities.h"
 #import "JSON.h"
+#import "HJObjManager.h"
+#import "HJManagedImageV.h"
+
+
+
 
 @implementation FFHighscoresProvider
 
@@ -17,6 +22,7 @@
 @synthesize queryComplete;
 @synthesize responseData;
 @synthesize highScores;
+@synthesize imageViewManager;
 
 - (id) initWithQueryURL:(NSString*)url
 {
@@ -45,7 +51,7 @@
 }
 
 
-//customize the appereance of table view cells
+// Customize the appearance of table view cells.
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -68,11 +74,24 @@
         return cell;
     }
     else if(self.queryComplete && indexPath.row < highScores.count) {
+        
+        HJManagedImageV* mi;
             
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"highscore"];
         if(cell == nil){
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"highscore"];
+            cell = [[UITableViewCell alloc] 
+                    initWithStyle:UITableViewCellStyleSubtitle 
+                    reuseIdentifier:@"highscore"];
+            //Create a managed image view and add it to the cell 
+            mi = [[[HJManagedImageV alloc] initWithFrame:CGRectMake(243,2,75,75)] autorelease];
+            mi.tag = 999;
+            [cell addSubview:mi];
+        }else {
+            //Get a reference to the managed image view that was already in the recycled cell, and clear it
+            mi = (HJManagedImageV*)[cell viewWithTag:999];
+            [mi clear];
         }
+        
         
         NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];
         
@@ -82,14 +101,25 @@
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-        id path = [NSString stringWithFormat:@" %@", [score objectForKey:@"thumbnail_url"]];
-        NSLog(@"path is  %@", path);
+        NSString *urlString =  [score objectForKey:@"thumbnail_url"];
+        NSString *urlString2=@"http://i3.ytimg.com/vi/NmI4dlERPgo/default.jpg";
+        //set the URL that we want the managed image view to load
+        mi.url = [NSURL URLWithString:urlString];
+         NSLog(@"path is %@", urlString);
+         NSLog(@"url is  %@", mi.url );
+        //tell the object manager to manage the managed image view
+    
+       [self.imageViewManager manage:mi];
         
-      // NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: @"http://i54.tinypic.com/9g9anp.jpg"]];
-        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: path]];
-     
         
-        cell.imageView.image = [UIImage imageWithData: imageData];
+        
+      
+    
+       // NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: path]];
+        
+       // cell.imageView.image = [UIImage imageWithData: imageData];
+        
+      
 
         return cell;
     }
@@ -135,7 +165,7 @@
     
 	for (int i = 0; i < [highScores count]; i++){
         NSDictionary* score = [highScores objectAtIndex:i];
-       // NSLog(@"score %d is %f by %@", i, [[score objectForKey:@"drop_time"] floatValue], [score objectForKey:@"author"] );
+        NSLog(@"score %d is %f by %@", i, [[score objectForKey:@"drop_time"] floatValue], [score objectForKey:@"author"] );
     }
     
     queryComplete = YES;
