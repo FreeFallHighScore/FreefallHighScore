@@ -182,7 +182,7 @@
 - (void)viewDidLoad
 {
     //pixel shows up shifted by one for some reason....
-    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.5, bottomStripeContainer.frame.origin.y, 
+    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.25, bottomStripeContainer.frame.origin.y, 
                                              bottomStripeContainer.frame.size.width, bottomStripeContainer.frame.size.height);
 
     UIView *view = [self videoPreviewView];
