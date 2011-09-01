@@ -831,7 +831,6 @@
 {
     element.frame = CGRectMake(screenBounds.size.width, element.frame.origin.y, 
                                element.frame.size.width, element.frame.size.height);
-    
 }
 
 
@@ -857,12 +856,10 @@
                                  animations: ^{
                                      if(!self.uploader.loggedIn){
                                          [self revealElementFromLeft:self.introLoginButton];
-                                         [self revealElementFromLeft:self.whatButton];
+                                         [self revealElementFromLeft:self.whatButton]; 
                                          [self revealElementFromRight:self.blackTabView];                                         
                                          
                                      }
-                                     
-                                     self.whiteTabLogo.alpha = 1.0;
                                      self.scoreTextContainer.alpha = 0.0;
                                      [self moveWhiteTabToY:whiteTabBaseRect.size.height];
                                      [self revealElementFromLeft:self.dropButton];
@@ -884,19 +881,14 @@
             case kFFStatePreDropRecording:
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     BOOL showRightPanel = NO;
-                                     if(firstLoad || !self.uploader.loggedIn){
-                                    	[self hideElementOffscreenLeft:self.introLoginButton];
-                                        showRightPanel = YES;
-                                     }
-                                     if(firstLoad){
-                                    	 [self hideElementOffscreenLeft:self.whatButton];
-                                         showRightPanel = YES;
-                                     }
-                                     if(showRightPanel){
-                                         [self hideElementOffscreenRight:self.blackTabView];
-                                     }
+                                   	[self hideElementOffscreenLeft:self.introLoginButton];
+                                    [self hideElementOffscreenLeft:self.whatButton];
+                                    [self hideElementOffscreenRight:self.blackTabView];
+                                    [self hideElementOffscreenLeft:self.whatButton];   
+                                    [self hideElementOffscreenLeft:self.loginButton];
+                                     
                                      self.infoButton.alpha = 0.;
+                                     
                                      [self moveWhiteTabToY:dropNowTextContainer.frame.size.height];
                                      [self hideElementToTop:self.dropButton withRoom:50]; 
                                      [self revealElementFromRight:self.cancelDropButton];
@@ -928,21 +920,11 @@
 
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     BOOL showRightPanel = NO;
-                                     if(firstLoad || !self.uploader.loggedIn){
+                                     if(!self.uploader.loggedIn){
                                          [self revealElementFromLeft:self.introLoginButton];
-                                         showRightPanel = YES;
-                                     }
-                                     if(firstLoad){
                                          [self revealElementFromLeft:self.whatButton];
-                                         showRightPanel = YES;
-                                     }
-                                     else{
-                                         self.infoButton.alpha = 1.;
-                                     }
-                                     
-                                     if(showRightPanel){
                                          [self revealElementFromRight:self.blackTabView];
+                                         self.infoButton.alpha = 1.;
                                      }                                     
 
                                      [self revealElementFromTop:self.dropButton toPosition:dropBaseRect.origin.y];
@@ -1337,7 +1319,6 @@
     if(cameraSize.width == 1280){
         //iPhone 4 camera
         bounds = CGRectMake(-44, 0, 568, 320);
-        
     }
     else{
         bounds = CGRectMake(0, -20, 480, 360);//fullscreen it  

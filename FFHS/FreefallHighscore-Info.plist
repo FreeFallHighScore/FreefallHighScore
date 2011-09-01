@@ -14,6 +14,8 @@
 	<array>
 		<string>app_icon.png</string>
 		<string>app_icon2.png</string>
+		<string>app_icon@2x.png</string>
+		<string>app_icon@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.freefallhighscore.${PRODUCT_NAME:rfc1034identifier}</string>

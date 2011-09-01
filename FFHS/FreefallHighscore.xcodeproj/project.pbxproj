@@ -61,6 +61,8 @@
 		A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18F113F87A1B00B92C7C /* GTMOAuth2ViewTouch.xib */; };
 		A66F1A3B13F87A1C00B92C7C /* libGDataTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */; };
 		A69AA032140AD5990061BB82 /* FFUploadProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */; };
+		A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */; };
+		A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */; };
 		A6C0BC08140052240005845F /* SigninAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC07140052240005845F /* SigninAccessory.xib */; };
 		A6C0BC0C140052290005845F /* FFFlipsideHighscoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */; };
 		A6C0BC0D140052290005845F /* FFFlipsideInstructionsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */; };
@@ -120,7 +122,6 @@
 		A6E8F61113F87A660022AB39 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61013F87A660022AB39 /* Security.framework */; };
 		A6E8F61313F87A6B0022AB39 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
-		DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291C13EF2402006BC687 /* app_icon2.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
 		E7B32F1E13EE319F00A76421 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1C13EE319F00A76421 /* Default.png */; };
 		E7B32F1F13EE319F00A76421 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1D13EE319F00A76421 /* Default@2x.png */; };
@@ -530,6 +531,8 @@
 		A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDataTouchStaticLib.a; sourceTree = "<group>"; };
 		A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUploadProgressBar.h; sourceTree = "<group>"; };
 		A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFUploadProgressBar.m; sourceTree = "<group>"; };
+		A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app_icon@2x.png"; sourceTree = "<group>"; };
+		A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app_icon@2x.png"; sourceTree = "<group>"; };
 		A6C0BC07140052240005845F /* SigninAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SigninAccessory.xib; path = Resources/SigninAccessory.xib; sourceTree = "<group>"; };
 		A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideHighscoresController.xib; path = Resources/FFFlipsideHighscoresController.xib; sourceTree = "<group>"; };
 		A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideInstructionsController.xib; path = Resources/FFFlipsideInstructionsController.xib; sourceTree = "<group>"; };
@@ -610,7 +613,6 @@
 		A6E8F61013F87A660022AB39 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A6E8F61213F87A6B0022AB39 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
-		DA7A291C13EF2402006BC687 /* app_icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon2.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		E7B32F1C13EE319F00A76421 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -707,7 +710,7 @@
 				A60A805413FEFBBA00879C56 /* Assets */,
 				8D1107310486CEB800E47090 /* FreefallHighscore-Info.plist */,
 				A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */,
-				DA7A291C13EF2402006BC687 /* app_icon2.png */,
+				A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */,
 				DA7A291913EF2384006BC687 /* app_icon.png */,
 				E7B32F2013EE31BB00A76421 /* gbb.ttf */,
 				E7B32F1C13EE319F00A76421 /* Default.png */,
@@ -1343,7 +1346,6 @@
 				E7B32F1F13EE319F00A76421 /* Default@2x.png in Resources */,
 				E7B32F2113EE31BB00A76421 /* gbb.ttf in Resources */,
 				DA7A291A13EF2384006BC687 /* app_icon.png in Resources */,
-				DA7A291D13EF2402006BC687 /* app_icon2.png in Resources */,
 				A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */,
 				A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */,
 				A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */,
@@ -1412,6 +1414,8 @@
 				A6C0BC9E14033DD00005845F /* recording_flash_HL@2x.png in Resources */,
 				A6C0BCA114034E6B0005845F /* recording_flash.png in Resources */,
 				A6C0BCA214034E6B0005845F /* recording_flash@2x.png in Resources */,
+				A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */,
+				A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
