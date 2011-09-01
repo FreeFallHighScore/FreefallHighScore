@@ -60,10 +60,10 @@
     }
 }
 
+
 - (NSString*) shortAccountName
 {
-    NSString *accountName = [self fullAccountName];
-    return (NSString*)[[accountName componentsSeparatedByString:@"@"] objectAtIndex:0];
+    return [[[self flipsideController] uploader] accountNameShort];
 }
 
 - (NSString*) fullAccountName

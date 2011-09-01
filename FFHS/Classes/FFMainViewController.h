@@ -217,5 +217,7 @@ typedef enum {
 - (IBAction)cancelSubmit:(id)sender;
 
 
+- (void) userDidLogIn;
+- (void) userDidLogOut;
 @end
 

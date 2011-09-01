@@ -105,8 +105,8 @@
 @end
 
 @interface FFMainViewController (FFYoutubeUploaderDelegate) <FFYoutubeUploaderDelegate>
-- (void) userDidSignIn:(NSString*)userName;
-- (void) userDidSignOut;
+//- (void) userDidSignIn:(NSString*)userName;
+//- (void) userDidSignOut;
 - (void) uploadReachedProgess:(CGFloat)progress;
 - (void) uploadCompleted;
 - (void) uploadFailedWithError:(NSError*)error;
@@ -202,6 +202,17 @@
         self.uploader.delegate = self;
         self.uploader.toplevelController = self;
         [uploader release];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userDidLogIn:)
+                                                     name:kFFUserDidLogin
+                                                   object:[self.player currentItem]];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userDidLogOut:)
+                                                     name:kFFUserDidLogout
+                                                   object:[self.player currentItem]];
+
     }
     
     // location stuff
@@ -292,6 +303,7 @@
 
     [self dismissModalViewControllerAnimated:YES];
     self.uploader.toplevelController = self;
+
 }
 
 - (IBAction)showInfo:(id)sender
@@ -738,7 +750,7 @@
 
     [self moveWhiteTabToY:0];
     
-    if(!self.uploader.loggedIn || firstLoad){
+    if(!self.uploader.loggedIn){
         self.whiteTabLogo.alpha = 0;
         self.infoButton.alpha = 0;
     }
@@ -1196,9 +1208,9 @@
     }
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
-        [self.loginButton setTitle:self.uploader.accountName 
+        [self.loginButton setTitle:self.uploader.accountNameShort 
                           forState:UIControlStateNormal];
-        [self.loginButton setTitle:self.uploader.accountName 
+        [self.loginButton setTitle:self.uploader.accountNameShort 
                           forState:UIControlStateDisabled];
         
     }
@@ -1410,19 +1422,22 @@
 
 @implementation FFMainViewController (FFYoutubeUploaderDelegate)
 
-- (void) userDidSignIn:(NSString*)userName
+- (void) userDidLogIn:(FFYoutubeUploader*)ul
 { 
+    NSLog(@"LOGGED IN AS %@", uploader.accountNameShort);
+    
     if(state == kFFStateFinishedDropSubmitView){
-        [self.loginButton setTitle:userName
+        [self.loginButton setTitle:self.uploader.accountNameShort
                           forState:UIControlStateNormal];
-        [self.loginButton setTitle:userName
+        [self.loginButton setTitle:self.uploader.accountNameShort
                           forState:UIControlStateDisabled];
     }
 }
 
-- (void) userDidSignOut
+- (void) userDidLogOut:(FFYoutubeUploader*)ul
 {
-    NSLog(@"user signed out");    
+    NSLog(@"LOGGED OUT");
+    
     if(state == kFFStateFinishedDropSubmitView){
         [self.loginButton setTitle:@"Log in"
                           forState:UIControlStateNormal];

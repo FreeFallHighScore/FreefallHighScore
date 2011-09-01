@@ -55,6 +55,7 @@
 @property (nonatomic, assign) IBOutlet UIView* signinView;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) NSString* accountName;
+@property (nonatomic, readonly) NSString* accountNameShort;
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;

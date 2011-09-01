@@ -88,9 +88,13 @@
     }
     
     [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
-    if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignOut)]){
-        [self.delegate userDidSignOut];
-    }
+    
+    //if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignOut)]){
+    //    [self.delegate userDidSignOut];
+    //}
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
+    
+//    [self cancelSignin:self];
     NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil &&
           [[[self youTubeService] authorizer] canAuthorize]);
 }
@@ -150,15 +154,20 @@
     
     if (error != nil) {
         NSLog(@"login error %@", [error description]);
+        //TODO change alert based on the error.
+        //could be no interent.. could be auth denied.
         ShowAlert(@"Failure Authenticating", @"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'.");
     } else {
         
         // Store authorization
         [[self youTubeService] setAuthorizer:auth];
         
-        if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignIn:)]){
-            [self.delegate userDidSignIn:self.accountName];
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogin 
+                                                            object:self];
+        
+//        if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignIn:)]){
+//            [self.delegate userDidSignIn:self.accountName];
+//        }
     }
     
     [self.toplevelController dismissModalViewControllerAnimated:YES];
@@ -379,6 +388,15 @@
         return @"(not logged in)";
     }
     return [[[self youTubeService] authorizer] userEmail];
+}
+
+- (NSString*) accountNameShort
+{    
+    if(!self.loggedIn){
+        return @"(not logged in)";
+    }
+    NSString *accountName = [self accountName];
+    return (NSString*)[[accountName componentsSeparatedByString:@"@"] objectAtIndex:0];
 }
 
 // progress callback
