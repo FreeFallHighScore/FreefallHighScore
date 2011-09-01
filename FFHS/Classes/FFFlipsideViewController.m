@@ -59,6 +59,7 @@
 	fileCache.fileCountLimit = 100;
 	fileCache.fileAgeLimit = 60*60*24*7; //1 week
 	[fileCache trimCacheUsingBackgroundThread];
+
 }
 
 

@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
 		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1305</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">300</string>
+			<string key="NS.object.0">301</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -100,7 +100,7 @@
 										<string key="NSFrameSize">{480, 320}</string>
 										<reference key="NSSuperview" ref="75627324"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="57991006"/>
+										<reference key="NSNextKeyView" ref="315937173"/>
 										<float key="IBUIAlpha">0.34999999403953552</float>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -253,7 +253,7 @@
 												<string key="NSFrame">{{20, 20}, {180, 30}}</string>
 												<reference key="NSSuperview" ref="868608193"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="850076298"/>
+												<reference key="NSNextKeyView" ref="57952183"/>
 												<reference key="IBUIBackgroundColor" ref="309174953"/>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -463,6 +463,36 @@
 									<string key="NSResourceName">Retry_button.png</string>
 								</object>
 							</object>
+							<object class="IBUIImageView" id="57952183">
+								<reference key="NSNextResponder" ref="197392939"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{182, -10}, {42, 60}}</string>
+								<reference key="NSSuperview" ref="197392939"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="57991006"/>
+								<float key="IBUIAlpha">0.0</float>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">recording_flash_HL.png</string>
+								</object>
+							</object>
+							<object class="IBUIImageView" id="57991006">
+								<reference key="NSNextResponder" ref="197392939"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{182, -10}, {42, 60}}</string>
+								<reference key="NSSuperview" ref="197392939"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="780404156"/>
+								<float key="IBUIAlpha">0.0</float>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">recording_flash.png</string>
+								</object>
+							</object>
 							<object class="IBUIButton" id="539342500">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
@@ -493,20 +523,6 @@
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">Drop_button.png</string>
-								</object>
-							</object>
-							<object class="IBUIImageView" id="57991006">
-								<reference key="NSNextResponder" ref="197392939"/>
-								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{182, 0}, {42, 60}}</string>
-								<reference key="NSSuperview" ref="197392939"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="780404156"/>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">recording_flash.png</string>
 								</object>
 							</object>
 							<object class="IBUIButton" id="806132014">
@@ -540,7 +556,7 @@
 								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
 								<reference key="NSSuperview" ref="197392939"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="763833261"/>
+								<reference key="NSNextKeyView" ref="863294388"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">2</int>
@@ -554,38 +570,15 @@
 								<reference key="IBUIHighlightedTitleColor" ref="267716009"/>
 								<reference key="IBUINormalTitleColor" ref="309174953"/>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="95661534">
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="668586189">
 									<string key="NSClassName">NSImage</string>
-									<string type="base64-UTF8" key="NSResourceName">RGVsZXRlX2J1dHRvbl9ITC5wbmcNRGVsZXRlX2J1dHRvbl9ITEAyeC5wbmcNRGVsZXRlX2J1dHRvbi5w
-bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
+									<string type="base64-UTF8" key="NSResourceName">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
+cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="250424644">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="174023055">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Delete_button.png</string>
+									<string key="NSResourceName">Delete_button_HL_.png</string>
 								</object>
-							</object>
-							<object class="IBUIButton" id="850076298">
-								<reference key="NSNextResponder" ref="197392939"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
-								<reference key="NSSuperview" ref="197392939"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="539342500"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">2</int>
-								<reference key="IBUIFont" ref="881157047"/>
-								<double key="IBUIContentEdgeInsets.top">8</double>
-								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
-								<double key="IBUIContentEdgeInsets.left">0.0</double>
-								<double key="IBUIContentEdgeInsets.right">54</double>
-								<string key="IBUIHighlightedTitle">CANCEL</string>
-								<string key="IBUINormalTitle">CANCEL</string>
-								<reference key="IBUIHighlightedTitleColor" ref="267716009"/>
-								<reference key="IBUINormalTitleColor" ref="309174953"/>
-								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<reference key="IBUIHighlightedBackgroundImage" ref="95661534"/>
-								<reference key="IBUINormalBackgroundImage" ref="250424644"/>
 							</object>
 							<object class="IBUIButton" id="641299292">
 								<reference key="NSNextResponder" ref="197392939"/>
@@ -618,13 +611,39 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 									<string key="NSResourceName">Submit_button.png</string>
 								</object>
 							</object>
+							<object class="IBUIButton" id="863294388">
+								<reference key="NSNextResponder" ref="197392939"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
+								<reference key="NSSuperview" ref="197392939"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="763833261"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIFont" ref="881157047"/>
+								<string key="IBUINormalTitle">CANCEL</string>
+								<object class="NSColor" key="IBUIHighlightedTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">2</int>
+									<bytes key="NSRGB">MSAxIDEAA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
+								<reference key="IBUIHighlightedBackgroundImage" ref="668586189"/>
+								<reference key="IBUISelectedBackgroundImage" ref="668586189"/>
+								<reference key="IBUINormalBackgroundImage" ref="174023055"/>
+							</object>
 							<object class="IBUIButton" id="300609137">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 155}, {252, 46}}</string>
 								<reference key="NSSuperview" ref="197392939"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="315937173"/>
+								<reference key="NSNextKeyView" ref="539342500"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">2</int>
@@ -792,15 +811,6 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 					<int key="connectionID">329</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">login:</string>
-						<reference key="source" ref="806132014"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">357</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">bottomStripeContainer</string>
 						<reference key="source" ref="372490531"/>
@@ -882,14 +892,6 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">recordingFlash</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="57991006"/>
-					</object>
-					<int key="connectionID">382</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">scoreTextContainer</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="868608193"/>
@@ -930,15 +932,6 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 					<int key="connectionID">395</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">cancelRecording:</string>
-						<reference key="source" ref="850076298"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">397</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">infoButton</string>
 						<reference key="source" ref="372490531"/>
@@ -965,11 +958,45 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">recordingFlashOrange</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="57991006"/>
+					</object>
+					<int key="connectionID">405</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">recordingFlashBlack</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="57952183"/>
+					</object>
+					<int key="connectionID">406</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showInfo:</string>
+						<reference key="source" ref="806132014"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">407</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">cancelDropButton</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="850076298"/>
+						<reference key="destination" ref="863294388"/>
 					</object>
-					<int key="connectionID">401</int>
+					<int key="connectionID">410</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">cancelRecording:</string>
+						<reference key="source" ref="863294388"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">411</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1018,9 +1045,10 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 							<reference ref="806132014"/>
 							<reference ref="475861897"/>
 							<reference ref="730416964"/>
-							<reference ref="57991006"/>
 							<reference ref="300609137"/>
-							<reference ref="850076298"/>
+							<reference ref="57991006"/>
+							<reference ref="57952183"/>
+							<reference ref="863294388"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">Video View</string>
@@ -1185,11 +1213,6 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 						<reference key="parent" ref="197392939"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">365</int>
-						<reference key="object" ref="57991006"/>
-						<reference key="parent" ref="197392939"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">383</int>
 						<reference key="object" ref="868608193"/>
 						<object class="NSMutableArray" key="children">
@@ -1212,8 +1235,20 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 						<string key="objectName">Button - REPLAY</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">396</int>
-						<reference key="object" ref="850076298"/>
+						<int key="objectID">365</int>
+						<reference key="object" ref="57991006"/>
+						<reference key="parent" ref="197392939"/>
+						<string key="objectName">Image View - recording_orange.png</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">402</int>
+						<reference key="object" ref="57952183"/>
+						<reference key="parent" ref="197392939"/>
+						<string key="objectName">Image View - recording_black.png</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">408</int>
+						<reference key="object" ref="863294388"/>
 						<reference key="parent" ref="197392939"/>
 						<string key="objectName">Button - CANCEL</string>
 					</object>
@@ -1260,8 +1295,9 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 					<string>385.IBPluginDependency</string>
 					<string>391.IBPluginDependency</string>
 					<string>391.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
-					<string>396.IBPluginDependency</string>
-					<string>396.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
+					<string>402.IBPluginDependency</string>
+					<string>408.IBPluginDependency</string>
+					<string>408.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>46.IBPluginDependency</string>
 					<string>6.IBEditorWindowLastContentRect</string>
 					<string>6.IBPluginDependency</string>
@@ -1276,7 +1312,7 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
+					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1305,6 +1341,7 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1324,7 +1361,7 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">401</int>
+			<int key="maxID">411</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1433,7 +1470,8 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
 							<string>playVideoButton</string>
-							<string>recordingFlash</string>
+							<string>recordingFlashBlack</string>
+							<string>recordingFlashOrange</string>
 							<string>retryDropButton</string>
 							<string>rightStripeContainer</string>
 							<string>scoreTextContainer</string>
@@ -1467,12 +1505,13 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIImageView</string>
+							<string>UIImageView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
-							<string>UIProgressView</string>
+							<string>FFUploadProgressBar</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UITextField</string>
@@ -1502,7 +1541,8 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
 							<string>playVideoButton</string>
-							<string>recordingFlash</string>
+							<string>recordingFlashBlack</string>
+							<string>recordingFlashOrange</string>
 							<string>retryDropButton</string>
 							<string>rightStripeContainer</string>
 							<string>scoreTextContainer</string>
@@ -1584,7 +1624,11 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">recordingFlash</string>
+								<string key="name">recordingFlashBlack</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">recordingFlashOrange</string>
 								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1609,7 +1653,7 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">uploadProgressBar</string>
-								<string key="candidateClassName">UIProgressView</string>
+								<string key="candidateClassName">FFUploadProgressBar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">uploadProgressView</string>
@@ -1646,6 +1690,60 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 						<string key="minorKey">./Classes/FFMainViewController.h</string>
 					</object>
 				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FFUploadProgressBar</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bar</string>
+							<string>endcap</string>
+							<string>flasher</string>
+							<string>view</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UIView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bar</string>
+							<string>endcap</string>
+							<string>flasher</string>
+							<string>view</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">bar</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">endcap</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">flasher</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">view</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FFUploadProgressBar.h</string>
+					</object>
+				</object>
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1664,9 +1762,9 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>Delete_button.png</string>
-				<string type="base64-UTF8">RGVsZXRlX2J1dHRvbl9ITC5wbmcNRGVsZXRlX2J1dHRvbl9ITEAyeC5wbmcNRGVsZXRlX2J1dHRvbi5w
-bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
+				<string>Delete_button_HL_.png</string>
+				<string type="base64-UTF8">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
+cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>Drop_button.png</string>
 				<string>Drop_button_HL.png</string>
 				<string>Login_button.png</string>
@@ -1682,6 +1780,7 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				<string>i_button.png</string>
 				<string>i_button_HL.png</string>
 				<string>recording_flash.png</string>
+				<string>recording_flash_HL.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1691,8 +1790,8 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				<string>{224, 104}</string>
 				<string>{224, 48}</string>
 				<string>{224, 48}</string>
-				<string>{167, 128}</string>
-				<string>{167, 128}</string>
+				<string>{133, 128}</string>
+				<string>{133, 128}</string>
 				<string>{480, 320}</string>
 				<string>{252, 46}</string>
 				<string>{252, 46}</string>
@@ -1702,8 +1801,9 @@ bmcNRGVsZXRlX2J1dHRvbl9ITC5wbmc</string>
 				<string>{27, 34}</string>
 				<string>{27, 34}</string>
 				<string>{42, 62}</string>
+				<string>{42, 62}</string>
 			</object>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">300</string>
+		<string key="IBCocoaTouchPluginVersion">301</string>
 	</data>
 </archive>

@@ -86,6 +86,8 @@
 - (NSString*) scoreSayingTextLine1;
 - (NSString*) scoreSayingTextLine2;
 
+- (void) startRecordingFlash;
+- (void) fadeRecordingFlash:(NSNumber*)on;
 - (void) transitionScoreViewToSubmitMode;
 
 - (void)changeState:(FFGameState)newState;
@@ -132,7 +134,6 @@
 @synthesize infoButton;
 @synthesize playVideoButton;
 @synthesize whatButton;
-@synthesize recordingFlash;
 
 @synthesize leftStripeContainer;
 @synthesize bottomStripeContainer;
@@ -147,6 +148,9 @@
 @synthesize dropscoreScoreViewLabel;
 @synthesize dropscoreSubmitViewLabel;
 @synthesize dropscoreSayingLabel;
+
+@synthesize recordingFlashBlack;
+@synthesize recordingFlashOrange;
 
 @synthesize trackLoc;
 @synthesize introLoginButton;
@@ -758,31 +762,6 @@
     bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, targetY, 
                                              bottomStripeContainer.frame.size.width, screenBounds.size.height-targetY);
 }
-     
-/*
-- (void) resizeWhiteTabToFrame:(CGRect)targetFrame
-{
-    whiteTabCachedRect = whiteTabView.frame;
-    
-    whiteTabView.frame = targetFrame;
-    
-    bottomStripeContainer.frame = CGRectMake(targetFrame.origin.x, targetFrame.size.height, 
-                                             targetFrame.size.width, screenBounds.size.height-targetFrame.size.height);
-    
-    leftStripeContainer.frame = CGRectMake(0, 0, 
-                                           targetFrame.origin.x, screenBounds.size.height);
-    
-    rightStripeContainer.frame = CGRectMake(targetFrame.origin.x+targetFrame.size.width, 0, 
-                                            screenBounds.size.width-targetFrame.origin.x+targetFrame.size.width, screenBounds.size.height);
-}
-*/
-
-/*
-- (void) revertWhiteTab
-{
-    [self resizeWhiteTabToFrame:whiteTabCachedRect];
-}
-*/
 
 - (void) hideElementToTop:(UIView*)element withRoom:(CGFloat)padding
 {
@@ -826,11 +805,60 @@
                                element.frame.size.width, element.frame.size.height);
 }
 
-
 - (void) hideElementOffscreenRight:(UIView*)element
 {
     element.frame = CGRectMake(screenBounds.size.width, element.frame.origin.y, 
                                element.frame.size.width, element.frame.size.height);
+}
+
+- (void) startRecordingFlash
+{
+    self.recordingFlashBlack.alpha = 1.0;
+    self.recordingFlashOrange.alpha = 1.0;
+    [UIView animateWithDuration:.1
+                     animations: ^{
+                         self.dropButton.alpha = 0.0;
+                     }
+                     completion:^(BOOL finished){ 
+                         //[self fadeRecordingFlash:[NSNumber numberWithBool:YES]];
+                     }];     
+}
+
+- (void)fadeRecordingFlash:(NSNumber*)on
+{
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        
+        if(state != kFFStatePreDropRecording) return;
+        
+        [UIView animateWithDuration:.3
+                         animations: ^{
+                             if([on boolValue]){
+                                 self.recordingFlashOrange.alpha = 1.0;
+                             }
+                             else{
+                                 self.recordingFlashOrange.alpha = 0.0;
+                             }
+                        }
+                        completion:^(BOOL finished){ 
+                            if(state == kFFStatePreDropRecording){
+                                [self performSelector:@selector(fadeRecordingFlash:) withObject:[NSNumber numberWithBool:![on boolValue]] afterDelay:.3];
+                            }
+                        }];
+    });
+}
+
+- (void) stopRecordingFlash
+{
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        [UIView animateWithDuration:.5
+                         animations: ^{
+                             self.recordingFlashOrange.alpha = 0.0;
+                             self.recordingFlashBlack.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished){ 
+                             
+                         }];     
+    });
 }
 
 
@@ -858,8 +886,12 @@
                                          [self revealElementFromLeft:self.introLoginButton];
                                          [self revealElementFromLeft:self.whatButton]; 
                                          [self revealElementFromRight:self.blackTabView];                                         
-                                         
+                                         self.infoButton.alpha = 0.;
                                      }
+                                     else{
+                                         self.infoButton.alpha = 1.;
+                                     }
+
                                      self.scoreTextContainer.alpha = 0.0;
                                      [self moveWhiteTabToY:whiteTabBaseRect.size.height];
                                      [self revealElementFromLeft:self.dropButton];
@@ -897,18 +929,21 @@
                                      self.dropNowTextContainer.alpha = 1.0;
                                  }
                                  completion:^(BOOL finished){ 
-                                     //TODO: start flasher loops
+                                     [self startRecordingFlash];
                                  }];
-                
                 break;
 
             case kFFStatePreDropCancelling:
+                self.dropButton.enabled= NO;
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self showStripeOverlay];
                                      self.dropNowTextContainer.alpha = 0.0;
                                      [self hideElementOffscreenRight:self.cancelDropButton];
-                                    [self moveWhiteTabToY:0];                                    
+                                     [self moveWhiteTabToY:0];            
+                                     [self stopRecordingFlash];
+                                     self.dropButton.alpha = 1.0;
+
                                  }
                  
                                  completion:^(BOOL finished){ 
@@ -917,15 +952,18 @@
                 break;
                 
             case kFFStatePreDropCanceled:
-
                 [UIView animateWithDuration:.25
                                  animations: ^{
+                                    self.dropButton.enabled = YES;
                                      if(!self.uploader.loggedIn){
                                          [self revealElementFromLeft:self.introLoginButton];
                                          [self revealElementFromLeft:self.whatButton];
                                          [self revealElementFromRight:self.blackTabView];
+                                         self.infoButton.alpha = 0.;
+                                     }
+                                     else{
                                          self.infoButton.alpha = 1.;
-                                     }                                     
+                                     }
 
                                      [self revealElementFromTop:self.dropButton toPosition:dropBaseRect.origin.y];
                                      [self moveWhiteTabToY:whiteTabBaseRect.size.height];                                     
@@ -939,7 +977,9 @@
             case kFFStateInFreeFall:
                 [UIView animateWithDuration:.25
                                  animations: ^{
-                                     self.dropButton.alpha = 0.0;
+                                     
+                                     self.recordingFlashOrange.alpha = 0.0;
+                                     self.recordingFlashBlack.alpha = 0.0;
                                      [self hideElementOffscreenRight:self.cancelDropButton];
                                      [self moveWhiteTabToY:0];
                                      self.dropNowTextContainer.alpha = 0.;

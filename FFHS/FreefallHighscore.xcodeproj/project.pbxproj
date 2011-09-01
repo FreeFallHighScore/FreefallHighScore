@@ -60,6 +60,8 @@
 		A66F1A3913F87A1C00B92C7C /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18F013F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.m */; };
 		A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18F113F87A1B00B92C7C /* GTMOAuth2ViewTouch.xib */; };
 		A66F1A3B13F87A1C00B92C7C /* libGDataTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */; };
+		A6744C45140F4F150018FDC9 /* Delete_button_HL_.png in Resources */ = {isa = PBXBuildFile; fileRef = A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */; };
+		A6744C46140F4F150018FDC9 /* Delete_button_HL_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */; };
 		A69AA032140AD5990061BB82 /* FFUploadProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */; };
 		A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */; };
 		A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */; };
@@ -96,8 +98,6 @@
 		A6C0BC7414032F800005845F /* Retry_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */; };
 		A6C0BC7514032F800005845F /* Retry_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7114032F7F0005845F /* Retry_button.png */; };
 		A6C0BC7614032F800005845F /* Retry_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7214032F7F0005845F /* Retry_button@2x.png */; };
-		A6C0BC7B140331B60005845F /* Delete_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC77140331B50005845F /* Delete_button_HL.png */; };
-		A6C0BC7C140331B60005845F /* Delete_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC78140331B50005845F /* Delete_button_HL@2x.png */; };
 		A6C0BC7D140331B60005845F /* Delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC79140331B50005845F /* Delete_button.png */; };
 		A6C0BC7E140331B60005845F /* Delete_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7A140331B50005845F /* Delete_button@2x.png */; };
 		A6C0BC831403327A0005845F /* Submit_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7F1403327A0005845F /* Submit_button_HL.png */; };
@@ -130,6 +130,7 @@
 		A6F7C24B140F1E95002B3199 /* HJMOUserBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F7C240140F1E95002B3199 /* HJMOUserBase.m */; };
 		A6F7C24C140F1E95002B3199 /* HJObjManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F7C242140F1E95002B3199 /* HJObjManager.m */; };
 		A6F7C24D140F1E95002B3199 /* HJWeakMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F7C244140F1E95002B3199 /* HJWeakMutableArray.m */; };
+		A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6F7C24E140F37C6002B3199 /* recording_flash_HL.png */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
 		E7B32F1E13EE319F00A76421 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1C13EE319F00A76421 /* Default.png */; };
@@ -538,6 +539,8 @@
 		A66F1A3413F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		A66F1A3513F87A1B00B92C7C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
 		A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDataTouchStaticLib.a; sourceTree = "<group>"; };
+		A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL_.png; sourceTree = "<group>"; };
+		A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button_HL_@2x.png"; sourceTree = "<group>"; };
 		A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUploadProgressBar.h; sourceTree = "<group>"; };
 		A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFUploadProgressBar.m; sourceTree = "<group>"; };
 		A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app_icon@2x.png"; sourceTree = "<group>"; };
@@ -590,8 +593,6 @@
 		A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Retry_button_HL@2x.png"; sourceTree = "<group>"; };
 		A6C0BC7114032F7F0005845F /* Retry_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Retry_button.png; sourceTree = "<group>"; };
 		A6C0BC7214032F7F0005845F /* Retry_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Retry_button@2x.png"; sourceTree = "<group>"; };
-		A6C0BC77140331B50005845F /* Delete_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL.png; sourceTree = "<group>"; };
-		A6C0BC78140331B50005845F /* Delete_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button_HL@2x.png"; sourceTree = "<group>"; };
 		A6C0BC79140331B50005845F /* Delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button.png; sourceTree = "<group>"; };
 		A6C0BC7A140331B50005845F /* Delete_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button@2x.png"; sourceTree = "<group>"; };
 		A6C0BC7F1403327A0005845F /* Submit_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Submit_button_HL.png; sourceTree = "<group>"; };
@@ -641,6 +642,7 @@
 		A6F7C242140F1E95002B3199 /* HJObjManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJObjManager.m; sourceTree = "<group>"; };
 		A6F7C243140F1E95002B3199 /* HJWeakMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJWeakMutableArray.h; sourceTree = "<group>"; };
 		A6F7C244140F1E95002B3199 /* HJWeakMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJWeakMutableArray.m; sourceTree = "<group>"; };
+		A6F7C24E140F37C6002B3199 /* recording_flash_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recording_flash_HL.png; sourceTree = "<group>"; };
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
@@ -783,10 +785,10 @@
 				A6C0BC54140329FC0005845F /* Login_button_HL@2x.png */,
 				A6C0BC55140329FC0005845F /* Login_button.png */,
 				A6C0BC56140329FC0005845F /* Login_button@2x.png */,
-				A6C0BC77140331B50005845F /* Delete_button_HL.png */,
-				A6C0BC78140331B50005845F /* Delete_button_HL@2x.png */,
 				A6C0BC79140331B50005845F /* Delete_button.png */,
 				A6C0BC7A140331B50005845F /* Delete_button@2x.png */,
+				A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */,
+				A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */,
 				A6C0BC6F14032F7F0005845F /* Retry_button_HL.png */,
 				A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */,
 				A6C0BC7114032F7F0005845F /* Retry_button.png */,
@@ -801,6 +803,7 @@
 				A60A80AD1400477500879C56 /* i_button@2x.png */,
 				A6C0BC9F14034E6A0005845F /* recording_flash.png */,
 				A6C0BCA014034E6A0005845F /* recording_flash@2x.png */,
+				A6F7C24E140F37C6002B3199 /* recording_flash_HL.png */,
 				A6C0BC9814033DD00005845F /* recording_flash_HL@2x.png */,
 				A60A80AE1400477500879C56 /* menu_logo.png */,
 				A60A80AF1400477500879C56 /* menu_logo@2x.png */,
@@ -1309,9 +1312,9 @@
 				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
 				A6C27E8113FD6FF40001999F /* FFWidgetOverlays.h */,
 				A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */,
-				A60A80791400368D00879C56 /* FFUtilities.h */,
 				A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */,
 				A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */,
+				A60A80791400368D00879C56 /* FFUtilities.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1459,8 +1462,6 @@
 				A6C0BC7414032F800005845F /* Retry_button_HL@2x.png in Resources */,
 				A6C0BC7514032F800005845F /* Retry_button.png in Resources */,
 				A6C0BC7614032F800005845F /* Retry_button@2x.png in Resources */,
-				A6C0BC7B140331B60005845F /* Delete_button_HL.png in Resources */,
-				A6C0BC7C140331B60005845F /* Delete_button_HL@2x.png in Resources */,
 				A6C0BC7D140331B60005845F /* Delete_button.png in Resources */,
 				A6C0BC7E140331B60005845F /* Delete_button@2x.png in Resources */,
 				A6C0BC831403327A0005845F /* Submit_button_HL.png in Resources */,
@@ -1474,6 +1475,9 @@
 				A6C0BCA214034E6B0005845F /* recording_flash@2x.png in Resources */,
 				A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */,
 				A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */,
+				A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */,
+				A6744C45140F4F150018FDC9 /* Delete_button_HL_.png in Resources */,
+				A6744C46140F4F150018FDC9 /* Delete_button_HL_@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

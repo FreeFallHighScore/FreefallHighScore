@@ -132,7 +132,9 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIButton *infoButton;
 @property (nonatomic,assign) IBOutlet UIButton *whatButton;
 
-@property (nonatomic,assign) IBOutlet UIImageView* recordingFlash;
+@property (nonatomic,assign) IBOutlet UIImageView* recordingFlashOrange;
+@property (nonatomic,assign) IBOutlet UIImageView* recordingFlashBlack;
+
 
 @property (nonatomic,assign) IBOutlet UIView* leftStripeContainer;
 @property (nonatomic,assign) IBOutlet UIView* bottomStripeContainer;
@@ -145,6 +147,7 @@ typedef enum {
 
 @property (nonatomic,assign) IBOutlet UIImageView* blackTabLogo;
 @property (nonatomic,assign) IBOutlet UIImageView* whiteTabLogo;
+
 
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreScoreViewLabel;
 @property (nonatomic,assign) IBOutlet UILabel* dropscoreSubmitViewLabel;
