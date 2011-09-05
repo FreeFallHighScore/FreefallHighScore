@@ -6,9 +6,14 @@
 #include "ofxXmlSettings.h"
 #include "ofxiPhoneFile.h"
 
+typedef struct{
+    ofVec3f accel;
+    float time;
+} AccelSample;
+
 class testApp : public ofxiPhoneApp {
 	
-public:
+  public:
 	void setup();
 	void update();
 	void draw();
@@ -27,14 +32,13 @@ public:
 	
 	void gotMessage(ofMessage msg);
 	
-	vector<ofVec3f> accelRecord;
+	vector<AccelSample> accelRecord;
     
+    string filePrefix;
     ofxXmlSettings recordedData;
     ofxiPhoneFile outfile;
     int outfileNumber;
     
+    float recordStartTime;
     bool recording;
-    float freefallStartTime;
-    float longestTimeInFreefall;
-    bool inFreefall;
 };
