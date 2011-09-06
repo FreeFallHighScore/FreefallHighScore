@@ -1432,6 +1432,8 @@
         [self.loginButton setTitle:self.uploader.accountNameShort
                           forState:UIControlStateDisabled];
     }
+    
+    
 }
 
 - (void) userDidLogOut:(FFYoutubeUploader*)ul

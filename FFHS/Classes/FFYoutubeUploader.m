@@ -29,6 +29,7 @@
 @synthesize location;
 @synthesize signinView;
 @synthesize loginView;
+@synthesize responseData;
 
 - (id) init
 {
@@ -165,9 +166,19 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogin 
                                                             object:self];
         
-//        if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignIn:)]){
-//            [self.delegate userDidSignIn:self.accountName];
-//        }
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://gdata.youtube.com/feeds/api/users/default"]];
+        
+		[auth authorizeRequest:request
+             completionHandler:^(NSError* error){
+                 if(error == nil){                 	
+                    self.responseData =  [NSMutableData data];
+                    [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+				}
+                 else{
+                 	NSLog(@"Completed with error %@", error);
+                 }
+            }];
+
     }
     
     [self.toplevelController dismissModalViewControllerAnimated:YES];
@@ -334,13 +345,6 @@
         [self.uploadTicket cancelTicket];
         self.uploadTicket = nil;
     }
-    
-    
-//    [uploadProgressView setProgress:0.0];
-//    [uploadProgressView setHidden:YES];
-    
-//    [stopUploadButton setHidden:YES];
-//    [uploadButton setHidden:NO];
 }
 
 // upload callback
@@ -364,9 +368,6 @@
     NSLog(@"Ticket: %@", ticket);
     NSLog(@"Video Entry: %@", videoEntry);
     NSLog(@"Error: %@", error);
-    
-//    [uploadProgressView setProgress:0.0];
-//    [uploadProgressView setHidden:YES];
     
     
     self.uploadTicket = nil;
@@ -406,23 +407,31 @@
     if(self.delegate != nil && [self.delegate respondsToSelector:@selector(uploadReachedProgess:)]){
         [self.delegate uploadReachedProgess:progress];
     }
-                                
-//    [uploadProgressView setProgress:(float)numberOfBytesRead/(float)dataLength];
 }
 
-//- (void)showAlert:(NSString*)title withMessage:(NSString*)message
-//{
-//    UIAlertView* alertView = nil; 
-//    @try { 
-//        alertView = [[UIAlertView alloc] initWithTitle:title
-//                                               message:message
-//                                              delegate:self cancelButtonTitle:@"OK"
-//                                     otherButtonTitles:nil]; 
-//        [alertView show]; 
-//    } @finally { 
-//        if (alertView)
-//            [alertView release]; 
-//    }
-//}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	[self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	[self.responseData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {    
+    //TODO: handle this error with a message
+    ShowAlert(@"Request Error", [NSString stringWithFormat:@"failed to receive data with error @%", [error localizedDescription] ]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
+	[connection release];
+
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"response! %@", responseString);
+    
+    [responseString release];
+}
 
 @end

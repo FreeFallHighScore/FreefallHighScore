@@ -67,6 +67,8 @@
 
 @property (nonatomic, assign) CLLocation* location;
 
+@property (nonatomic, retain) NSMutableData* responseData;
+
 - (GDataServiceGoogleYouTube *)youTubeService;
 
 - (IBAction) cancelSignin:(id)sender;
