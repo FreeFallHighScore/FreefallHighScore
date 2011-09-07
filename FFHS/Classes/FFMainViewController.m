@@ -335,6 +335,8 @@
 
 - (void)viewDidUnload
 {
+    NSLog(@"WARNING ***** UNLOADING MAIN VIEW");
+    
     [super viewDidUnload];
     
     // Release any retained subviews of the main view.

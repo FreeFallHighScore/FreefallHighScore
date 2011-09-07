@@ -8,6 +8,7 @@
 
 #import "FFFlipsideController.h"
 #import "FFFlipsideViewController.h"
+#import "FFUtilities.h"
 
 @implementation FFFlipsideController
 
@@ -19,13 +20,13 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
 
 - (void)dealloc
 {
+
     [super dealloc];
 }
 
@@ -53,14 +54,26 @@
     
     NSLog(@"User is logged in: %d", loggedIn);
     if (loggedIn) {        
-        [loginButton setTitle:[self shortAccountName]];
+        [loginButton setTitle:[self.flipsideController.uploader youtubeUserName]];
     }
     else{
         [loginButton setTitle:@"Log in"];
     }
 }
 
+- (void) userDidLogIn:(id)sender
+{
+	[self refreshLoginButton] ;
+    
 
+}
+
+- (void) userDidLogOut:(id)sender
+{
+    [self refreshLoginButton];
+}
+
+/*
 - (NSString*) shortAccountName
 {
     return [[[self flipsideController] uploader] accountNameShort];
@@ -70,6 +83,7 @@
 {
     return [[[self flipsideController] uploader] accountName];
 }
+*/
 
 #pragma mark - View lifecycle
 
@@ -84,6 +98,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"******** showing the view named");
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDidLogIn:)
+                                                 name:kFFUserDidLogin
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDidLogOut:)
+                                                 name:kFFUserDidLogout
+                                               object:nil];
+
     [self refreshLoginButton];
 }
 
@@ -95,6 +120,9 @@
 
 - (void)viewDidUnload
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kFFUserDidLogin object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kFFUserDidLogout object:nil];
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

@@ -12,6 +12,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CoreLocation/CoreLocation.h>
 #import "FFUtilities.h"
+#import "FFLinkYoutubeAccountController.h"
 
 @protocol FFYoutubeUploaderDelegate <NSObject>
 @optional
@@ -25,8 +26,7 @@
 
 @class GTMOAuth2ViewControllerTouch;
 @class GTMOAuth2Authentication;
-
-@interface FFYoutubeUploader : NSObject {
+@interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate> {
     NSString* keychainItemName;
     NSString* clientID;
     NSString* clientSecret;
@@ -45,6 +45,7 @@
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 @property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;
+@property (nonatomic,retain) FFLinkYoutubeAccountController* accountLinkViewController;
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
 @property (nonatomic,retain) NSString* keychainItemName;
@@ -53,12 +54,16 @@
 @property (nonatomic,retain) NSString* developerKey;
 
 @property (nonatomic, assign) IBOutlet UIView* signinView;
+@property (nonatomic, assign) IBOutlet UIBarButtonItem* logoutButton;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) NSString* accountName;
 @property (nonatomic, readonly) NSString* accountNameShort;
+@property (nonatomic, retain) NSString* youtubeUserName;
+
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
+
 
 //VIDEO PROPERTIES:
 @property (nonatomic, retain) NSString* videoTitle;
@@ -75,6 +80,7 @@
 - (IBAction) login:(id)sender;
 - (IBAction) logout:(id)sender;
 
+- (void) queryForYoutubeUsername;
 
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
@@ -90,6 +96,10 @@
 - (void)uploadTicket:(GDataServiceTicket *)ticket
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
                error:(NSError *)error;
+
+
+- (void) userSignaledLinkedFinished;
+- (void) userSignaledLinkedCanceled;
 
 
 @end

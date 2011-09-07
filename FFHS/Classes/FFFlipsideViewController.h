@@ -22,7 +22,7 @@
 
 @property (nonatomic, assign) id <FFFlipsideViewControllerDelegate> delegate;
 @property (nonatomic, assign) FFYoutubeUploader* uploader;
-@property (nonatomic, retain) HJObjManager * imageViewManager;
+@property (nonatomic, retain) HJObjManager *imageViewManager;
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;

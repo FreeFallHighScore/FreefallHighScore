@@ -133,6 +133,8 @@
 		A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6F7C24E140F37C6002B3199 /* recording_flash_HL.png */; };
 		DA7A291A13EF2384006BC687 /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7A291913EF2384006BC687 /* app_icon.png */; };
 		DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */; };
+		E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */; };
+		E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */; };
 		E7B32F1E13EE319F00A76421 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1C13EE319F00A76421 /* Default.png */; };
 		E7B32F1F13EE319F00A76421 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1D13EE319F00A76421 /* Default@2x.png */; };
 		E7B32F2113EE31BB00A76421 /* gbb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F2013EE31BB00A76421 /* gbb.ttf */; };
@@ -646,6 +648,9 @@
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
+		E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLinkYoutubeAccountController.h; sourceTree = "<group>"; };
+		E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLinkYoutubeAccountController.m; sourceTree = "<group>"; };
+		E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFLinkYoutubeAccountController.xib; path = Classes/FFLinkYoutubeAccountController.xib; sourceTree = "<group>"; };
 		E7B32F1C13EE319F00A76421 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		E7B32F1D13EE319F00A76421 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		E7B32F2013EE31BB00A76421 /* gbb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = gbb.ttf; path = Resources/gbb.ttf; sourceTree = "<group>"; };
@@ -1259,6 +1264,7 @@
 				A60A807113FF362B00879C56 /* ScoreView.xib */,
 				A60A807213FF362B00879C56 /* UploadProgress.xib */,
 				A6C0BC07140052240005845F /* SigninAccessory.xib */,
+				E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */,
 			);
 			name = Frontside;
 			sourceTree = "<group>";
@@ -1308,6 +1314,8 @@
 				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
 				A66F18DF13F879CB00B92C7C /* FFYoutubeUploader.h */,
 				A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */,
+				E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */,
+				E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */,
 				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
 				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
 				A6C27E8113FD6FF40001999F /* FFWidgetOverlays.h */,
@@ -1478,6 +1486,7 @@
 				A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */,
 				A6744C45140F4F150018FDC9 /* Delete_button_HL_.png in Resources */,
 				A6744C46140F4F150018FDC9 /* Delete_button_HL_@2x.png in Resources */,
+				E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1531,6 +1540,7 @@
 				A6F7C24B140F1E95002B3199 /* HJMOUserBase.m in Sources */,
 				A6F7C24C140F1E95002B3199 /* HJObjManager.m in Sources */,
 				A6F7C24D140F1E95002B3199 /* HJWeakMutableArray.m in Sources */,
+				E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

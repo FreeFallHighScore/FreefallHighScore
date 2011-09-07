@@ -185,6 +185,7 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 
 
+
 //state abstractors
 - (BOOL) listenToAccel;
 - (BOOL) isRecording;
@@ -217,7 +218,7 @@ typedef enum {
 - (IBAction)cancelSubmit:(id)sender;
 
 
-- (void) userDidLogIn;
-- (void) userDidLogOut;
+- (void) userDidLogIn:(id)sender;
+- (void) userDidLogOut:(id)sender;
 @end
 
