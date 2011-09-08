@@ -29,8 +29,9 @@
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight];
+//	[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight];
 	return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+//    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,9 +47,11 @@
 - (void)viewDidLoad
 {
 	[self.youtubeView loadYoutubeURL:self.youtubeURL];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
+
 
 - (void)viewDidUnload
 {

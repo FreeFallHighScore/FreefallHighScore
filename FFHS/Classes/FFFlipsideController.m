@@ -127,12 +127,12 @@
                                                     initWithRootViewController:youtubeController];
     
 //    [self.view insertSubview:navigationController.view aboveSubview:[self.view.subviews objectAtIndex:0]];
-//    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-//                                                                             target:self 
-//                                                                             action:@selector(cancelSignin:)];
+    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+                                                                             target:self 
+                                                                             action:@selector(dismissVideo)];
   
-    [[self parentViewController] dismissModalViewControllerAnimated:YES];
-
+    youtubeController.navigationItem.leftBarButtonItem = barItem;
+    [barItem release];
     [navigationController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [navigationController setModalPresentationStyle:UIModalPresentationPageSheet];
     [self presentModalViewController:navigationController animated:YES];
@@ -142,6 +142,11 @@
     
 }
    
+- (void) dismissVideo
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

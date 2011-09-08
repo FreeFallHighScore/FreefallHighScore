@@ -25,7 +25,7 @@
 - (IBAction)login:(id)sender;
 
 - (void)refreshLoginButton;
-
+- (void) dismissVideo;
 - (void)showYoutubeVideo:(NSString*)youtubeURL;
 
 - (NSString*) shortAccountName; //everything before the @gmail.com
