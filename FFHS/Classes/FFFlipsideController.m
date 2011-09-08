@@ -120,12 +120,26 @@
 -(void)showYoutubeVideo:(NSString*)youtubeURL
 {
     FFYoutubeViewController* youtubeController = [[FFYoutubeViewController alloc] initWithNibName:nil bundle:nil];
-
     youtubeController.youtubeURL = youtubeURL;
-    [youtubeController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [youtubeController setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self presentModalViewController:(UIViewController*)youtubeController animated:YES];
+    
+    
+    UINavigationController *navigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:youtubeController];
+    
+//    [self.view insertSubview:navigationController.view aboveSubview:[self.view.subviews objectAtIndex:0]];
+//    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+//                                                                             target:self 
+//                                                                             action:@selector(cancelSignin:)];
+  
+    [[self parentViewController] dismissModalViewControllerAnimated:YES];
+
+    [navigationController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [navigationController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentModalViewController:navigationController animated:YES];
+	
+    
     NSLog(@"Presenting view for URL %@", youtubeURL );
+    
 }
    
 -(void)viewWillAppear:(BOOL)animated

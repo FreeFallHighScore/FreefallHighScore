@@ -130,25 +130,26 @@
                                                                      delegate:self
                                                              finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 
-        [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
-        UIView* authView = [self.loginView view];
-        [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
+//        [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
+//        UIView* authView = [self.loginView view];
+//        [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
         
-        CGRect authViewFrame = [authView frame];
-        CGRect signinViewFrame = [self.signinView frame];
-        self.signinView.frame = CGRectMake(0, authViewFrame.size.height - signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
+//        CGRect authViewFrame = [authView frame];
+//        CGRect signinViewFrame = [self.signinView frame];
+//        self.signinView.frame = CGRectMake(0, authViewFrame.size.height - signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
         
         UINavigationController *navigationController = [[UINavigationController alloc]
                                                         initWithRootViewController:self.loginView];
         UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                  target:self 
                                                                                  action:@selector(cancelSignin:)];
-        //[navigationController.navigationBar setItems: [NSArray arrayWithObject:barItem] animated:NO];
-        navigationController.navigationItem.leftBarButtonItem = barItem;
          
         [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
         [self.toplevelController presentModalViewController:navigationController animated:YES];
+        [[self.loginView navigationItem] setLeftBarButtonItem:barItem];
+        [[self.loginView navigationItem] setRightBarButtonItem:nil]; //kill the stupid arrows
+
         [barItem release];
         [navigationController release];
     }

@@ -118,6 +118,8 @@ typedef enum {
     BOOL firstLoad;
 }
 
+@property(nonatomic,assign) IBOutlet UIWindow* mainWindow;
+
 //camera related stuff
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
@@ -174,6 +176,8 @@ typedef enum {
 
 //uploading stuff
 @property (nonatomic,retain) FFYoutubeUploader* uploader;
+
+@property(nonatomic,retain) FFFlipsideViewController* flipsideController;
 
 @property (nonatomic,assign) IBOutlet UIView* submitScoreView;
 @property (nonatomic,assign) IBOutlet UITextField* videoTitle;

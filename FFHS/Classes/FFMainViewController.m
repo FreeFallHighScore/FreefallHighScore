@@ -112,9 +112,12 @@
 
 @implementation FFMainViewController
 
+@synthesize mainWindow;
+
 @synthesize captureManager;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
+@synthesize flipsideController;
 @synthesize filter;
 
 @synthesize freefallDuration;
@@ -293,6 +296,62 @@
     [super viewDidLoad];
 }
 
+//- (void) presentMoviePlayerViewControllerAnimated:(BOOL)animated
+//{
+//	NSLog(@"presenting animated movie controller");    
+//}
+//
+//- (void) dismissModalViewControllerAnimated:(BOOL)animated
+//{
+//    NSLog(@"CALLING DISMISS VIEW CONTROLLER");
+//	[super dismissModalViewControllerAnimated:animated];    
+//}
+
+/*
+- (void) viewWillAppear:(BOOL)animated
+{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [[[self captureManager] session] startRunning];
+//    });        
+ 
+    if(self.flipsideController != nil){
+        //[self dismissModalViewControllerAnimated:NO];
+        //[self.flipsideController.tabBarController.selectedViewController dismissModalViewControllerAnimated:NO];
+        //[self.flipsideController dismissModalViewControllerAnimated:NO];
+//        [self presentModalViewController:self.flipsideController animated:NO];
+    }
+    
+    [super viewWillAppear:animated];
+    
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    
+    [super viewDidAppear:animated];
+}
+*/
+
+- (IBAction)showInfo:(id)sender
+{    
+    self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+    self.flipsideController.delegate = self;
+    self.flipsideController.uploader = uploader;
+    
+    self.flipsideController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:self.flipsideController animated:YES];
+    
+    self.uploader.toplevelController = self.flipsideController;
+        
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[[self captureManager] session] stopRunning];
+    });        
+    
+    [flipsideController release];
+    self.mainWindow.rootViewController = self.flipsideController;
+    
+}
+
 - (void)flipsideViewControllerDidFinish:(FFFlipsideViewController *)controller
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -301,26 +360,12 @@
 
     [self dismissModalViewControllerAnimated:YES];
     self.uploader.toplevelController = self;
+    self.flipsideController = nil;
+    
+    self.mainWindow.rootViewController = self;
+    
+    NSLog(@"finishing view controller");
 
-}
-
-- (IBAction)showInfo:(id)sender
-{    
-    FFFlipsideViewController *controller = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-    controller.delegate = self;
-    controller.uploader = uploader;
-
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:controller animated:YES];
-    
-    self.uploader.toplevelController = controller;
-    
-    [controller release];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[[self captureManager] session] stopRunning];
-    });        
-    
 }
 
 - (void)didReceiveMemoryWarning
