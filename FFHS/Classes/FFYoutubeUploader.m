@@ -75,7 +75,7 @@
         NSString* requestURL = @"https://gdata.youtube.com/feeds/api/users/default";
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
         [request setCachePolicy: NSURLRequestReloadIgnoringCacheData];
-
+		
         NSLog(@"User query auth %@", self.auth);
         
         [self.auth authorizeRequest:request
@@ -116,23 +116,6 @@
     return service;
 }
 
-- (IBAction) logout:(id)sender
-{
-    if(self.uploading){
-        [self cancelUpload:self];
-    }
-    
-    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
-    
-    if([self.auth canAuthorize]){
-        [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
-    
-    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
-}
-
 - (IBAction) login:(id)sender
 {
 	if(self.loggedIn && !self.accountLinked){
@@ -155,11 +138,53 @@
         CGRect signinViewFrame = [self.signinView frame];
         self.signinView.frame = CGRectMake(0, authViewFrame.size.height - signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
         
+        UINavigationController *navigationController = [[UINavigationController alloc]
+                                                        initWithRootViewController:self.loginView];
+        UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+                                                                                 target:self 
+                                                                                 action:@selector(cancelSignin:)];
+        //[navigationController.navigationBar setItems: [NSArray arrayWithObject:barItem] animated:NO];
+        navigationController.navigationItem.leftBarButtonItem = barItem;
+         
         [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
-        [self.toplevelController presentModalViewController:(UIViewController*)self.loginView animated:YES];
+        [self.toplevelController presentModalViewController:navigationController animated:YES];
+        [barItem release];
+        [navigationController release];
     }
 
+}
+
+
+- (IBAction) logout:(id)sender
+{
+    if(!self.loggedIn) return;
+    
+    if(self.auth == nil) return;
+    
+    if(self.uploading){
+        [self cancelUpload:self];
+    }
+    
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
+    
+    if([self.auth canAuthorize]){
+        [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
+    }
+    [self.auth reset];
+    
+    self.accountLinked = NO;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
+    
+    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
+}
+
+- (BOOL) loggedIn
+{
+    NSLog(@"Auth? %@ can auth? %d", self.auth, [self.auth canAuthorize]);
+    
+    return self.auth != nil && [self.auth canAuthorize];
 }
 
 - (IBAction) cancelSignin:(id)sender
@@ -249,15 +274,17 @@
     //NSString* requestURL = @"https://www.youtube.com/finish_link_upgrade";
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
     [request setCachePolicy: NSURLRequestReloadIgnoringCacheData];
+
+    self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
+    self.accountLinkViewController.request = request;
+    self.accountLinkViewController.delegate = self;
+    [accountLinkViewController release];
+
     
     [self.auth authorizeRequest:request
               completionHandler:^(NSError* error){
                   if(error == nil){                 	
-                      self.accountLinkViewController.request = request;
-                      self.accountLinkViewController.delegate = self;
                       
-                      self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
-                      [accountLinkViewController release];
                       [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
                       [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
                       [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];
@@ -480,10 +507,6 @@
     self.uploadTicket = nil;
 }
 
-- (BOOL) loggedIn
-{
-    return self.auth != nil && [self.auth canAuthorize];
-}
 
 - (BOOL) uploading
 {

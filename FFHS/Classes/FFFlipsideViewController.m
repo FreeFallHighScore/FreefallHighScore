@@ -85,7 +85,7 @@
 
 - (IBAction)login:(id)sender
 {
-    NSLog(@"logging in");
+    NSLog(@"logging in uploader: %@, logged in? %d %d", self.uploader, self.uploader.loggedIn, self.uploader.accountLinked );
     if(self.uploader.loggedIn && self.uploader.accountLinked){        
 		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
                                                             delegate:self 
