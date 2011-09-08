@@ -34,6 +34,15 @@
     
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* videoURL = [self.scores youtubeURLForIndex:indexPath];
+    if(videoURL != nil){
+        [self showYoutubeVideo:videoURL];
+    }
+    return nil;
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];

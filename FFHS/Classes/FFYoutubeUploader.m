@@ -70,7 +70,7 @@
 	//first test to see if we've stored the name
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString* userName = [defaults stringForKey:self.accountName];
-    userName = nil;
+
     if(userName == nil || userName == @""){
         NSString* requestURL = @"https://gdata.youtube.com/feeds/api/users/default";
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
@@ -81,7 +81,7 @@
         [self.auth authorizeRequest:request
              completionHandler:^(NSError* error){
                  if(error == nil){                 	
-                     self.responseData =  [NSMutableData data];
+                     self.responseData = [NSMutableData data];
                      [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
                  }
                  else{
@@ -182,12 +182,9 @@
         //could be no interent.. could be auth denied.
         ShowAlert(@"Failure Authenticating", @"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'.");
     } else {
-        
-        
         // Store authorization
         self.auth = newAuth;
         [[self youTubeService] setAuthorizer:newAuth];
-		
         [self queryForYoutubeUsername];
     }
     
@@ -248,8 +245,6 @@
 
 - (void) attemptToLinkAccount
 {
-    self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
-    [accountLinkViewController release];
     NSString* requestURL = @"https://www.youtube.com/create_channel";
     //NSString* requestURL = @"https://www.youtube.com/finish_link_upgrade";
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
@@ -261,6 +256,8 @@
                       self.accountLinkViewController.request = request;
                       self.accountLinkViewController.delegate = self;
                       
+                      self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
+                      [accountLinkViewController release];
                       [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
                       [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
                       [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];

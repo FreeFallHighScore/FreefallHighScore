@@ -139,6 +139,17 @@
     }
 }
 
+- (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath
+{
+	if(self.queryComplete && self.highScores.count > indexPath.row){
+        NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];        
+        NSString* url = [score objectForKey:@"video_url"];
+        NSLog(@"selected video URL %@", url);
+        return url;
+    }
+    return nil;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[self.responseData setLength:0];
 }

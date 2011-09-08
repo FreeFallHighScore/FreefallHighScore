@@ -27,6 +27,7 @@
 - (void) refreshQuery;
 - (void) showLoginCell;
 
+- (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 

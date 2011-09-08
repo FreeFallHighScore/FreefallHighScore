@@ -9,6 +9,7 @@
 #import "FFFlipsideController.h"
 #import "FFFlipsideViewController.h"
 #import "FFUtilities.h"
+#import "FFYoutubeViewController.h"
 
 @implementation FFFlipsideController
 
@@ -116,6 +117,17 @@
     [self refreshLoginButton];
 }
 
+-(void)showYoutubeVideo:(NSString*)youtubeURL
+{
+    FFYoutubeViewController* youtubeController = [[FFYoutubeViewController alloc] initWithNibName:nil bundle:nil];
+
+    youtubeController.youtubeURL = youtubeURL;
+    [youtubeController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [youtubeController setModalPresentationStyle:UIModalPresentationPageSheet];
+    [self presentModalViewController:(UIViewController*)youtubeController animated:YES];
+    NSLog(@"Presenting view for URL %@", youtubeURL );
+}
+   
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

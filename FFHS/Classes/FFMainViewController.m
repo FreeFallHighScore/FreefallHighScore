@@ -105,8 +105,6 @@
 @end
 
 @interface FFMainViewController (FFYoutubeUploaderDelegate) <FFYoutubeUploaderDelegate>
-//- (void) userDidSignIn:(NSString*)userName;
-//- (void) userDidSignOut;
 - (void) uploadReachedProgess:(CGFloat)progress;
 - (void) uploadCompleted;
 - (void) uploadFailedWithError:(NSError*)error;
@@ -1210,11 +1208,18 @@
     }
     if(self.uploader.loggedIn){
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
-        [self.loginButton setTitle:self.uploader.accountNameShort 
-                          forState:UIControlStateNormal];
-        [self.loginButton setTitle:self.uploader.accountNameShort 
-                          forState:UIControlStateDisabled];
-        
+        if(self.uploader.accountLinked){
+            [self.loginButton setTitle:self.uploader.youtubeUserName
+                              forState:UIControlStateNormal];
+            [self.loginButton setTitle:self.uploader.youtubeUserName
+                              forState:UIControlStateDisabled];
+        }
+        else {
+            [self.loginButton setTitle:@"Setup Youtube"
+                              forState:UIControlStateNormal];
+            [self.loginButton setTitle:@"Setup Youtube"
+                              forState:UIControlStateDisabled];        	
+        }
     }
     else {
         //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
@@ -1428,14 +1433,14 @@
 { 
     NSLog(@"LOGGED IN AS %@", uploader.accountNameShort);
     
+	[self hideElementOffscreenLeft:self.whatButton];
+    [self hideElementOffscreenLeft:self.loginButton];
     if(state == kFFStateFinishedDropSubmitView){
         [self.loginButton setTitle:self.uploader.accountNameShort
                           forState:UIControlStateNormal];
         [self.loginButton setTitle:self.uploader.accountNameShort
                           forState:UIControlStateDisabled];
     }
-    
-    
 }
 
 - (void) userDidLogOut:(FFYoutubeUploader*)ul
