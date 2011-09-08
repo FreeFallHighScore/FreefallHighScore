@@ -86,7 +86,34 @@
 - (IBAction)login:(id)sender
 {
     NSLog(@"logging in");
-    [self.uploader login:sender];
+    if(self.uploader.loggedIn && self.uploader.accountLinked){        
+		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
+                                                            delegate:self 
+                                                   cancelButtonTitle:@"Stay Signed In" 
+                                              destructiveButtonTitle:@"Sign Out" 
+                                                   otherButtonTitles:nil];
+        [action showFromBarButtonItem:sender animated:YES];
+        [action release];
+        
+    }
+    else{
+        [self.uploader login:sender];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	NSLog(@"user clicked action sheet button %d", buttonIndex);    
+    if(buttonIndex == 0){
+		[self logout:self];    
+    }
+
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
+    //canceled request to log out, don't do anything
+    NSLog(@"CANCELED");
 }
 
 - (IBAction)logout:(id)sender

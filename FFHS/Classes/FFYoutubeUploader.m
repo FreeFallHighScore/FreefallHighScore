@@ -27,11 +27,12 @@
 @synthesize fallDuration;
 @synthesize location;
 @synthesize signinView;
-@synthesize logoutButton;
 @synthesize loginView;
 @synthesize responseData;
 @synthesize youtubeUserName;
 @synthesize accountLinkViewController;
+@synthesize accountLinked;
+@synthesize auth;
 
 - (id) init
 {
@@ -46,11 +47,11 @@
         self.clientSecret = [keydict objectForKey:@"kClientSecret"];
         self.developerKey = [keydict objectForKey:@"kDeveloperKey"];
         
-        GTMOAuth2Authentication* auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
+        self.auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
                                                                      clientID:clientID
                                                                  clientSecret:clientSecret];
         
-        [[self youTubeService] setAuthorizer:auth];
+        [[self youTubeService] setAuthorizer:self.auth];
         
         if(self.loggedIn){
             [self queryForYoutubeUsername];
@@ -69,11 +70,15 @@
 	//first test to see if we've stored the name
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSString* userName = [defaults stringForKey:self.accountName];
+    userName = nil;
     if(userName == nil || userName == @""){
         NSString* requestURL = @"https://gdata.youtube.com/feeds/api/users/default";
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
-		GTMOAuth2Authentication* auth = [[self youTubeService] authorizer];
-        [auth authorizeRequest:request
+        [request setCachePolicy: NSURLRequestReloadIgnoringCacheData];
+
+        NSLog(@"User query auth %@", self.auth);
+        
+        [self.auth authorizeRequest:request
              completionHandler:^(NSError* error){
                  if(error == nil){                 	
                      self.responseData =  [NSMutableData data];
@@ -87,9 +92,9 @@
     }
     else{
         self.youtubeUserName = userName;
+        self.accountLinked = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogin 
                                                             object:self];
-        
     }
 }
 
@@ -119,55 +124,41 @@
     
     [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
     
-    //if(self.delegate && [self.delegate respondsToSelector:@selector(userDidSignOut)]){
-    //    [self.delegate userDidSignOut];
-    //}
+    if([self.auth canAuthorize]){
+        [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
     
-//    [self cancelSignin:self];
-    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil &&
-          [[[self youTubeService] authorizer] canAuthorize]);
+    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
 }
 
 - (IBAction) login:(id)sender
 {
-    //We want to use this function for switching users as well!
-//    if(self.loggedIn){
-//        NSLog(@"ERROR -- trying to login when already logged in!");
-//        return;
-//    }
-    
-//    [self showAlert:@"LOGIN"
-//        withMessage:[NSString stringWithFormat:@"toplevel %@", self.toplevelController] ];
-     
+	if(self.loggedIn && !self.accountLinked){
+        [self attemptToLinkAccount];
+    }
+    else if(!self.loggedIn){
+        NSString *scope = [GDataServiceGoogleYouTube authorizationScope];    
+        self.loginView = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+                                                                     clientID:clientID
+                                                                 clientSecret:clientSecret
+                                                             keychainItemName:keychainItemName
+                                                                     delegate:self
+                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
 
-    NSString *scope = [GDataServiceGoogleYouTube authorizationScope];
-    
-    //GTMOAuth2ViewControllerTouch *viewController;
-    self.loginView = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
-                                                                 clientID:clientID
-                                                             clientSecret:clientSecret
-                                                         keychainItemName:keychainItemName
-                                                                 delegate:self
-                                                         finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
-
-    //[viewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    
-    //add signin canceler;
-    
-    [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
-    UIView* authView = [self.loginView view];
-    [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
-    
-    self.logoutButton.enabled = !self.loggedIn;
-    
-//    CGRect authViewFrame = [authView frame];
-    CGRect signinViewFrame = [self.signinView frame];
-    self.signinView.frame = CGRectMake(0, 0, signinViewFrame.size.width, signinViewFrame.size.height);
-    
-    [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self.toplevelController presentModalViewController:(UIViewController*)self.loginView animated:YES];
+        [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
+        UIView* authView = [self.loginView view];
+        [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
+        
+        CGRect authViewFrame = [authView frame];
+        CGRect signinViewFrame = [self.signinView frame];
+        self.signinView.frame = CGRectMake(0, authViewFrame.size.height - signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
+        
+        [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
+        [self.toplevelController presentModalViewController:(UIViewController*)self.loginView animated:YES];
+    }
 
 }
 
@@ -181,7 +172,7 @@
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
-      finishedWithAuth:(GTMOAuth2Authentication *)auth
+      finishedWithAuth:(GTMOAuth2Authentication *)newAuth
                  error:(NSError *)error
 {
     
@@ -192,8 +183,10 @@
         ShowAlert(@"Failure Authenticating", @"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'.");
     } else {
         
+        
         // Store authorization
-        [[self youTubeService] setAuthorizer:auth];
+        self.auth = newAuth;
+        [[self youTubeService] setAuthorizer:newAuth];
 		
         [self queryForYoutubeUsername];
     }
@@ -221,58 +214,63 @@
 	[connection release];
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    NSLog(@"response! %@", responseString);
+
     NSString *errorString = @"NoLinkedYouTubeAccount";
     NSRange range = [responseString rangeOfString: errorString];
     
     if (range.location != NSNotFound) {
-		//TODO present login URL
-        //NSString* requestURL = @"https://www.google.com/accounts/ServiceLoginAuth?service=youtube";
-        //...
-        //ShowAlert(@"Link your Youtube Account", @"You haven't setup your youtube account https://www.google.com/accounts/ServiceLoginAuth?service=youtube");
-        
-        if(self.accountLinkViewController == nil){
-            self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
-            [accountLinkViewController release];
-        }        
-        NSString* requestURL = @"https://www.youtube.com/create_channel";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
-		GTMOAuth2Authentication* auth = [[self youTubeService] authorizer];
-        [auth authorizeRequest:request
-             completionHandler:^(NSError* error){
-                 if(error == nil){                 	
-                     self.accountLinkViewController.request = request;
-                     self.accountLinkViewController.delegate = self;
-                     NSLog(@"account link controller is %@", self.accountLinkViewController);
-                     [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-                     [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-                     [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];
-
-                 }
-                 else{
-                     //TODO: check for no account linked error.
-                     NSLog(@"Completed with error %@", error);
-                 }
-             }];
+        //PRESENT LOGIN URL
+        NSLog(@"Found NO LINKED ACCOUNT!!!!");
+        self.accountLinked = NO;
+        [self attemptToLinkAccount];
     }
     else{
+        //HARVEST USER NAME
     	NSRange startRange = [responseString rangeOfString:@"<name>"];
     	NSRange stopRange = [responseString rangeOfString:@"</name>"];
         if(startRange.location != NSNotFound && stopRange.location != NSNotFound){
             NSInteger startLocation = startRange.location+startRange.length;
             self.youtubeUserName = [responseString substringWithRange:NSMakeRange(startLocation, stopRange.location - startLocation)];
             NSLog(@"youtube user name is... %@", self.youtubeUserName);
-            [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogin 
-                                                                object:self];
+            self.accountLinked = YES;
+
             NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:self.youtubeUserName forKey:self.accountName];
             [defaults synchronize];
-
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogin 
+                                                                object:self];
+            
         }
     }
-    
-    NSLog(@"response! %@", responseString);
-    
     [responseString release];
+}
+
+- (void) attemptToLinkAccount
+{
+    self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
+    [accountLinkViewController release];
+    NSString* requestURL = @"https://www.youtube.com/create_channel";
+    //NSString* requestURL = @"https://www.youtube.com/finish_link_upgrade";
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
+    [request setCachePolicy: NSURLRequestReloadIgnoringCacheData];
+    
+    [self.auth authorizeRequest:request
+              completionHandler:^(NSError* error){
+                  if(error == nil){                 	
+                      self.accountLinkViewController.request = request;
+                      self.accountLinkViewController.delegate = self;
+                      
+                      [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+                      [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+                      [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];
+                  }
+                  else{
+                      //TODO: check for no account linked error.
+                      NSLog(@"Completed with error %@", error);
+                  }
+              }];    
+
 }
 
 - (void) userSignaledLinkedFinished
@@ -280,10 +278,12 @@
     //requery for name
     [self queryForYoutubeUsername];
 }
+
 - (void) userSignaledLinkedCanceled
 {
     //display an error...
     ShowAlert(@"Account Link", @"You must setup your YouTube profile in order to submit highscores");
+    [self logout:self];
     //TODO attach appropriate UI stuff
 }
 
@@ -307,12 +307,18 @@
 - (void)startUploadWithAsset:(ALAsset*)asset //(AVURLAsset*)
 {
     if(!self.loggedIn){
-        NSLog(@"Error -- Trying to start upload without being logged in");
+        ShowAlert(@"Upload Error", @"Trying to start upload without being logged in");
         return;    
     }
 
+    if(!self.accountLinked){
+        ShowAlert(@"Upload Error", @"Trying to start upload without setting up Youtube Account");
+        return;    
+        
+    }
+    
     if(self.uploading){
-        NSLog(@"Error -- Starting upload with upload already in progress");
+        ShowAlert(@"Upload Error", @"Trying to start upload with one already in progress");
         return;
     }
     
@@ -415,11 +421,11 @@
     [devTagDevice setScheme:devTagSchemeUrl];
     [mediaGroup addMediaCategory:devTagDevice];
     
-    // GMail account
-    NSString *devTagAccountNameString = [NSString stringWithFormat:@"u:%@", [self accountName]];
-    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:devTagAccountNameString];
-    [devTagAccountName setScheme:devTagSchemeUrl];
-    [mediaGroup addMediaCategory:devTagAccountName];
+//    // GMail account
+//    NSString *devTagAccountNameString = [NSString stringWithFormat:@"u:%@", [self accountName]];
+//    GDataMediaCategory *devTagAccountName = [GDataMediaCategory mediaCategoryWithString:devTagAccountNameString];
+//    [devTagAccountName setScheme:devTagSchemeUrl];
+//    [mediaGroup addMediaCategory:devTagAccountName];
     
     // UI Updates
 //    [uploadProgressView setHidden:NO];
@@ -479,7 +485,7 @@
 
 - (BOOL) loggedIn
 {
-    return [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize];
+    return self.auth != nil && [self.auth canAuthorize];
 }
 
 - (BOOL) uploading

@@ -26,6 +26,8 @@
 
 @class GTMOAuth2ViewControllerTouch;
 @class GTMOAuth2Authentication;
+
+
 @interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate> {
     NSString* keychainItemName;
     NSString* clientID;
@@ -45,6 +47,8 @@
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 @property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;
+@property (nonatomic,retain) GTMOAuth2Authentication* auth;
+
 @property (nonatomic,retain) FFLinkYoutubeAccountController* accountLinkViewController;
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
@@ -54,7 +58,6 @@
 @property (nonatomic,retain) NSString* developerKey;
 
 @property (nonatomic, assign) IBOutlet UIView* signinView;
-@property (nonatomic, assign) IBOutlet UIBarButtonItem* logoutButton;
 @property (nonatomic, readonly) BOOL loggedIn;
 @property (nonatomic, readonly) NSString* accountName;
 @property (nonatomic, readonly) NSString* accountNameShort;
@@ -63,7 +66,7 @@
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
-
+@property (nonatomic, readwrite) BOOL accountLinked;
 
 //VIDEO PROPERTIES:
 @property (nonatomic, retain) NSString* videoTitle;
@@ -81,7 +84,7 @@
 - (IBAction) logout:(id)sender;
 
 - (void) queryForYoutubeUsername;
-
+- (void) attemptToLinkAccount;
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth

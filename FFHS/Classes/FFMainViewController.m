@@ -1447,7 +1447,7 @@
                           forState:UIControlStateNormal];
     }
     
-    [[self uploader] cancelSignin:nil];
+//    [[self uploader] cancelSignin:nil];
 }
 
 - (void) uploadReachedProgess:(CGFloat)progress

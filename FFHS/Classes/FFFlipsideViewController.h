@@ -13,7 +13,7 @@
 @class FFYoutubeUploader;
 @class HJObjManager;
 
-@interface FFFlipsideViewController : UIViewController<UITabBarControllerDelegate> {
+@interface FFFlipsideViewController : UIViewController<UITabBarControllerDelegate, UIActionSheetDelegate> {
     FFYoutubeUploader* uploader; //weak reference
     HJObjManager* imageViewManager;
 }

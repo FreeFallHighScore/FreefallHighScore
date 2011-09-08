@@ -50,11 +50,17 @@
 
 - (void) refreshLoginButton
 {
+    BOOL accountLinked = [[[self flipsideController] uploader] accountLinked];
     loggedIn = [[[self flipsideController] uploader] loggedIn];
     
     NSLog(@"User is logged in: %d", loggedIn);
-    if (loggedIn) {        
-        [loginButton setTitle:[self.flipsideController.uploader youtubeUserName]];
+    if (loggedIn) {
+        if(accountLinked){
+        	[loginButton setTitle:[self.flipsideController.uploader youtubeUserName]];
+        }
+        else{
+	        [loginButton setTitle:@"Setup Youtube"];
+        }
     }
     else{
         [loginButton setTitle:@"Log in"];
@@ -64,8 +70,6 @@
 - (void) userDidLogIn:(id)sender
 {
 	[self refreshLoginButton] ;
-    
-
 }
 
 - (void) userDidLogOut:(id)sender
