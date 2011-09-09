@@ -90,6 +90,8 @@
 - (void) fadeRecordingFlash:(NSNumber*)on;
 - (void) transitionScoreViewToSubmitMode;
 
+- (void) showUploadProgress;
+
 - (void)changeState:(FFGameState)newState;
 - (NSString*) stateDescription; 
 
@@ -202,6 +204,7 @@
         self.uploader = [[FFYoutubeUploader alloc] init];
         self.uploader.delegate = self;
         self.uploader.toplevelController = self;
+        self.uploader.mainView = self; //for retention.
         [uploader release];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -273,8 +276,8 @@
     [defaults synchronize];
     
     //IB will not set this so for some reason we gotta do it here
-    [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL_"] forState:UIControlStateHighlighted];
-    [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL_"] forState:UIControlStateHighlighted];
+    [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
+    [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
      
     
     screenBounds = bounds;
@@ -285,7 +288,6 @@
     }
     
     NSLog(@"number of times: %i the app has been launched", launchCount);
-    firstLoad = (launchCount == 1);
     [self setupFirstView];
     
     //accelerometer stuff    
@@ -324,10 +326,11 @@
     [super viewWillAppear:animated];
     
 }
+*/
 
+/*
 - (void) viewDidAppear:(BOOL)animated
-{
-    
+{	    
     [super viewDidAppear:animated];
 }
 */
@@ -374,6 +377,7 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc. that aren't in use.
+    
 }
 
 - (void)viewDidUnload
@@ -768,6 +772,50 @@
 //    }    
 }
 
+- (void) userDidLogIn:(FFYoutubeUploader*)ul
+{ 
+	[self hideElementOffscreenLeft:self.whatButton];
+    [self hideElementOffscreenLeft:self.loginButton];
+    //[self hideElementOffscreenRight:self.blackTabView];
+    self.blackTabView.frame = blackTabBaseRect;
+    
+	self.whiteTabLogo.alpha = 1.0;
+    
+    if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
+    	self.infoButton.alpha = 1.0;
+    }
+    
+    if(state == kFFStateFinishedDropSubmitView){
+        [self.loginButton setTitle:self.uploader.youtubeUserName
+                          forState:UIControlStateNormal];
+        [self.loginButton setTitle:self.uploader.youtubeUserName
+                          forState:UIControlStateDisabled];
+    }
+}
+
+- (void) userDidLogOut:(FFYoutubeUploader*)ul
+{
+    if(state == kFFStateFinishedDropSubmitView){
+        [self.loginButton setTitle:@"Log in"
+                          forState:UIControlStateNormal];
+    }
+    else if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
+        [UIView animateWithDuration:.25
+                         animations: ^{
+                             [self hideElementToBottom:self.uploadProgressView withRoom:0];
+                             [self hideElementToTop:self.submitScoreView withRoom:0];
+                             [self revealElementFromRight:self.retryDropButton];
+                             [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
+                             self.infoButton.alpha = 1.;
+                         }
+                         completion:^(BOOL finished){ 
+                             [self removeSubmitView];
+                             [self removeUploadProgressView];
+                         }];
+        
+    }
+}
+
 @end
 
 @implementation FFMainViewController (InternalMethods)
@@ -775,10 +823,10 @@
 
 - (void) setupFirstView
 {
-    //TODO: play intro animation
     state = kFFStateJustOpened;
     
     whiteTabBaseRect = self.whiteTabView.frame;
+    blackTabBaseRect = self.blackTabView.frame;
     dropBaseRect = self.dropButton.frame;
 
     //hide all the buttons off screen
@@ -979,8 +1027,6 @@
                                    	[self hideElementOffscreenLeft:self.introLoginButton];
                                     [self hideElementOffscreenLeft:self.whatButton];
                                     [self hideElementOffscreenRight:self.blackTabView];
-                                    [self hideElementOffscreenLeft:self.whatButton];   
-                                    [self hideElementOffscreenLeft:self.loginButton];
                                      
                                      self.infoButton.alpha = 0.;
                                      
@@ -1192,7 +1238,7 @@
 
 - (NSString*) scoreText
 {
-    return [NSString stringWithFormat:@"%.03fs", freefallDuration];
+    return [NSString stringWithFormat:@"  %.03fs  ", freefallDuration];
 }
 
 - (NSString*) scoreSayingTextLine1
@@ -1418,7 +1464,7 @@
     libraryAssetURLReceived = NO;
     
     AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:temporaryURL];
-    [playerItem addObserver:self forKeyPath:@"status" options:nil context:nil];
+    [playerItem addObserver:self forKeyPath:@"status" options:0 context:nil];
     
     self.player = [AVPlayer playerWithPlayerItem:playerItem];    
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
@@ -1428,10 +1474,7 @@
                                              selector:@selector(playerItemDidReachEnd:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
-    
-    //    [self.player play];
-    //CGRect bounds = [view bounds];
-    
+        
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];        
     CGSize cameraSize = [self.captureManager cameraSize];
@@ -1502,32 +1545,6 @@
 @end
 
 @implementation FFMainViewController (FFYoutubeUploaderDelegate)
-
-- (void) userDidLogIn:(FFYoutubeUploader*)ul
-{ 
-    NSLog(@"LOGGED IN AS %@", uploader.accountNameShort);
-    
-	[self hideElementOffscreenLeft:self.whatButton];
-    [self hideElementOffscreenLeft:self.loginButton];
-    if(state == kFFStateFinishedDropSubmitView){
-        [self.loginButton setTitle:self.uploader.accountNameShort
-                          forState:UIControlStateNormal];
-        [self.loginButton setTitle:self.uploader.accountNameShort
-                          forState:UIControlStateDisabled];
-    }
-}
-
-- (void) userDidLogOut:(FFYoutubeUploader*)ul
-{
-    NSLog(@"LOGGED OUT");
-    
-    if(state == kFFStateFinishedDropSubmitView){
-        [self.loginButton setTitle:@"Log in"
-                          forState:UIControlStateNormal];
-    }
-    
-//    [[self uploader] cancelSignin:nil];
-}
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {

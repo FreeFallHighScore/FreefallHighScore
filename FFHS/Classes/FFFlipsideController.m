@@ -10,6 +10,7 @@
 #import "FFFlipsideViewController.h"
 #import "FFUtilities.h"
 #import "FFYoutubeViewController.h"
+//#import "FFYoutubeUploader.m"
 
 @implementation FFFlipsideController
 
@@ -51,12 +52,13 @@
 
 - (void) refreshLoginButton
 {
-    BOOL accountLinked = [[[self flipsideController] uploader] accountLinked];
-    loggedIn = [[[self flipsideController] uploader] loggedIn];
+    
+
+    loggedIn = [self.flipsideController.uploader loggedIn];
     
     NSLog(@"User is logged in: %d", loggedIn);
     if (loggedIn) {
-        if(accountLinked){
+        if([self.flipsideController.uploader accountLinked]){
         	[loginButton setTitle:[self.flipsideController.uploader youtubeUserName]];
         }
         else{

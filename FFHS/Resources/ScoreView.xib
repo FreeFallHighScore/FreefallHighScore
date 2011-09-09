@@ -51,7 +51,7 @@
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="405698516"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="250495153">
+						<object class="NSColor" key="IBUIBackgroundColor" id="585722914">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
@@ -62,13 +62,13 @@
 						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">1</int>
 						<string key="IBUIPlaceholder">Give your video a title</string>
-						<object class="NSColor" key="IBUITextColor" id="73391207">
+						<object class="NSColor" key="IBUITextColor" id="933769050">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
-						<object class="NSFont" key="IBUIFont">
+						<object class="NSFont" key="IBUIFont" id="218083184">
 							<string key="NSName">Helvetica</string>
-							<double key="NSSize">18</double>
+							<double key="NSSize">16</double>
 							<int key="NSfFlags">16</int>
 						</object>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
@@ -85,7 +85,8 @@
 						<string key="NSFrame">{{20, 103}, {440, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="IBUIBackgroundColor" ref="250495153"/>
+						<reference key="NSNextKeyView"/>
+						<reference key="IBUIBackgroundColor" ref="585722914"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -93,12 +94,8 @@
 						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">1</int>
 						<string key="IBUIPlaceholder">Tell us a little about the drop</string>
-						<reference key="IBUITextColor" ref="73391207"/>
-						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Helvetica</string>
-							<double key="NSSize">14</double>
-							<int key="NSfFlags">16</int>
-						</object>
+						<reference key="IBUITextColor" ref="933769050"/>
+						<reference key="IBUIFont" ref="218083184"/>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 						<float key="IBUIMinimumFontSize">17</float>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
@@ -113,7 +110,7 @@
 						<string key="NSFrame">{{20, 9}, {87, 47}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="37738817"/>
+						<reference key="NSNextKeyView" ref="1020253890"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44NTg4MjM1OTc0IDAuMjQzMTM3MjcwMiAwAA</bytes>
@@ -177,14 +174,19 @@
 						<string key="NSFrame">{{115, 9}, {128, 46}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="530456530"/>
-						<reference key="IBUIBackgroundColor" ref="250495153"/>
+						<reference key="NSNextKeyView" ref="37738817"/>
+						<reference key="IBUIBackgroundColor" ref="585722914"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText"> SCORE</string>
+						<string key="IBUIText"> SCORE </string>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica</string>
+							<double key="NSSize">29</double>
+							<int key="NSfFlags">16</int>
+						</object>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -195,12 +197,13 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
+						<int key="IBUITextAlignment">2</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 154}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="1020253890"/>
+				<reference key="NSNextKeyView" ref="530456530"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEgMC4zNQA</bytes>

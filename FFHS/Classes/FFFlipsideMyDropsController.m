@@ -29,9 +29,9 @@
 - (void) refreshScoresTable
 {
     if(self.loggedIn){
-        NSString* queryURL = [NSString stringWithFormat:@"http://freefallhighscore.com/api/hiscores_mobile/?oauthid=%@", [self fullAccountName]];
-        NSLog(@"querying personal movies! %@", queryURL);
-        self.scores.queryURL = queryURL;
+//        NSString* queryURL = [NSString stringWithFormat:@"http://freefallhighscore.com/api/hiscores_mobile/?oauthid=%@", [self fullAccountName]];
+//        NSLog(@"querying personal movies! %@", queryURL);
+//        self.scores.queryURL = queryURL;
         [scores refreshQuery];
     }
     else{

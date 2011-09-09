@@ -7,12 +7,12 @@
 //
 
 #import "FFFlipsideViewController.h"
-#import "FFYoutubeUploader.h"
 #import "HJObjManager.h"
 
 #import "FFFlipsideHighscoresController.h"
 #import "FFFlipsideMyDropsController.h"
 #import "FFFlipsideInstructionsController.h"
+#import "FFYoutubeUploader.h"
 
 @implementation FFFlipsideViewController
 

@@ -10,6 +10,8 @@
 
 @class FFFlipsideViewController;
 @class FFYoutubeViewController;
+@class FFYoutubeUploader;
+
 @interface FFFlipsideController : UIViewController {
     FFFlipsideViewController* flipsideController;
     UIBarButtonItem* loginButton;
@@ -28,8 +30,8 @@
 - (void) dismissVideo;
 - (void)showYoutubeVideo:(NSString*)youtubeURL;
 
-- (NSString*) shortAccountName; //everything before the @gmail.com
-- (NSString*) fullAccountName; //contains @gmail.com as well
+//- (NSString*) shortAccountName; //everything before the @gmail.com
+//- (NSString*) fullAccountName; //contains @gmail.com as well
 
 - (void) userDidLogIn:(id)sender;
 - (void) userDidLogOut:(id)sender;

@@ -57,10 +57,9 @@ typedef enum {
     kFFStatePreDropRecording,
     kFFStatePreDropCancelling,
     kFFStatePreDropCanceled,
-    kFFStatePreDropTimedOut, //TODO:: implement a screen for this
+    kFFStatePreDropTimedOut, //TODO: implement a screen for this
     kFFStateInFreeFall,
     kFFStateFinishedDropPostroll,
-//    kFFStateFinishedDropProcessing,
     kFFStateFinishedDropVideoPlaybackFirstLoop,
     kFFStateFinishedDropVideoPlayback,
     kFFStateFinishedDropScoreView,
@@ -106,6 +105,7 @@ typedef enum {
     
     CGRect screenBounds;
     CGRect whiteTabBaseRect;
+    CGRect blackTabBaseRect;
     CGRect dropBaseRect;    
     
     CGRect baseSubmitScoreViewRect;
@@ -115,7 +115,7 @@ typedef enum {
     FFYoutubeUploader* uploader;
     FFWidgetOverlays* widgetOverlayLayer;
 
-    BOOL firstLoad;
+    BOOL needsLoad;
 }
 
 @property(nonatomic,assign) IBOutlet UIWindow* mainWindow;
@@ -213,7 +213,6 @@ typedef enum {
 - (void) completeSubmit;
 - (void) removeSubmitView;
 - (void) removeUploadProgressView;
-- (void) showUploadProgress;
 
 - (void) textFieldShouldReturn:(UITextField*)field;
 

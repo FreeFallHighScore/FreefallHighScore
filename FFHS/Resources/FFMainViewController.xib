@@ -307,7 +307,7 @@
 									<object class="IBUIImageView" id="394609568">
 										<reference key="NSNextResponder" ref="325741442"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{61, 32}, {133, 128}}</string>
+										<string key="NSFrame">{{44, 42}, {133, 128}}</string>
 										<reference key="NSSuperview" ref="325741442"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="730416964"/>
@@ -340,7 +340,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSFont" key="IBUIFont" id="65461963">
+								<object class="NSFont" key="IBUIFont" id="807511101">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">23</double>
 									<int key="NSfFlags">16</int>
@@ -439,7 +439,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<double key="IBUIContentEdgeInsets.top">10</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">0.0</double>
@@ -472,7 +472,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<string key="IBUINormalTitle">WHAT?</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -494,7 +494,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<double key="IBUIContentEdgeInsets.top">3</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">31</double>
@@ -504,15 +504,11 @@
 								<reference key="IBUIHighlightedTitleColor" ref="267716009"/>
 								<reference key="IBUINormalTitleColor" ref="309174953"/>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="736338304">
-									<string key="NSClassName">NSImage</string>
-									<string type="base64-UTF8" key="NSResourceName">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
-cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="250424644">
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="590773053">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">Delete_button.png</string>
 								</object>
+								<reference key="IBUINormalBackgroundImage" ref="590773053"/>
 							</object>
 							<object class="IBUIButton" id="641299292">
 								<reference key="NSNextResponder" ref="197392939"/>
@@ -525,7 +521,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<string key="IBUINormalTitle">SUBMIT</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -553,7 +549,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<double key="IBUIContentEdgeInsets.top">3</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">31</double>
@@ -567,11 +563,14 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
 								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string type="base64-UTF8" key="NSResourceName">DURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24ucG5nDURlbGV0ZV9idXR0b25fSEwu
-cG5nA</string>
+									<string key="NSResourceName">Delete_button_HL.png</string>
 								</object>
-								<reference key="IBUISelectedBackgroundImage" ref="736338304"/>
-								<reference key="IBUINormalBackgroundImage" ref="250424644"/>
+								<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string type="base64-UTF8" key="NSResourceName">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
+cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
+								</object>
+								<reference key="IBUINormalBackgroundImage" ref="590773053"/>
 							</object>
 							<object class="IBUIButton" id="300609137">
 								<reference key="NSNextResponder" ref="197392939"/>
@@ -584,7 +583,7 @@ cG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="65461963"/>
+								<reference key="IBUIFont" ref="807511101"/>
 								<string key="IBUIHighlightedTitle">REPLAY</string>
 								<string key="IBUINormalTitle">REPLAY</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
@@ -1222,12 +1221,12 @@ cG5nA</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="3"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="0.0"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
@@ -1252,7 +1251,7 @@ cG5nA</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="0.0"/>
+					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{460, 371}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1678,9 +1677,8 @@ cG5nA</string>
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string type="base64-UTF8">DURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24ucG5nDURlbGV0ZV9idXR0b25fSEwu
-cG5nA</string>
 				<string>Delete_button.png</string>
+				<string>Delete_button_HL.png</string>
 				<string type="base64-UTF8">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
 cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>Drop_button.png</string>
@@ -1702,7 +1700,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{16, 16}</string>
+				<string>{176, 43}</string>
 				<string>{176, 43}</string>
 				<string>{16, 16}</string>
 				<string>{224, 104}</string>

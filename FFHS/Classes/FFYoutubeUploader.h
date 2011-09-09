@@ -26,7 +26,7 @@
 
 @class GTMOAuth2ViewControllerTouch;
 @class GTMOAuth2Authentication;
-
+@class FFMainViewController;
 
 @interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate> {
     NSString* keychainItemName;
@@ -44,6 +44,8 @@
     NSTimeInterval fallDuration;
     CLLocation* location;
 }
+
+@property (nonatomic,retain) FFMainViewController* mainView; //retain this guy
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 @property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;

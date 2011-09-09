@@ -33,6 +33,7 @@
 @synthesize accountLinkViewController;
 @synthesize accountLinked;
 @synthesize auth;
+@synthesize mainView;
 
 - (id) init
 {

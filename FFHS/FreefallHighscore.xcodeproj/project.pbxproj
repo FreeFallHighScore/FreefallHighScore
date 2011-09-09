@@ -12,7 +12,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		26D26A45130341DA00D8C94B /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 26D26A44130341DA00D8C94B /* AVCamUtilities.m */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2899E5220DE3E06400AC0155 /* AVCamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* AVCamViewController.xib */; };
+		2899E5220DE3E06400AC0155 /* FFMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* FFMainViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* FFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */; };
 		A60A807313FF362B00879C56 /* ScoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A60A807113FF362B00879C56 /* ScoreView.xib */; };
@@ -53,17 +53,14 @@
 		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
 		A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */; };
 		A66F18D313F8778100B92C7C /* FFFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18D213F8778100B92C7C /* FFFlipsideViewController.m */; };
-		A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18D413F877AB00B92C7C /* FlipsideView.xib */; };
+		A66F18D513F877AB00B92C7C /* FFFlipsideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18D413F877AB00B92C7C /* FFFlipsideViewController.xib */; };
 		A66F18E113F879CB00B92C7C /* FFYoutubeUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */; };
 		A66F1A3713F87A1C00B92C7C /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18EC13F87A1B00B92C7C /* GTMOAuth2Authentication.m */; };
 		A66F1A3813F87A1C00B92C7C /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18EE13F87A1B00B92C7C /* GTMOAuth2SignIn.m */; };
 		A66F1A3913F87A1C00B92C7C /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18F013F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.m */; };
 		A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A66F18F113F87A1B00B92C7C /* GTMOAuth2ViewTouch.xib */; };
 		A66F1A3B13F87A1C00B92C7C /* libGDataTouchStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */; };
-		A6744C45140F4F150018FDC9 /* Delete_button_HL_.png in Resources */ = {isa = PBXBuildFile; fileRef = A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */; };
-		A6744C46140F4F150018FDC9 /* Delete_button_HL_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */; };
 		A69AA032140AD5990061BB82 /* FFUploadProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */; };
-		A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */; };
 		A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */; };
 		A6C0BC08140052240005845F /* SigninAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC07140052240005845F /* SigninAccessory.xib */; };
 		A6C0BC0C140052290005845F /* FFFlipsideHighscoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */; };
@@ -98,8 +95,6 @@
 		A6C0BC7414032F800005845F /* Retry_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */; };
 		A6C0BC7514032F800005845F /* Retry_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7114032F7F0005845F /* Retry_button.png */; };
 		A6C0BC7614032F800005845F /* Retry_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7214032F7F0005845F /* Retry_button@2x.png */; };
-		A6C0BC7D140331B60005845F /* Delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC79140331B50005845F /* Delete_button.png */; };
-		A6C0BC7E140331B60005845F /* Delete_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7A140331B50005845F /* Delete_button@2x.png */; };
 		A6C0BC831403327A0005845F /* Submit_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC7F1403327A0005845F /* Submit_button_HL.png */; };
 		A6C0BC841403327A0005845F /* Submit_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC801403327A0005845F /* Submit_button_HL@2x.png */; };
 		A6C0BC851403327A0005845F /* Submit_button.png in Resources */ = {isa = PBXBuildFile; fileRef = A6C0BC811403327A0005845F /* Submit_button.png */; };
@@ -138,6 +133,11 @@
 		E70D5C291418742600625A44 /* FFYoutubeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70D5C281418742600625A44 /* FFYoutubeViewController.xib */; };
 		E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */; };
 		E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */; };
+		E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04232141AD33E00F8F17F /* Delete_button_HL.png */; };
+		E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */; };
+		E7A04238141AD33E00F8F17F /* Delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04234141AD33E00F8F17F /* Delete_button.png */; };
+		E7A04239141AD33E00F8F17F /* Delete_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04235141AD33E00F8F17F /* Delete_button@2x.png */; };
+		E7A0423C141AD8E500F8F17F /* FFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0423B141AD8E400F8F17F /* FFAppDelegate.m */; };
 		E7B32F1E13EE319F00A76421 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1C13EE319F00A76421 /* Default.png */; };
 		E7B32F1F13EE319F00A76421 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F1D13EE319F00A76421 /* Default@2x.png */; };
 		E7B32F2113EE31BB00A76421 /* gbb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E7B32F2013EE31BB00A76421 /* gbb.ttf */; };
@@ -161,7 +161,7 @@
 		26D26A43130341DA00D8C94B /* AVCamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamUtilities.h; sourceTree = "<group>"; };
 		26D26A44130341DA00D8C94B /* AVCamUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamUtilities.m; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2899E5210DE3E06400AC0155 /* AVCamViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AVCamViewController.xib; path = Resources/AVCamViewController.xib; sourceTree = "<group>"; };
+		2899E5210DE3E06400AC0155 /* FFMainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FFMainViewController.xib; path = Resources/FFMainViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Resources/MainWindow.xib; sourceTree = "<group>"; };
 		28D7ACF60DDB3853001CB0EB /* FFMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMainViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFMainViewController.m; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 		A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAccelerometerSample.m; sourceTree = "<group>"; };
 		A66F18D113F8778100B92C7C /* FFFlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideViewController.h; sourceTree = "<group>"; };
 		A66F18D213F8778100B92C7C /* FFFlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideViewController.m; sourceTree = "<group>"; };
-		A66F18D413F877AB00B92C7C /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView.xib; path = Resources/FlipsideView.xib; sourceTree = "<group>"; };
+		A66F18D413F877AB00B92C7C /* FFFlipsideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideViewController.xib; path = Resources/FFFlipsideViewController.xib; sourceTree = "<group>"; };
 		A66F18DF13F879CB00B92C7C /* FFYoutubeUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFYoutubeUploader.h; sourceTree = "<group>"; };
 		A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFYoutubeUploader.m; sourceTree = "<group>"; };
 		A66F18EB13F87A1B00B92C7C /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
@@ -544,11 +544,8 @@
 		A66F1A3413F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		A66F1A3513F87A1B00B92C7C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
 		A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDataTouchStaticLib.a; sourceTree = "<group>"; };
-		A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL_.png; sourceTree = "<group>"; };
-		A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button_HL_@2x.png"; sourceTree = "<group>"; };
 		A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUploadProgressBar.h; sourceTree = "<group>"; };
 		A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFUploadProgressBar.m; sourceTree = "<group>"; };
-		A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app_icon@2x.png"; sourceTree = "<group>"; };
 		A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app_icon@2x.png"; sourceTree = "<group>"; };
 		A6C0BC07140052240005845F /* SigninAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SigninAccessory.xib; path = Resources/SigninAccessory.xib; sourceTree = "<group>"; };
 		A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideHighscoresController.xib; path = Resources/FFFlipsideHighscoresController.xib; sourceTree = "<group>"; };
@@ -598,8 +595,6 @@
 		A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Retry_button_HL@2x.png"; sourceTree = "<group>"; };
 		A6C0BC7114032F7F0005845F /* Retry_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Retry_button.png; sourceTree = "<group>"; };
 		A6C0BC7214032F7F0005845F /* Retry_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Retry_button@2x.png"; sourceTree = "<group>"; };
-		A6C0BC79140331B50005845F /* Delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button.png; sourceTree = "<group>"; };
-		A6C0BC7A140331B50005845F /* Delete_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button@2x.png"; sourceTree = "<group>"; };
 		A6C0BC7F1403327A0005845F /* Submit_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Submit_button_HL.png; sourceTree = "<group>"; };
 		A6C0BC801403327A0005845F /* Submit_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Submit_button_HL@2x.png"; sourceTree = "<group>"; };
 		A6C0BC811403327A0005845F /* Submit_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Submit_button.png; sourceTree = "<group>"; };
@@ -659,6 +654,12 @@
 		E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLinkYoutubeAccountController.h; sourceTree = "<group>"; };
 		E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLinkYoutubeAccountController.m; sourceTree = "<group>"; };
 		E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFLinkYoutubeAccountController.xib; path = Classes/FFLinkYoutubeAccountController.xib; sourceTree = "<group>"; };
+		E7A04232141AD33E00F8F17F /* Delete_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL.png; sourceTree = "<group>"; };
+		E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button_HL@2x.png"; sourceTree = "<group>"; };
+		E7A04234141AD33E00F8F17F /* Delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button.png; sourceTree = "<group>"; };
+		E7A04235141AD33E00F8F17F /* Delete_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button@2x.png"; sourceTree = "<group>"; };
+		E7A0423A141AD8E400F8F17F /* FFAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAppDelegate.h; sourceTree = "<group>"; };
+		E7A0423B141AD8E400F8F17F /* FFAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAppDelegate.m; sourceTree = "<group>"; };
 		E7B32F1C13EE319F00A76421 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		E7B32F1D13EE319F00A76421 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		E7B32F2013EE31BB00A76421 /* gbb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = gbb.ttf; path = Resources/gbb.ttf; sourceTree = "<group>"; };
@@ -706,6 +707,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E7A0423A141AD8E400F8F17F /* FFAppDelegate.h */,
+				E7A0423B141AD8E400F8F17F /* FFAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* FFMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */,
 				A6C27E6613FC24AC0001999F /* Utilities */,
@@ -726,7 +729,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				A6AA6BD3140EF448004A8AFE /* app_icon@2x.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -790,6 +792,10 @@
 		A60A805413FEFBBA00879C56 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E7A04232141AD33E00F8F17F /* Delete_button_HL.png */,
+				E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */,
+				E7A04234141AD33E00F8F17F /* Delete_button.png */,
+				E7A04235141AD33E00F8F17F /* Delete_button@2x.png */,
 				A6C0BC6714032F680005845F /* Drop_button_HL.png */,
 				A6C0BC6814032F680005845F /* Drop_button_HL@2x.png */,
 				A6C0BC6914032F680005845F /* Drop_button.png */,
@@ -798,10 +804,6 @@
 				A6C0BC54140329FC0005845F /* Login_button_HL@2x.png */,
 				A6C0BC55140329FC0005845F /* Login_button.png */,
 				A6C0BC56140329FC0005845F /* Login_button@2x.png */,
-				A6C0BC79140331B50005845F /* Delete_button.png */,
-				A6C0BC7A140331B50005845F /* Delete_button@2x.png */,
-				A6744C43140F4F150018FDC9 /* Delete_button_HL_.png */,
-				A6744C44140F4F150018FDC9 /* Delete_button_HL_@2x.png */,
 				A6C0BC6F14032F7F0005845F /* Retry_button_HL.png */,
 				A6C0BC7014032F7F0005845F /* Retry_button_HL@2x.png */,
 				A6C0BC7114032F7F0005845F /* Retry_button.png */,
@@ -1247,7 +1249,7 @@
 		A6C27E6113FC22CA0001999F /* Flipside */ = {
 			isa = PBXGroup;
 			children = (
-				A66F18D413F877AB00B92C7C /* FlipsideView.xib */,
+				A66F18D413F877AB00B92C7C /* FFFlipsideViewController.xib */,
 				A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */,
 				A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */,
 				A6C0BC0B140052290005845F /* FFFlipsideMyDropsController.xib */,
@@ -1269,7 +1271,7 @@
 			isa = PBXGroup;
 			children = (
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				2899E5210DE3E06400AC0155 /* AVCamViewController.xib */,
+				2899E5210DE3E06400AC0155 /* FFMainViewController.xib */,
 				A60A807113FF362B00879C56 /* ScoreView.xib */,
 				A60A807213FF362B00879C56 /* UploadProgress.xib */,
 				A6C0BC07140052240005845F /* SigninAccessory.xib */,
@@ -1422,13 +1424,13 @@
 				A6C0BCA5140487A80005845F /* Play_button.png in Resources */,
 				A6C0BCA6140487A80005845F /* Play_button@2x.png in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* AVCamViewController.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* FFMainViewController.xib in Resources */,
 				E96FB2131316DF8C006ADCE0 /* Localizable.strings in Resources */,
 				E7B32F1E13EE319F00A76421 /* Default.png in Resources */,
 				E7B32F1F13EE319F00A76421 /* Default@2x.png in Resources */,
 				E7B32F2113EE31BB00A76421 /* gbb.ttf in Resources */,
 				DA7A291A13EF2384006BC687 /* app_icon.png in Resources */,
-				A66F18D513F877AB00B92C7C /* FlipsideView.xib in Resources */,
+				A66F18D513F877AB00B92C7C /* FFFlipsideViewController.xib in Resources */,
 				A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */,
 				A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */,
 				A60A807313FF362B00879C56 /* ScoreView.xib in Resources */,
@@ -1483,8 +1485,6 @@
 				A6C0BC7414032F800005845F /* Retry_button_HL@2x.png in Resources */,
 				A6C0BC7514032F800005845F /* Retry_button.png in Resources */,
 				A6C0BC7614032F800005845F /* Retry_button@2x.png in Resources */,
-				A6C0BC7D140331B60005845F /* Delete_button.png in Resources */,
-				A6C0BC7E140331B60005845F /* Delete_button@2x.png in Resources */,
 				A6C0BC831403327A0005845F /* Submit_button_HL.png in Resources */,
 				A6C0BC841403327A0005845F /* Submit_button_HL@2x.png in Resources */,
 				A6C0BC851403327A0005845F /* Submit_button.png in Resources */,
@@ -1494,13 +1494,14 @@
 				A6C0BC9E14033DD00005845F /* recording_flash_HL@2x.png in Resources */,
 				A6C0BCA114034E6B0005845F /* recording_flash.png in Resources */,
 				A6C0BCA214034E6B0005845F /* recording_flash@2x.png in Resources */,
-				A6AA6BD4140EF448004A8AFE /* app_icon@2x.png in Resources */,
 				A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */,
 				A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */,
-				A6744C45140F4F150018FDC9 /* Delete_button_HL_.png in Resources */,
-				A6744C46140F4F150018FDC9 /* Delete_button_HL_@2x.png in Resources */,
 				E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */,
 				E70D5C291418742600625A44 /* FFYoutubeViewController.xib in Resources */,
+				E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */,
+				E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */,
+				E7A04238141AD33E00F8F17F /* Delete_button.png in Resources */,
+				E7A04239141AD33E00F8F17F /* Delete_button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1557,6 +1558,7 @@
 				E70D5C23141873FD00625A44 /* FFFlipsideInstructionsController.m in Sources */,
 				E70D5C24141873FD00625A44 /* FFFlipsideMyDropsController.m in Sources */,
 				E70D5C271418741100625A44 /* FFYoutubeViewController.m in Sources */,
+				E7A0423C141AD8E500F8F17F /* FFAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
