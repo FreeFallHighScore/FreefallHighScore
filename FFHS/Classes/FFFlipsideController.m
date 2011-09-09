@@ -78,18 +78,6 @@
     [self refreshLoginButton];
 }
 
-/*
-- (NSString*) shortAccountName
-{
-    return [[[self flipsideController] uploader] accountNameShort];
-}
-
-- (NSString*) fullAccountName
-{
-    return [[[self flipsideController] uploader] accountName];
-}
-*/
-
 #pragma mark - View lifecycle
 
 /*

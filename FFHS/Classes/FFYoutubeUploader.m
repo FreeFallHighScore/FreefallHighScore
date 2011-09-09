@@ -144,6 +144,7 @@
                                                                                  target:self 
                                                                                  action:@selector(cancelSignin:)];
          
+        [self.loginView setInitialHTMLString:@"<html><body><span style=\"font-size:20px\">Loading Youtube Login...</span></body></html>"];
         [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
         [self.toplevelController presentModalViewController:navigationController animated:YES];
@@ -178,12 +179,13 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
     
-    NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
+   	//NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
+    NSLog(@"signed out.");
 }
 
 - (BOOL) loggedIn
 {
-    NSLog(@"Auth? %@ can auth? %d", self.auth, [self.auth canAuthorize]);
+    NSLog(@"LOGIN CHECK: self? %@ Auth? %@ can auth? %d", self, self.auth, [self.auth canAuthorize]);
     
     return self.auth != nil && [self.auth canAuthorize];
 }
