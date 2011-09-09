@@ -598,6 +598,7 @@
                                                      name:AVPlayerItemDidPlayToEndTimeNotification
                                                    object:[self.player currentItem]];
         
+        [self.player.currentItem removeObserver:self forKeyPath:@"status"];
         [self.playerLayer removeFromSuperlayer];
         self.playerLayer = nil;
         self.player = nil;
@@ -1067,6 +1068,13 @@
 //            case kFFStateFinishedDropProcessing:
 //                break;
             case kFFStateFinishedDropVideoPlaybackFirstLoop:
+                [UIView animateWithDuration:.25
+                                 animations: ^{
+                                     [self hideStripeOverlay];
+                                 }
+                                 completion:^(BOOL finished){ 
+                                     
+                                 }];
                 
                 break;
             case kFFStateFinishedDropScoreView:
@@ -1409,7 +1417,10 @@
     //tell the phone to save the asset
     libraryAssetURLReceived = NO;
     
-    self.player = [AVPlayer playerWithURL:temporaryURL];
+    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:temporaryURL];
+    [playerItem addObserver:self forKeyPath:@"status" options:nil context:nil];
+    
+    self.player = [AVPlayer playerWithPlayerItem:playerItem];    
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
     self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
     
@@ -1437,11 +1448,29 @@
     
     [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
     
-    [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
-    
-    [self.player play];
+//    [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
+//    [self.player play];
     
     return YES;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context
+{
+
+    NSLog(@"Change? %@", change);
+    if(state == kFFStateFinishedDropPostroll && self.player.currentItem.status == AVPlayerItemStatusReadyToPlay){
+    	[self.player play];
+        [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
+    }
+    
+//    if (context == &ItemStatusContext) {
+//        [self syncUI];
+//        return;
+//    }
+    
+//    [super observeValueForKeyPath:keyPath ofObject:object
+//                           change:change context:context];
 }
 
 - (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL

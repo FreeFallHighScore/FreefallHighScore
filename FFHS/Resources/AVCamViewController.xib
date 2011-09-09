@@ -340,7 +340,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSFont" key="IBUIFont" id="1020388127">
+								<object class="NSFont" key="IBUIFont" id="65461963">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">23</double>
 									<int key="NSfFlags">16</int>
@@ -439,8 +439,8 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
-								<double key="IBUIContentEdgeInsets.top">8</double>
+								<reference key="IBUIFont" ref="65461963"/>
+								<double key="IBUIContentEdgeInsets.top">10</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">0.0</double>
 								<double key="IBUIContentEdgeInsets.right">0.0</double>
@@ -472,7 +472,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
+								<reference key="IBUIFont" ref="65461963"/>
 								<string key="IBUINormalTitle">WHAT?</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -494,7 +494,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
+								<reference key="IBUIFont" ref="65461963"/>
 								<double key="IBUIContentEdgeInsets.top">3</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">31</double>
@@ -525,7 +525,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
+								<reference key="IBUIFont" ref="65461963"/>
 								<string key="IBUINormalTitle">SUBMIT</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -553,7 +553,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
+								<reference key="IBUIFont" ref="65461963"/>
 								<double key="IBUIContentEdgeInsets.top">3</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 								<double key="IBUIContentEdgeInsets.left">31</double>
@@ -584,7 +584,7 @@ cG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="1020388127"/>
+								<reference key="IBUIFont" ref="65461963"/>
 								<string key="IBUIHighlightedTitle">REPLAY</string>
 								<string key="IBUINormalTitle">REPLAY</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
