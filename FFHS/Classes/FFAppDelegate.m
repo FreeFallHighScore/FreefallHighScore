@@ -46,9 +46,6 @@
 {
     NSLog(@"updated location on uploader");
     self.uploader.location = newLocation;
-    //release the finder, we only do this once per game.
-    //self.locationFinder = nil;
-    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

@@ -316,11 +316,15 @@
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
     [request setCachePolicy: NSURLRequestReloadIgnoringCacheData];
 
-    self.accountLinkViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
-    self.accountLinkViewController.request = request;
-    self.accountLinkViewController.delegate = self;
+    FFLinkYoutubeAccountController* linkYoutubeViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
+	linkYoutubeViewController.request = request;
+    linkYoutubeViewController.delegate = self;
+    
+	self.accountLinkViewController  = [[UINavigationController alloc] initWithRootViewController:linkYoutubeViewController];
+    linkYoutubeViewController.navigationItem.title = @"Setup Your Youtube Account";
+    
     [accountLinkViewController release];
-
+	[linkYoutubeViewController release];
     
     [self.auth authorizeRequest:request
               completionHandler:^(NSError* error){

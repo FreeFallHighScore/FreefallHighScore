@@ -17,6 +17,8 @@
 
 - (void) setTimerWithStartTime:(NSDate*) theStartTime forDuration:(NSTimeInterval)newDuration
 {
+    [self positionSpiralImages];
+    
     self.startTime = theStartTime;
     duration = newDuration;
     drawingTimer = YES;
@@ -101,6 +103,14 @@
     }
 }
 
+
+- (void) positionSpiralImages
+{
+    self.axis = CGPointMake(self.bounds.size.width*.30, self.bounds.size.height*.65);
+    for(CALayer* layer in self.spiralLayers){
+    	layer.position = self.axis;
+    }
+}
 
 - (void)drawInContext:(CGContextRef)theContext
 {

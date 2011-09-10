@@ -43,7 +43,7 @@
 @property (nonatomic,retain) GTMOAuth2ViewControllerTouch* loginView;
 @property (nonatomic,retain) GTMOAuth2Authentication* auth;
 
-@property (nonatomic,retain) FFLinkYoutubeAccountController* accountLinkViewController;
+@property (nonatomic,retain) UINavigationController* accountLinkViewController;
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
 

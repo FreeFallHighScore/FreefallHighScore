@@ -199,6 +199,20 @@
         	NSLog(@"Unable to open video camera");
         }
         
+        //create progress wheel
+        self.widgetOverlayLayer = [FFWidgetOverlays layer];
+        [self.widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
+                                                //                                            @"progress_wheel_01", //0 outer black ring
+                                                @"progress_wheel_02", //0 white ring
+                                                @"progress_wheel_03", //1 red ring
+                                                @"progress_wheel_04", //2 black tick ring
+                                                @"progress_wheel_05", //3 white ticks
+                                                //                                            @"progress_wheel_06", //yellow color that we fill in
+                                                @"progress_wheel_07", //4
+                                                @"progress_wheel_08", //5
+                                                @"progress_wheel_09", //6
+                                                nil]];
+
 
     }
     
@@ -247,33 +261,13 @@
         NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
     });
     
-//    if(self.uploader == nil){
-//        
-//    }
-    
-    // location stuff
-//    if(self.videoOverlay == nil){
-//        self.videoOverlay = [[FFVideoOverlay alloc] init];
-//        self.videoOverlay.delegate = self;
-//        [videoOverlay release];
-//    }
-    
-        
-//    NSUserDefaults      *defaults;
-//    NSInteger           launchCount;
-//    
-//    defaults = [NSUserDefaults standardUserDefaults];
-//    launchCount = [defaults integerForKey:@"launchCount" ] + 1;
-//    [defaults setInteger:launchCount forKey:@"launchCount"];
-//    [defaults synchronize];
-    
     //IB will not set this so for some reason we gotta do it here
     [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
     [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
      
     screenBounds = bounds;
-    self.widgetOverlayLayer = [FFWidgetOverlays layer];
-    widgetOverlayLayer.frame = bounds;
+    
+    self.widgetOverlayLayer.frame = bounds;
     [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
     
     //NSLog(@"number of times: %i the app has been launched", launchCount);
@@ -750,7 +744,7 @@
 { 
 	[self hideElementOffscreenLeft:self.whatButton];
     [self hideElementOffscreenLeft:self.introLoginButton];
-    //[self hideElementOffscreenRight:self.blackTabView];
+    
     self.blackTabView.frame = blackTabBaseRect;
     
 	self.whiteTabLogo.alpha = 1.0;
@@ -859,20 +853,6 @@
     }
     
     [self changeState:kFFStateReadyToDrop];
-	
-    //create progress wheel
-    [widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
-//                                            @"progress_wheel_01", //0 outer black ring
-                                            @"progress_wheel_02", //0 white ring
-                                            @"progress_wheel_03", //1 red ring
-                                            @"progress_wheel_04", //2 black tick ring
-                                            @"progress_wheel_05", //3 white ticks
-//                                            @"progress_wheel_06", //yellow color that we fill in
-                                            @"progress_wheel_07", //4
-                                            @"progress_wheel_08", //5
-                                            @"progress_wheel_09", //6
-                                            nil]];
-
 }
 
 - (void) moveWhiteTabToY:(CGFloat)targetY
