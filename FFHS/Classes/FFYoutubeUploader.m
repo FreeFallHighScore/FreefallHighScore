@@ -532,7 +532,7 @@
                 error:(NSError *)error
 {
     if (error == nil){
-        ShowAlert(@"Success!", @"Your video has been uploaded successfully!");
+//        ShowAlert(@"Success!", @"Your video has been uploaded successfully!");
         if(self.delegate && [self.delegate respondsToSelector:@selector(uploadCompleted)]){
             [self.delegate uploadCompleted];
         }

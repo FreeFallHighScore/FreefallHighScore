@@ -44,6 +44,12 @@
  Copyright (C) 2011 Apple Inc. All Rights Reserved.
  
  */
+
+#define kFFFallTimeThreshold .035f
+#define kFFFallStartMinForceThreshold .347
+#define kFFDistanceDecay 1.33
+#define kFFImpactThreshold 6.34
+
 #import <AVFoundation/AVFoundation.h>
 
 #import "FFMainViewController.h"
@@ -104,8 +110,6 @@
 
 @implementation FFMainViewController
 
-@synthesize mainWindow;
-
 @synthesize captureManager;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
@@ -144,6 +148,7 @@
 
 @synthesize recordingFlashBlack;
 @synthesize recordingFlashOrange;
+@synthesize lastAccel;
 
 //@synthesize trackLoc;
 @synthesize introLoginButton;
@@ -304,7 +309,6 @@
 {    
     self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     self.flipsideController.delegate = self;
-//    self.flipsideController.uploader = uploader;
     
     self.flipsideController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.flipsideController animated:YES];
@@ -315,9 +319,9 @@
         [[[self captureManager] session] stopRunning];
     });        
     
-    [flipsideController release];
-    self.mainWindow.rootViewController = self.flipsideController;
-    
+    //[flipsideController release];
+    //self.mainWindow.rootViewController = self.flipsideController;
+    [[UIApplication sharedApplication].delegate switchMainView:self.flipsideController];
 }
 
 - (void)flipsideViewControllerDidFinish:(FFFlipsideViewController *)controller
@@ -330,8 +334,8 @@
     self.uploader.toplevelController = self;
     self.flipsideController = nil;
     
-    self.mainWindow.rootViewController = self;
-    
+    [[UIApplication sharedApplication].delegate switchMainView:self];
+
     NSLog(@"finishing view controller");
 
 }
@@ -355,6 +359,7 @@
     // e.g. self.myOutlet = nil;
 }
 
+/*
 // UIAccelerometerDelegate method, called when the device accelerates.
 - (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
@@ -431,6 +436,67 @@
             }
         }
     }
+}
+*/
+
+// UIAccelerometerDelegate method, called when the device accelerates.
+- (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+{
+    //analyze!
+    if(self.lastAccel != nil){
+	    if([self listenToAccel]){
+            if([self isRecording]){
+
+                if(state != kFFStateInFreeFall){
+                    if([[NSDate date] timeIntervalSinceDate:self.recordStartTime] > kRecordingTimeout){
+                        NSLog(@"recording timed out!");
+                        [self cancelRecording:nil];
+                        return;
+                    }
+                    
+                    CGFloat accelMagnitude = sqrtf(acceleration.x*acceleration.x + 
+                                                   acceleration.y*acceleration.y + 
+                                                   acceleration.z*acceleration.z);
+
+                    //TEST FOR START
+                    if (accelMagnitude < kFFFallStartMinForceThreshold) {
+                        if(!belowThreshold){
+                            belowThreshold = YES;
+                            startTimeOfDrop = acceleration.timestamp;
+                        }
+                        else {
+                            if (acceleration.timestamp - startTimeOfDrop > kFFFallTimeThreshold ) {                            
+                                [widgetOverlayLayer removeDropTimer];                
+                                [self changeState: kFFStateInFreeFall];
+                            }
+                        }
+                    }
+                    else {
+                        belowThreshold = false;
+                    }
+                }
+                else {
+                    CGFloat dX = self.lastAccel.x - acceleration.x;
+                    CGFloat dY = self.lastAccel.y - acceleration.y;
+                    CGFloat dZ = self.lastAccel.z - acceleration.z;
+                    
+                    CGFloat deltaForce = sqrtf(dX*dX + dY*dY + dZ*dZ);
+
+                    distanceAccum += deltaForce;
+                    CGFloat deltaT = acceleration.timestamp - self.lastAccel.timestamp;
+                    distanceAccum -= deltaT*kFFDistanceDecay;
+                    distanceAccum = MAX(0,distanceAccum);
+                    if(distanceAccum > kFFImpactThreshold){
+                        freefallDuration = acceleration.timestamp - startTimeOfDrop;
+                        [self changeState:kFFStateFinishedDropPostroll];
+                        [self performSelector:@selector(finishRecordingAfterFall) withObject:self afterDelay:.5];
+                    }
+                }
+            }
+        }
+	}
+
+    self.lastAccel = acceleration;
 }
 
 - (void)submitCurrentVideo:(id)sender
@@ -586,10 +652,12 @@
         });
         
         freefallDuration = 0;
-        
+        belowThreshold = NO;
+        distanceAccum = 0;
+
         [self changeState:kFFStateReadyToDrop];
         
-        //TODO: delete assets from library
+        //TODO: show action sheet about deleting assets from library
         
     }
  	else{
@@ -1168,6 +1236,7 @@
                                      [self hideElementOffscreenLeft:self.playVideoButton];
                                      [self hideElementOffscreenRight:self.deleteDropButton];
                                      [self revealElementFromTop:self.submitScoreView toPosition:0];
+                                     [self.cancelSubmitButton setTitle:@"Back" forState:UIControlStateNormal];
                                      if(self.uploadProgressView != nil){
                                          self.uploadProgressView.alpha = 0.0;
                                      }
@@ -1190,9 +1259,7 @@
                 
                 [UIView animateWithDuration:.25
                                  animations: ^{
-//                                    self.submitScoreView.frame = CGRectMake(0, 0, 
-//                                                                             baseSubmitScoreViewRect.size.width, 
-//                                                                             baseSubmitScoreViewRect.size.height + self.uploadProgressView.frame.size.height);
+                                     [self.cancelSubmitButton setTitle:@"Cancel" forState:UIControlStateNormal];
                                      
                                      self.uploadProgressView.alpha = 1.0;
                               
@@ -1212,7 +1279,6 @@
                                      [self hideElementToTop:self.submitScoreView withRoom:0];
                                      [self revealElementFromRight:self.retryDropButton];
                                      [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
-                                     self.infoButton.alpha = 1.;
                                  }
                                  completion:^(BOOL finished){ 
                                      [self removeSubmitView];

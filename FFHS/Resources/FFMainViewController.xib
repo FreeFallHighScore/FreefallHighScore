@@ -307,7 +307,7 @@
 									<object class="IBUIImageView" id="394609568">
 										<reference key="NSNextResponder" ref="325741442"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{44, 42}, {133, 128}}</string>
+										<string key="NSFrame">{{44, 39}, {133, 128}}</string>
 										<reference key="NSSuperview" ref="325741442"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="730416964"/>
@@ -332,7 +332,7 @@
 							<object class="IBUIButton" id="475861897">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{0, 136}, {224, 48}}</string>
+								<string key="NSFrame">{{0, 134}, {224, 48}}</string>
 								<reference key="NSSuperview" ref="197392939"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="300609137"/>
@@ -365,38 +365,6 @@
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="672419308">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">Login_button.png</string>
-								</object>
-							</object>
-							<object class="IBUIButton" id="517565519">
-								<reference key="NSNextResponder" ref="197392939"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{304, 240}, {176, 43}}</string>
-								<reference key="NSSuperview" ref="197392939"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">2</int>
-								<object class="NSFont" key="IBUIFont" id="881157047">
-									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">15</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<double key="IBUIContentEdgeInsets.top">8</double>
-								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
-								<double key="IBUIContentEdgeInsets.left">0.0</double>
-								<double key="IBUIContentEdgeInsets.right">54</double>
-								<string key="IBUIHighlightedTitle">TRY AGAIN</string>
-								<string key="IBUINormalTitle">TRY AGAIN</string>
-								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">2</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Retry_button.png</string>
 								</object>
 							</object>
 							<object class="IBUIImageView" id="57952183">
@@ -572,6 +540,35 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								</object>
 								<reference key="IBUINormalBackgroundImage" ref="590773053"/>
 							</object>
+							<object class="IBUIButton" id="517565519">
+								<reference key="NSNextResponder" ref="197392939"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{304, 237}, {176, 43}}</string>
+								<reference key="NSSuperview" ref="197392939"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIFont" ref="807511101"/>
+								<double key="IBUIContentEdgeInsets.top">3</double>
+								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
+								<double key="IBUIContentEdgeInsets.left">10</double>
+								<double key="IBUIContentEdgeInsets.right">0.0</double>
+								<string key="IBUIHighlightedTitle">TRY AGAIN</string>
+								<string key="IBUINormalTitle">TRY AGAIN</string>
+								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">2</int>
+									<bytes key="NSRGB">MSAxIDEAA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">Retry_button.png</string>
+								</object>
+							</object>
 							<object class="IBUIButton" id="300609137">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
@@ -612,7 +609,11 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIFont" ref="881157047"/>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Helvetica-Bold</string>
+									<double key="NSSize">15</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
@@ -965,7 +966,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 						<reference key="object" ref="197392939"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="517565519"/>
 							<reference ref="539342500"/>
 							<reference ref="641299292"/>
 							<reference ref="780404156"/>
@@ -981,6 +981,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<reference ref="57991006"/>
 							<reference ref="57952183"/>
 							<reference ref="276104134"/>
+							<reference ref="517565519"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">Video View</string>
@@ -1221,7 +1222,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="3"/>
+					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

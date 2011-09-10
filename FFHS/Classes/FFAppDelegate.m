@@ -42,6 +42,11 @@
     
 }
 
+- (void) switchMainView:(UIViewController*)newMainView
+{
+	self.mainWindow.rootViewController = newMainView;    
+}
+
 - (void) locationChanged:(CLLocation*)newLocation
 {
     NSLog(@"updated location on uploader");

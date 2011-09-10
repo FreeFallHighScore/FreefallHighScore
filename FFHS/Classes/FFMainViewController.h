@@ -117,9 +117,11 @@ typedef enum {
     FFWidgetOverlays* widgetOverlayLayer;
 
     BOOL needsLoad;
+    BOOL belowThreshold;
+    CGFloat distanceAccum;
+    CGFloat startTimeOfDrop;
+    NSInteger dropStartIndex;
 }
-
-@property(nonatomic,assign) IBOutlet UIWindow* mainWindow;
 
 //camera related stuff
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
@@ -172,6 +174,7 @@ typedef enum {
 //@property (nonatomic, retain) FFVideoOverlay* videoOverlay;
 @property (nonatomic, retain) NSURL* currentDropAssetURL;
 
+@property (nonatomic, retain) UIAcceleration* lastAccel;
 ////location stuff
 //@property (nonatomic,retain) FFTrackLocation *trackLoc;
 

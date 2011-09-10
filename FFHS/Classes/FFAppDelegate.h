@@ -23,6 +23,8 @@
 @property(nonatomic, retain) FFYoutubeUploader* uploader;
 @property(nonatomic, retain) FFLocationFinder* locationFinder;
 
+- (void) switchMainView:(UIViewController*)newMainView;
+
 - (void) locationChanged:(CLLocation*)newLocation;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application;
