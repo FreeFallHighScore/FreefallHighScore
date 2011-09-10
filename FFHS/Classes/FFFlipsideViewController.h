@@ -14,19 +14,16 @@
 @class HJObjManager;
 
 @interface FFFlipsideViewController : UIViewController<UITabBarControllerDelegate, UIActionSheetDelegate> {
-    FFYoutubeUploader* uploader; //weak reference
     HJObjManager* imageViewManager;
 }
 
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
-
 @property (nonatomic, assign) id <FFFlipsideViewControllerDelegate> delegate;
-@property (nonatomic, assign) FFYoutubeUploader* uploader;
 @property (nonatomic, retain) HJObjManager *imageViewManager;
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
-- (IBAction)logout:(id)sender;
+//- (IBAction)logout:(id)sender;
 
 @end
 

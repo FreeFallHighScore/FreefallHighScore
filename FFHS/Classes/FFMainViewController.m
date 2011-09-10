@@ -301,7 +301,7 @@
 {    
     self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
     self.flipsideController.delegate = self;
-    self.flipsideController.uploader = uploader;
+//    self.flipsideController.uploader = uploader;
     
     self.flipsideController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.flipsideController animated:YES];
@@ -774,6 +774,40 @@
                              [self removeUploadProgressView];
                          }];
         
+    }
+}
+
+- (void) uploadReachedProgess:(CGFloat)progress
+{
+    NSLog(@"uploaded to %f", progress);  
+    
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        if(self.uploadProgressBar == nil){
+            NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
+        }
+        else if([self.uploadProgressBar respondsToSelector:@selector(setProgress:)]){
+            [self.uploadProgressBar setProgress:progress];
+        }
+    });
+}
+
+- (void) uploadCompleted
+{
+    if(state == kFFStateFinishedDropUploading){
+        [self changeState:kFFStateFinishedDropUploadComplete];
+    }
+    else {
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Finished uploading with an invalid state %@", [self stateDescription] ]);
+    }
+}
+
+- (void) uploadFailedWithError:(NSError*)error
+{
+    if(state == kFFStateFinishedDropUploading){
+        [self cancelSubmit:self];
+    }
+    else{
+        ShowAlert(@"State Error", [NSString stringWithFormat:@"Upload failed with invalid state %@", [self stateDescription] ]);
     }
 }
 
@@ -1505,40 +1539,5 @@
 
 @end
 
-@implementation FFMainViewController (FFYoutubeUploaderDelegate)
 
-- (void) uploadReachedProgess:(CGFloat)progress
-{
-    NSLog(@"uploaded to %f", progress);  
-    
-    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        if(self.uploadProgressBar == nil){
-            NSLog(@"ERROR: Upload progress bar null for progress %f", progress);
-        }
-        else if([self.uploadProgressBar respondsToSelector:@selector(setProgress:)]){
-            [self.uploadProgressBar setProgress:progress];
-        }
-    });
-}
 
-- (void) uploadCompleted
-{
-    if(state == kFFStateFinishedDropUploading){
-        [self changeState:kFFStateFinishedDropUploadComplete];
-    }
-    else {
-        ShowAlert(@"State Error", [NSString stringWithFormat:@"Finished uploading with an invalid state %@", [self stateDescription] ]);
-    }
-}
-
-- (void) uploadFailedWithError:(NSError*)error
-{
-    if(state == kFFStateFinishedDropUploading){
-        [self cancelSubmit:self];
-    }
-    else{
-        ShowAlert(@"State Error", [NSString stringWithFormat:@"Upload failed with invalid state %@", [self stateDescription] ]);
-    }
-}
-
-@end

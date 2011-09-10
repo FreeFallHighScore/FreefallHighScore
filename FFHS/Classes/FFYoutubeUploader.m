@@ -10,7 +10,6 @@
 #import "GTMOAuth2Authentication.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GDataEntryYouTubeUpload.h"
-#import "FFLinkYoutubeAccountController.h"
 
 @implementation FFYoutubeUploader
 
@@ -186,8 +185,22 @@
 - (BOOL) loggedIn
 {
     NSLog(@"LOGIN CHECK: self? %@ Auth? %@ can auth? %d", self, self.auth, [self.auth canAuthorize]);
-    
     return self.auth != nil && [self.auth canAuthorize];
+}
+
+- (NSString*) loginButtonText
+{
+    if (self.loggedIn) {
+        if(accountLinked){
+        	return  self.youtubeUserName;
+        }
+        else{
+            return @"Setup Youtube";
+        }
+    }
+    else{
+        return @"Log in";
+    }
 }
 
 - (IBAction) cancelSignin:(id)sender

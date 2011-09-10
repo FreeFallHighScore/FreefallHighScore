@@ -6,7 +6,6 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-
 #import <Foundation/Foundation.h>
 #import "GDataYouTube.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -29,11 +28,11 @@
 @class FFMainViewController;
 
 @interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate> {
-    NSString* keychainItemName;
-    NSString* clientID;
-    NSString* clientSecret;
-    NSString* developerKey;
-    UIViewController* toplevelController;
+//    NSString* keychainItemName;
+//    NSString* clientID;
+//    NSString* clientSecret;
+//    NSString* developerKey;
+//    UIViewController* toplevelController;
     
     CGFloat progress;
     id<FFYoutubeUploaderDelegate> _delegate;
@@ -54,6 +53,7 @@
 @property (nonatomic,retain) FFLinkYoutubeAccountController* accountLinkViewController;
 @property (nonatomic,assign) UIViewController* toplevelController;
 @property (nonatomic,assign) id<FFYoutubeUploaderDelegate> delegate;
+
 @property (nonatomic,retain) NSString* keychainItemName;
 @property (nonatomic,retain) NSString* clientID;
 @property (nonatomic,retain) NSString* clientSecret;
@@ -65,6 +65,7 @@
 @property (nonatomic, readonly) NSString* accountNameShort;
 @property (nonatomic, retain) NSString* youtubeUserName;
 
+@property (nonatomic, readonly) NSString* loginButtonText;
 
 @property (nonatomic, readonly) BOOL uploading;
 @property (nonatomic, readonly) CGFloat uploadProgress;
@@ -101,7 +102,6 @@
 - (void)uploadTicket:(GDataServiceTicket *)ticket
    finishedWithEntry:(GDataEntryYouTubeVideo *)videoEntry
                error:(NSError *)error;
-
 
 - (void) userSignaledLinkedFinished;
 - (void) userSignaledLinkedCanceled;

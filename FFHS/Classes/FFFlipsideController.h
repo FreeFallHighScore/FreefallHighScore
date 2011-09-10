@@ -10,7 +10,7 @@
 
 @class FFFlipsideViewController;
 @class FFYoutubeViewController;
-@class FFYoutubeUploader;
+//@class FFYoutubeUploader;
 
 @interface FFFlipsideController : UIViewController {
     FFFlipsideViewController* flipsideController;

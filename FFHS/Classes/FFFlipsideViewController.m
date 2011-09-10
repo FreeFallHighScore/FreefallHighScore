@@ -16,14 +16,13 @@
 
 @implementation FFFlipsideViewController
 
-@synthesize delegate=_delegate;
-@synthesize uploader;
+@synthesize delegate;
 @synthesize tabBarController;
 @synthesize imageViewManager;
 
 - (void)dealloc
 {
-    [imageViewManager release];
+    self.imageViewManager = nil;
     [super dealloc];
 }
 
@@ -48,17 +47,19 @@
     [[[self.tabBarController viewControllers ]objectAtIndex:2] setFlipsideController:self];
     
     // Create the object manager
-	imageViewManager = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:20];
+	self.imageViewManager = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:20];
+    [imageViewManager release];
     // Create a file cache for the object manager to use
 	// A real app might do this durring startup, allowing the object manager and cache to be shared by several screens
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/frefall/"] ;
 	HJMOFileCache* fileCache = [[[HJMOFileCache alloc] initWithRootPath:cacheDirectory] autorelease];
-	imageViewManager.fileCache = fileCache;
+	self.imageViewManager.fileCache = fileCache;
     
     // Have the file cache trim itself down to a size & age limit, so it doesn't grow forever
 	fileCache.fileCountLimit = 100;
 	fileCache.fileAgeLimit = 60*60*24*7; //1 week
 	[fileCache trimCacheUsingBackgroundThread];
+
 
 }
 
@@ -86,8 +87,9 @@
 
 - (IBAction)login:(id)sender
 {
-    NSLog(@"logging in uploader: %@, logged in? %d %d", self.uploader, self.uploader.loggedIn, self.uploader.accountLinked );
-    if(self.uploader.loggedIn && self.uploader.accountLinked){        
+    FFYoutubeUploader* uploader = [[UIApplication sharedApplication].delegate uploader];
+    NSLog(@"logging in uploader: %@, logged in? %d %d", uploader, uploader.loggedIn, uploader.accountLinked );
+    if(uploader.loggedIn && uploader.accountLinked){        
 		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
                                                             delegate:self 
                                                    cancelButtonTitle:@"Stay Signed In" 
@@ -98,15 +100,16 @@
         
     }
     else{
-        [self.uploader login:sender];
+        [uploader login:sender];
     }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	NSLog(@"user clicked action sheet button %d", buttonIndex);    
+    FFYoutubeUploader* uploader = [[UIApplication sharedApplication].delegate uploader];
     if(buttonIndex == 0){
-		[self logout:self];    
+		[uploader logout:self];    
     }
 
 }
@@ -116,11 +119,11 @@
     //canceled request to log out, don't do anything
     NSLog(@"CANCELED");
 }
-
-- (IBAction)logout:(id)sender
-{
-    NSLog(@"logging out");
-    [self.uploader logout:sender];
-}
+//
+//- (IBAction)logout:(id)sender
+//{
+//    NSLog(@"logging out");
+//    [self.uploader logout:sender];
+//}
 
 @end
