@@ -123,7 +123,7 @@
                                                    cancelButtonTitle:@"Stay Signed In" 
                                               destructiveButtonTitle:@"Sign Out" 
                                                    otherButtonTitles:nil];
-        [action showFromRect:[sender frame] inView:self.toplevelController.view animated:YES];
+        [action showFromRect:self.toplevelController.view.frame inView:self.toplevelController.view animated:YES];
         [action release];
     }
     else{

@@ -233,6 +233,10 @@
     [viewLayer insertSublayer:newCaptureVideoPreviewLayer 
                         below:[[viewLayer sublayers] objectAtIndex:0]];
     
+    if(self.captureVideoPreviewLayer != nil){
+    	[self.captureVideoPreviewLayer removeFromSuperlayer];
+    }
+    
     self.captureVideoPreviewLayer = newCaptureVideoPreviewLayer;
     [newCaptureVideoPreviewLayer release];
     
@@ -286,7 +290,12 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {    
-    [self setupFirstView];
+    if(state == kFFStateFinishedDropSubmitView){
+    	[self changeState:kFFStateFinishedDropSubmitView]; //hack to get the view setup if logging in from the main view
+    }
+    else{
+	    [self setupFirstView];
+    }
     [super viewWillAppear:animated];
 }
 
@@ -506,7 +515,6 @@
 
     [self changeState:kFFStateFinishedDropUploading];
     
-
     self.uploader.fallDuration = freefallDuration; 
     self.uploader.videoTitle = self.videoTitle.text;
     self.uploader.videoDescription = self.videoStory.text;
@@ -741,7 +749,7 @@
 - (void) userDidLogIn:(FFYoutubeUploader*)ul
 { 
 	[self hideElementOffscreenLeft:self.whatButton];
-    [self hideElementOffscreenLeft:self.loginButton];
+    [self hideElementOffscreenLeft:self.introLoginButton];
     //[self hideElementOffscreenRight:self.blackTabView];
     self.blackTabView.frame = blackTabBaseRect;
     
@@ -765,6 +773,7 @@
         [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateNormal];
     }
+    
     else if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
         [UIView animateWithDuration:.25
                          animations: ^{
@@ -1174,6 +1183,7 @@
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self moveWhiteTabToY:0];
+                                     [self hideElementOffscreenRight:self.blackTabView];
                                      [self hideElementOffscreenLeft:self.submitButton];
                                      [self hideElementOffscreenLeft:self.playVideoButton];
                                      [self hideElementOffscreenRight:self.deleteDropButton];
