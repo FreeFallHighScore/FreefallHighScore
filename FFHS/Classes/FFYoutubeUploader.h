@@ -45,7 +45,7 @@
     CLLocation* location;
 }
 
-@property (nonatomic,retain) FFMainViewController* mainView; //retain this guy
+//@property (nonatomic,retain) FFMainViewController* mainView; //retain this guy
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
 @property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;

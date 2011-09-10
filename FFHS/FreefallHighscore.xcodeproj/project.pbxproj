@@ -49,7 +49,7 @@
 		A60A81191400477500879C56 /* upload_progress_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A60A80D71400477500879C56 /* upload_progress_bar@2x.png */; };
 		A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */; };
 		A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */; };
-		A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFTrackLocation.m */; };
+		A66F16F513F8263A00B92C7C /* FFLocationFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFLocationFinder.m */; };
 		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
 		A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */; };
 		A66F18D313F8778100B92C7C /* FFFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F18D213F8778100B92C7C /* FFFlipsideViewController.m */; };
@@ -204,8 +204,8 @@
 		A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = secret_developerkeys.plist; path = Resources/secret_developerkeys.plist; sourceTree = "<group>"; };
 		A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFVideoOverlay.h; sourceTree = "<group>"; };
 		A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFVideoOverlay.m; sourceTree = "<group>"; };
-		A66F16F313F8263900B92C7C /* FFTrackLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTrackLocation.h; sourceTree = "<group>"; };
-		A66F16F413F8263A00B92C7C /* FFTrackLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTrackLocation.m; sourceTree = "<group>"; };
+		A66F16F313F8263900B92C7C /* FFLocationFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLocationFinder.h; sourceTree = "<group>"; };
+		A66F16F413F8263A00B92C7C /* FFLocationFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLocationFinder.m; sourceTree = "<group>"; };
 		A66F16F813F8266A00B92C7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAccelerometerSample.h; sourceTree = "<group>"; };
 		A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAccelerometerSample.m; sourceTree = "<group>"; };
@@ -1321,23 +1321,23 @@
 		A6C27E6613FC24AC0001999F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				A66F16F313F8263900B92C7C /* FFTrackLocation.h */,
-				A66F16F413F8263A00B92C7C /* FFTrackLocation.m */,
-				A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */,
-				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
 				A66F18DF13F879CB00B92C7C /* FFYoutubeUploader.h */,
 				A66F18E013F879CB00B92C7C /* FFYoutubeUploader.m */,
 				E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */,
 				E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */,
 				DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */,
 				DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */,
+				A66F16F313F8263900B92C7C /* FFLocationFinder.h */,
+				A66F16F413F8263A00B92C7C /* FFLocationFinder.m */,
+				A66F170313F85B3300B92C7C /* FFAccelerometerSample.h */,
+				A66F170413F85B3300B92C7C /* FFAccelerometerSample.m */,
 				A6C27E8113FD6FF40001999F /* FFWidgetOverlays.h */,
 				A6C27E8213FD6FF40001999F /* FFWidgetOverlays.m */,
 				A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */,
 				A69AA031140AD5990061BB82 /* FFUploadProgressBar.m */,
-				A60A80791400368D00879C56 /* FFUtilities.h */,
 				E70D5C191418582200625A44 /* FFYoutubeView.h */,
 				E70D5C1A1418582200625A44 /* FFYoutubeView.m */,
+				A60A80791400368D00879C56 /* FFUtilities.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1519,7 +1519,7 @@
 				26D26A45130341DA00D8C94B /* AVCamUtilities.m in Sources */,
 				DAB5601D13EDE60600D5EB63 /* AccelerometerFilter.m in Sources */,
 				A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */,
-				A66F16F513F8263A00B92C7C /* FFTrackLocation.m in Sources */,
+				A66F16F513F8263A00B92C7C /* FFLocationFinder.m in Sources */,
 				A66F170513F85B3300B92C7C /* FFAccelerometerSample.m in Sources */,
 				A66F18D313F8778100B92C7C /* FFFlipsideViewController.m in Sources */,
 				A66F18E113F879CB00B92C7C /* FFYoutubeUploader.m in Sources */,

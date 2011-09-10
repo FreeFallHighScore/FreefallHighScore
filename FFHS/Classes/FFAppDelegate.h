@@ -8,15 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+#import "FFLocationFinder.h"
+
 @class FFYoutubeUploader;
 @class FFMainViewController;
 
-@interface FFAppDelegate : NSObject<UIApplicationDelegate> {
+
+@interface FFAppDelegate : NSObject<UIApplicationDelegate, FFLocationFinderDelegate> {
 
 }
+
 @property(nonatomic, retain) IBOutlet UIWindow* mainWindow;
 @property(nonatomic, retain) FFMainViewController* mainViewController;
 @property(nonatomic, retain) FFYoutubeUploader* uploader;
+@property(nonatomic, retain) FFLocationFinder* locationFinder;
+
+- (void) locationChanged:(CLLocation*)newLocation;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application;
 

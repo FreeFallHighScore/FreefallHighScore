@@ -9,21 +9,47 @@
 #import "FFAppDelegate.h"
 #import "FFMainViewController.h"
 #import "FFYoutubeUploader.h"
+#import "FFLocationFinder.h"
 
 @implementation FFAppDelegate
+
 @synthesize mainViewController;
 @synthesize uploader;
 @synthesize mainWindow;
+@synthesize locationFinder;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
 	NSLog(@"app did launch suckas");
     
     self.mainViewController = [[FFMainViewController alloc] initWithNibName:nil bundle:nil];
+    [mainViewController release];
+    
+    //create uploader:
+    self.uploader = [[FFYoutubeUploader alloc] init];
+    self.uploader.delegate = self.mainViewController;
+    self.uploader.toplevelController = self.mainViewController;
+    [uploader release];
+    
+    self.locationFinder = [[FFLocationFinder alloc] init];
+    self.locationFinder.delegate = self;
+    [self.locationFinder setupLocation];
+    [locationFinder release];
+    
+    self.mainViewController.uploader = self.uploader;
     self.mainWindow.rootViewController = self.mainViewController;
     [self.mainWindow makeKeyAndVisible];
+    
 }
 
+- (void) locationChanged:(CLLocation*)newLocation
+{
+    NSLog(@"updated location on uploader");
+    self.uploader.location = newLocation;
+    //release the finder, we only do this once per game.
+    //self.locationFinder = nil;
+    
+}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {

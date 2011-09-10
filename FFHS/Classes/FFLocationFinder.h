@@ -9,15 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+@protocol FFLocationFinderDelegate
+- (void) locationChanged:(CLLocation*)newLocation;
+@end
 
-@interface FFTrackLocation : NSObject<CLLocationManagerDelegate> {
+@interface FFLocationFinder : NSObject<CLLocationManagerDelegate> {
     CLLocationManager *locationManager;
 	CLLocation* location;
 }
 
 @property(nonatomic, retain) CLLocationManager *locationManager;  
 @property(nonatomic, retain) CLLocation* location;
-
+@property(nonatomic, assign) id<FFLocationFinderDelegate> delegate;
 
 - (void) setupLocation;
 

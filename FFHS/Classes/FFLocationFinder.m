@@ -6,15 +6,16 @@
 //  Copyright 2011 NYU. All rights reserved.
 //
 
-#import "FFTrackLocation.h"
+#import "FFLocationFinder.h"
 
 #define LOCATION_TIMEOUT 7
 
 
-@implementation FFTrackLocation
+@implementation FFLocationFinder
 
 @synthesize locationManager;
 @synthesize location;
+@synthesize delegate;
 
 - (void) locationManager:(CLLocationManager *)manager
 	 didUpdateToLocation:(CLLocation *)newLocation
@@ -27,7 +28,10 @@
 	}
 
 	self.location = newLocation;
-   
+    if(delegate != nil){
+        [delegate locationChanged:newLocation];
+    }
+    
     NSLog(@"latitude %+.6f, longitude %+.6f\n",
           newLocation.coordinate.latitude,
           newLocation.coordinate.longitude);

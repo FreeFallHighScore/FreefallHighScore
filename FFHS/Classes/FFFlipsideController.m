@@ -16,15 +16,15 @@
 
 @synthesize flipsideController;
 @synthesize loginButton;
-@synthesize loggedIn;
+//@synthesize loggedIn;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    return self;
-}
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//    }
+//    return self;
+//}
 
 - (void)dealloc
 {
@@ -53,8 +53,7 @@
 - (void) refreshLoginButton
 {
     
-
-    loggedIn = [self.flipsideController.uploader loggedIn];
+    BOOL loggedIn = [self.flipsideController.uploader loggedIn];
     
     NSLog(@"User is logged in: %d", loggedIn);
     if (loggedIn) {

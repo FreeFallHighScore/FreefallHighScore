@@ -47,9 +47,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "FFVideoOverlay.h"
+//#import "FFVideoOverlay.h"
 #import "FFFlipsideViewController.h"
 #import "FFUtilities.h"
+#import "FFYoutubeUploader.h"
 
 typedef enum {
     kFFStateJustOpened,
@@ -74,12 +75,12 @@ typedef enum {
 @class AVPlayer;
 @class AVPlayerLayer;
 @class AccelerometerFilter;
-@class FFTrackLocation;
+//@class FFTrackLocation;
 @class FFYoutubeUploader;
 @class FFWidgetOverlays;
 @class FFUploadProgressBar;
 
-@interface FFMainViewController : UIViewController <UINavigationControllerDelegate,UIAccelerometerDelegate,CLLocationManagerDelegate, FFVideoOverlayDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate> {
+@interface FFMainViewController : UIViewController <UIAccelerometerDelegate, FFFlipsideViewControllerDelegate, UITextFieldDelegate, FFYoutubeUploaderDelegate> {
     
 	AccelerometerFilter *filter;
     NSMutableArray* accelerometerData;
@@ -97,8 +98,8 @@ typedef enum {
     UIColor* fontcolor;
     
     NSDate* recordStartTime;
-    FFTrackLocation *trackLoc;
-    FFVideoOverlay* videoOverlay;
+//    FFTrackLocation *trackLoc;
+//    FFVideoOverlay* videoOverlay;
     AVURLAsset* assetForOverlay;
     AVPlayer* player;
     AVPlayerLayer* playerLayer;
@@ -168,14 +169,14 @@ typedef enum {
 @property (nonatomic, retain) AVPlayer* player;
 @property (nonatomic, retain) AVPlayerLayer* playerLayer;
 @property (nonatomic, retain) AVURLAsset* assetForOverlay;
-@property (nonatomic, retain) FFVideoOverlay* videoOverlay;
+//@property (nonatomic, retain) FFVideoOverlay* videoOverlay;
 @property (nonatomic, retain) NSURL* currentDropAssetURL;
 
-//location stuff
-@property (nonatomic,retain) FFTrackLocation *trackLoc;
+////location stuff
+//@property (nonatomic,retain) FFTrackLocation *trackLoc;
 
 //uploading stuff
-@property (nonatomic,retain) FFYoutubeUploader* uploader;
+@property (nonatomic,assign) FFYoutubeUploader* uploader;
 
 @property(nonatomic,retain) FFFlipsideViewController* flipsideController;
 
@@ -184,7 +185,7 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UITextField* videoStory;
 @property (nonatomic,assign) IBOutlet UIButton* cancelSubmitButton;
 @property (nonatomic,assign) IBOutlet UIButton* loginButton;
-@property (nonatomic,assign) FFWidgetOverlays* widgetOverlayLayer;
+@property (nonatomic,retain) FFWidgetOverlays* widgetOverlayLayer;
 
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 
@@ -223,5 +224,10 @@ typedef enum {
 
 - (void) userDidLogIn:(id)sender;
 - (void) userDidLogOut:(id)sender;
+
+- (void) uploadReachedProgess:(CGFloat)progress;
+- (void) uploadCompleted;
+- (void) uploadFailedWithError:(NSError*)error;
+
 @end
 

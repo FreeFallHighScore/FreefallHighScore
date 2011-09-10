@@ -50,19 +50,15 @@
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "AccelerometerFilter.h"
-#import "FFTrackLocation.h"
-#import "FFVideoOverlay.h"
+//#import "FFTrackLocation.h"
+//#import "FFVideoOverlay.h"
 #import "FFAccelerometerSample.h"
-#import "FFYoutubeUploader.h"
 #import "FFWidgetOverlays.h"
 #import "FFUploadProgressBar.h"
 
-#define kUpdateFrequency 120.0
+#define kUpdateFrequency 60.0
 #define kRecordingTimeout 20. 
 
-
-@interface FFMainViewController () <UIGestureRecognizerDelegate>
-@end
 
 @interface FFMainViewController (InternalMethods)
 
@@ -104,12 +100,6 @@
 - (void)captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL;
 - (void)captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager;
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
-@end
-
-@interface FFMainViewController (FFYoutubeUploaderDelegate) <FFYoutubeUploaderDelegate>
-- (void) uploadReachedProgess:(CGFloat)progress;
-- (void) uploadCompleted;
-- (void) uploadFailedWithError:(NSError*)error;
 @end
 
 @implementation FFMainViewController
@@ -155,9 +145,9 @@
 @synthesize recordingFlashBlack;
 @synthesize recordingFlashOrange;
 
-@synthesize trackLoc;
+//@synthesize trackLoc;
 @synthesize introLoginButton;
-@synthesize videoOverlay;
+//@synthesize videoOverlay;
 @synthesize acceleromterData;
 @synthesize recordStartTime;
 @synthesize uploader;
@@ -186,6 +176,36 @@
 	return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userDidLogIn:)
+                                                     name:kFFUserDidLogin
+                                                   object:[self.player currentItem]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userDidLogOut:)
+                                                     name:kFFUserDidLogout
+                                                   object:[self.player currentItem]];
+        
+
+        self.captureManager = [[AVCamCaptureManager alloc] init];
+        self.captureManager.delegate = self;
+        [captureManager release];
+        
+        if (![[self captureManager] setupSession]) {
+        	NSLog(@"Unable to open video camera");
+        }
+        
+        self.widgetOverlayLayer = [FFWidgetOverlays layer];
+
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     //pixel shows up shifted by one for some reason....
@@ -195,99 +215,64 @@
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];
     [viewLayer setMasksToBounds:YES];
-    
     CGRect bounds = [view bounds];
 
     NSLog(@"view did load G");
     
-    if(self.uploader == nil){
-        self.uploader = [[FFYoutubeUploader alloc] init];
-        self.uploader.delegate = self;
-        self.uploader.toplevelController = self;
-        self.uploader.mainView = self; //for retention.
-        [uploader release];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userDidLogIn:)
-                                                     name:kFFUserDidLogin
-                                                   object:[self.player currentItem]];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userDidLogOut:)
-                                                     name:kFFUserDidLogout
-                                                   object:[self.player currentItem]];
-
+    // Create video preview layer and add it to the UI
+    AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[self.captureManager session]];
+    newCaptureVideoPreviewLayer.frame = bounds;//CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.height, bounds.size.width);
+    
+    NSLog(@"Preview bounds %f %f %f %f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+    
+    if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
+        [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeRight];
     }
+    
+    [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    
+    [viewLayer insertSublayer:newCaptureVideoPreviewLayer 
+                        below:[[viewLayer sublayers] objectAtIndex:0]];
+    
+    self.captureVideoPreviewLayer = newCaptureVideoPreviewLayer;
+    [newCaptureVideoPreviewLayer release];
+    
+    // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[[self captureManager] session] startRunning];
+        CGSize cameraSize = [self.captureManager cameraSize];
+        NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
+    });
+    
+//    if(self.uploader == nil){
+//        
+//    }
     
     // location stuff
-    if(self.trackLoc == nil){
-        self.trackLoc = [[FFTrackLocation alloc] init];
-        [self.trackLoc setupLocation];
-        [trackLoc release];
-    }
+//    if(self.videoOverlay == nil){
+//        self.videoOverlay = [[FFVideoOverlay alloc] init];
+//        self.videoOverlay.delegate = self;
+//        [videoOverlay release];
+//    }
     
-    if(self.videoOverlay == nil){
-        self.videoOverlay = [[FFVideoOverlay alloc] init];
-        self.videoOverlay.delegate = self;
-        [videoOverlay release];
-    }
-    
-	if (self.captureManager == nil) {
-		self.captureManager = [[AVCamCaptureManager alloc] init];
-		self.captureManager.delegate = self;
-		[captureManager release];
-		
-		if ([[self captureManager] setupSession]) {
-            // Create video preview layer and add it to the UI
-			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
-			[newCaptureVideoPreviewLayer setFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.height, bounds.size.width)];
-			
-            NSLog(@"Preview bounds %f %f %f %f", bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
-
-			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
-				//[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
-                //[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeLeft];
-                [newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationLandscapeRight];
-			}
-			
-			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-			
-			[viewLayer insertSublayer:newCaptureVideoPreviewLayer 
-                                below:[[viewLayer sublayers] objectAtIndex:0]];
-
-			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
-            [newCaptureVideoPreviewLayer release];
-			
-            // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-				[[[self captureManager] session] startRunning];
-                CGSize cameraSize = [self.captureManager cameraSize];
-                NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
-			});
-		}		
-	}
         
-    NSUserDefaults      *defaults;
-    NSInteger           launchCount;
-    
-    defaults = [NSUserDefaults standardUserDefaults];
-    launchCount = [defaults integerForKey:@"launchCount" ] + 1;
-    [defaults setInteger:launchCount forKey:@"launchCount"];
-    [defaults synchronize];
+//    NSUserDefaults      *defaults;
+//    NSInteger           launchCount;
+//    
+//    defaults = [NSUserDefaults standardUserDefaults];
+//    launchCount = [defaults integerForKey:@"launchCount" ] + 1;
+//    [defaults setInteger:launchCount forKey:@"launchCount"];
+//    [defaults synchronize];
     
     //IB will not set this so for some reason we gotta do it here
     [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
     [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
      
-    
     screenBounds = bounds;
-    if(widgetOverlayLayer == nil){
-        widgetOverlayLayer = [FFWidgetOverlays layer];
-        widgetOverlayLayer.frame = bounds;
-        [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
-    }
+    widgetOverlayLayer.frame = bounds;
+    [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
     
-    NSLog(@"number of times: %i the app has been launched", launchCount);
+    //NSLog(@"number of times: %i the app has been launched", launchCount);
     [self setupFirstView];
     
     //accelerometer stuff    
@@ -298,33 +283,10 @@
     [super viewDidLoad];
 }
 
-//- (void) presentMoviePlayerViewControllerAnimated:(BOOL)animated
-//{
-//	NSLog(@"presenting animated movie controller");    
-//}
-//
-//- (void) dismissModalViewControllerAnimated:(BOOL)animated
-//{
-//    NSLog(@"CALLING DISMISS VIEW CONTROLLER");
-//	[super dismissModalViewControllerAnimated:animated];    
-//}
-
 /*
 - (void) viewWillAppear:(BOOL)animated
-{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [[[self captureManager] session] startRunning];
-//    });        
- 
-    if(self.flipsideController != nil){
-        //[self dismissModalViewControllerAnimated:NO];
-        //[self.flipsideController.tabBarController.selectedViewController dismissModalViewControllerAnimated:NO];
-        //[self.flipsideController dismissModalViewControllerAnimated:NO];
-//        [self presentModalViewController:self.flipsideController animated:NO];
-    }
-    
+{    
     [super viewWillAppear:animated];
-    
 }
 */
 
@@ -395,7 +357,6 @@
 {
 	// Update the accelerometer graph view
     //[filter addAcceleration:acceleration];
-    
     
     //NSLog(@"Accelerometer data is %f %f %f", filter.x, filter.y, filter.z);
     
@@ -541,7 +502,7 @@
 
     [self changeState:kFFStateFinishedDropUploading];
     
-    self.uploader.location = trackLoc.location;
+
     self.uploader.fallDuration = freefallDuration; 
     self.uploader.videoTitle = self.videoTitle.text;
     self.uploader.videoDescription = self.videoStory.text;
