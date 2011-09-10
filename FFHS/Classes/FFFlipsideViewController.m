@@ -38,17 +38,18 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
     [self.view addSubview: self.tabBarController.view];
 
-    [[[self.tabBarController viewControllers ]objectAtIndex:0] setFlipsideController:self];
-    [[[self.tabBarController viewControllers ]objectAtIndex:1] setFlipsideController:self];
-    [[[self.tabBarController viewControllers ]objectAtIndex:2] setFlipsideController:self];
+    [[[self.tabBarController viewControllers] objectAtIndex:0] setFlipsideController:self];
+    [[[self.tabBarController viewControllers] objectAtIndex:1] setFlipsideController:self];
+    [[[self.tabBarController viewControllers] objectAtIndex:2] setFlipsideController:self];
     
     // Create the object manager
 	self.imageViewManager = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:20];
     [imageViewManager release];
+    
     // Create a file cache for the object manager to use
 	// A real app might do this durring startup, allowing the object manager and cache to be shared by several screens
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/frefall/"] ;
@@ -59,10 +60,9 @@
 	fileCache.fileCountLimit = 100;
 	fileCache.fileAgeLimit = 60*60*24*7; //1 week
 	[fileCache trimCacheUsingBackgroundThread];
-
-
+    
+	[super viewDidLoad];
 }
-
 
 - (void)viewDidUnload
 {
@@ -87,7 +87,7 @@
 
 - (IBAction)login:(id)sender
 {
-    FFYoutubeUploader* uploader = [[UIApplication sharedApplication].delegate uploader];
+    FFYoutubeUploader* uploader = (FFYoutubeUploader*)[[UIApplication sharedApplication].delegate uploader];
     NSLog(@"logging in uploader: %@, logged in? %d %d", uploader, uploader.loggedIn, uploader.accountLinked );
     if(uploader.loggedIn && uploader.accountLinked){        
 		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
@@ -111,7 +111,6 @@
     if(buttonIndex == 0){
 		[uploader logout:self];    
     }
-
 }
 
 - (void)actionSheetCancel:(UIActionSheet *)actionSheet

@@ -80,7 +80,7 @@
 
 @property (nonatomic, retain) NSMutableData* responseData;
 
-- (GDataServiceGoogleYouTube *)youTubeService;
+- (GDataServiceGoogleYouTube *) youTubeService;
 
 - (IBAction) cancelSignin:(id)sender;
 - (IBAction) login:(id)sender;

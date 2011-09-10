@@ -14,7 +14,6 @@
 
 @interface FFFlipsideController : UIViewController {
     FFFlipsideViewController* flipsideController;
-    UIBarButtonItem* loginButton;
 }
 
 @property (nonatomic, assign) FFFlipsideViewController* flipsideController;

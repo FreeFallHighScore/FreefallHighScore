@@ -52,7 +52,7 @@
 
 - (void) refreshLoginButton
 {
-    [loginButton setTitle:[[[[UIApplication sharedApplication] delegate] uploader] loginButtonText]];
+    [self.loginButton setTitle:[[[[UIApplication sharedApplication] delegate] uploader] loginButtonText]];
 }
 
 - (void) userDidLogIn:(id)sender

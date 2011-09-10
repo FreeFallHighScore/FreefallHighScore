@@ -199,7 +199,6 @@
         	NSLog(@"Unable to open video camera");
         }
         
-        self.widgetOverlayLayer = [FFWidgetOverlays layer];
 
     }
     
@@ -269,6 +268,7 @@
     [self.deleteDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
      
     screenBounds = bounds;
+    self.widgetOverlayLayer = [FFWidgetOverlays layer];
     widgetOverlayLayer.frame = bounds;
     [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
     
@@ -283,12 +283,12 @@
     [super viewDidLoad];
 }
 
-/*
+
 - (void) viewWillAppear:(BOOL)animated
 {    
+    [self setupFirstView];
     [super viewWillAppear:animated];
 }
-*/
 
 /*
 - (void) viewDidAppear:(BOOL)animated
@@ -355,6 +355,9 @@
 // UIAccelerometerDelegate method, called when the device accelerates.
 - (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
+    if(self.flipsideController != nil){
+    	return;
+    }
 	// Update the accelerometer graph view
     //[filter addAcceleration:acceleration];
     

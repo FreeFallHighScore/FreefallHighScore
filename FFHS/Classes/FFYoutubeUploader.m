@@ -191,7 +191,7 @@
 - (NSString*) loginButtonText
 {
     if (self.loggedIn) {
-        if(accountLinked){
+        if(self.accountLinked){
         	return  self.youtubeUserName;
         }
         else{
@@ -221,6 +221,7 @@
         NSLog(@"login error %@", [error description]);
         //TODO change alert based on the error.
         //could be no interent.. could be auth denied.
+        self.auth  = newAuth;
         ShowAlert(@"Failure Authenticating", @"Careful to wait until the confirmation page is completely loaded before pressing 'Allow Access'.");
     } else {
         // Store authorization
