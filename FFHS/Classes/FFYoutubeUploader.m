@@ -115,28 +115,51 @@
     return service;
 }
 
+- (void) toggleLogin:(id)sender
+{
+    if(self.loggedIn && self.accountLinked){        
+		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
+                                                            delegate:self 
+                                                   cancelButtonTitle:@"Stay Signed In" 
+                                              destructiveButtonTitle:@"Sign Out" 
+                                                   otherButtonTitles:nil];
+        [action showFromRect:[sender frame] inView:self.toplevelController.view animated:YES];
+        [action release];
+    }
+    else{
+        [self login:sender];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	NSLog(@"user clicked action sheet button %d", buttonIndex);    
+    if(buttonIndex == 0){
+		[self logout:self];
+    }
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
+    //canceled request to log out, don't do anything
+    NSLog(@"CANCELED");
+}
+
 - (IBAction) login:(id)sender
 {
-	if(self.loggedIn && !self.accountLinked){
+	if(self.loggedIn && !self.accountLinked && !justLoggedOut){
         [self attemptToLinkAccount];
     }
-    else if(!self.loggedIn){
+    //else if(!self.loggedIn){
+    else {
         NSString *scope = [GDataServiceGoogleYouTube authorizationScope];    
-        self.loginView = [[[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+        self.loginView =  [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
                                                                      clientID:clientID
                                                                  clientSecret:clientSecret
                                                              keychainItemName:keychainItemName
                                                                      delegate:self
-                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)] autorelease];
+                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
 
-//        [[NSBundle mainBundle] loadNibNamed:@"SigninAccessory" owner:self options:nil];
-//        UIView* authView = [self.loginView view];
-//        [authView insertSubview:self.signinView aboveSubview:[[authView subviews] objectAtIndex:0]];
-        
-//        CGRect authViewFrame = [authView frame];
-//        CGRect signinViewFrame = [self.signinView frame];
-//        self.signinView.frame = CGRectMake(0, authViewFrame.size.height - signinViewFrame.size.height, signinViewFrame.size.width, signinViewFrame.size.height);
-        
         UINavigationController *navigationController = [[UINavigationController alloc]
                                                         initWithRootViewController:self.loginView];
         UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
@@ -152,8 +175,9 @@
 
         [barItem release];
         [navigationController release];
+        [loginView release];
+        justLoggedOut = NO;
     }
-
 }
 
 
@@ -175,7 +199,7 @@
     [self.auth reset];
     
     self.accountLinked = NO;
-    
+    justLoggedOut = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:kFFUserDidLogout object:self];
     
    	//NSLog(@"signed out. canAuthorize: %d", [[self youTubeService] authorizer] != nil && [[[self youTubeService] authorizer] canAuthorize]);
@@ -184,13 +208,13 @@
 
 - (BOOL) loggedIn
 {
-    NSLog(@"LOGIN CHECK: self? %@ Auth? %@ can auth? %d", self, self.auth, [self.auth canAuthorize]);
-    return self.auth != nil && [self.auth canAuthorize];
+    NSLog(@"LOGIN CHECK? %d", [self.auth canAuthorize]);
+    return  !justLoggedOut && self.auth != nil && [self.auth canAuthorize];
 }
 
 - (NSString*) loginButtonText
 {
-    if (self.loggedIn) {
+    if (self.loggedIn && !justLoggedOut) {
         if(self.accountLinked){
         	return  self.youtubeUserName;
         }
@@ -216,7 +240,7 @@
       finishedWithAuth:(GTMOAuth2Authentication *)newAuth
                  error:(NSError *)error
 {
-    
+    justLoggedOut = NO;
     if (error != nil) {
         NSLog(@"login error %@", [error description]);
         //TODO change alert based on the error.

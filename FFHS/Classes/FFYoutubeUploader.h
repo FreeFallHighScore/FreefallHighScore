@@ -27,13 +27,7 @@
 @class GTMOAuth2Authentication;
 @class FFMainViewController;
 
-@interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate> {
-//    NSString* keychainItemName;
-//    NSString* clientID;
-//    NSString* clientSecret;
-//    NSString* developerKey;
-//    UIViewController* toplevelController;
-    
+@interface FFYoutubeUploader : NSObject<FFLinkYoutubeAccountDelegate, UIActionSheetDelegate> {
     CGFloat progress;
     id<FFYoutubeUploaderDelegate> _delegate;
     GDataServiceTicket *uploadTicket;
@@ -42,12 +36,11 @@
     NSString* videoDescription;
     NSTimeInterval fallDuration;
     CLLocation* location;
+    BOOL justLoggedOut;
 }
 
-//@property (nonatomic,retain) FFMainViewController* mainView; //retain this guy
-
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
-@property (nonatomic,assign) GTMOAuth2ViewControllerTouch* loginView;
+@property (nonatomic,retain) GTMOAuth2ViewControllerTouch* loginView;
 @property (nonatomic,retain) GTMOAuth2Authentication* auth;
 
 @property (nonatomic,retain) FFLinkYoutubeAccountController* accountLinkViewController;
@@ -83,6 +76,7 @@
 - (GDataServiceGoogleYouTube *) youTubeService;
 
 - (IBAction) cancelSignin:(id)sender;
+- (void) toggleLogin:(id)sender;
 - (IBAction) login:(id)sender;
 - (IBAction) logout:(id)sender;
 
@@ -106,6 +100,8 @@
 - (void) userSignaledLinkedFinished;
 - (void) userSignaledLinkedCanceled;
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet;
 
 @end
 

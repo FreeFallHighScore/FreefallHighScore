@@ -358,6 +358,7 @@
     if(self.flipsideController != nil){
     	return;
     }
+    
 	// Update the accelerometer graph view
     //[filter addAcceleration:acceleration];
     
@@ -515,7 +516,8 @@
 
 - (IBAction)login:(id)sender
 {
-    [self.uploader login:sender];
+//    [self.uploader login:sender];
+    [self.uploader toggleLogin:sender];
 }
 
 - (IBAction)cancelSubmit:(id)sender
@@ -750,9 +752,9 @@
     }
     
     if(state == kFFStateFinishedDropSubmitView){
-        [self.loginButton setTitle:self.uploader.youtubeUserName
+        [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateNormal];
-        [self.loginButton setTitle:self.uploader.youtubeUserName
+        [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateDisabled];
     }
 }
@@ -760,7 +762,7 @@
 - (void) userDidLogOut:(FFYoutubeUploader*)ul
 {
     if(state == kFFStateFinishedDropSubmitView){
-        [self.loginButton setTitle:@"Log in"
+        [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateNormal];
     }
     else if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
@@ -1303,26 +1305,8 @@
         self.dropscoreSubmitViewLabel.text = [self scoreText];
         baseSubmitScoreViewRect = self.submitScoreView.frame;
     }
-    if(self.uploader.loggedIn){
-        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
-        if(self.uploader.accountLinked){
-            [self.loginButton setTitle:self.uploader.youtubeUserName
-                              forState:UIControlStateNormal];
-            [self.loginButton setTitle:self.uploader.youtubeUserName
-                              forState:UIControlStateDisabled];
-        }
-        else {
-            [self.loginButton setTitle:@"Setup Youtube"
-                              forState:UIControlStateNormal];
-            [self.loginButton setTitle:@"Setup Youtube"
-                              forState:UIControlStateDisabled];        	
-        }
-    }
-    else {
-        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
-        [self.loginButton setTitle:@"Log in"
-                          forState:UIControlStateNormal];
-    }    
+    [self.loginButton setTitle:self.uploader.loginButtonText forState:UIControlStateNormal];
+    [self.loginButton setTitle:self.uploader.loginButtonText forState:UIControlStateDisabled];
     
     [self hideElementToTop:self.submitScoreView withRoom:0];
  

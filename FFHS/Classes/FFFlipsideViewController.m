@@ -87,37 +87,11 @@
 
 - (IBAction)login:(id)sender
 {
+    
     FFYoutubeUploader* uploader = (FFYoutubeUploader*)[[UIApplication sharedApplication].delegate uploader];
-    NSLog(@"logging in uploader: %@, logged in? %d %d", uploader, uploader.loggedIn, uploader.accountLinked );
-    if(uploader.loggedIn && uploader.accountLinked){        
-		UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil 
-                                                            delegate:self 
-                                                   cancelButtonTitle:@"Stay Signed In" 
-                                              destructiveButtonTitle:@"Sign Out" 
-                                                   otherButtonTitles:nil];
-        [action showFromBarButtonItem:sender animated:YES];
-        [action release];
-        
-    }
-    else{
-        [uploader login:sender];
-    }
+    [uploader toggleLogin:sender];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	NSLog(@"user clicked action sheet button %d", buttonIndex);    
-    FFYoutubeUploader* uploader = [[UIApplication sharedApplication].delegate uploader];
-    if(buttonIndex == 0){
-		[uploader logout:self];    
-    }
-}
-
-- (void)actionSheetCancel:(UIActionSheet *)actionSheet
-{
-    //canceled request to log out, don't do anything
-    NSLog(@"CANCELED");
-}
 //
 //- (IBAction)logout:(id)sender
 //{
