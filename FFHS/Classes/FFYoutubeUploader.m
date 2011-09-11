@@ -32,6 +32,7 @@
 @synthesize accountLinkViewController;
 @synthesize accountLinked;
 @synthesize auth;
+@synthesize showingBackside;
 
 - (id) init
 {
@@ -153,29 +154,55 @@
     //else if(!self.loggedIn){
     else {
         NSString *scope = [GDataServiceGoogleYouTube authorizationScope];    
+//        self.loginView =  [GTMOAuth2ViewControllerTouch controllerWithScope:scope
+//	                                                                     clientID:clientID
+//    	                                                             clientSecret:clientSecret
+//        	                                                     keychainItemName:keychainItemName
+//            	                                                         delegate:self
+//                	                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
         self.loginView =  [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
-                                                                     clientID:clientID
-                                                                 clientSecret:clientSecret
-                                                             keychainItemName:keychainItemName
-                                                                     delegate:self
-                                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+                                                                   clientID:clientID
+                                                               clientSecret:clientSecret
+                                                           keychainItemName:keychainItemName
+                                                                   delegate:self
+                                                           finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+        
+        NSDictionary *params = [NSDictionary dictionaryWithObject:@"en"
+                                                           forKey:@"hl"];
+        [[self.loginView signIn] setAdditionalAuthorizationParameters: params];
+        
+        // By default, the controller will fetch the user's email, but not the rest of
+        // the user's profile.  The full profile can be requested from Google's server
+        // by setting this property before sign-in:
+        //
+        //   viewController.signIn.shouldFetchGoogleUserProfile = YES;
 
-        UINavigationController *navigationController = [[UINavigationController alloc]
-                                                        initWithRootViewController:self.loginView];
-        UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                 target:self 
-                                                                                 action:@selector(cancelSignin:)];
-         
-        [self.loginView setInitialHTMLString:@"<html><body><span style=\"font-size:20px\">Loading Youtube Login...</span></body></html>"];
-        [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-        [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
-        [self.toplevelController presentModalViewController:navigationController animated:YES];
-        [[self.loginView navigationItem] setLeftBarButtonItem:barItem];
+    	[self.loginView setHidesBottomBarWhenPushed:YES];
+        NSString* initialString = @"<html><body><span style=\"font-size:20px\">Loading Youtube Login...</span></body></html>";
+
+//        [self.loginView setInitialHTMLString:initialString];
+        
+        if(showingBackside){
+            [self.toplevelController.tabBarController.selectedViewController pushViewController:self.loginView animated:YES];
+        }
+        else{
+            UINavigationController *navigationController = [[UINavigationController alloc]
+                                                            initWithRootViewController:self.loginView];
+            UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+                                                                                     target:self 
+                                                                                     action:@selector(cancelSignin:)];
+
+            [self.loginView setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+            [self.loginView setModalPresentationStyle:UIModalPresentationPageSheet];
+            [self.toplevelController presentModalViewController:navigationController animated:YES];
+            [[self.loginView navigationItem] setLeftBarButtonItem:barItem];
+            [barItem release];
+	        [navigationController release];
+        }
+//        [[self.loginView webView] loadHTMLString:initialString baseURL:nil];
+
         [[self.loginView navigationItem] setRightBarButtonItem:nil]; //kill the stupid arrows
 
-        [barItem release];
-        [navigationController release];
-        [loginView release];
         justLoggedOut = NO;
     }
 }
@@ -254,7 +281,9 @@
         [self queryForYoutubeUsername];
     }
     
-    [self.toplevelController dismissModalViewControllerAnimated:YES];
+    if(!showingBackside){
+	    [self.toplevelController dismissModalViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark authentication stuff
@@ -319,20 +348,31 @@
     FFLinkYoutubeAccountController* linkYoutubeViewController = [[FFLinkYoutubeAccountController alloc] initWithNibName:nil bundle:nil];
 	linkYoutubeViewController.request = request;
     linkYoutubeViewController.delegate = self;
+
+    if(self.showingBackside){
+        //dig in.
+    	self.accountLinkViewController = self.toplevelController.tabBarController.selectedViewController;
+    }
+    else{
+ 		self.accountLinkViewController = [[[UINavigationController alloc] initWithRootViewController:linkYoutubeViewController] autorelease];
+    }
     
-	self.accountLinkViewController  = [[UINavigationController alloc] initWithRootViewController:linkYoutubeViewController];
+    linkYoutubeViewController.hidesBottomBarWhenPushed = YES;
     linkYoutubeViewController.navigationItem.title = @"Setup Your Youtube Account";
     
-    [accountLinkViewController release];
 	[linkYoutubeViewController release];
     
     [self.auth authorizeRequest:request
               completionHandler:^(NSError* error){
                   if(error == nil){                 	
-                      
-                      [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-                      [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
-                      [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];
+                      if(showingBackside){
+                          [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+                          [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
+                          [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];                          
+                      }
+                      else{
+                          [self.accountLinkViewController pushViewController:linkYoutubeViewController animated:YES];
+                      }
                   }
                   else{
                       //TODO: check for no account linked error.

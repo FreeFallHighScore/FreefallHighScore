@@ -37,6 +37,7 @@
     NSTimeInterval fallDuration;
     CLLocation* location;
     BOOL justLoggedOut;
+    
 }
 
 @property (nonatomic,retain) GDataServiceTicket *uploadTicket;
@@ -72,6 +73,7 @@
 @property (nonatomic, assign) CLLocation* location;
 
 @property (nonatomic, retain) NSMutableData* responseData;
+@property (nonatomic, readwrite) BOOL showingBackside;
 
 - (GDataServiceGoogleYouTube *) youTubeService;
 

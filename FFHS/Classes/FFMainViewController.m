@@ -309,6 +309,7 @@
 {    
     self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:nil bundle:nil];
     self.flipsideController.delegate = self;
+    self.uploader.showingBackside = YES;
     
     self.flipsideController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.flipsideController animated:YES];
@@ -331,6 +332,7 @@
 
     [self dismissModalViewControllerAnimated:YES];
     self.uploader.toplevelController = self;
+    self.uploader.showingBackside = NO;
     self.flipsideController = nil;
     
     [[UIApplication sharedApplication].delegate switchMainView:self];
@@ -501,28 +503,6 @@
 - (void)submitCurrentVideo:(id)sender
 { 
     [self changeState:kFFStateFinishedDropSubmitView];
-    /*
-    NSLog(@"logged in? %d user name %@ ", self.uploader.loggedIn, self.uploader.accountName);
-    
-    if(self.uploader.loggedIn){
-        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:self.uploader.accountName];
-        [self.loginButton setTitle:self.uploader.accountName 
-                          forState:UIControlStateNormal];
-        [self.loginButton setTitle:self.uploader.accountName 
-                          forState:UIControlStateDisabled];
-
-    }
-    else {
-        //[self.uploader showAlert:@"LOGIN TEXT" withMessage:@"you need to log in"];
-        [self.loginButton setTitle:@"Log in"
-                          forState:UIControlStateNormal];
-    }    
-    
-    [self.player pause];
-
-    showingScoreView = YES;
-    [self updateViewState];
-     */
 }
 
 - (IBAction) playVideo:(id)sender
@@ -596,21 +576,6 @@
     else if(state == kFFStateFinishedDropSubmitView){
         [self changeState:kFFStateFinishedDropScoreView];
     }
-    /*
-    if(self.uploader.uploading){
-        NSLog(@"Cancelling upload!");
-        [self.uploader cancelUpload:sender];
-        self.loginButton.enabled = YES;
-        self.videoTitle.enabled = YES;
-        self.videoStory.enabled = YES;
-        [self removeUploadProgressView];
-        [self.videoTitle becomeFirstResponder];
-    }
-    else {
-         NSLog(@"Removing view!");
-        [self removeSubmitView];
-    }
-     */
 }
 
 - (void) removeSubmitView
@@ -727,16 +692,6 @@
             state == kFFStateFinishedDropUploading  ||
             state == kFFStateFinishedDropUploadComplete;
 }
-
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    if (context == AVCamFocusModeObserverContext) {
-//        // Update the focus UI overlay string when the focus mode changes
-////		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
-//	} else {
-//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-//    }
-//}
 
 //#pragma mark Toolbar Actions
 //- (IBAction)toggleCamera:(id)sender

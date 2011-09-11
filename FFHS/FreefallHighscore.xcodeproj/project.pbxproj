@@ -540,9 +540,6 @@
 		A66F1A2F13F87A1B00B92C7C /* GTMHTTPFetcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherService.h; sourceTree = "<group>"; };
 		A66F1A3013F87A1B00B92C7C /* GTMHTTPFetchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetchHistory.h; sourceTree = "<group>"; };
 		A66F1A3113F87A1B00B92C7C /* GTMHTTPUploadFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPUploadFetcher.h; sourceTree = "<group>"; };
-		A66F1A3213F87A1B00B92C7C /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
-		A66F1A3313F87A1B00B92C7C /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
-		A66F1A3413F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
 		A66F1A3513F87A1B00B92C7C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
 		A66F1A3613F87A1B00B92C7C /* libGDataTouchStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDataTouchStaticLib.a; sourceTree = "<group>"; };
 		A69AA030140AD5990061BB82 /* FFUploadProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUploadProgressBar.h; sourceTree = "<group>"; };
@@ -1208,9 +1205,6 @@
 				A66F1A2F13F87A1B00B92C7C /* GTMHTTPFetcherService.h */,
 				A66F1A3013F87A1B00B92C7C /* GTMHTTPFetchHistory.h */,
 				A66F1A3113F87A1B00B92C7C /* GTMHTTPUploadFetcher.h */,
-				A66F1A3213F87A1B00B92C7C /* GTMOAuth2Authentication.h */,
-				A66F1A3313F87A1B00B92C7C /* GTMOAuth2SignIn.h */,
-				A66F1A3413F87A1B00B92C7C /* GTMOAuth2ViewControllerTouch.h */,
 				A66F1A3513F87A1B00B92C7C /* SBJSON.h */,
 			);
 			path = Headers;

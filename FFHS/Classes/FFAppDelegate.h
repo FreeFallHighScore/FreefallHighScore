@@ -17,8 +17,9 @@
 
 }
 
-@property(nonatomic, retain) HJObjManager* imageManager;
 @property(nonatomic, retain) IBOutlet UIWindow* mainWindow;
+
+@property(nonatomic, retain) HJObjManager* imageManager;
 @property(nonatomic, retain) FFMainViewController* mainViewController;
 @property(nonatomic, retain) FFYoutubeUploader* uploader;
 @property(nonatomic, retain) FFLocationFinder* locationFinder;
@@ -30,6 +31,7 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application;
+
 - (void)applicationWillResignActive:(UIApplication *)application;
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application;

@@ -16,14 +16,13 @@
 }
 
 @property (nonatomic, assign) IBOutlet FFFlipsideViewController* flipsideController;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* loginButton;
+@property (nonatomic, retain) UIBarButtonItem* loginButton;
 
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
 
 - (void)refreshLoginButton;
-- (void)dismissVideo;
 - (void)showYoutubeVideo:(NSString*)youtubeURL;
 
 - (void) userDidLogIn:(id)sender;

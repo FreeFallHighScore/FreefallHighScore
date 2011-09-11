@@ -47,7 +47,6 @@
     [super viewDidLoad];
     NSLog(@"link view showing, loading request %@", request);
     [self.linkYoutubeWebview loadRequest:request];
-    
 }
 
 - (void) accountLinked:(id)sender

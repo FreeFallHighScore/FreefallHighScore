@@ -16,7 +16,6 @@
 
 @synthesize flipsideController;
 @synthesize loginButton;
-//@synthesize loggedIn;
 
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 //{
@@ -78,6 +77,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone  
+                                                                                target:self.flipsideController 
+                                                                                action:@selector(done:)];
+	self.loginButton = [[UIBarButtonItem alloc] initWithTitle:@"Log in" 
+                                                        style:UIBarButtonItemStylePlain 
+                                                       target:self.flipsideController 
+                                                       action:@selector(login:)];
+    
+    self.navigationItem.leftBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem = loginButton;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDidLogIn:)
                                                  name:kFFUserDidLogin
@@ -89,40 +99,20 @@
                                                object:nil];
 
     [self refreshLoginButton];
+    
+    [loginButton release];
+	[doneButton release];
+    
 }
 
 -(void)showYoutubeVideo:(NSString*)youtubeURL
 {
     FFYoutubeViewController* youtubeController = [[FFYoutubeViewController alloc] initWithNibName:nil bundle:nil];
     youtubeController.youtubeURL = youtubeURL;
-    
-    
-//    UINavigationController *navigationController = [[UINavigationController alloc]
-//                                                    initWithRootViewController:youtubeController];
-//    
-//    [self.view insertSubview:navigationController.view aboveSubview:[self.view.subviews objectAtIndex:0]];
-//    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-//                                                                             target:self 
-//                                                                             action:@selector(dismissVideo)];
-  
     youtubeController.hidesBottomBarWhenPushed = YES;
-//    youtubeController.navigationItem.leftBarButtonItem = barItem;
-//    [barItem release];
-//    [self.navigationController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-//    [navigationController setModalPresentationStyle:UIModalPresentationPageSheet];
-    
-//    [self presentModalViewController:navigationController animated:YES];
 	[self.navigationController	pushViewController:youtubeController animated:YES];
 
-    
-    NSLog(@"Presenting view for URL %@", youtubeURL );
-    
-}
-   
-- (void) dismissVideo
-{
-//	[self dismissModalViewControllerAnimated:YES];
-    [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"Presenting view for URL %@", youtubeURL );    
 }
 
 -(void)viewWillAppear:(BOOL)animated
