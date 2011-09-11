@@ -8,30 +8,28 @@
 
 #import "FFFlipsideHighscoresController.h"
 #import "FFHighscoresProvider.h"
-#import "HJObjManager.h"
 
 @implementation FFFlipsideHighscoresController
 
 @synthesize tableView;
 @synthesize scores;
-@synthesize imageViewManager;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.heroku.com/videos.json"];
+    //self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.heroku.com/videos.json"];
+    self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.com/staging/videos.json"];
     self.scores.tableView = tableView;
-    self.scores.imageViewManager = [self.flipsideController imageViewManager];
+    
     [scores refreshQuery];
     tableView.dataSource = self.scores;
 }
 
                    
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

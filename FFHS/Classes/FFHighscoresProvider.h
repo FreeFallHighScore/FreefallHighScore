@@ -20,8 +20,7 @@
 @property(nonatomic, retain) NSMutableData* responseData;
 @property(nonatomic, retain) NSArray* highScores;
 @property(nonatomic, retain) NSString* queryURL;
-//@property(nonatomic, readonly) BOOL queryComplete;
-@property(nonatomic, assign) HJObjManager * imageViewManager;
+@property(nonatomic, assign) HJObjManager* imageManager;
 
 - (id) initWithQueryURL:(NSString*)url;
 - (void) refreshQuery;

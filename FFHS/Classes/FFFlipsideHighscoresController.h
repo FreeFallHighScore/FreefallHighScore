@@ -11,14 +11,13 @@
 
 
 @class FFHighscoresProvider;
-@class HJObjManager;
+
 @interface FFFlipsideHighscoresController : FFFlipsideController<UITableViewDelegate> {
-    HJObjManager* imageViewManager;
 
 }
 
 @property(nonatomic, assign) IBOutlet UITableView* tableView; 
 @property(nonatomic, retain) FFHighscoresProvider* scores;
-@property (nonatomic, assign) HJObjManager * imageViewManager;
+
 
 @end

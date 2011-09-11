@@ -18,11 +18,9 @@
 
 @synthesize delegate;
 @synthesize tabBarController;
-@synthesize imageViewManager;
 
 - (void)dealloc
 {
-    self.imageViewManager = nil;
     [super dealloc];
 }
 
@@ -38,29 +36,13 @@
 
 - (void)viewDidLoad
 {
-
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
     [self.view addSubview: self.tabBarController.view];
 
     [[[self.tabBarController viewControllers] objectAtIndex:0] setFlipsideController:self];
     [[[self.tabBarController viewControllers] objectAtIndex:1] setFlipsideController:self];
     [[[self.tabBarController viewControllers] objectAtIndex:2] setFlipsideController:self];
-    
-    // Create the object manager
-	self.imageViewManager = [[HJObjManager alloc] initWithLoadingBufferSize:6 memCacheSize:20];
-    [imageViewManager release];
-    
-    // Create a file cache for the object manager to use
-	// A real app might do this durring startup, allowing the object manager and cache to be shared by several screens
-	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/frefall/"] ;
-	HJMOFileCache* fileCache = [[[HJMOFileCache alloc] initWithRootPath:cacheDirectory] autorelease];
-	self.imageViewManager.fileCache = fileCache;
-    
-    // Have the file cache trim itself down to a size & age limit, so it doesn't grow forever
-	fileCache.fileCountLimit = 100;
-	fileCache.fileAgeLimit = 60*60*24*7; //1 week
-	[fileCache trimCacheUsingBackgroundThread];
-    
+        
 	[super viewDidLoad];
 }
 
@@ -87,7 +69,6 @@
 
 - (IBAction)login:(id)sender
 {
-    
     FFYoutubeUploader* uploader = (FFYoutubeUploader*)[[UIApplication sharedApplication].delegate uploader];
     [uploader toggleLogin:sender];
 }

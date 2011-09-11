@@ -319,8 +319,7 @@
         [[[self captureManager] session] stopRunning];
     });        
     
-    //[flipsideController release];
-    //self.mainWindow.rootViewController = self.flipsideController;
+    [flipsideController release];
     [[UIApplication sharedApplication].delegate switchMainView:self.flipsideController];
 }
 

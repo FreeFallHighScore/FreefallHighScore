@@ -10,14 +10,14 @@
 
 #import "FFLocationFinder.h"
 
+@class HJObjManager;
 @class FFYoutubeUploader;
 @class FFMainViewController;
-
-
 @interface FFAppDelegate : NSObject<UIApplicationDelegate, FFLocationFinderDelegate> {
 
 }
 
+@property(nonatomic, retain) HJObjManager* imageManager;
 @property(nonatomic, retain) IBOutlet UIWindow* mainWindow;
 @property(nonatomic, retain) FFMainViewController* mainViewController;
 @property(nonatomic, retain) FFYoutubeUploader* uploader;

@@ -11,15 +11,13 @@
 
 @protocol FFFlipsideViewControllerDelegate;
 @class FFYoutubeUploader;
-@class HJObjManager;
+
 
 @interface FFFlipsideViewController : UIViewController<UITabBarControllerDelegate> {
-    HJObjManager* imageViewManager;
 }
 
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, assign) id <FFFlipsideViewControllerDelegate> delegate;
-@property (nonatomic, retain) HJObjManager *imageViewManager;
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;

@@ -38,24 +38,20 @@
     else{
         [self.scores showLoginCell];
     }
-    
-    /*
-    if(self.loggedIn){
-        NSString* queryURL = [NSString stringWithFormat:@"http://freefallhighscore.com/api/hiscores_mobile/?oauthid=%@", [self fullAccountName]];
-        NSLog(@"querying personal movies! %@", queryURL);
-        self.scores.queryURL = queryURL;
-        [scores refreshQuery];
-    }
-    else{
-        [self.scores showLoginCell];
-    }
-     */
 }
-                          
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* videoURL = [self.scores youtubeURLForIndex:indexPath];
+    if(videoURL != nil){
+        [self showYoutubeVideo:videoURL];
+    }
+    return nil;
+}
+                     
 - (void)viewWillAppear:(BOOL)animated
 {
     [self refreshScoresTable];
-    
     [super viewWillAppear:animated];
 }
 
