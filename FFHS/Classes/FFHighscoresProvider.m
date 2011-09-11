@@ -165,7 +165,7 @@
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     self.responseData = nil;
-    
+    NSLog(responseString);
 	self.highScores = [responseString JSONValue];
     for (int i = 0; i < [highScores count]; i++){
         NSDictionary* score = [highScores objectAtIndex:i];

@@ -5,18 +5,6 @@
 #pragma mark -
 #pragma mark Initialization
 
-//- (FFYouTubeView *)initWithStringAsURL:(NSString *)urlString frame:(CGRect)frame;
-//{
-//    self = [super init];
-//    if (self) {
-//        // Create webview with requested frame size
-//        self = [[UIWebView alloc] initWithFrame:frame];
-//        
-//        [self loadYoutubeURL:urlString];
-//    }
-//    return self;  
-//}
-
 - (void) loadYoutubeURL:(NSString*)urlString
 {
     // HTML to embed YouTube video
@@ -34,9 +22,6 @@
     // Load the html into the webview
     [self loadHTMLString:html baseURL:nil];
 }
-
-#pragma mark -
-#pragma mark Cleanup
 
 - (void)dealloc 
 {

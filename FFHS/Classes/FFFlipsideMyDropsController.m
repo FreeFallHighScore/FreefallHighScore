@@ -48,7 +48,19 @@
     }
     return nil;
 }
-                     
+
+- (void) userDidLogIn:(id)sender;
+{
+	[self refreshScoresTable];
+    [super userDidLogIn:sender];    
+}
+
+- (void) userDidLogOut:(id)sender
+{
+    [self refreshScoresTable];
+    [super userDidLogOut:sender];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [self refreshScoresTable];
