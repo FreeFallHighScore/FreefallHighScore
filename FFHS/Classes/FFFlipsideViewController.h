@@ -23,7 +23,6 @@
 
 - (IBAction)done:(id)sender;
 - (IBAction)login:(id)sender;
-//- (IBAction)logout:(id)sender;
 
 @end
 

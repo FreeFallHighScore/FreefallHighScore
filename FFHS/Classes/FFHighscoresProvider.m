@@ -19,7 +19,6 @@
 
 @synthesize tableView;
 @synthesize queryURL;
-@synthesize queryComplete;
 @synthesize responseData;
 @synthesize highScores;
 @synthesize imageViewManager;
@@ -36,23 +35,17 @@
 - (void) refreshQuery
 {
     if(self.queryURL != @""){
-        queryComplete = NO;
-        showingLogin = NO;
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        self.highScores = [defaults arrayForKey:self.queryURL];
         self.responseData =  [NSMutableData data];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.queryURL]];
+//        [request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
+        
         [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
     }
 }
 
-- (void) showLoginCell
-{
-    showingLogin = YES;
-    [tableView reloadData];
-}
-
-
 // Customize the appearance of table view cells.
-
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(showingLogin){
@@ -60,11 +53,10 @@
         if(cell == nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"login"];
         }
-        cell.textLabel.text = @"Please login";
+        cell.textLabel.text = @"Please login to see your drops.";
         return cell;
     }
-    
-    if(!self.queryComplete && indexPath.row == 0){
+    else if(self.highScores == nil && indexPath.row == 0){
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"reloading"];
         if(cell == nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reloading"];
@@ -73,7 +65,7 @@
         cell.textLabel.text = @"Querying Highscores...";
         return cell;
     }
-    else if(self.queryComplete && indexPath.row < highScores.count) {
+    else if(self.highScores != nil && indexPath.row < self.highScores.count) {
         
         HJManagedImageV* mi;
             
@@ -86,41 +78,25 @@
             mi = [[[HJManagedImageV alloc] initWithFrame:CGRectMake(243,2,75,75)] autorelease];
             mi.tag = 999;
             [cell addSubview:mi];
-        }else {
+        }
+        else {
             //Get a reference to the managed image view that was already in the recycled cell, and clear it
             mi = (HJManagedImageV*)[cell viewWithTag:999];
             [mi clear];
         }
         
-        
         NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];
         
         cell.textLabel.text=[NSString stringWithFormat:@" %.02fs",  [[score objectForKey:@"drop_time"] floatValue]/1000.0];
-        
         cell.detailTextLabel.text = [NSString stringWithFormat:@" %@", [score objectForKey:@"author"]];
-        
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         NSString *urlString =  [score objectForKey:@"thumbnail_url"];
-        NSString *urlString2=@"http://i3.ytimg.com/vi/NmI4dlERPgo/default.jpg";
         //set the URL that we want the managed image view to load
         mi.url = [NSURL URLWithString:urlString];
-         NSLog(@"path is %@", urlString);
-         NSLog(@"url is  %@", mi.url );
-        //tell the object manager to manage the managed image view
     
        [self.imageViewManager manage:mi];
-        
-        
-        
-      
     
-       // NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: path]];
-        
-       // cell.imageView.image = [UIImage imageWithData: imageData];
-        
-      
-
         return cell;
     }
     
@@ -131,7 +107,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!self.queryComplete || showingLogin){ 
+    if(self.highScores == nil || showingLogin){ 
         return 1;
     }
     else {
@@ -139,9 +115,15 @@
     }
 }
 
+- (void) showLoginCell
+{
+	showingLogin = YES;
+    self.highScores = nil;
+}
+
 - (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath
 {
-	if(self.queryComplete && self.highScores.count > indexPath.row){
+	if(self.highScores != nil && indexPath.row < self.highScores.count){
         NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];        
         NSString* url = [score objectForKey:@"video_url"];
         NSLog(@"selected video URL %@", url);
@@ -159,9 +141,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-
     //TODO: handle this error with a message
-    
     ShowAlert(@"Request Error", [NSString stringWithFormat:@"failed to receive data with error @%", [error localizedDescription] ]);
 }
 
@@ -173,15 +153,17 @@
     self.responseData = nil;
     
 	self.highScores = [responseString JSONValue];
-    
-	for (int i = 0; i < [highScores count]; i++){
+    for (int i = 0; i < [highScores count]; i++){
         NSDictionary* score = [highScores objectAtIndex:i];
         NSLog(@"score %d is %f by %@", i, [[score objectForKey:@"drop_time"] floatValue], [score objectForKey:@"author"] );
     }
     
-    queryComplete = YES;
-    
     [tableView reloadData];
     [responseString release];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.highScores forKey:self.queryURL];
+    [defaults synchronize];
 }
+
 @end

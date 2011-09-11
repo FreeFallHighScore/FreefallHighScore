@@ -78,7 +78,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"******** showing the view named");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDidLogIn:)
                                                  name:kFFUserDidLogin
