@@ -154,18 +154,19 @@
     //else if(!self.loggedIn){
     else {
         NSString *scope = [GDataServiceGoogleYouTube authorizationScope];    
-//        self.loginView =  [GTMOAuth2ViewControllerTouch controllerWithScope:scope
-//	                                                                     clientID:clientID
-//    	                                                             clientSecret:clientSecret
-//        	                                                     keychainItemName:keychainItemName
-//            	                                                         delegate:self
-//                	                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
-        self.loginView =  [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
-                                                                   clientID:clientID
-                                                               clientSecret:clientSecret
-                                                           keychainItemName:keychainItemName
-                                                                   delegate:self
-                                                           finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+        self.loginView =  [GTMOAuth2ViewControllerTouch controllerWithScope:scope
+	                                                                     clientID:clientID
+    	                                                             clientSecret:clientSecret
+        	                                                     keychainItemName:keychainItemName
+            	                                                         delegate:self
+                	                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+
+//        self.loginView =  [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+//                                                                   clientID:clientID
+//                                                               clientSecret:clientSecret
+//                                                           keychainItemName:keychainItemName
+//                                                                   delegate:self
+//                                                           finishedSelector:@selector(viewController:finishedWithAuth:error:)];
         
         NSDictionary *params = [NSDictionary dictionaryWithObject:@"en"
                                                            forKey:@"hl"];
@@ -175,15 +176,24 @@
         // the user's profile.  The full profile can be requested from Google's server
         // by setting this property before sign-in:
         //
-        //   viewController.signIn.shouldFetchGoogleUserProfile = YES;
+        [[self.loginView signIn] setShouldFetchGoogleUserProfile: YES];
 
     	[self.loginView setHidesBottomBarWhenPushed:YES];
         NSString* initialString = @"<html><body><span style=\"font-size:20px\">Loading Youtube Login...</span></body></html>";
 
-//        [self.loginView setInitialHTMLString:initialString];
+        [self.loginView setInitialHTMLString:initialString];
         
         if(showingBackside){
             [self.toplevelController.tabBarController.selectedViewController pushViewController:self.loginView animated:YES];
+            if (![[self.loginView signIn] startSigningIn]) {
+                // Can't start signing in. We must pop our view.
+                // UIWebview needs time to stabilize. Animations need time to complete.
+                // We remove ourself from the view stack after that.
+                [self.loginView performSelector:@selector(popView)
+                           withObject:nil
+                           afterDelay:0.5
+                              inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+            }
         }
         else{
             UINavigationController *navigationController = [[UINavigationController alloc]
@@ -218,12 +228,13 @@
         [self cancelUpload:self];
     }
     
-    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
     
     if([self.auth canAuthorize]){
         [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
     }
-    [self.auth reset];
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
+
+	self.auth = nil;
     
     self.accountLinked = NO;
     justLoggedOut = YES;
@@ -355,23 +366,24 @@
     }
     else{
  		self.accountLinkViewController = [[[UINavigationController alloc] initWithRootViewController:linkYoutubeViewController] autorelease];
+        [linkYoutubeViewController release];
+
     }
     
     linkYoutubeViewController.hidesBottomBarWhenPushed = YES;
     linkYoutubeViewController.navigationItem.title = @"Setup Your Youtube Account";
     
-	[linkYoutubeViewController release];
     
     [self.auth authorizeRequest:request
               completionHandler:^(NSError* error){
                   if(error == nil){                 	
                       if(showingBackside){
+                          [self.accountLinkViewController pushViewController:linkYoutubeViewController animated:YES];
+                      }
+                      else{
                           [self.accountLinkViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
                           [self.accountLinkViewController setModalPresentationStyle:UIModalPresentationPageSheet];
                           [self.toplevelController presentModalViewController:(UIViewController*)self.accountLinkViewController animated:YES];                          
-                      }
-                      else{
-                          [self.accountLinkViewController pushViewController:linkYoutubeViewController animated:YES];
                       }
                   }
                   else{

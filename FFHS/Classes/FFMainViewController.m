@@ -793,15 +793,12 @@
     else if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
         [UIView animateWithDuration:.25
                          animations: ^{
-                             [self hideElementToBottom:self.uploadProgressView withRoom:0];
-                             [self hideElementToTop:self.submitScoreView withRoom:0];
-                             [self revealElementFromRight:self.retryDropButton];
-                             [self moveWhiteTabToY:self.scoreTextContainer.frame.size.height];
-                             self.infoButton.alpha = 1.;
+                             [self revealElementFromLeft:self.whatButton];
+                             [self revealElementFromLeft:self.introLoginButton];
+							 [self revealElementFromRight:self.blackTabView];
+                             self.whiteTabLogo.alpha = 1.0;
                          }
                          completion:^(BOOL finished){ 
-                             [self removeSubmitView];
-                             [self removeUploadProgressView];
                          }];
         
     }

@@ -571,11 +571,11 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
     if (!hasAccessToken) {
       shouldRefresh = YES;
     } else {
-      // We'll consider the token expired if it expires 5 seconds from now
+      // We'll consider the token expired if it expires 60 seconds from now
       // or earlier
       NSDate *expirationDate = self.expirationDate;
       NSTimeInterval timeToExpire = [expirationDate timeIntervalSinceNow];
-      if (expirationDate == nil || timeToExpire < 5.0) {
+      if (expirationDate == nil || timeToExpire < 60.0) {
         // access token has expired, or will in a few seconds
         shouldRefresh = YES;
       }
@@ -719,37 +719,60 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
                error:(NSError *)error {
   [self notifyFetchIsRunning:NO fetcher:fetcher type:nil];
 
+  NSDictionary *responseHeaders = [fetcher responseHeaders];
+  NSString *responseType = [responseHeaders valueForKey:@"Content-Type"];
+  BOOL isResponseJSON = [responseType hasPrefix:@"application/json"];
+  BOOL hasData = ([data length] > 0);
+
   if (error) {
-    // Failed
-    NSDictionary *errorJson = [self dictionaryWithJSONData:data];
-    if ([errorJson count] > 0) {
+    // Failed; if the error body is JSON, parse it and add it to the error's
+    // userInfo dictionary
+    if (hasData) {
+      if (isResponseJSON) {
+        NSDictionary *errorJson = [self dictionaryWithJSONData:data];
+        if ([errorJson count] > 0) {
 #if DEBUG
-      NSLog(@"Error %@\nError data:\n%@", error, errorJson);
+          NSLog(@"Error %@\nError data:\n%@", error, errorJson);
 #endif
-      // Add the JSON error body to the userInfo of the error
-      NSMutableDictionary *userInfo;
-      userInfo = [NSMutableDictionary dictionaryWithObject:errorJson
-                                                    forKey:kGTMOAuth2ErrorJSONKey];
-      NSDictionary *prevUserInfo = [error userInfo];
-      if (prevUserInfo) {
-        [userInfo addEntriesFromDictionary:prevUserInfo];
+          // Add the JSON error body to the userInfo of the error
+          NSMutableDictionary *userInfo;
+          userInfo = [NSMutableDictionary dictionaryWithObject:errorJson
+                                                        forKey:kGTMOAuth2ErrorJSONKey];
+          NSDictionary *prevUserInfo = [error userInfo];
+          if (prevUserInfo) {
+            [userInfo addEntriesFromDictionary:prevUserInfo];
+          }
+          error = [NSError errorWithDomain:[error domain]
+                                      code:[error code]
+                                  userInfo:userInfo];
+        }
       }
-      error = [NSError errorWithDomain:[error domain]
-                                  code:[error code]
-                              userInfo:userInfo];
     }
   } else {
     // Succeeded; we have an access token
-    [self setKeysForResponseJSONData:data];
+#if DEBUG
+    NSAssert(hasData, @"data missing in token response");
+#endif
+
+    if (hasData) {
+      if (isResponseJSON) {
+        [self setKeysForResponseJSONData:data];
+      } else {
+        // Support for legacy token servers that return form-urlencoded data
+        NSString *dataStr = [[[NSString alloc] initWithData:data
+                                                   encoding:NSUTF8StringEncoding] autorelease];
+        [self setKeysForResponseString:dataStr];
+      }
 
 #if DEBUG
-    // Watch for token exchanges that return a non-bearer or unlabeled token
-    NSString *tokenType = [self tokenType];
-    if (tokenType == nil
-        || [tokenType caseInsensitiveCompare:@"bearer"] != NSOrderedSame) {
-      NSLog(@"GTMOAuth2: Unexpected token type: %@", tokenType);
-    }
+      // Watch for token exchanges that return a non-bearer or unlabeled token
+      NSString *tokenType = [self tokenType];
+      if (tokenType == nil
+          || [tokenType caseInsensitiveCompare:@"bearer"] != NSOrderedSame) {
+        NSLog(@"GTMOAuth2: Unexpected token type: %@", tokenType);
+      }
 #endif
+    }
   }
 
   id delegate = [fetcher propertyForKey:kTokenFetchDelegateKey];
