@@ -97,20 +97,23 @@
     youtubeController.youtubeURL = youtubeURL;
     
     
-    UINavigationController *navigationController = [[UINavigationController alloc]
-                                                    initWithRootViewController:youtubeController];
-    
+//    UINavigationController *navigationController = [[UINavigationController alloc]
+//                                                    initWithRootViewController:youtubeController];
+//    
 //    [self.view insertSubview:navigationController.view aboveSubview:[self.view.subviews objectAtIndex:0]];
-    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-                                                                             target:self 
-                                                                             action:@selector(dismissVideo)];
+//    UIBarButtonItem* barItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+//                                                                             target:self 
+//                                                                             action:@selector(dismissVideo)];
   
-    youtubeController.navigationItem.leftBarButtonItem = barItem;
-    [barItem release];
-    [navigationController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [navigationController setModalPresentationStyle:UIModalPresentationPageSheet];
-    [self presentModalViewController:navigationController animated:YES];
-	
+    youtubeController.hidesBottomBarWhenPushed = YES;
+//    youtubeController.navigationItem.leftBarButtonItem = barItem;
+//    [barItem release];
+//    [self.navigationController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+//    [navigationController setModalPresentationStyle:UIModalPresentationPageSheet];
+    
+//    [self presentModalViewController:navigationController animated:YES];
+	[self.navigationController	pushViewController:youtubeController animated:YES];
+
     
     NSLog(@"Presenting view for URL %@", youtubeURL );
     
@@ -118,7 +121,8 @@
    
 - (void) dismissVideo
 {
-	[self dismissModalViewControllerAnimated:YES];
+//	[self dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -142,6 +146,7 @@
     // Return YES for supported orientations
     //return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+//    return YES;
 }
 
 @end

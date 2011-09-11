@@ -1,14 +1,15 @@
 //
-//  FFFlipsideInstructionsController.m
+//  FFFlipsideAboutController.m
 //  FreefallHighscore
 //
-//  Created by James George on 8/17/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Jim on 9/10/11.
+//  Copyright 2011 FlightPhase. All rights reserved.
 //
 
-#import "FFFlipsideInstructionsController.h"
+#import "FFFlipsideAboutController.h"
 
-@implementation FFFlipsideInstructionsController
+
+@implementation FFFlipsideAboutController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,5 +47,11 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    // Return YES for supported orientations
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//}
 
 @end

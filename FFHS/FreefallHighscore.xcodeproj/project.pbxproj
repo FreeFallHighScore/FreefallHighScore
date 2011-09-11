@@ -130,8 +130,10 @@
 		E70D5C24141873FD00625A44 /* FFFlipsideMyDropsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E70D5C21141873FA00625A44 /* FFFlipsideMyDropsController.m */; };
 		E70D5C271418741100625A44 /* FFYoutubeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E70D5C261418741000625A44 /* FFYoutubeViewController.m */; };
 		E70D5C291418742600625A44 /* FFYoutubeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70D5C281418742600625A44 /* FFYoutubeViewController.xib */; };
+		E70E787B141C4F6400466951 /* FFLinkYoutubeAccountController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E787A141C4F6400466951 /* FFLinkYoutubeAccountController.xib */; };
+		E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */; };
+		E70E7880141C4F9100466951 /* FFFlipsideAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */; };
 		E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */; };
-		E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */; };
 		E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04232141AD33E00F8F17F /* Delete_button_HL.png */; };
 		E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */; };
 		E7A04238141AD33E00F8F17F /* Delete_button.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04234141AD33E00F8F17F /* Delete_button.png */; };
@@ -649,9 +651,12 @@
 		E70D5C251418741000625A44 /* FFYoutubeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFYoutubeViewController.h; sourceTree = "<group>"; };
 		E70D5C261418741000625A44 /* FFYoutubeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFYoutubeViewController.m; sourceTree = "<group>"; };
 		E70D5C281418742600625A44 /* FFYoutubeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFYoutubeViewController.xib; path = Resources/FFYoutubeViewController.xib; sourceTree = "<group>"; };
+		E70E787A141C4F6400466951 /* FFLinkYoutubeAccountController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFLinkYoutubeAccountController.xib; path = Resources/FFLinkYoutubeAccountController.xib; sourceTree = "<group>"; };
+		E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideAboutController.xib; path = Resources/FFFlipsideAboutController.xib; sourceTree = "<group>"; };
+		E70E787E141C4F9000466951 /* FFFlipsideAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideAboutController.h; sourceTree = "<group>"; };
+		E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideAboutController.m; sourceTree = "<group>"; };
 		E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLinkYoutubeAccountController.h; sourceTree = "<group>"; };
 		E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLinkYoutubeAccountController.m; sourceTree = "<group>"; };
-		E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFLinkYoutubeAccountController.xib; path = Classes/FFLinkYoutubeAccountController.xib; sourceTree = "<group>"; };
 		E7A04232141AD33E00F8F17F /* Delete_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL.png; sourceTree = "<group>"; };
 		E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete_button_HL@2x.png"; sourceTree = "<group>"; };
 		E7A04234141AD33E00F8F17F /* Delete_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button.png; sourceTree = "<group>"; };
@@ -1248,9 +1253,11 @@
 			isa = PBXGroup;
 			children = (
 				A66F18D413F877AB00B92C7C /* FFFlipsideViewController.xib */,
-				A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */,
 				A6C0BC0A140052290005845F /* FFFlipsideInstructionsController.xib */,
+				A6C0BC09140052290005845F /* FFFlipsideHighscoresController.xib */,
 				A6C0BC0B140052290005845F /* FFFlipsideMyDropsController.xib */,
+				E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */,
+				E70E787A141C4F6400466951 /* FFLinkYoutubeAccountController.xib */,
 				E70D5C281418742600625A44 /* FFYoutubeViewController.xib */,
 			);
 			name = Flipside;
@@ -1272,7 +1279,6 @@
 				2899E5210DE3E06400AC0155 /* FFMainViewController.xib */,
 				A60A807113FF362B00879C56 /* ScoreView.xib */,
 				A60A807213FF362B00879C56 /* UploadProgress.xib */,
-				E7455A231417071600AAB466 /* FFLinkYoutubeAccountController.xib */,
 			);
 			name = Frontside;
 			sourceTree = "<group>";
@@ -1290,6 +1296,8 @@
 				E70D5C1F141873F900625A44 /* FFFlipsideInstructionsController.m */,
 				E70D5C20141873FA00625A44 /* FFFlipsideMyDropsController.h */,
 				E70D5C21141873FA00625A44 /* FFFlipsideMyDropsController.m */,
+				E70E787E141C4F9000466951 /* FFFlipsideAboutController.h */,
+				E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */,
 				E70D5C251418741000625A44 /* FFYoutubeViewController.h */,
 				E70D5C261418741000625A44 /* FFYoutubeViewController.m */,
 				A6C0BC171402BEA60005845F /* FFHighscoresProvider.h */,
@@ -1492,12 +1500,13 @@
 				A6C0BCA214034E6B0005845F /* recording_flash@2x.png in Resources */,
 				A6AA6BD6140EF483004A8AFE /* app_icon@2x.png in Resources */,
 				A6F7C24F140F37C6002B3199 /* recording_flash_HL.png in Resources */,
-				E7455A251417071600AAB466 /* FFLinkYoutubeAccountController.xib in Resources */,
 				E70D5C291418742600625A44 /* FFYoutubeViewController.xib in Resources */,
 				E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */,
 				E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */,
 				E7A04238141AD33E00F8F17F /* Delete_button.png in Resources */,
 				E7A04239141AD33E00F8F17F /* Delete_button@2x.png in Resources */,
+				E70E787B141C4F6400466951 /* FFLinkYoutubeAccountController.xib in Resources */,
+				E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1555,6 +1564,7 @@
 				E70D5C24141873FD00625A44 /* FFFlipsideMyDropsController.m in Sources */,
 				E70D5C271418741100625A44 /* FFYoutubeViewController.m in Sources */,
 				E7A0423C141AD8E500F8F17F /* FFAppDelegate.m in Sources */,
+				E70E7880141C4F9100466951 /* FFFlipsideAboutController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

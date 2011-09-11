@@ -39,10 +39,10 @@
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
     [self.view addSubview: self.tabBarController.view];
 
-    [[[self.tabBarController viewControllers] objectAtIndex:0] setFlipsideController:self];
-    [[[self.tabBarController viewControllers] objectAtIndex:1] setFlipsideController:self];
-    [[[self.tabBarController viewControllers] objectAtIndex:2] setFlipsideController:self];
-        
+//    [[[self.tabBarController viewControllers] objectAtIndex:0] setFlipsideController:self];
+//    [[[self.tabBarController viewControllers] objectAtIndex:1] setFlipsideController:self];
+//    [[[self.tabBarController viewControllers] objectAtIndex:2] setFlipsideController:self];
+//        
 	[super viewDidLoad];
 }
 
@@ -58,7 +58,7 @@
     // Return YES for supported orientations
     //return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return (interfaceOrientation == UIInterfaceOrientationLandscapeRight);
-//    return YES;
+    //return YES;
 }
 
 #pragma mark - Actions
@@ -73,12 +73,5 @@
     FFYoutubeUploader* uploader = (FFYoutubeUploader*)[[UIApplication sharedApplication].delegate uploader];
     [uploader toggleLogin:sender];
 }
-
-//
-//- (IBAction)logout:(id)sender
-//{
-//    NSLog(@"logging out");
-//    [self.uploader logout:sender];
-//}
 
 @end

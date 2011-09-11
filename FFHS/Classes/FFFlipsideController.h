@@ -15,7 +15,7 @@
     FFFlipsideViewController* flipsideController;
 }
 
-@property (nonatomic, assign) FFFlipsideViewController* flipsideController;
+@property (nonatomic, assign) IBOutlet FFFlipsideViewController* flipsideController;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* loginButton;
 
 

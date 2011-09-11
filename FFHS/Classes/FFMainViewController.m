@@ -307,7 +307,7 @@
 
 - (IBAction)showInfo:(id)sender
 {    
-    self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+    self.flipsideController = [[FFFlipsideViewController alloc] initWithNibName:nil bundle:nil];
     self.flipsideController.delegate = self;
     
     self.flipsideController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
