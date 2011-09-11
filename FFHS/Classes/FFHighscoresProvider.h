@@ -25,7 +25,7 @@
 - (id) initWithQueryURL:(NSString*)url;
 - (void) refreshQuery;
 - (void) showLoginCell;
-
+- (void) hidLoginCell;
 - (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;

@@ -227,9 +227,24 @@
 - (void)viewDidLoad
 {
     //pixel shows up shifted by one for some reason....
-    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x+.25, bottomStripeContainer.frame.origin.y, 
-                                             bottomStripeContainer.frame.size.width, bottomStripeContainer.frame.size.height);
+    bottomStripeContainer.frame = CGRectMake(bottomStripeContainer.frame.origin.x, bottomStripeContainer.frame.origin.y, 
+                                             bottomStripeContainer.frame.size.width+1, bottomStripeContainer.frame.size.height);
+    leftStripeContainer.frame = CGRectMake(leftStripeContainer.frame.origin.x, leftStripeContainer.frame.origin.y, 
+                                             leftStripeContainer.frame.size.width-1, leftStripeContainer.frame.size.height);
 
+    NSLog(@"bottom frame: %f %f %f %f", 
+          bottomStripeContainer.frame.origin.x, 
+          bottomStripeContainer.frame.origin.y, 
+          bottomStripeContainer.frame.size.width, 
+          bottomStripeContainer.frame.size.height);
+    
+    
+    NSLog(@"bottom frame: %f %f %f %f", 
+          leftStripeContainer.frame.origin.x, 
+          leftStripeContainer.frame.origin.y, 
+          leftStripeContainer.frame.size.width, 
+          leftStripeContainer.frame.size.height);
+    
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];
     [viewLayer setMasksToBounds:YES];
@@ -517,8 +532,6 @@
     }
 }
  
-
-
 - (void) textFieldShouldReturn:(UITextField*)field
 {
     if(field == self.videoTitle){
@@ -526,10 +539,11 @@
     }
     else if(field == self.videoStory){
         if([self.videoTitle.text isEqualToString:@""]){
+            ShowAlert(@"Enter a Title", @"");
             [self.videoTitle becomeFirstResponder];    
         }
-        if([self.videoStory.text isEqualToString:@""]){
-            //do nothing...
+        else if([self.videoStory.text isEqualToString:@""]){
+            ShowAlert(@"Enter a Description", @"");   
         }
         else {
             [self completeSubmit];
@@ -606,10 +620,10 @@
         self.player = nil;
         timesLooped = 0;
         
-        UIView *view = [self videoPreviewView];
-        CALayer *viewLayer = [view layer];
-        [viewLayer setMasksToBounds:YES];        
-        [viewLayer insertSublayer:captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+//        UIView *view = [self videoPreviewView];
+//        CALayer *viewLayer = [view layer];
+//        [viewLayer setMasksToBounds:YES];        
+//        [viewLayer insertSublayer:self.captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[[self captureManager] session] startRunning];

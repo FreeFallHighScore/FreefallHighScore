@@ -36,8 +36,12 @@
 - (void) refreshQuery
 {
     if(self.queryURL != @""){
+
         NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
         self.highScores = [defaults arrayForKey:self.queryURL];
+        if(self.highScores != nil && self.highScores.count != 0){
+            [self.tableView reloadData];
+        }
         self.responseData =  [NSMutableData data];
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.queryURL]];
 //        [request setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
@@ -133,8 +137,13 @@
 {
 	showingLogin = YES;
     self.highScores = nil;
+    [tableView reloadData];
 }
 
+- (void) hidLoginCell
+{
+    showingLogin = NO;
+}
 - (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath
 {
 	if(self.highScores != nil && indexPath.row < self.highScores.count){

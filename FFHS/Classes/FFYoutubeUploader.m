@@ -176,7 +176,7 @@
         // the user's profile.  The full profile can be requested from Google's server
         // by setting this property before sign-in:
         //
-        [[self.loginView signIn] setShouldFetchGoogleUserProfile: YES];
+//        [[self.loginView signIn] setShouldFetchGoogleUserProfile: YES];
 
     	[self.loginView setHidesBottomBarWhenPushed:YES];
         NSString* initialString = @"<html><body><span style=\"font-size:20px\">Loading Youtube Login...</span></body></html>";

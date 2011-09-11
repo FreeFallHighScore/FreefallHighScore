@@ -29,11 +29,13 @@
 //We need a way for this to get called when the login changes.
 - (void) refreshScoresTable
 {
-    FFYoutubeUploader* uploader = (FFYoutubeUploader*) [[UIApplication sharedApplication].delegate uploader];
+    FFYoutubeUploader* uploader = (FFYoutubeUploader*)[[UIApplication sharedApplication].delegate uploader];
     if(uploader.loggedIn && uploader.accountLinked){
-        NSString* queryURL = [NSString stringWithFormat:@"http://freefallhighscore.com/staging/users/%@/videos.json", uploader.youtubeUserName];
+        [self.scores hidLoginCell];
+        NSString* queryURL = 
+        	[NSString stringWithFormat:@"http://freefallhighscore.com/staging/users/%@/videos.json", uploader.youtubeUserName];
         self.scores.queryURL = queryURL;
-        [scores refreshQuery];        
+        [self.scores refreshQuery];        
     }
     else{
         [self.scores showLoginCell];

@@ -49,6 +49,44 @@
 						<int key="NSvFlags">274</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIView" id="763833261">
+								<reference key="NSNextResponder" ref="197392939"/>
+								<int key="NSvFlags">293</int>
+								<object class="NSMutableArray" key="NSSubviews">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<object class="IBUIImageView" id="47944980">
+										<reference key="NSNextResponder" ref="763833261"/>
+										<int key="NSvFlags">269</int>
+										<string key="NSFrame">{{-40, -280}, {480, 320}}</string>
+										<reference key="NSSuperview" ref="763833261"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="335808330"/>
+										<bool key="IBUIAutoresizesSubviews">NO</bool>
+										<float key="IBUIAlpha">0.34999999403953552</float>
+										<int key="IBUIContentMode">1</int>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage" id="428277370">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">Overlay.png</string>
+										</object>
+										<reference key="IBUIHighlightedImage" ref="428277370"/>
+									</object>
+								</object>
+								<string key="NSFrame">{{40, 280}, {220, 40}}</string>
+								<reference key="NSSuperview" ref="197392939"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="47944980"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MSAwAA</bytes>
+									<object class="NSColorSpace" key="NSCustomColorSpace" id="338197472">
+										<int key="NSID">2</int>
+									</object>
+								</object>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
 							<object class="IBUIView" id="335808330">
 								<reference key="NSNextResponder" ref="197392939"/>
 								<int key="NSvFlags">292</int>
@@ -68,11 +106,8 @@
 										<float key="IBUIAlpha">0.34999999403953552</float>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage" id="783779091">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">Overlay.png</string>
-										</object>
-										<reference key="IBUIHighlightedImage" ref="783779091"/>
+										<reference key="IBUIImage" ref="428277370"/>
+										<reference key="IBUIHighlightedImage" ref="428277370"/>
 									</object>
 								</object>
 								<string key="NSFrame">{{260, 0}, {220, 320}}</string>
@@ -82,9 +117,7 @@
 								<object class="NSColor" key="IBUIBackgroundColor" id="634117938">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MSAwAA</bytes>
-									<object class="NSColorSpace" key="NSCustomColorSpace" id="338197472">
-										<int key="NSID">2</int>
-									</object>
+									<reference key="NSCustomColorSpace" ref="338197472"/>
 								</object>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -104,8 +137,8 @@
 										<float key="IBUIAlpha">0.34999999403953552</float>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<reference key="IBUIImage" ref="783779091"/>
-										<reference key="IBUIHighlightedImage" ref="783779091"/>
+										<reference key="IBUIImage" ref="428277370"/>
+										<reference key="IBUIHighlightedImage" ref="428277370"/>
 									</object>
 								</object>
 								<string key="NSFrameSize">{40, 320}</string>
@@ -114,39 +147,6 @@
 								<reference key="NSNextKeyView" ref="14538583"/>
 								<reference key="IBUIBackgroundColor" ref="634117938"/>
 								<bool key="IBUIAutoresizesSubviews">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							</object>
-							<object class="IBUIView" id="763833261">
-								<reference key="NSNextResponder" ref="197392939"/>
-								<int key="NSvFlags">293</int>
-								<object class="NSMutableArray" key="NSSubviews">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<object class="IBUIImageView" id="47944980">
-										<reference key="NSNextResponder" ref="763833261"/>
-										<int key="NSvFlags">269</int>
-										<string key="NSFrame">{{-40, -280}, {480, 320}}</string>
-										<reference key="NSSuperview" ref="763833261"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="335808330"/>
-										<bool key="IBUIAutoresizesSubviews">NO</bool>
-										<float key="IBUIAlpha">0.34999999403953552</float>
-										<int key="IBUIContentMode">1</int>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<reference key="IBUIImage" ref="783779091"/>
-										<reference key="IBUIHighlightedImage" ref="783779091"/>
-									</object>
-								</object>
-								<string key="NSFrame">{{40, 280}, {220, 40}}</string>
-								<reference key="NSSuperview" ref="197392939"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="47944980"/>
-								<object class="NSColor" key="IBUIBackgroundColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MSAwAA</bytes>
-									<reference key="NSCustomColorSpace" ref="338197472"/>
-								</object>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -970,7 +970,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<reference ref="641299292"/>
 							<reference ref="780404156"/>
 							<reference ref="75627324"/>
-							<reference ref="763833261"/>
 							<reference ref="315937173"/>
 							<reference ref="335808330"/>
 							<reference ref="325741442"/>
@@ -982,6 +981,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<reference ref="57952183"/>
 							<reference ref="276104134"/>
 							<reference ref="517565519"/>
+							<reference ref="763833261"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">Video View</string>
@@ -1378,7 +1378,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<string>introLoginButton</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>mainWindow</string>
 							<string>playVideoButton</string>
 							<string>recordingFlashBlack</string>
 							<string>recordingFlashOrange</string>
@@ -1413,7 +1412,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIButton</string>
-							<string>UIWindow</string>
 							<string>UIButton</string>
 							<string>UIImageView</string>
 							<string>UIImageView</string>
@@ -1451,7 +1449,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<string>introLoginButton</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>mainWindow</string>
 							<string>playVideoButton</string>
 							<string>recordingFlashBlack</string>
 							<string>recordingFlashOrange</string>
@@ -1530,10 +1527,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 							<object class="IBToOneOutletInfo">
 								<string key="name">loginButton</string>
 								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">mainWindow</string>
-								<string key="candidateClassName">UIWindow</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">playVideoButton</string>
