@@ -22,6 +22,7 @@
 @synthesize responseData;
 @synthesize highScores;
 @synthesize imageManager;
+@synthesize scoreCell;
 
 - (id) initWithQueryURL:(NSString*)url
 {
@@ -81,6 +82,25 @@
         }
         else if(indexPath.row < self.highScores.count) {
         
+            static NSString *MyIdentifier = @"MyIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+            if (cell == nil) {
+                [[NSBundle mainBundle] loadNibNamed:@"HighscoresTableCell" owner:self options:nil];
+                cell = self.scoreCell;
+                self.scoreCell = nil;
+            }
+            
+            
+            UILabel *label;
+            HJManagedImageV* mi = (HJManagedImageV *)[cell viewWithTag:1];
+//            label.text = [NSString stringWithFormat:@"%d", indexPath.row];            
+//            label = (UILabel *)[cell viewWithTag:2];
+//            label.text = [NSString stringWithFormat:@"%d", NUMBER_OF_ROWS - indexPath.row];
+            
+            
+            
+            return cell;            
+            /*
             HJManagedImageV* mi;
                 
             UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"highscore"];
@@ -112,6 +132,7 @@
         
            [self.imageManager manage:mi];
         	return cell;
+             */
         }    
     }
     

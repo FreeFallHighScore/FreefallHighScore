@@ -142,7 +142,8 @@
         [self setDeviceDisconnectedObserver:[notificationCenter addObserverForName:AVCaptureDeviceWasDisconnectedNotification object:nil queue:nil usingBlock:deviceDisconnectedBlock]];
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 		[notificationCenter addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-		orientation = AVCaptureVideoOrientationPortrait;
+		//orientation = AVCaptureVideoOrientationPortrait;
+        orientation = AVCaptureVideoOrientationLandscapeRight;
     }
     
     return self;
@@ -464,8 +465,8 @@ bail:
     else
 		orientation = AVCaptureVideoOrientationLandscapeLeft;
 	*/
-    orientation = AVCaptureVideoOrientationLandscapeLeft;
-    
+    //orientation = AVCaptureVideoOrientationLandscapeLeft;
+    orientation = AVCaptureVideoOrientationLandscapeRight;
 	// Ignore device orientations for which there is no corresponding still image orientation (e.g. UIDeviceOrientationFaceUp)
 }
 

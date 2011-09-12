@@ -14,9 +14,11 @@
 @interface FFHighscoresProvider : NSObject<UITableViewDataSource> {
     BOOL showingLogin;
     HJObjManager* imageViewManager;
+    
 }
 
 @property(nonatomic, assign) UITableView* tableView;
+@property(nonatomic, assign) IBOutlet UITableViewCell* scoreCell;
 @property(nonatomic, retain) NSMutableData* responseData;
 @property(nonatomic, retain) NSArray* highScores;
 @property(nonatomic, retain) NSString* queryURL;

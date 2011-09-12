@@ -133,6 +133,7 @@
 		E70E787B141C4F6400466951 /* FFLinkYoutubeAccountController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E787A141C4F6400466951 /* FFLinkYoutubeAccountController.xib */; };
 		E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */; };
 		E70E7880141C4F9100466951 /* FFFlipsideAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */; };
+		E70E789C141D8B4500466951 /* HighscoresTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E789B141D8B4400466951 /* HighscoresTableCell.xib */; };
 		E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */; };
 		E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04232141AD33E00F8F17F /* Delete_button_HL.png */; };
 		E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */; };
@@ -652,6 +653,7 @@
 		E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFFlipsideAboutController.xib; path = Resources/FFFlipsideAboutController.xib; sourceTree = "<group>"; };
 		E70E787E141C4F9000466951 /* FFFlipsideAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideAboutController.h; sourceTree = "<group>"; };
 		E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideAboutController.m; sourceTree = "<group>"; };
+		E70E789B141D8B4400466951 /* HighscoresTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HighscoresTableCell.xib; sourceTree = "<group>"; };
 		E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLinkYoutubeAccountController.h; sourceTree = "<group>"; };
 		E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLinkYoutubeAccountController.m; sourceTree = "<group>"; };
 		E7A04232141AD33E00F8F17F /* Delete_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL.png; sourceTree = "<group>"; };
@@ -1253,6 +1255,7 @@
 				E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */,
 				E70E787A141C4F6400466951 /* FFLinkYoutubeAccountController.xib */,
 				E70D5C281418742600625A44 /* FFYoutubeViewController.xib */,
+				E70E789B141D8B4400466951 /* HighscoresTableCell.xib */,
 			);
 			name = Flipside;
 			sourceTree = "<group>";
@@ -1501,6 +1504,7 @@
 				E7A04239141AD33E00F8F17F /* Delete_button@2x.png in Resources */,
 				E70E787B141C4F6400466951 /* FFLinkYoutubeAccountController.xib in Resources */,
 				E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */,
+				E70E789C141D8B4500466951 /* HighscoresTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

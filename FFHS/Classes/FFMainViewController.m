@@ -806,7 +806,7 @@
 - (void)playerItemDidReachEnd:(NSNotification *)notification
 {
     //LOOP
-    if(state == kFFStateFinishedDropVideoPlayback){
+    if(state == kFFStateFinishedDropVideoPlayback || state == kFFStateFinishedDropVideoPlaybackFirstLoop){
 	    [self changeState:kFFStateFinishedDropScoreView];
     }
 //    }
