@@ -155,6 +155,18 @@
     return nil;
 }
 
+- (NSString*) youtubeTitleForIndex:(NSIndexPath*)indexPath
+{
+    if(self.highScores != nil && indexPath.row < self.highScores.count){
+        NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];        
+        NSString* title = [score objectForKey:@"title"];
+        NSLog(@"selected video title %@", title);
+        return title;
+    }
+    return nil;
+
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	[self.responseData setLength:0];
 }

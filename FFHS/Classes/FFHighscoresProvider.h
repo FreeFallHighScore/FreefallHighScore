@@ -27,6 +27,7 @@
 - (void) showLoginCell;
 - (void) hidLoginCell;
 - (NSString*) youtubeURLForIndex:(NSIndexPath*)indexPath;
+- (NSString*) youtubeTitleForIndex:(NSIndexPath*)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 
