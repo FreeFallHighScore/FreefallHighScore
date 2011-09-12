@@ -449,7 +449,7 @@ bail:
 // Keep track of current device orientation so it can be applied to movie recordings and still image captures
 - (void)deviceOrientationDidChange
 {	
-	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+	//UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
     
 //	if (deviceOrientation == UIDeviceOrientationPortrait)
 //		orientation = AVCaptureVideoOrientationPortrait;
@@ -457,12 +457,15 @@ bail:
 //		orientation = AVCaptureVideoOrientationPortraitUpsideDown;
 	
 //	// AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
+    /*
 	if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
 		orientation = AVCaptureVideoOrientationLandscapeRight;
 	//else if (deviceOrientation == UIDeviceOrientationLandscapeRight)
     else
 		orientation = AVCaptureVideoOrientationLandscapeLeft;
-	
+	*/
+    orientation = AVCaptureVideoOrientationLandscapeLeft;
+    
 	// Ignore device orientations for which there is no corresponding still image orientation (e.g. UIDeviceOrientationFaceUp)
 }
 

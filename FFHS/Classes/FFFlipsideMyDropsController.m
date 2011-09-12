@@ -33,7 +33,7 @@
     if(uploader.loggedIn && uploader.accountLinked){
         [self.scores hidLoginCell];
         NSString* queryURL = 
-        	[NSString stringWithFormat:@"http://freefallhighscore.com/staging/users/%@/videos.json", uploader.youtubeUserName];
+        	[NSString stringWithFormat:@"http://freefallhighscore.com/users/%@/videos.json", uploader.youtubeUserName];
         self.scores.queryURL = queryURL;
         [self.scores refreshQuery];        
     }

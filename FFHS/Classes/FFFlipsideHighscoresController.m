@@ -19,7 +19,7 @@
     [super viewDidLoad];
     
     //self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.heroku.com/videos.json"];
-    self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.com/staging/videos.json"];
+    self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@"http://freefallhighscore.com/videos.json"];
     self.scores.tableView = tableView;
     
     [scores refreshQuery];

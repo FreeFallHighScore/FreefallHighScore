@@ -116,7 +116,8 @@ typedef enum {
     FFYoutubeUploader* uploader;
     FFWidgetOverlays* widgetOverlayLayer;
 
-    BOOL needsLoad;
+    BOOL addVideoLayerOnFirstLoad;
+    
     BOOL belowThreshold;
     CGFloat distanceAccum;
     CGFloat startTimeOfDrop;
@@ -193,6 +194,7 @@ typedef enum {
 @property (nonatomic,assign) IBOutlet UIView* uploadProgressView;
 
 
+- (void) applicationWillTerminate;
 
 //state abstractors
 - (BOOL) listenToAccel;

@@ -97,6 +97,8 @@
 - (void)changeState:(FFGameState)newState;
 - (NSString*) stateDescription; 
 
+- (void) insertPlayerForAssetURL:(NSURL*)assetURL;
+
 @end
 
 @interface FFMainViewController (AVCamCaptureManagerDelegate) <AVCamCaptureManagerDelegate>
@@ -207,18 +209,30 @@
         //create progress wheel
         self.widgetOverlayLayer = [FFWidgetOverlays layer];
         [self.widgetOverlayLayer createSpiralImages:[NSArray arrayWithObjects:
-                                                //                                            @"progress_wheel_01", //0 outer black ring
                                                 @"progress_wheel_02", //0 white ring
                                                 @"progress_wheel_03", //1 red ring
                                                 @"progress_wheel_04", //2 black tick ring
                                                 @"progress_wheel_05", //3 white ticks
-                                                //                                            @"progress_wheel_06", //yellow color that we fill in
                                                 @"progress_wheel_07", //4
                                                 @"progress_wheel_08", //5
                                                 @"progress_wheel_09", //6
                                                 nil]];
 
 
+        //check for a video store
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary* videoStore = [defaults dictionaryForKey:@"RestoreVideo"];
+        if(videoStore != nil){
+            
+        	NSLog(@"Found video store %@", videoStore);
+            
+            self.currentDropAssetURL = [NSURL URLWithString:[videoStore objectForKey:@"SavedURL"]];
+            freefallDuration = [[videoStore objectForKey:@"SavedDuration"] floatValue];
+            addVideoLayerOnFirstLoad = YES;
+        }
+        else {
+        	NSLog(@"no video to restore");
+        }
     }
     
     return self;
@@ -263,7 +277,7 @@
     }
     
     [newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    
+
     [viewLayer insertSublayer:newCaptureVideoPreviewLayer 
                         below:[[viewLayer sublayers] objectAtIndex:0]];
     
@@ -290,13 +304,21 @@
     self.widgetOverlayLayer.frame = bounds;
     [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
     
-    //NSLog(@"number of times: %i the app has been launched", launchCount);
-    [self setupFirstView];
+
+    if(addVideoLayerOnFirstLoad){
+        libraryAssetURLReceived = YES;
+        [self insertPlayerForAssetURL:self.currentDropAssetURL];
+        addVideoLayerOnFirstLoad = NO;
+    }
+    
+//    [self setupFirstView];
     
     //accelerometer stuff    
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
     //filter = [[LowpassFilter alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
+    
+    NSLog(@"STATE:::: View did Load.... in state %@", [self stateDescription]);
     
     [super viewDidLoad];
 }
@@ -304,12 +326,24 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {    
+    NSLog(@"STATE:::: View Will Appeared in state %@", [self stateDescription]);
+    
     if(state == kFFStateFinishedDropSubmitView){
     	[self changeState:kFFStateFinishedDropSubmitView]; //hack to get the view setup if logging in from the main view
+    }
+    else if(state == kFFStateFinishedDropUploading){
+    	//check uploader progress...
+        if(self.uploader.uploading){
+            [self changeState:kFFStateFinishedDropUploading];
+        }
+        else{
+            [self changeState:kFFStateFinishedDropUploadComplete];
+        }
     }
     else{
 	    [self setupFirstView];
     }
+    
     [super viewWillAppear:animated];
 }
 
@@ -375,7 +409,14 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void) applicationWillTerminate
+{
+
+}
+
 /*
+ 
+ //Ye Olde' Way
 // UIAccelerometerDelegate method, called when the device accelerates.
 - (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
@@ -531,7 +572,7 @@
         ShowAlert(@"State Error", [NSString stringWithFormat:@"trying to play video without score view shown. %@", [self stateDescription] ]);
     }
 }
- 
+
 - (void) textFieldShouldReturn:(UITextField*)field
 {
     if(field == self.videoTitle){
@@ -620,11 +661,7 @@
         self.player = nil;
         timesLooped = 0;
         
-//        UIView *view = [self videoPreviewView];
-//        CALayer *viewLayer = [view layer];
-//        [viewLayer setMasksToBounds:YES];        
-//        [viewLayer insertSublayer:self.captureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
-        
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[[self captureManager] session] startRunning];
         });
@@ -632,11 +669,14 @@
         freefallDuration = 0;
         belowThreshold = NO;
         distanceAccum = 0;
+        libraryAssetURLReceived = NO;
 
-        [self changeState:kFFStateReadyToDrop];
+        [self changeState:kFFStateReadyToDrop];    
         
-        //TODO: show action sheet about deleting assets from library
-        
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:nil forKey:@"RestoreVideo"];
+        [defaults synchronize];
+
     }
  	else{
     	ShowAlert(@"State Error", [NSString stringWithFormat:@"trying to discard video from an invalid state %@", [self stateDescription] ]);
@@ -766,8 +806,9 @@
 - (void)playerItemDidReachEnd:(NSNotification *)notification
 {
     //LOOP
-//    if(state == kFFStateFinishedDropVideoPlaybackFirstLoop){
-    [self changeState:kFFStateFinishedDropScoreView];
+    if(state == kFFStateFinishedDropVideoPlayback){
+	    [self changeState:kFFStateFinishedDropScoreView];
+    }
 //    }
 //    else {
 //        AVPlayerItem *p = [notification object];
@@ -836,6 +877,12 @@
 {
     if(state == kFFStateFinishedDropUploading){
         [self changeState:kFFStateFinishedDropUploadComplete];
+        //kill the video store
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:nil forKey:@"RestoreVideo"];
+        [defaults synchronize];
+        libraryAssetURLReceived = NO;
+
     }
     else {
         ShowAlert(@"State Error", [NSString stringWithFormat:@"Finished uploading with an invalid state %@", [self stateDescription] ]);
@@ -855,7 +902,6 @@
 @end
 
 @implementation FFMainViewController (InternalMethods)
-
 
 - (void) setupFirstView
 {
@@ -885,7 +931,12 @@
         self.infoButton.alpha = 0;
     }
     
-    [self changeState:kFFStateReadyToDrop];
+    if(libraryAssetURLReceived){
+        [self changeState:kFFStateFinishedDropScoreView];
+    }
+    else{
+        [self changeState:kFFStateReadyToDrop];    
+    }
 }
 
 - (void) moveWhiteTabToY:(CGFloat)targetY
@@ -1466,7 +1517,45 @@
     //tell the phone to save the asset
     libraryAssetURLReceived = NO;
     
-    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:temporaryURL];
+    [self insertPlayerForAssetURL:temporaryURL];
+    
+//    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:temporaryURL];
+//    [playerItem addObserver:self forKeyPath:@"status" options:0 context:nil];
+//    
+//    self.player = [AVPlayer playerWithPlayerItem:playerItem];    
+//    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];    
+//    self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone; 
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(playerItemDidReachEnd:)
+//                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+//                                               object:[self.player currentItem]];
+//        
+//    UIView *view = [self videoPreviewView];
+//    CALayer *viewLayer = [view layer];        
+//    CGSize cameraSize = [self.captureManager cameraSize];
+//    CGRect bounds;
+//    if(cameraSize.width == 1280){
+//        //iPhone 4 camera
+//        bounds = CGRectMake(-44, 0, 568, 320);
+//    }
+//    else{
+//        bounds = CGRectMake(0, -20, 480, 360);//fullscreen it  
+//    }
+//  
+//    [self.playerLayer setFrame:bounds];
+//    
+//    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
+    
+//    [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
+//    [self.player play];
+    
+    return YES;
+}
+
+- (void) insertPlayerForAssetURL:(NSURL*)assetURL
+{
+    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:assetURL];
     [playerItem addObserver:self forKeyPath:@"status" options:0 context:nil];
     
     self.player = [AVPlayer playerWithPlayerItem:playerItem];    
@@ -1477,7 +1566,7 @@
                                              selector:@selector(playerItemDidReachEnd:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
-        
+    
     UIView *view = [self videoPreviewView];
     CALayer *viewLayer = [view layer];        
     CGSize cameraSize = [self.captureManager cameraSize];
@@ -1489,15 +1578,10 @@
     else{
         bounds = CGRectMake(0, -20, 480, 360);//fullscreen it  
     }
-  
+    
     [self.playerLayer setFrame:bounds];
     
-    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];
-    
-//    [self changeState:kFFStateFinishedDropVideoPlaybackFirstLoop];
-//    [self.player play];
-    
-    return YES;
+    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
@@ -1524,7 +1608,18 @@
     //unused, we never save the items directly from the camera to the asset library.
     self.currentDropAssetURL = assetURL;
     libraryAssetURLReceived = YES;
-    NSLog(@"video saved to assets!!");
+    
+    NSDictionary* videoSave = [NSDictionary dictionaryWithObjectsAndKeys:
+                               self.currentDropAssetURL.absoluteString ,@"SavedURL",
+                               [NSNumber numberWithFloat:freefallDuration], @"SavedDuration", 
+                               nil];
+    
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:videoSave forKey:@"RestoreVideo"];
+    [defaults synchronize];
+    NSLog(@"Saved asset to restore: %@", videoSave);
+
 }
 
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager

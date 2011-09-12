@@ -93,6 +93,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
  	NSLog(@"closing... save the assit if you can..");   
+    [self.mainViewController applicationWillTerminate];
 }
 
 @end
