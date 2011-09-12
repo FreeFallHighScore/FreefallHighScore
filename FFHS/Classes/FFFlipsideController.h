@@ -23,7 +23,7 @@
 - (IBAction)login:(id)sender;
 
 - (void)refreshLoginButton;
-- (void)showYoutubeVideo:(NSString*)youtubeURL;
+- (void)showYoutubeVideo:(NSString*)youtubeURL withTitle:(NSString*)title;
 
 - (void) userDidLogIn:(id)sender;
 - (void) userDidLogOut:(id)sender;

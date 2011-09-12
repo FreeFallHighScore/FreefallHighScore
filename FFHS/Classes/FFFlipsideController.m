@@ -105,11 +105,12 @@
     
 }
 
--(void)showYoutubeVideo:(NSString*)youtubeURL
+- (void)showYoutubeVideo:(NSString*)youtubeURL withTitle:(NSString*)title
 {
     FFYoutubeViewController* youtubeController = [[FFYoutubeViewController alloc] initWithNibName:nil bundle:nil];
     youtubeController.youtubeURL = youtubeURL;
     youtubeController.hidesBottomBarWhenPushed = YES;
+    youtubeController.navigationItem.title = title;
 	[self.navigationController	pushViewController:youtubeController animated:YES];
 
     NSLog(@"Presenting view for URL %@", youtubeURL );    

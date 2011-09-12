@@ -17,6 +17,8 @@
     // Populate HTML with the URL and requested frame size
     NSString *html = [NSString stringWithFormat:youTubeVideoHTML, urlString, self.frame.size.width, self.frame.size.height];
     
+    
+    //NSString *theTitle=
     NSLog(@"final html is %@", html);
     
     // Load the html into the webview

@@ -45,8 +45,9 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* videoURL = [self.scores youtubeURLForIndex:indexPath];
+    NSString* videoTitle = [self.scores youtubeTitleForIndex:indexPath];
     if(videoURL != nil){
-        [self showYoutubeVideo:videoURL];
+        [self showYoutubeVideo:videoURL withTitle:videoTitle];
     }
     return nil;
 }
