@@ -134,6 +134,11 @@
 		E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E787C141C4F7900466951 /* FFFlipsideAboutController.xib */; };
 		E70E7880141C4F9100466951 /* FFFlipsideAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */; };
 		E70E789C141D8B4500466951 /* HighscoresTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E70E789B141D8B4400466951 /* HighscoresTableCell.xib */; };
+		E70E78AE141E636A00466951 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = E70E78A9141E636A00466951 /* camera.png */; };
+		E70E78AF141E636A00466951 /* drop.png in Resources */ = {isa = PBXBuildFile; fileRef = E70E78AA141E636A00466951 /* drop.png */; };
+		E70E78B0141E636A00466951 /* sumbit.png in Resources */ = {isa = PBXBuildFile; fileRef = E70E78AB141E636A00466951 /* sumbit.png */; };
+		E70E78B1141E636A00466951 /* timer.png in Resources */ = {isa = PBXBuildFile; fileRef = E70E78AC141E636A00466951 /* timer.png */; };
+		E70E78B2141E636A00466951 /* trophy.png in Resources */ = {isa = PBXBuildFile; fileRef = E70E78AD141E636A00466951 /* trophy.png */; };
 		E7455A241417071600AAB466 /* FFLinkYoutubeAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */; };
 		E7A04236141AD33E00F8F17F /* Delete_button_HL.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04232141AD33E00F8F17F /* Delete_button_HL.png */; };
 		E7A04237141AD33E00F8F17F /* Delete_button_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */; };
@@ -654,6 +659,11 @@
 		E70E787E141C4F9000466951 /* FFFlipsideAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideAboutController.h; sourceTree = "<group>"; };
 		E70E787F141C4F9000466951 /* FFFlipsideAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFFlipsideAboutController.m; sourceTree = "<group>"; };
 		E70E789B141D8B4400466951 /* HighscoresTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HighscoresTableCell.xib; sourceTree = "<group>"; };
+		E70E78A9141E636A00466951 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		E70E78AA141E636A00466951 /* drop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop.png; sourceTree = "<group>"; };
+		E70E78AB141E636A00466951 /* sumbit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sumbit.png; sourceTree = "<group>"; };
+		E70E78AC141E636A00466951 /* timer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer.png; sourceTree = "<group>"; };
+		E70E78AD141E636A00466951 /* trophy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trophy.png; sourceTree = "<group>"; };
 		E7455A211417071600AAB466 /* FFLinkYoutubeAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLinkYoutubeAccountController.h; sourceTree = "<group>"; };
 		E7455A221417071600AAB466 /* FFLinkYoutubeAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLinkYoutubeAccountController.m; sourceTree = "<group>"; };
 		E7A04232141AD33E00F8F17F /* Delete_button_HL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete_button_HL.png; sourceTree = "<group>"; };
@@ -794,6 +804,7 @@
 		A60A805413FEFBBA00879C56 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E70E78A8141E636A00466951 /* instructions */,
 				E7A04232141AD33E00F8F17F /* Delete_button_HL.png */,
 				E7A04233141AD33E00F8F17F /* Delete_button_HL@2x.png */,
 				E7A04234141AD33E00F8F17F /* Delete_button.png */,
@@ -1372,6 +1383,18 @@
 			path = Classes/HJCacheClasses;
 			sourceTree = "<group>";
 		};
+		E70E78A8141E636A00466951 /* instructions */ = {
+			isa = PBXGroup;
+			children = (
+				E70E78A9141E636A00466951 /* camera.png */,
+				E70E78AA141E636A00466951 /* drop.png */,
+				E70E78AB141E636A00466951 /* sumbit.png */,
+				E70E78AC141E636A00466951 /* timer.png */,
+				E70E78AD141E636A00466951 /* trophy.png */,
+			);
+			path = instructions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1505,6 +1528,11 @@
 				E70E787B141C4F6400466951 /* FFLinkYoutubeAccountController.xib in Resources */,
 				E70E787D141C4F7900466951 /* FFFlipsideAboutController.xib in Resources */,
 				E70E789C141D8B4500466951 /* HighscoresTableCell.xib in Resources */,
+				E70E78AE141E636A00466951 /* camera.png in Resources */,
+				E70E78AF141E636A00466951 /* drop.png in Resources */,
+				E70E78B0141E636A00466951 /* sumbit.png in Resources */,
+				E70E78B1141E636A00466951 /* timer.png in Resources */,
+				E70E78B2141E636A00466951 /* trophy.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,6 +23,8 @@
 @synthesize highScores;
 @synthesize imageManager;
 @synthesize scoreCell;
+@synthesize highscoreColor;
+@synthesize showTitle;
 
 - (id) initWithQueryURL:(NSString*)url
 {
@@ -91,48 +93,58 @@
             }
             
             
-            UILabel *label;
-            HJManagedImageV* mi = (HJManagedImageV *)[cell viewWithTag:1];
-//            label.text = [NSString stringWithFormat:@"%d", indexPath.row];            
-//            label = (UILabel *)[cell viewWithTag:2];
-//            label.text = [NSString stringWithFormat:@"%d", NUMBER_OF_ROWS - indexPath.row];
+            HJManagedImageV* mi = (HJManagedImageV *)[cell viewWithTag:10];
+        	UIView* rankView = (UIView*)[cell viewWithTag:11];
+            UILabel* rankLabel = (UILabel*)[cell viewWithTag:12];
+        	UILabel* timeLabel = (UILabel*)[cell viewWithTag:13];
+        	UILabel* nameLabel = (UILabel*)[cell viewWithTag:14];
             
-            
-            
-            return cell;            
-            /*
-            HJManagedImageV* mi;
-                
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"highscore"];
-            if(cell == nil){
-                cell = [[UITableViewCell alloc] 
-                        initWithStyle:UITableViewCellStyleSubtitle 
-                        reuseIdentifier:@"highscore"];
-                //Create a managed image view and add it to the cell 
-                mi = [[[HJManagedImageV alloc] initWithFrame:CGRectMake(243,2,75,75)] autorelease];
-                mi.tag = 999;
-                [cell addSubview:mi];
-            }
-            else {
-                //Get a reference to the managed image view that was already in the recycled cell, and clear it
-                mi = (HJManagedImageV*)[cell viewWithTag:999];
-                [mi clear];
-            }
+            NSLog(@"rank view? %@ rank label? %@ time label? %@ name label? %@", rankView, rankLabel, timeLabel, nameLabel);
             
             NSDictionary* score = [self.highScores objectAtIndex:indexPath.row];
+
+            NSNumber* rankNum = [score objectForKey:@"rank"];
+            NSString* rankString;
+            NSInteger rank = [rankNum intValue];
+
+            if(self.highscoreColor == nil){
+                self.highscoreColor = rankView.backgroundColor;
+            }
+
+            //TODO add stars...
+            if(rank == 1){
+            	rankString = @"LEADER";
+                rankView.backgroundColor = self.highscoreColor;
+            }
+            else if(rank == 2){
+            	rankString = @"SECOND";                
+                rankView.backgroundColor = self.highscoreColor;
+            }
+            else if(rank == 3){
+                rankString = @"THIRD";
+                rankView.backgroundColor = self.highscoreColor;
+            }
+            else{
+                rankView.backgroundColor = [UIColor grayColor];
+                rankString = [NSString stringWithFormat:@"#%d", rank];
+            }
             
-            cell.textLabel.text=[NSString stringWithFormat:@" %.02fs",  [[score objectForKey:@"drop_time"] floatValue]/1000.0];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@" %@", [score objectForKey:@"author"]];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
+            rankLabel.text = rankString;
+            timeLabel.text = [NSString stringWithFormat:@"%.02fs ",  [[score objectForKey:@"drop_time"] floatValue]/1000.0];
+            if(showTitle){
+	            nameLabel.text = [NSString stringWithFormat:@"%@ ", [score objectForKey:@"title"]];
+            }
+            else{
+            	nameLabel.text = [NSString stringWithFormat:@"%@ ", [score objectForKey:@"author"]];
+            }
+
             NSString *urlString =  [score objectForKey:@"thumbnail_url"];
             NSLog(@"thumbnail URL %@", urlString);
-            //set the URL that we want the managed image view to load
             mi.url = [NSURL URLWithString:urlString];
-        
-           [self.imageManager manage:mi];
-        	return cell;
-             */
+            [self.imageManager manage:mi];
+
+            
+            return cell;            
         }    
     }
     
@@ -140,6 +152,7 @@
     
     return nil;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

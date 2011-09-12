@@ -14,7 +14,6 @@
 @interface FFHighscoresProvider : NSObject<UITableViewDataSource> {
     BOOL showingLogin;
     HJObjManager* imageViewManager;
-    
 }
 
 @property(nonatomic, assign) UITableView* tableView;
@@ -23,6 +22,8 @@
 @property(nonatomic, retain) NSArray* highScores;
 @property(nonatomic, retain) NSString* queryURL;
 @property(nonatomic, assign) HJObjManager* imageManager;
+@property(nonatomic, retain) UIColor* highscoreColor;
+@property(nonatomic, readwrite) BOOL showTitle;
 
 - (id) initWithQueryURL:(NSString*)url;
 - (void) refreshQuery;

@@ -21,6 +21,7 @@
     
     self.scores = [[FFHighscoresProvider alloc] initWithQueryURL:@""];
     self.scores.tableView = tableView;
+    self.scores.showTitle = YES;
     [self refreshScoresTable];
     tableView.dataSource = self.scores;
     
@@ -50,6 +51,11 @@
         [self showYoutubeVideo:videoURL withTitle:videoTitle];
     }
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 58;
 }
 
 - (void) userDidLogIn:(id)sender;
