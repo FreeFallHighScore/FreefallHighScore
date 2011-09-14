@@ -24,3 +24,4 @@ apps/*/*/obj
 .DS_Store
 
 secret_developerkeys.plist
+/FFHS/Resources/secret_developerkeys_old.plist

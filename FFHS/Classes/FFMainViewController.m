@@ -957,36 +957,58 @@
 {
     element.frame = CGRectMake(element.frame.origin.x, padding - element.frame.size.height,
                                element.frame.size.width, element.frame.size.height);
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:NO];
+    }    
 }
 
 - (void) hideElementToBottom:(UIView*)element withRoom:(CGFloat)padding
 {
     element.frame = CGRectMake(element.frame.origin.x, screenBounds.size.height - padding,
                                element.frame.size.width, element.frame.size.height);
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:NO];
+    }
+    
 }
 
 - (void) revealElementFromTop:(UIView*)element toPosition:(CGFloat)yPos
 {
     element.frame = CGRectMake(element.frame.origin.x, yPos,
                                element.frame.size.width, element.frame.size.height);
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:YES];
+    }
 }
 
 - (void) revealElementFromBottom:(UIView*)element
 {
     element.frame = CGRectMake(element.frame.origin.x, screenBounds.size.height - element.frame.size.height,
                                element.frame.size.width, element.frame.size.height);    
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:YES];
+    }
+ 
 }
 
 - (void) revealElementFromLeft:(UIView*)element
 {
     element.frame = CGRectMake(0, element.frame.origin.y, 
                                element.frame.size.width, element.frame.size.height);
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:YES];
+    }
+    
 }
 
 - (void) revealElementFromRight:(UIView*)element
 {
     element.frame = CGRectMake(screenBounds.size.width-element.frame.size.width, element.frame.origin.y, 
                                element.frame.size.width, element.frame.size.height);    
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:YES];
+    }
+    
 }
 
 - (void) hideElementOffscreenLeft:(UIView*)element
@@ -999,6 +1021,9 @@
 {
     element.frame = CGRectMake(screenBounds.size.width, element.frame.origin.y, 
                                element.frame.size.width, element.frame.size.height);
+    if([element respondsToSelector:@selector(setEnabled:)]){
+        [element setEnabled:NO];
+    }
 }
 
 - (void) startRecordingFlash
@@ -1607,20 +1632,22 @@
 
 - (void) captureManagerRecordingSaved:(AVCamCaptureManager *)captureManager toURL:(NSURL*)assetURL
 {
-    //unused, we never save the items directly from the camera to the asset library.
-    self.currentDropAssetURL = assetURL;
-    libraryAssetURLReceived = YES;
-    
-    NSDictionary* videoSave = [NSDictionary dictionaryWithObjectsAndKeys:
-                               self.currentDropAssetURL.absoluteString ,@"SavedURL",
-                               [NSNumber numberWithFloat:freefallDuration], @"SavedDuration", 
-                               nil];
-    
-    
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:videoSave forKey:@"RestoreVideo"];
-    [defaults synchronize];
-    NSLog(@"Saved asset to restore: %@", videoSave);
+    if(state != kFFStateFinishedDropScoreView || state != kFFStateFinishedDropSubmitView){
+        //unused, we never save the items directly from the camera to the asset library.
+        self.currentDropAssetURL = assetURL;
+        libraryAssetURLReceived = YES;
+        
+        NSDictionary* videoSave = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   self.currentDropAssetURL.absoluteString ,@"SavedURL",
+                                   [NSNumber numberWithFloat:freefallDuration], @"SavedDuration", 
+                                   nil];
+        
+        
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:videoSave forKey:@"RestoreVideo"];
+        [defaults synchronize];
+        NSLog(@"Saved asset to restore: %@", videoSave);
+    }
 
 }
 
