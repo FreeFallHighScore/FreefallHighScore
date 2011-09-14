@@ -66,10 +66,10 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<bool key="IBUIHorizontal">NO</bool>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="523513228">
-					<string key="IBUITitle">Instructions</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="219067856">
-						<string key="IBUITitle">Instructions</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="184359747">
+					<string key="IBUITitle">Leaderboard</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="1001408000">
+						<string key="IBUITitle">High Scores</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<reference key="IBUIParentViewController" ref="284509007"/>
@@ -80,7 +80,7 @@
 					</object>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					<bool key="IBUIHorizontal">NO</bool>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="467269648">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="375660611">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -91,14 +91,14 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="926025371">
-							<string key="IBUITitle">Instructions</string>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="698394774">
-								<string key="IBUITitle">Instructions</string>
+						<object class="IBUIViewController" id="800497095">
+							<string key="IBUITitle">High Scores</string>
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="727757014">
+								<string key="IBUITitle">High Scores</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="523513228"/>
-							<string key="IBUINibName">FFFlipsideInstructionsController</string>
+							<reference key="IBUIParentViewController" ref="184359747"/>
+							<string key="IBUINibName">FFFlipsideHighscoresController</string>
 							<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 								<int key="IBUIInterfaceOrientation">1</int>
 								<int key="interfaceOrientation">1</int>
@@ -110,50 +110,9 @@
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUINavigationController" id="184359747">
-						<string key="IBUITitle">High Scores</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="1001408000">
-							<string key="IBUITitle">High Scores</string>
-							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						</object>
-						<reference key="IBUIParentViewController" ref="284509007"/>
-						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-							<int key="IBUIInterfaceOrientation">1</int>
-							<int key="interfaceOrientation">1</int>
-						</object>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<bool key="IBUIHorizontal">NO</bool>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="375660611">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrameSize">{0, 0}</string>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						</object>
-						<object class="NSMutableArray" key="IBUIViewControllers">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIViewController" id="800497095">
-								<string key="IBUITitle">High Scores</string>
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="727757014">
-									<string key="IBUITitle">High Scores</string>
-									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								</object>
-								<reference key="IBUIParentViewController" ref="184359747"/>
-								<string key="IBUINibName">FFFlipsideHighscoresController</string>
-								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-									<int key="IBUIInterfaceOrientation">1</int>
-									<int key="interfaceOrientation">1</int>
-								</object>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<bool key="IBUIHorizontal">NO</bool>
-							</object>
-						</object>
-					</object>
+					<reference ref="184359747"/>
 					<object class="IBUINavigationController" id="960255666">
-						<string key="IBUITitle">My Drops</string>
+						<string key="IBUITitle">My Videos</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="146916322">
 							<string key="IBUITitle">My Drops</string>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -194,7 +153,48 @@
 							</object>
 						</object>
 					</object>
-					<reference ref="523513228"/>
+					<object class="IBUINavigationController" id="523513228">
+						<string key="IBUITitle">Instructions</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="219067856">
+							<string key="IBUITitle">Instructions</string>
+							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						</object>
+						<reference key="IBUIParentViewController" ref="284509007"/>
+						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+							<int key="IBUIInterfaceOrientation">1</int>
+							<int key="interfaceOrientation">1</int>
+						</object>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUIHorizontal">NO</bool>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="467269648">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{0, 0}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIViewController" id="926025371">
+								<string key="IBUITitle">Instructions</string>
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="698394774">
+									<string key="IBUITitle">Instructions</string>
+									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								</object>
+								<reference key="IBUIParentViewController" ref="523513228"/>
+								<string key="IBUINibName">FFFlipsideInstructionsController</string>
+								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+									<int key="IBUIInterfaceOrientation">1</int>
+									<int key="interfaceOrientation">1</int>
+								</object>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIHorizontal">NO</bool>
+							</object>
+						</object>
+					</object>
 					<object class="IBUINavigationController" id="831195374">
 						<string key="IBUITitle">About</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="725970937">

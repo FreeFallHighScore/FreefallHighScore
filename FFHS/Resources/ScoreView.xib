@@ -85,7 +85,6 @@
 						<string key="NSFrame">{{20, 103}, {440, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<reference key="IBUIBackgroundColor" ref="585722914"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -93,7 +92,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">1</int>
-						<string key="IBUIPlaceholder">Tell us a little about the drop</string>
+						<string key="IBUIPlaceholder">Tell us a little about how you made it</string>
 						<reference key="IBUITextColor" ref="933769050"/>
 						<reference key="IBUIFont" ref="218083184"/>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
@@ -511,7 +510,6 @@
 							<string>introLoginButton</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>mainWindow</string>
 							<string>playVideoButton</string>
 							<string>recordingFlashBlack</string>
 							<string>recordingFlashOrange</string>
@@ -546,7 +544,6 @@
 							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIButton</string>
-							<string>UIWindow</string>
 							<string>UIButton</string>
 							<string>UIImageView</string>
 							<string>UIImageView</string>
@@ -584,7 +581,6 @@
 							<string>introLoginButton</string>
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
-							<string>mainWindow</string>
 							<string>playVideoButton</string>
 							<string>recordingFlashBlack</string>
 							<string>recordingFlashOrange</string>
@@ -663,10 +659,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">loginButton</string>
 								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">mainWindow</string>
-								<string key="candidateClassName">UIWindow</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">playVideoButton</string>

@@ -77,6 +77,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    [self.mainViewController cancelRecording:self];
 	NSLog(@"Deactivating");
 }
 

@@ -13,4 +13,7 @@
     
 }
 
+@property(nonatomic,assign) IBOutlet UIView* about;
+@property(nonatomic,retain) IBOutlet UIScrollView* scrollView;
+
 @end

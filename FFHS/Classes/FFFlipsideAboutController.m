@@ -11,6 +11,9 @@
 
 @implementation FFFlipsideAboutController
 
+@synthesize about;
+@synthesize scrollView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,6 +40,9 @@
 
 - (void)viewDidLoad
 {
+    [self.scrollView insertSubview:self.about atIndex:0];
+    self.scrollView.contentSize = self.about.frame.size;
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

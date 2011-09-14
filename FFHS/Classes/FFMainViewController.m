@@ -45,7 +45,7 @@
  
  */
 
-#define kFFFallTimeThreshold .035f
+#define kFFFallTimeThreshold .12f
 #define kFFFallStartMinForceThreshold .347
 #define kFFDistanceDecay 1.33
 #define kFFImpactThreshold 6.34
@@ -705,14 +705,20 @@
 - (void) cancelRecording:(id)sender
 {
     if(state == kFFStatePreDropRecording){
-        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-            [self changeState: kFFStatePreDropCancelling];
-            [widgetOverlayLayer removeDropTimer];
-            [[self captureManager] cancelRecording];
-        });
+        [self changeState: kFFStatePreDropCancelling];
+        [widgetOverlayLayer removeDropTimer];
+        [[self captureManager] cancelRecording];
+        
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:nil forKey:@"RestoreVideo"];
+        [defaults synchronize];
+        libraryAssetURLReceived = NO;
+        
+//        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+//        });
     }
     else{
-        ShowAlert(@"State Error", [NSString stringWithFormat:@"Canceling recording with faulty state. %@", [self stateDescription]] );
+        //ShowAlert(@"State Error", [NSString stringWithFormat:@"Canceling recording with faulty state. %@", [self stateDescription]] );
     }
 }
 
@@ -1276,9 +1282,7 @@
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self.cancelSubmitButton setTitle:@"Cancel" forState:UIControlStateNormal];
-                                     
                                      self.uploadProgressView.alpha = 1.0;
-                              
                                  }
                                  completion:^(BOOL finished){ 
 
@@ -1287,8 +1291,6 @@
                 break;
             case kFFStateFinishedDropUploadComplete:
                 self.dropscoreScoreViewLabel.text = @"SUCCESS!";
-                [self.retryDropButton setTitle:@"Try Again" forState:UIControlStateNormal];
-                [self.retryDropButton setTitle:@"Try Again" forState:UIControlStateHighlighted];
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self hideElementToBottom:self.uploadProgressView withRoom:0];
