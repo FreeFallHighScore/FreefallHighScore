@@ -312,7 +312,11 @@
     }
     
 //    [self setupFirstView];
-    
+
+    whiteTabBaseRect = self.whiteTabView.frame;
+    blackTabBaseRect = self.blackTabView.frame;
+    dropBaseRect = self.dropButton.frame;
+
     //accelerometer stuff    
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
@@ -849,7 +853,7 @@
                           forState:UIControlStateDisabled];
     }
     else{
-        self.blackTabView.frame = blackTabBaseRect;
+        //self.blackTabView.frame = blackTabBaseRect;
     }
 }
 
@@ -874,7 +878,7 @@
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {
-    NSLog(@"uploaded to %f", progress);  
+//    NSLog(@"uploaded to %f", progress);  
     
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         if(self.uploadProgressBar == nil){
@@ -920,9 +924,9 @@
 {
     state = kFFStateJustOpened;
     
-    whiteTabBaseRect = self.whiteTabView.frame;
-    blackTabBaseRect = self.blackTabView.frame;
-    dropBaseRect = self.dropButton.frame;
+//    whiteTabBaseRect = self.whiteTabView.frame;
+//    blackTabBaseRect = self.blackTabView.frame;
+//    dropBaseRect = self.dropButton.frame;
 
     //hide all the buttons off screen
     [self hideElementOffscreenLeft:self.introLoginButton];
@@ -1322,7 +1326,7 @@
 
                 break;
             case kFFStateFinishedDropUploadComplete:
-                self.dropscoreScoreViewLabel.text = @"SUCCESS!";
+                self.dropscoreScoreViewLabel.text = @" SUCCESS!";
                 [UIView animateWithDuration:.25
                                  animations: ^{
                                      [self hideElementToBottom:self.uploadProgressView withRoom:0];

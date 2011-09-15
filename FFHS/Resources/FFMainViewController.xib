@@ -237,7 +237,7 @@
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 												<string key="IBUIText"> GO</string>
-												<object class="NSFont" key="IBUIFont" id="825693394">
+												<object class="NSFont" key="IBUIFont" id="938165310">
 													<string key="NSName">Helvetica</string>
 													<double key="NSSize">25</double>
 													<int key="NSfFlags">16</int>
@@ -261,7 +261,7 @@
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 												<string key="IBUIText"> FOR IT! </string>
-												<reference key="IBUIFont" ref="825693394"/>
+												<reference key="IBUIFont" ref="938165310"/>
 												<reference key="IBUITextColor" ref="267716009"/>
 												<nil key="IBUIHighlightedColor"/>
 												<int key="IBUIBaselineAdjustment">1</int>
@@ -334,13 +334,16 @@
 								<reference key="NSNextKeyView" ref="300609137"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<object class="NSFont" key="IBUIFont" id="807511101">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">23</double>
 									<int key="NSfFlags">16</int>
 								</object>
+								<double key="IBUIContentEdgeInsets.top">0.0</double>
+								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
+								<double key="IBUIContentEdgeInsets.left">82</double>
+								<double key="IBUIContentEdgeInsets.right">0.0</double>
 								<string key="IBUINormalTitle">LOG IN</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor" id="188598995">
 									<int key="NSColorSpace">3</int>
@@ -353,10 +356,6 @@
 								<object class="NSColor" key="IBUINormalTitleShadowColor" id="1043063277">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
-								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage" id="906854985">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Login_button_HL.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="672419308">
 									<string key="NSClassName">NSImage</string>
@@ -402,11 +401,10 @@
 								<reference key="NSNextKeyView" ref="325741442"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
 								<reference key="IBUIFont" ref="807511101"/>
 								<double key="IBUIContentEdgeInsets.top">10</double>
 								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
-								<double key="IBUIContentEdgeInsets.left">0.0</double>
+								<double key="IBUIContentEdgeInsets.left">82</double>
 								<double key="IBUIContentEdgeInsets.right">0.0</double>
 								<string key="IBUINormalTitle">START</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
@@ -415,10 +413,6 @@
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Drop_button_HL.png</string>
-								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">Drop_button.png</string>
@@ -433,9 +427,12 @@
 								<reference key="NSNextKeyView" ref="641299292"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<reference key="IBUIFont" ref="807511101"/>
+								<double key="IBUIContentEdgeInsets.top">0.0</double>
+								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
+								<double key="IBUIContentEdgeInsets.left">82</double>
+								<double key="IBUIContentEdgeInsets.right">0.0</double>
 								<string key="IBUINormalTitle">WHAT?</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -443,7 +440,6 @@
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="1043063277"/>
-								<reference key="IBUIHighlightedBackgroundImage" ref="906854985"/>
 								<reference key="IBUINormalBackgroundImage" ref="672419308"/>
 							</object>
 							<object class="IBUIButton" id="730416964">
@@ -482,9 +478,12 @@
 								<reference key="NSNextKeyView" ref="475861897"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<reference key="IBUIFont" ref="807511101"/>
+								<double key="IBUIContentEdgeInsets.top">0.0</double>
+								<double key="IBUIContentEdgeInsets.bottom">0.0</double>
+								<double key="IBUIContentEdgeInsets.left">82</double>
+								<double key="IBUIContentEdgeInsets.right">0.0</double>
 								<string key="IBUINormalTitle">SUBMIT</string>
 								<reference key="IBUIHighlightedTitleColor" ref="188598995"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -1671,9 +1670,7 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string type="base64-UTF8">RGVsZXRlX2J1dHRvbl9ITF8ucG5nDURlbGV0ZV9idXR0b25fSExAMngucG5nDURlbGV0ZV9idXR0b24u
 cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>Drop_button.png</string>
-				<string>Drop_button_HL.png</string>
 				<string>Login_button.png</string>
-				<string>Login_button_HL.png</string>
 				<string>Logo_black.png</string>
 				<string>Logo_white.png</string>
 				<string>Overlay.png</string>
@@ -1693,8 +1690,6 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>{176, 43}</string>
 				<string>{16, 16}</string>
 				<string>{224, 104}</string>
-				<string>{224, 104}</string>
-				<string>{224, 48}</string>
 				<string>{224, 48}</string>
 				<string>{133, 128}</string>
 				<string>{133, 128}</string>
@@ -1704,8 +1699,8 @@ cG5nDURlbGV0ZV9idXR0b25fSEwucG5nA</string>
 				<string>{176, 43}</string>
 				<string>{252, 46}</string>
 				<string>{252, 46}</string>
-				<string>{27, 34}</string>
-				<string>{27, 34}</string>
+				<string>{27, 31}</string>
+				<string>{27, 31}</string>
 				<string>{42, 62}</string>
 				<string>{42, 62}</string>
 			</object>
