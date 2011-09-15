@@ -155,6 +155,7 @@
 		E7BC17551421BF6100DA4F05 /* inst_timer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7BC174D1421BF6100DA4F05 /* inst_timer@2x.png */; };
 		E7BC17581421C0B300DA4F05 /* inst_trophy.png in Resources */ = {isa = PBXBuildFile; fileRef = E7BC17561421C0B300DA4F05 /* inst_trophy.png */; };
 		E7BC17591421C0B300DA4F05 /* inst_trophy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7BC17571421C0B300DA4F05 /* inst_trophy@2x.png */; };
+		E7BC175B1421CBD300DA4F05 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = E7BC175A1421CBD300DA4F05 /* Entitlements.plist */; };
 		E7E2966B1421A95900B62CF1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E296681421A95900B62CF1 /* Reachability.m */; };
 		E7E2966C1421A95900B62CF1 /* ReachabilityAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E2966A1421A95900B62CF1 /* ReachabilityAppDelegate.m */; };
 		E7E296751421B53300B62CF1 /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = E7E2966E1421B53300B62CF1 /* about.png */; };
@@ -697,6 +698,7 @@
 		E7BC174D1421BF6100DA4F05 /* inst_timer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inst_timer@2x.png"; sourceTree = "<group>"; };
 		E7BC17561421C0B300DA4F05 /* inst_trophy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inst_trophy.png; sourceTree = "<group>"; };
 		E7BC17571421C0B300DA4F05 /* inst_trophy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inst_trophy@2x.png"; sourceTree = "<group>"; };
+		E7BC175A1421CBD300DA4F05 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		E7E296671421A95900B62CF1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		E7E296681421A95900B62CF1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E7E296691421A95900B62CF1 /* ReachabilityAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReachabilityAppDelegate.h; sourceTree = "<group>"; };
@@ -773,6 +775,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				E7BC175A1421CBD300DA4F05 /* Entitlements.plist */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1611,6 +1614,7 @@
 				E7BC17551421BF6100DA4F05 /* inst_timer@2x.png in Resources */,
 				E7BC17581421C0B300DA4F05 /* inst_trophy.png in Resources */,
 				E7BC17591421C0B300DA4F05 /* inst_trophy@2x.png in Resources */,
+				E7BC175B1421CBD300DA4F05 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1747,7 +1751,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: James George (C8CUCTJ6NH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: James George (C8CUCTJ6NH)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1761,7 +1766,8 @@
 				);
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "35C16797-74D8-40E0-8F2E-3B5AFBFA5161";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "35C16797-74D8-40E0-8F2E-3B5AFBFA5161";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1770,7 +1776,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: James George";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: James George";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1784,7 +1791,8 @@
 				);
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "26771327-1BDD-47B8-AC65-5AAA83206E30";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "26771327-1BDD-47B8-AC65-5AAA83206E30";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

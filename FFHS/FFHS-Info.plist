@@ -13,12 +13,10 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>app_icon.png</string>
-		<string>app_icon2.png</string>
-		<string>app_icon@2x.png</string>
 		<string>app_icon@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.freefallhighscore.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.freefallhighscore.ffhs</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +28,9 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.0.${RC_ProjectSourceVersion}</string>
+	<string>1.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.photography</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -43,6 +43,8 @@
 	<string>NO</string>
 	<key>UIInterfaceOrientation</key>
 	<string>UIInterfaceOrientationLandscapeRight</string>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
@@ -53,9 +55,5 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.photography</string>
-	<key>UIRequiresPersistentWiFi</key>
-	<true/>
 </dict>
 </plist>

@@ -39,7 +39,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,7 +48,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{480, 227}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="767910776">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
@@ -59,7 +58,6 @@
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 44}, {480, 227}}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="398010324"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -139,7 +137,7 @@
 							<object class="IBUILabel" id="214592292">
 								<reference key="NSNextResponder" ref="185087073"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 56}, {380, 84}}</string>
+								<string key="NSFrame">{{20, 56}, {380, 45}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="462655218"/>
@@ -148,7 +146,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Freefall Highscore is the first in a line of antagonistic mobile apps. It encourages you to drop your device from high places in order to achieve the longest duration of free fall. The  app records video while falling which is submitted to our high scores page along with your drop time. </string>
+								<string key="IBUIText">Freefall Highscore encourages you to discover clever ways of suspending your device in free fall. The app records video while which is submitted to our high scores page along with your time. </string>
 								<object class="NSFont" key="IBUIFont" id="357003702">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">13</double>
@@ -197,7 +195,7 @@
 										<float key="IBUIMinimumFontSize">10</float>
 									</object>
 								</object>
-								<string key="NSFrame">{{20, 148}, {258, 28}}</string>
+								<string key="NSFrame">{{20, 116}, {258, 28}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="842154086"/>
@@ -207,7 +205,7 @@
 							<object class="IBUILabel" id="385407401">
 								<reference key="NSNextResponder" ref="185087073"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 184}, {380, 129}}</string>
+								<string key="NSFrame">{{20, 162}, {380, 232}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="508865233"/>
@@ -220,16 +218,19 @@
 QmVzdCAtIHdlYiBkZXZlbG9wbWVudApNaWNoYWVsIFppY2sgRG9oZXJ0eSAtIEFuZHJvaWQgZGV2ZWxv
 cG1lbnQKUm9iZXJ0IEdheSAtIEFuZHJvaWQgZGV2ZWxvcG1lbnQKSGVsZW4gTWFpciAtIGdyYXBoaWMg
 ZGVzaWduCk1hcmlhIE1lbmRleiAtIGlPUyBkZXZlbG9wbWVudApDYWl0bGluIE1vcnJpcyAtIGV4aGli
-aXRpb24gZGVzaWduCkp1YW4gTXVsbGVyIC0gaU9TIGFuZCB3ZWIgZGV2ZWxvcG1lbnQKA</string>
+aXRpb24gZGVzaWduCkp1YW4gTXVsbGVyIC0gaU9TIGFuZCB3ZWIgZGV2ZWxvcG1lbnQKCkRldmVsb3Bl
+ZCB3aXRoIHN1cHBvcnQgZnJvbSBUaGUgQ3JlYXRvcnMgUHJvamVjdCBhbmQgRXllYmVhbSBBcnQrVGVj
+aG5vbG9neSBDZW50ZXIKCkJ1aWx0IHVzaW5nIG9wZW4gc291cmNlIGNvZGUgYnkKU3RpZyBCcmF1dGFz
+ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 								<reference key="IBUIFont" ref="357003702"/>
 								<reference key="IBUITextColor" ref="20251675"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
-								<int key="IBUINumberOfLines">8</int>
+								<int key="IBUINumberOfLines">15</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{20, 20}, {420, 333}}</string>
+						<string key="NSFrame">{{20, 20}, {420, 414}}</string>
 						<reference key="NSSuperview" ref="316186618"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="830426873"/>
@@ -322,7 +323,7 @@ cHBsaWNhdGlvbi4</string>
 								<int key="IBUINumberOfLines">15</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{20, 361}, {420, 303}}</string>
+						<string key="NSFrame">{{20, 449}, {420, 303}}</string>
 						<reference key="NSSuperview" ref="316186618"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="821220509"/>
@@ -334,7 +335,7 @@ cHBsaWNhdGlvbi4</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{460, 684}</string>
+				<string key="NSFrameSize">{460, 772}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="185087073"/>

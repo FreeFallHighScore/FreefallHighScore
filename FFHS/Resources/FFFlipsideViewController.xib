@@ -98,7 +98,7 @@
 						<object class="IBUIViewController" id="499675917">
 							<string key="IBUITitle">My Drops</string>
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="820797692">
-								<string key="IBUITitle">My Drops</string>
+								<string key="IBUITitle">My Videos</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<reference key="IBUIParentViewController" ref="960255666"/>
@@ -144,9 +144,9 @@
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIViewController" id="800497095">
-								<string key="IBUITitle">High Scores</string>
+								<string key="IBUITitle">Leaderboard</string>
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="727757014">
-									<string key="IBUITitle">High Scores</string>
+									<string key="IBUITitle">Leaderboard</string>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
 								<reference key="IBUIParentViewController" ref="184359747"/>
