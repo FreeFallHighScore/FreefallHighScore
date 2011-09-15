@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
 		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1305</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">301</string>
+			<string key="NS.object.0">300</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -54,7 +54,7 @@
 							<object class="IBUIImageView" id="603639415">
 								<reference key="NSNextResponder" ref="794203487"/>
 								<int key="NSvFlags">286</int>
-								<string key="NSFrame">{{-427, 0}, {460, 33}}</string>
+								<string key="NSFrame">{{-427, 0}, {470, 33}}</string>
 								<reference key="NSSuperview" ref="794203487"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="33797114"/>
@@ -79,8 +79,22 @@
 									<string key="NSResourceName">upload_flash.png</string>
 								</object>
 							</object>
+							<object class="IBUIImageView" id="173718272">
+								<reference key="NSNextResponder" ref="794203487"/>
+								<int key="NSvFlags">283</int>
+								<string key="NSFrame">{{447, 0}, {33, 33}}</string>
+								<reference key="NSSuperview" ref="794203487"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">upload_end.png</string>
+								</object>
+							</object>
 						</object>
-						<string key="NSFrame">{{10, 10}, {460, 33}}</string>
+						<string key="NSFrameSize">{480, 33}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="603639415"/>
@@ -91,22 +105,8 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
-					<object class="IBUIImageView" id="173718272">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">283</int>
-						<string key="NSFrame">{{437, 10}, {33, 33}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">upload_end.png</string>
-						</object>
-					</object>
 				</object>
-				<string key="NSFrameSize">{480, 53}</string>
+				<string key="NSFrameSize">{480, 33}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="794203487"/>
@@ -117,7 +117,6 @@
 						<int key="NSID">2</int>
 					</object>
 				</object>
-				<float key="IBUIAlpha">0.75</float>
 				<int key="IBUIContentMode">6</int>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -188,7 +187,6 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="173718272"/>
 							<reference ref="794203487"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -205,17 +203,13 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="173718272"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
 						<reference key="object" ref="794203487"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="603639415"/>
 							<reference ref="33797114"/>
+							<reference ref="173718272"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -233,6 +227,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">15</int>
 						<reference key="object" ref="33797114"/>
+						<reference key="parent" ref="794203487"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">7</int>
+						<reference key="object" ref="173718272"/>
 						<reference key="parent" ref="794203487"/>
 					</object>
 				</object>
@@ -387,7 +386,8 @@
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
 							<string>playVideoButton</string>
-							<string>recordingFlash</string>
+							<string>recordingFlashBlack</string>
+							<string>recordingFlashOrange</string>
 							<string>retryDropButton</string>
 							<string>rightStripeContainer</string>
 							<string>scoreTextContainer</string>
@@ -420,6 +420,7 @@
 							<string>UIView</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
+							<string>UIImageView</string>
 							<string>UIImageView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
@@ -456,7 +457,8 @@
 							<string>leftStripeContainer</string>
 							<string>loginButton</string>
 							<string>playVideoButton</string>
-							<string>recordingFlash</string>
+							<string>recordingFlashBlack</string>
+							<string>recordingFlashOrange</string>
 							<string>retryDropButton</string>
 							<string>rightStripeContainer</string>
 							<string>scoreTextContainer</string>
@@ -538,7 +540,11 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">recordingFlash</string>
+								<string key="name">recordingFlashBlack</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">recordingFlashOrange</string>
 								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -679,6 +685,6 @@
 				<string>{460, 33}</string>
 			</object>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">301</string>
+		<string key="IBCocoaTouchPluginVersion">300</string>
 	</data>
 </archive>

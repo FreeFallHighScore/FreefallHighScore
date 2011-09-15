@@ -96,6 +96,7 @@
 
 - (void)changeState:(FFGameState)newState;
 - (NSString*) stateDescription; 
+- (void) hardCancelRecording;
 
 - (void) insertPlayerForAssetURL:(NSURL*)assetURL;
 
@@ -152,9 +153,7 @@
 @synthesize recordingFlashOrange;
 @synthesize lastAccel;
 
-//@synthesize trackLoc;
 @synthesize introLoginButton;
-//@synthesize videoOverlay;
 @synthesize acceleromterData;
 @synthesize recordStartTime;
 @synthesize uploader;
@@ -288,12 +287,14 @@
     self.captureVideoPreviewLayer = newCaptureVideoPreviewLayer;
     [newCaptureVideoPreviewLayer release];
     
-    // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[[self captureManager] session] startRunning];
-        CGSize cameraSize = [self.captureManager cameraSize];
-        NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
-    });
+    if(!addVideoLayerOnFirstLoad){
+        // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[[self captureManager] session] startRunning];
+            CGSize cameraSize = [self.captureManager cameraSize];
+            NSLog(@"Capture manager bounds %f %f", cameraSize.width, cameraSize.height);
+        });
+    }
     
     //IB will not set this so for some reason we gotta do it here
     [self.cancelDropButton setBackgroundImage:[UIImage imageNamed:@"Delete_button_HL"] forState:UIControlStateHighlighted];
@@ -304,12 +305,6 @@
     self.widgetOverlayLayer.frame = bounds;
     [[self.videoPreviewView layer] addSublayer:widgetOverlayLayer];
     
-
-    if(addVideoLayerOnFirstLoad){
-        libraryAssetURLReceived = YES;
-        [self insertPlayerForAssetURL:self.currentDropAssetURL];
-        addVideoLayerOnFirstLoad = NO;
-    }
     
 //    [self setupFirstView];
 
@@ -332,6 +327,11 @@
 {    
     NSLog(@"STATE:::: View Will Appeared in state %@", [self stateDescription]);
     
+    if(addVideoLayerOnFirstLoad){
+        libraryAssetURLReceived = YES;
+        [self insertPlayerForAssetURL:self.currentDropAssetURL];
+    }
+	
     if(state == kFFStateFinishedDropSubmitView){
     	[self changeState:kFFStateFinishedDropSubmitView]; //hack to get the view setup if logging in from the main view
     }
@@ -667,6 +667,7 @@
         
         [self.player.currentItem removeObserver:self forKeyPath:@"status"];
         [self.playerLayer removeFromSuperlayer];
+        NSLog(@"removing player from superview");
         self.playerLayer = nil;
         self.player = nil;
         timesLooped = 0;
@@ -723,7 +724,9 @@
         [defaults setObject:nil forKey:@"RestoreVideo"];
         [defaults synchronize];
         libraryAssetURLReceived = NO;
-        
+		[self performSelector:@selector(hardCancelRecording) 
+                   withObject:nil 
+                   afterDelay:1.5];        
 //        CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
 //        });
     }
@@ -948,11 +951,12 @@
         self.infoButton.alpha = 0;
     }
     
-    if(libraryAssetURLReceived){
-        [self changeState:kFFStateFinishedDropScoreView];
+    if(addVideoLayerOnFirstLoad){
+        addVideoLayerOnFirstLoad = NO;
+	    [self changeState:kFFStateFinishedDropScoreView];
     }
     else{
-        [self changeState:kFFStateReadyToDrop];    
+	    [self changeState:kFFStateReadyToDrop];    
     }
 }
 
@@ -1345,6 +1349,16 @@
     });
 }
 
+- (void) hardCancelRecording
+{
+    if(state == kFFStatePreDropCancelling){
+        [self changeState:kFFStatePreDropCanceled];
+        NSLog(@"used hard cancel!");
+    }
+    else{
+        NSLog(@"no need to hard cancel");
+    }
+}
 
 - (NSString*) scoreText
 {
@@ -1619,7 +1633,7 @@
     
     [self.playerLayer setFrame:bounds];
     
-    [viewLayer insertSublayer:self.playerLayer above:[self captureVideoPreviewLayer] ];    
+    [viewLayer insertSublayer:self.playerLayer above:self.captureVideoPreviewLayer];    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
@@ -1664,7 +1678,9 @@
 
 - (void) captureManagerRecordingCanceled:(AVCamCaptureManager *)captureManager
 {
-    [self changeState:kFFStatePreDropCanceled];
+    if(state == kFFStatePreDropCancelling){
+	    [self changeState:kFFStatePreDropCanceled];
+    }
     
 }
 
