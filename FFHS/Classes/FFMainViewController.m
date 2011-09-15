@@ -881,7 +881,7 @@
 
 - (void) uploadReachedProgess:(CGFloat)progress
 {
-//    NSLog(@"uploaded to %f", progress);  
+    NSLog(@"uploaded to %f", progress);  
     
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         if(self.uploadProgressBar == nil){

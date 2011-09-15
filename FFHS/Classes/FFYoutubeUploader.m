@@ -417,7 +417,8 @@
                  [self startUploadWithAsset:asset];
              }
             failureBlock:^(NSError *error) {
-                NSLog(@"ERROR: %@", error);
+                NSLog(@"ASSET ERROR: %@", error);
+                ShowAlert(@"Where are you?", @"You'll need to allow us to see your location. Please turn on location services Preferences and choose to Allow Access");
             }];
     
     [library release];

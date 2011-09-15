@@ -137,7 +137,7 @@
 							<object class="IBUILabel" id="214592292">
 								<reference key="NSNextResponder" ref="185087073"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 56}, {380, 45}}</string>
+								<string key="NSFrame">{{20, 56}, {380, 62}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="462655218"/>
@@ -195,7 +195,7 @@
 										<float key="IBUIMinimumFontSize">10</float>
 									</object>
 								</object>
-								<string key="NSFrame">{{20, 116}, {258, 28}}</string>
+								<string key="NSFrame">{{20, 126}, {258, 28}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="842154086"/>
@@ -323,7 +323,7 @@ cHBsaWNhdGlvbi4</string>
 								<int key="IBUINumberOfLines">15</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{20, 449}, {420, 303}}</string>
+						<string key="NSFrame">{{20, 460}, {420, 303}}</string>
 						<reference key="NSSuperview" ref="316186618"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="821220509"/>
@@ -335,7 +335,7 @@ cHBsaWNhdGlvbi4</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{460, 772}</string>
+				<string key="NSFrameSize">{460, 783}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="185087073"/>
@@ -425,9 +425,9 @@ cHBsaWNhdGlvbi4</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="830426873"/>
-							<reference ref="214592292"/>
-							<reference ref="462655218"/>
 							<reference ref="385407401"/>
+							<reference ref="462655218"/>
+							<reference ref="214592292"/>
 						</object>
 						<reference key="parent" ref="316186618"/>
 					</object>
@@ -458,11 +458,6 @@ cHBsaWNhdGlvbi4</string>
 							<reference ref="842154086"/>
 						</object>
 						<reference key="parent" ref="185087073"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="842154086"/>
-						<reference key="parent" ref="462655218"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">14</int>
@@ -497,6 +492,11 @@ cHBsaWNhdGlvbi4</string>
 						<int key="objectID">20</int>
 						<reference key="object" ref="1010131090"/>
 						<reference key="parent" ref="821220509"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">12</int>
+						<reference key="object" ref="842154086"/>
+						<reference key="parent" ref="462655218"/>
 					</object>
 				</object>
 			</object>
