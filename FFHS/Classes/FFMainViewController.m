@@ -834,7 +834,7 @@
 	[self hideElementOffscreenLeft:self.whatButton];
     [self hideElementOffscreenLeft:self.introLoginButton];
     
-    self.blackTabView.frame = blackTabBaseRect;
+
     
 	self.whiteTabLogo.alpha = 1.0;
     
@@ -848,6 +848,9 @@
         [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateDisabled];
     }
+    else{
+        self.blackTabView.frame = blackTabBaseRect;
+    }
 }
 
 - (void) userDidLogOut:(FFYoutubeUploader*)ul
@@ -856,7 +859,6 @@
         [self.loginButton setTitle:self.uploader.loginButtonText
                           forState:UIControlStateNormal];
     }
-    
     else if(state == kFFStateReadyToDrop || state == kFFStatePreDropCanceled){
         [UIView animateWithDuration:.25
                          animations: ^{
@@ -867,7 +869,6 @@
                          }
                          completion:^(BOOL finished){ 
                          }];
-        
     }
 }
 

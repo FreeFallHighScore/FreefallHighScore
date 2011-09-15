@@ -152,14 +152,10 @@
         ShowAlert(@"Network Required", @"You'll need to connect to the internet before you can log in");
         return;
     }
-    else {
-        ShowAlert(@"FOUND NET", @"");
-    }
 
 	if(self.loggedIn && !self.accountLinked && !justLoggedOut){
         [self attemptToLinkAccount];
     }
-    //else if(!self.loggedIn){
     else {
         NSString *scope = [GDataServiceGoogleYouTube authorizationScope];    
         self.loginView =  [GTMOAuth2ViewControllerTouch controllerWithScope:scope
