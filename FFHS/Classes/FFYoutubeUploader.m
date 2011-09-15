@@ -148,6 +148,14 @@
 
 - (IBAction) login:(id)sender
 {
+    if(![[UIApplication sharedApplication].delegate internetAvailable]){
+        ShowAlert(@"Network Required", @"You'll need to connect to the internet before you can log in");
+        return;
+    }
+    else {
+        ShowAlert(@"FOUND NET", @"");
+    }
+
 	if(self.loggedIn && !self.accountLinked && !justLoggedOut){
         [self attemptToLinkAccount];
     }
@@ -161,12 +169,6 @@
             	                                                         delegate:self
                 	                                             finishedSelector:@selector(viewController:finishedWithAuth:error:)];
 
-//        self.loginView =  [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
-//                                                                   clientID:clientID
-//                                                               clientSecret:clientSecret
-//                                                           keychainItemName:keychainItemName
-//                                                                   delegate:self
-//                                                           finishedSelector:@selector(viewController:finishedWithAuth:error:)];
         
         NSDictionary *params = [NSDictionary dictionaryWithObject:@"en"
                                                            forKey:@"hl"];

@@ -56,6 +56,15 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(![[UIApplication sharedApplication].delegate internetAvailable]){
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"internet"];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"internet"];
+        }
+        cell.textLabel.text = @"Please connect to the internet!";
+        return cell;
+    }
+    
     if(showingLogin){
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"login"];
         if(cell == nil){
@@ -210,8 +219,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    //TODO: handle this error with a message
-    ShowAlert(@"Request Error", [NSString stringWithFormat:@"failed to receive data with error @%", [error localizedDescription] ]);
+    //ShowAlert(@"Request Error", [NSString stringWithFormat:@"failed to receive data with error @%", [error localizedDescription] ]);
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -220,7 +228,7 @@
     
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     self.responseData = nil;
-    NSLog(responseString);
+//    NSLog(responseString);
 	self.highScores = [responseString JSONValue];
     for (int i = 0; i < [highScores count]; i++){
         NSDictionary* score = [highScores objectAtIndex:i];

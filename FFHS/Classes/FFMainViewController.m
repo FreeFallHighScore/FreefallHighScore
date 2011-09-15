@@ -594,18 +594,24 @@
 
 - (void) completeSubmit
 {
+    if(![[UIApplication sharedApplication].delegate internetAvailable]){
+        ShowAlert(@"Wait!", @"You aren't connected to the internet!");
+        NSLog(@"ERROR - Somehow trying to submit when not connected!");
+        
+    }
     if(!self.uploader.loggedIn){
+        ShowAlert(@"Wait!", @"You have to log in first!");
         NSLog(@"ERROR - Somehow trying to submit when not logged in!");
         return;
     }
     
     if(!libraryAssetURLReceived){
+        ShowAlert(@"Wait!", @"We are still processing your video, try agian in a few seconds!");
         NSLog(@"ERROR - haven't received library asset yet!");
         return;        
     }
     
     NSLog(@"Starting upload with URL %@", self.currentDropAssetURL);
-
 
     [self changeState:kFFStateFinishedDropUploading];
     
