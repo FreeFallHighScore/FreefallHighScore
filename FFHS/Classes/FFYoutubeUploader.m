@@ -10,6 +10,7 @@
 #import "GTMOAuth2Authentication.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "GDataEntryYouTubeUpload.h"
+#import "FFDevKeys.h"
 
 @implementation FFYoutubeUploader
 
@@ -42,10 +43,14 @@
         NSString *finalPath = [path stringByAppendingPathComponent:@"secret_developerkeys.plist"];
         NSDictionary *keydict = [NSDictionary dictionaryWithContentsOfFile:finalPath];
 
-        self.keychainItemName = [keydict objectForKey:@"kKeychainItemName"];
-        self.clientID = [keydict objectForKey:@"kClientID"];
-        self.clientSecret = [keydict objectForKey:@"kClientSecret"];
-        self.developerKey = [keydict objectForKey:@"kDeveloperKey"];
+//        self.keychainItemName = [keydict objectForKey:@"kKeychainItemName"];
+//        self.clientID = [keydict objectForKey:@"kClientID"];
+//        self.clientSecret = [keydict objectForKey:@"kClientSecret"];
+//        self.developerKey = [keydict objectForKey:@"kDeveloperKey"];
+        self.keychainItemName = kKeychainItemName;
+        self.clientID = kClientID;
+        self.clientSecret = kClientSecret;
+        self.developerKey = kDeveloperKey;
         
         self.auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
                                                                      clientID:clientID

@@ -16,7 +16,7 @@
 		<string>app_icon@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.freefallhighscore.ffhs</string>
+	<string>com.freefallhighscore.freefallhs</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -55,5 +55,7 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
+	<key>UIPrerenderedIcon</key>
+	<false/>
 </dict>
 </plist>

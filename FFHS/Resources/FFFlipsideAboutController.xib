@@ -77,7 +77,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="316186618">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -96,7 +96,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{3, 0}, {93, 27}}</string>
 										<reference key="NSSuperview" ref="830426873"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="214592292"/>
 										<object class="NSColor" key="IBUIBackgroundColor" id="786252121">
 											<int key="NSColorSpace">6</int>
@@ -129,7 +128,6 @@
 								</object>
 								<string key="NSFrame">{{20, 20}, {96, 28}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="895482984"/>
 								<reference key="IBUIBackgroundColor" ref="767910776"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -139,7 +137,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 56}, {380, 62}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="462655218"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -171,7 +168,6 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{4, 2}, {246, 21}}</string>
 										<reference key="NSSuperview" ref="462655218"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="385407401"/>
 										<reference key="IBUIBackgroundColor" ref="786252121"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -197,7 +193,6 @@
 								</object>
 								<string key="NSFrame">{{20, 126}, {258, 28}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="842154086"/>
 								<reference key="IBUIBackgroundColor" ref="20251675"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -207,7 +202,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 162}, {380, 232}}</string>
 								<reference key="NSSuperview" ref="185087073"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="508865233"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -232,7 +226,6 @@ ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 						</object>
 						<string key="NSFrame">{{20, 20}, {420, 414}}</string>
 						<reference key="NSSuperview" ref="316186618"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="830426873"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -256,7 +249,6 @@ ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{2, -1}, {156, 30}}</string>
 										<reference key="NSSuperview" ref="821220509"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="66435913"/>
 										<reference key="IBUIBackgroundColor" ref="786252121"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -278,7 +270,6 @@ ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 								</object>
 								<string key="NSFrame">{{20, 20}, {159, 28}}</string>
 								<reference key="NSSuperview" ref="508865233"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1010131090"/>
 								<reference key="IBUIBackgroundColor" ref="767910776"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -288,8 +279,6 @@ ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 56}, {380, 227}}</string>
 								<reference key="NSSuperview" ref="508865233"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -299,18 +288,18 @@ ZXQgYW5kIEh1bnRlciBhbmQgSm9obnNvbi4KA</string>
 bGUgZm9yIGFueSBkYW1hZ2VzIChpbmNsdWRpbmcsIHdpdGhvdXQgbGltaXRhdGlvbiwgcGVyc29uYWwg
 aW5qdXJ5LCBpbmp1cnkgdG8gYSB0aGlyZCBwYXJ0eSwgZGFtYWdlIHRvIHByb3BlcnR5LCBsb3N0IHBy
 b2ZpdHMsIGJ1c2luZXNzIGludGVycnVwdGlvbiwgb3IgbG9zdCBpbmZvcm1hdGlvbikgcmlzaW5nIG91
-dCBvZiAnQXV0aG9yaXplZCBVc2VycycgdXNlIG9mIG9yIGluYWJpbGl0eSB0byB1c2UgdGhlIEZGSFMg
-TU9CSUxFIEFQUCwgZXZlbiBpZiB3ZSBoYXMgYmVlbiBhZHZpc2VkIG9mIHRoZSBwb3NzaWJpbGl0eSBv
-ZiBzdWNoIGRhbWFnZXMuIFRoZSBhcHBsaWNhdGlvbiBkZXZlbG9wZXJzIHNoYWxsIGhhdmUgbm8gbGlh
-YmlsaXR5IHdpdGggcmVzcGVjdCB0byB0aGUgY29udGVudCBzdWJtaXR0ZWQgYnkgdGhlIEZGSFMgTU9C
-SUxFIEFQUCBvciBhbnkgcGFydCB0aGVyZW9mLCBpbmNsdWRpbmcgYnV0IG5vdCBsaW1pdGVkIHRvIGVy
-cm9ycyBvciBvbWlzc2lvbnMgY29udGFpbmVkIHRoZXJlaW4sIGxpYmVsLCBpbmZyaW5nZW1lbnRzIG9m
-IHJpZ2h0cyBvZiBwdWJsaWNpdHksIHByaXZhY3ksIHRyYWRlbWFyayByaWdodHMsIGJ1c2luZXNzIGlu
-dGVycnVwdGlvbiwgcGVyc29uYWwgaW5qdXJ5LCBkYW1hZ2UgdG8gcHJvcGVydHksIGxvc3Mgb2YgcHJp
-dmFjeSwgbW9yYWwgcmlnaHRzIG9yIHRoZSBkaXNjbG9zdXJlIG9mIGNvbmZpZGVudGlhbCBpbmZvcm1h
-dGlvbi4KCldlIHJlc2VydmUgdGhlIHJpZ2h0IHRvIHJlbW92ZSBhbnkgc3VibWl0dGVkIGNvbnRlbnQg
-dGhhdCB3ZSBkZWVtIHRvIGJlIGluYXBwcm9wcmlhdGUgb3IgaW5hdXRoZW50aWMgdXNlIG9mIHRoZSBh
-cHBsaWNhdGlvbi4</string>
+dCBvZiAnQXV0aG9yaXplZCBVc2VycycgdXNlIG9mIG9yIGluYWJpbGl0eSB0byB1c2UgdGhlIEZyZWVm
+YWxsSFMgTU9CSUxFIEFQUCwgZXZlbiBpZiB3ZSBoYXMgYmVlbiBhZHZpc2VkIG9mIHRoZSBwb3NzaWJp
+bGl0eSBvZiBzdWNoIGRhbWFnZXMuIFRoZSBhcHBsaWNhdGlvbiBkZXZlbG9wZXJzIHNoYWxsIGhhdmUg
+bm8gbGlhYmlsaXR5IHdpdGggcmVzcGVjdCB0byB0aGUgY29udGVudCBzdWJtaXR0ZWQgYnkgdGhlIEZy
+ZWVmYWxsSFMgTU9CSUxFIEFQUCBvciBhbnkgcGFydCB0aGVyZW9mLCBpbmNsdWRpbmcgYnV0IG5vdCBs
+aW1pdGVkIHRvIGVycm9ycyBvciBvbWlzc2lvbnMgY29udGFpbmVkIHRoZXJlaW4sIGxpYmVsLCBpbmZy
+aW5nZW1lbnRzIG9mIHJpZ2h0cyBvZiBwdWJsaWNpdHksIHByaXZhY3ksIHRyYWRlbWFyayByaWdodHMs
+IGJ1c2luZXNzIGludGVycnVwdGlvbiwgcGVyc29uYWwgaW5qdXJ5LCBkYW1hZ2UgdG8gcHJvcGVydHks
+IGxvc3Mgb2YgcHJpdmFjeSwgbW9yYWwgcmlnaHRzIG9yIHRoZSBkaXNjbG9zdXJlIG9mIGNvbmZpZGVu
+dGlhbCBpbmZvcm1hdGlvbi4KCldlIHJlc2VydmUgdGhlIHJpZ2h0IHRvIHJlbW92ZSBhbnkgc3VibWl0
+dGVkIGNvbnRlbnQgdGhhdCB3ZSBkZWVtIHRvIGJlIGluYXBwcm9wcmlhdGUgb3IgaW5hdXRoZW50aWMg
+dXNlIG9mIHRoZSBhcHBsaWNhdGlvbi4</string>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">12</double>
@@ -325,7 +314,6 @@ cHBsaWNhdGlvbi4</string>
 						</object>
 						<string key="NSFrame">{{20, 460}, {420, 303}}</string>
 						<reference key="NSSuperview" ref="316186618"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="821220509"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -336,8 +324,6 @@ cHBsaWNhdGlvbi4</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{460, 783}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="185087073"/>
 				<reference key="IBUIBackgroundColor" ref="767910776"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">

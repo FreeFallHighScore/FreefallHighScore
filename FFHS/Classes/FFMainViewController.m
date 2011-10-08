@@ -1244,7 +1244,6 @@
                 break;
             case kFFStateFinishedDropScoreView:
                 self.dropscoreScoreViewLabel.text = [self scoreText];
-                //TODO populate comment text
                 if(self.submitScoreView != nil){
                     [self.videoTitle resignFirstResponder];
                     [self.videoStory resignFirstResponder];
@@ -1426,9 +1425,10 @@
         [[NSBundle mainBundle] loadNibNamed:@"ScoreView" owner:self options:nil];   
         [self.view insertSubview:self.submitScoreView 
                     aboveSubview:[self.view.subviews objectAtIndex:0]];
-        self.dropscoreSubmitViewLabel.text = [self scoreText];
         baseSubmitScoreViewRect = self.submitScoreView.frame;
     }
+    self.dropscoreSubmitViewLabel.text = [self scoreText];
+    
     [self.loginButton setTitle:self.uploader.loginButtonText forState:UIControlStateNormal];
     [self.loginButton setTitle:self.uploader.loginButtonText forState:UIControlStateDisabled];
     

@@ -47,7 +47,6 @@
 		A60A81171400477500879C56 /* upload_flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A60A80D51400477500879C56 /* upload_flash@2x.png */; };
 		A60A81181400477500879C56 /* upload_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = A60A80D61400477500879C56 /* upload_progress_bar.png */; };
 		A60A81191400477500879C56 /* upload_progress_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A60A80D71400477500879C56 /* upload_progress_bar@2x.png */; };
-		A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */; };
 		A633494B13F6EF3D006A31E6 /* FFVideoOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */; };
 		A66F16F513F8263A00B92C7C /* FFLocationFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = A66F16F413F8263A00B92C7C /* FFLocationFinder.m */; };
 		A66F16FA13F8268200B92C7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66F16F813F8266A00B92C7C /* CoreLocation.framework */; };
@@ -179,7 +178,7 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* FFHS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FFHS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* FreefallHS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreefallHS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		26D26A43130341DA00D8C94B /* AVCamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamUtilities.h; sourceTree = "<group>"; };
 		26D26A44130341DA00D8C94B /* AVCamUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamUtilities.m; sourceTree = "<group>"; };
@@ -189,8 +188,8 @@
 		28D7ACF60DDB3853001CB0EB /* FFMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMainViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* FFMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFMainViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* FFHS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFHS_Prefix.pch; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* FFHS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FFHS-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* FreefallHS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreefallHS_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* FreefallHS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FreefallHS-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A60A807113FF362B00879C56 /* ScoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScoreView.xib; path = Resources/ScoreView.xib; sourceTree = "<group>"; };
 		A60A807213FF362B00879C56 /* UploadProgress.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UploadProgress.xib; path = Resources/UploadProgress.xib; sourceTree = "<group>"; };
 		A60A80791400368D00879C56 /* FFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUtilities.h; sourceTree = "<group>"; };
@@ -224,7 +223,6 @@
 		A60A80D51400477500879C56 /* upload_flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upload_flash@2x.png"; sourceTree = "<group>"; };
 		A60A80D61400477500879C56 /* upload_progress_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upload_progress_bar.png; sourceTree = "<group>"; };
 		A60A80D71400477500879C56 /* upload_progress_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upload_progress_bar@2x.png"; sourceTree = "<group>"; };
-		A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = secret_developerkeys.plist; path = Resources/secret_developerkeys.plist; sourceTree = "<group>"; };
 		A633494913F6EF3C006A31E6 /* FFVideoOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFVideoOverlay.h; sourceTree = "<group>"; };
 		A633494A13F6EF3C006A31E6 /* FFVideoOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFVideoOverlay.m; sourceTree = "<group>"; };
 		A66F16F313F8263900B92C7C /* FFLocationFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLocationFinder.h; sourceTree = "<group>"; };
@@ -659,6 +657,7 @@
 		DA7A291913EF2384006BC687 /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
 		DAB5601B13EDE60600D5EB63 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		DAB5601C13EDE60600D5EB63 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
+		E705562E143FAE0800FB4596 /* FFDevKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFDevKeys.h; sourceTree = "<group>"; };
 		E70D5C191418582200625A44 /* FFYoutubeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFYoutubeView.h; sourceTree = "<group>"; };
 		E70D5C1A1418582200625A44 /* FFYoutubeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFYoutubeView.m; sourceTree = "<group>"; };
 		E70D5C1C141873F700625A44 /* FFFlipsideHighscoresController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFlipsideHighscoresController.h; sourceTree = "<group>"; };
@@ -767,7 +766,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* FFHS.app */,
+				1D6058910D05DD3D006BFB54 /* FreefallHS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -788,7 +787,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* FFHS_Prefix.pch */,
+				32CA4F630368D1EE00C91783 /* FreefallHS_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				A6F7C230140F1E95002B3199 /* HJCacheClasses */,
 				A6C0BC201402CB4B0005845F /* JSON */,
@@ -802,8 +801,7 @@
 			isa = PBXGroup;
 			children = (
 				A60A805413FEFBBA00879C56 /* Assets */,
-				8D1107310486CEB800E47090 /* FFHS-Info.plist */,
-				A61D05A613F87F9700D66EBB /* secret_developerkeys.plist */,
+				8D1107310486CEB800E47090 /* FreefallHS-Info.plist */,
 				A6AA6BD5140EF483004A8AFE /* app_icon@2x.png */,
 				DA7A291913EF2384006BC687 /* app_icon.png */,
 				E7B32F2013EE31BB00A76421 /* gbb.ttf */,
@@ -1388,6 +1386,7 @@
 				E70D5C191418582200625A44 /* FFYoutubeView.h */,
 				E70D5C1A1418582200625A44 /* FFYoutubeView.m */,
 				A60A80791400368D00879C56 /* FFUtilities.h */,
+				E705562E143FAE0800FB4596 /* FFDevKeys.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1466,9 +1465,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* FFHS */ = {
+		1D6058900D05DD3D006BFB54 /* FreefallHS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FFHS" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FreefallHS" */;
 			buildPhases = (
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -1478,9 +1477,9 @@
 			);
 			dependencies = (
 			);
-			name = FFHS;
+			name = FreefallHS;
 			productName = AVCam;
-			productReference = 1D6058910D05DD3D006BFB54 /* FFHS.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* FreefallHS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1488,7 +1487,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FFHS" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FreefallHS" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -1502,7 +1501,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* FFHS */,
+				1D6058900D05DD3D006BFB54 /* FreefallHS */,
 			);
 		};
 /* End PBXProject section */
@@ -1525,7 +1524,6 @@
 				DA7A291A13EF2384006BC687 /* app_icon.png in Resources */,
 				A66F18D513F877AB00B92C7C /* FFFlipsideViewController.xib in Resources */,
 				A66F1A3A13F87A1C00B92C7C /* GTMOAuth2ViewTouch.xib in Resources */,
-				A61D05A713F87F9700D66EBB /* secret_developerkeys.plist in Resources */,
 				A60A807313FF362B00879C56 /* ScoreView.xib in Resources */,
 				A60A807413FF362B00879C56 /* UploadProgress.xib in Resources */,
 				A60A80EC1400477500879C56 /* i_button_HL.png in Resources */,
@@ -1700,8 +1698,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FFHS_Prefix.pch;
-				INFOPLIST_FILE = "FFHS-Info.plist";
+				GCC_PREFIX_HEADER = FreefallHS_Prefix.pch;
+				INFOPLIST_FILE = "FreefallHS-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GDataLib\"",
@@ -1716,7 +1714,7 @@
 					"-lxml2",
 					"-all_load",
 				);
-				PRODUCT_NAME = FFHS;
+				PRODUCT_NAME = FreefallHS;
 			};
 			name = Debug;
 		};
@@ -1726,8 +1724,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FFHS_Prefix.pch;
-				INFOPLIST_FILE = "FFHS-Info.plist";
+				GCC_PREFIX_HEADER = FreefallHS_Prefix.pch;
+				INFOPLIST_FILE = "FreefallHS-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GDataLib\"",
@@ -1742,7 +1740,7 @@
 					"-lxml2",
 					"-all_load",
 				);
-				PRODUCT_NAME = FFHS;
+				PRODUCT_NAME = FreefallHS;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1768,7 +1766,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "35C16797-74D8-40E0-8F2E-3B5AFBFA5161";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "35C16797-74D8-40E0-8F2E-3B5AFBFA5161";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos4.3;
 			};
 			name = Debug;
 		};
@@ -1793,14 +1791,14 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "26771327-1BDD-47B8-AC65-5AAA83206E30";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "26771327-1BDD-47B8-AC65-5AAA83206E30";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos4.3;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FFHS" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "FreefallHS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -1809,7 +1807,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FFHS" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FreefallHS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

@@ -25,3 +25,4 @@ apps/*/*/obj
 
 secret_developerkeys.plist
 /FFHS/Resources/secret_developerkeys_old.plist
+FFDevKeys.h
